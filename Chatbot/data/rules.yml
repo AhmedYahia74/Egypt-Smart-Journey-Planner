@@ -2,12 +2,61 @@ version: "3.1"
 
 rules:
 
+- rule: Greet the user anytime the user says hello
+  steps:
+  - intent: greet
+  - action: utter_greet
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
 
+- rule: When the user says thank you, respond with 'you're welcome'
+  steps:
+  - intent: thankyou
+  - action: utter_you_are_welcome
+
+- rule: When the user Affirms
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+
+- rule: When the user denies
+  steps:
+  - intent: deny
+  - action: utter_deny
+
+- rule: When the user is out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: When the user say thankyou
+  steps:
+  - intent: thankyou
+  - action: utter_thankyou
+
+rule for describing the trip form
+- rule: Activate user_trip_form
+  steps:
+  - intent: describe_trip
+  - action: trip_describing_form
+  - active_loop: trip_describing_form
+
+
+- rule: Deactivate the form when the user is done describing the trip
+  condition:
+  - active_loop: trip_describing_form
+  steps:
+  - intent: affirm
+  - action: trip_describing_form
+  - active_loop: null
+  - action: utter_trip_described 
+  
+
