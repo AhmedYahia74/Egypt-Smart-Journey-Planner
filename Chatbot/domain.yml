@@ -5,9 +5,36 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
+  - thankyou
+  - out_of_scope
+  - describe_trip
+  - share_weather_preference
+  - share_budget
+  - share_hotel_features
+  - share_landmarks_activities
+  - share_duration
+  - share_arrival_date
+  - share_family_status
+  - share_state
+  - clarify_state
+  - clarify_weather_preference
+  - clarify_budget
+  - clarify_hotel_features
+  - clarify_landmarks_activities
+  - clarify_duration
+  - clarify_arrival_date
+  - clarify_family_status
+
+entities:
+  - duration
+  - arrival_date
+  - weather_preference
+  - budget
+  - hotel_features
+  - landmarks_activities
+  - family_status
+  - state
 
 responses:
   utter_greet:
