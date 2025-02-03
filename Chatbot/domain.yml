@@ -1,4 +1,5 @@
 version: '3.1'
+
 intents:
 - affirm
 - bot_challenge
@@ -16,6 +17,7 @@ intents:
 - share_state
 - share_weather_preference
 - thankyou
+
 entities:
 - duration
 - arrival_date
@@ -25,6 +27,61 @@ entities:
 - landmarks_activities
 - family_status
 - state
+
+slots:
+  state:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: state
+  weather_preference:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: weather_preference
+  budget:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: budget
+  hotel_features:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: hotel_features
+  landmarks_activities:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: landmarks_activities
+  duration:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: duration
+  arrival_date:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: arrival_date
+  family_status:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: family_status
+
+forms:
+  trip_form:
+    required_slots:
+      - duration
+      - arrival_date
+      - weather_preference
+      - budget
+      - hotel_features
+      - landmarks_activities
+      - family_status
+      - state
+
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -119,6 +176,7 @@ responses:
   - text: "I have all the information I need to create your trip. I'll get started on that now."
   - text: "I have gathered all the details required to create your trip. I'll begin working on that now."
   - text: "I have collected all the necessary information to create your trip. I'll start working on that now."
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
