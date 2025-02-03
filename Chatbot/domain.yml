@@ -1,33 +1,181 @@
-version: "3.1"
+version: '3.1'
 
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+- affirm
+- bot_challenge
+- deny
+- describe_trip
+- goodbye
+- greet
+- out_of_scope
+- share_arrival_date
+- share_budget
+- share_duration
+- share_family_status
+- share_hotel_features
+- share_landmarks_activities
+- share_state
+- share_weather_preference
+- thankyou
+
+entities:
+- duration
+- arrival_date
+- weather_preference
+- budget
+- hotel_features
+- landmarks_activities
+- family_status
+- state
+
+slots:
+  state:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: state
+  weather_preference:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: weather_preference
+  budget:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: budget
+  hotel_features:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: hotel_features
+  landmarks_activities:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: landmarks_activities
+  duration:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: duration
+  arrival_date:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: arrival_date
+  family_status:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: family_status
+
+forms:
+  trip_form:
+    required_slots:
+      - duration
+      - arrival_date
+      - weather_preference
+      - budget
+      - hotel_features
+      - landmarks_activities
+      - family_status
+      - state
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
+  - text: Hey! How are you?
   utter_goodbye:
-  - text: "Bye"
-
+  - text: Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "I am Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?"
+  utter_state:
+  - text: "Is there a specific city you want to visit in Egypt?"
+  - text: "Are you planning to visit a particular city in Egypt?"
+  - text: "Do you have a preference for a city in Egypt?"
+  - text: "Are you interested in a specific city in Egypt?"
+  - text: "Is there a city you have in mind in Egypt?"
+  - text: "Are you looking to visit a particular city in Egypt?"
+  - text: "Do you have a city in mind in Egypt?"
+  utter_weather_preference:
+  - text: "What kind of weather do you like?"
+  - text: "What’s your preferred weather?"
+  - text: "What’s your favorite climate?"
+  - text: "What kind of weather are you looking for?"
+  - text: "What’s your ideal weather?"
+  - text: "What kind of weather do you enjoy?"
+  - text: "What’s your favorite weather condition?"
+  utter_budget:
+  - text: "How much are you willing to spend?"
+  - text: "What’s your budget for the trip?"
+  - text: "How much money do you have for the trip?"
+  - text: "What’s your spending limit?"
+  - text: "How much are you planning to spend?"
+  - text: "What’s your budget for the vacation?"
+  - text: "How much money do you have for the holiday?"
+  - text: "What’s your spending limit for the trip?"
+  - text: "How much are you planning to spend on the trip?"
+  - text: "What’s your budget for the getaway?"
+  - text: "How much money do you have for the journey?"
+  utter_hotel_features:
+  - text: "What kind of hotel are you looking for?"
+  - text: "What features do you want in the hotel?"
+  - text: "What amenities are you interested in?"
+  - text: "What services do you need in the hotel?"
+  - text: "What facilities are you looking for in the hotel?"
+  - text: "What kind of accommodation are you interested in?"
+  - text: "What type of hotel are you looking for?"
+  - text: "What features do you need in the hotel?"
+  - text: "What amenities are you looking for in the hotel?"
+  - text: "What services do you want in the hotel?"
+  utter_landmarks_activities:
+  - text: "What activities are you interested in?"
+  - text: "What landmarks do you want to visit?"
+  - text: "What attractions are you looking for?"
+  - text: "What sights do you want to see?"
+  - text: "What places do you want to explore?"
+  - text: "What activities are you looking for?"
+  - text: "What landmarks do you want to explore?"
+  - text: "What attractions are you interested in?"
+  - text: "What sights do you want to visit?"
+  - text: "What places do you want to see?"
+  utter_duration:
+  - text: "How long are you planning to stay?"
+  - text: "What’s the duration of your trip?"
+  - text: "How many days are you planning to stay?"
+  - text: "What’s the length of your trip?"
+  - text: "How long are you planning to be there?"
+  - text: "What’s the duration of your vacation?"
+  - text: "How many days are you planning to be there?"
+  - text: "What’s the length of your holiday?"
+  - text: "How long are you planning to go for?"
+  utter_arrival_date:
+  - text: "When are you planning to arrive?"
+  - text: "What’s your arrival date?"
+  - text: "When are you arriving?"
+  - text: "What’s your arrival time?"
+  - text: "When are you planning to get there?"
+  - text: "What’s your arrival day?"
+  - text: "When are you arriving at the destination?"
+  - text: "What’s your arrival schedule?"
+  - text: "When are you planning to reach the destination?"
+  utter_family_status:
+  - text: "Who are you traveling with?"
+  - text: "What’s your family status?"
+  - text: "Who are you coming with?"
+  - text: "What’s your travel companion?"
+  - text: "Who are you going with?"
+  - text: "What’s your family situation?"
+  - text: "Who are you visiting with?"
+  - text: "What’s your travel partner?"
+  - text: "Who are you traveling alongside?"
+  - text: "What’s your family arrangement?"
+  utter_ask_trip_details:
+  - text: "Can you provide more details about your trip? For example, the duration, budget, and any specific activities or landmarks you want to visit."
+  utter_confirm_creation:
+  - text: "I have all the information I need to create your trip. I'll get started on that now."
+  - text: "I have gathered all the details required to create your trip. I'll begin working on that now."
+  - text: "I have collected all the necessary information to create your trip. I'll start working on that now."
 
 session_config:
   session_expiration_time: 60
