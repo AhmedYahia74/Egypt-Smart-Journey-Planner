@@ -3,6 +3,8 @@ intents:
 - bot_challenge
 - goodbye
 - greet
+- affirm
+- deny
 - out_of_scope
 - request_trip
 - share_arrival_date
@@ -15,20 +17,31 @@ intents:
 - share_weather_preference
 - thankyou
 entities:
-- state
-- duration
 - arrival_date
-- weather_preference
 - budget
 - hotel_features
-- landmarks_activities
+- state
+- weather_preference
 - family_status
+- landmarks_activities
+- duration
 slots:
+  specify_place:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: from_intent
+        intent: affirm
+        value: true
+      - type: from_intent
+        intent: deny
+        value: false
   state:
     type: text
     mappings:
     - type: from_entity
       entity: state
+    influence_conversation: true
   weather_preference:
     type: text
     mappings:
@@ -67,21 +80,26 @@ slots:
 forms:
   trip_form:
     required_slots:
-    - state
-    - budget
-    - duration
-    - arrival_date
-    - hotel_features
-    - landmarks_activities
-    - family_status
-    - weather_preference
+      - specify_place
+      - state
+      - weather_preference
+      - budget
+      - duration
+      - arrival_date
+      - hotel_features
+      - landmarks_activities
+      - family_status
 responses:
   utter_greet:
-  - text: Hey! How are you?
+  - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
   utter_goodbye:
   - text: Bye
   utter_iamabot:
   - text: I am Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
+  utter_ask_specify_place:
+    - text: "Is there a specific city you want to visit in Egypt?"
+    - text: "Would you like to specify a city for your trip?"
+    - text: "Do you have a particular city in mind for your trip?"
   utter_ask_state:
   - text: Is there a specific city you want to visit in Egypt?
   - text: Are you planning to visit a particular city in Egypt?
@@ -178,19 +196,13 @@ responses:
   - text: I'm sorry, I'm not equipped to help with that.
   - text: Sorry, I can't help with that.
 actions:
+- utter_start_suggestions
 - utter_greet
 - utter_goodbye
 - utter_iamabot
+- utter_ask_specify_place
 - utter_ask_state
 - utter_ask_weather_preference
-- utter_ask_budget
-- utter_ask_hotel_features
-- utter_ask_landmarks_activities
-- utter_ask_duration
-- utter_ask_arrival_date
-- utter_ask_family_status
-- utter_ask_trip_details
-- utter_start_suggestions
 - validate_trip_form
 session_config:
   session_expiration_time: 60

@@ -13,16 +13,6 @@ rules:
   - action: utter_goodbye
 
 
-#- rule: When the user Affirms
-#  steps:
-#  - intent: affirm
-#  - action: utter_affirm
-#
-#- rule: When the user denies
-#  steps:
-#  - intent: deny
-#  - action: utter_deny
-
 - rule: When the user is out of scope
   steps:
   - intent: out_of_scope
@@ -44,6 +34,10 @@ rules:
   - intent: request_trip
   - action: trip_form
   - active_loop: trip_form
+
+
+
+
 
 
 - rule: Fetch Suggestions

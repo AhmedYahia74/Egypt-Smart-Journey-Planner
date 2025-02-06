@@ -98,7 +98,9 @@ nlu:
     - not possible
     - I refuse
     - I decline
-    - not now
+    - I don't know
+    - I'm not sure
+    - I don't think so
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -231,11 +233,15 @@ nlu:
     - I’m planning a [5-day](duration) trip to Egypt arriving on [25th November](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).
     - I’m planning a [2-week](duration) trip to Egypt arriving on [30th December](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
     - i wanna go in trip
+    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
+
+
 - intent: share_state
   examples: |
     - [Luxor](state)
     - [Cairo](state)
     - [Alexandria](state)
+    - [Aswan](state)
     - I'm traveling to [Luxor](state)
     - I'm going to [Cairo](state)
     - I'm visiting [Alexandria](state)
@@ -326,8 +332,9 @@ nlu:
     - I want a hotel with a [balcony](hotel_features)
 - intent: share_landmarks_activities
   examples: |
-    - I’d like to take a [cruise](landmarks_activities)
     - I want to explore [historical landmarks](landmarks_activities)
+    - I’m interested in ["Alexandria library"](landmarks_activities)
+    - I’d like to take a [cruise](landmarks_activities)
     - I’m interested in [desert safaris](landmarks_activities)
     - I’d like to visit [museums](landmarks_activities)
     - I want to explore [markets](landmarks_activities)
@@ -440,8 +447,8 @@ nlu:
     - cairo
     - alexandria
     - aswan
-    - aurghada
-    - aharm el eheikh
+    - hurghada
+    - sharm el eheikh
     - dahab
     - marsa Alam
     - el gouna
