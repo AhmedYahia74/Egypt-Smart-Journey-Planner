@@ -36,6 +36,7 @@ slots:
       - type: from_intent
         intent: deny
         value: false
+
   state:
     type: text
     mappings:

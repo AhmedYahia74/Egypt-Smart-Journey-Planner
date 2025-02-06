@@ -52,7 +52,7 @@ class ValidateTripForm(FormValidationAction):
 
         if tracker.get_slot("specify_place") is True:
             required_slots.append("state")
-        else:
+        elif tracker.get_slot("specify_place") is False:
             required_slots.append("weather_preference")
 
         required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities",
@@ -73,12 +73,6 @@ class ValidateTripForm(FormValidationAction):
         if intent == "deny":
             return {"specify_place": False}
         elif intent == "affirm":
-            # If the user says "yes" and provides a city name, extract it
-            entities = tracker.latest_message.get('entities', [])
-            city_entity = next((e for e in entities if e['entity'] == 'state'), None)
-            if city_entity:
-                return {"specify_place": True, "state": city_entity['value']}
-         # dispatcher.utter_message(response="utter_ask_state")
             return {"specify_place": True}
         return {"specify_place": None}
 
@@ -94,12 +88,6 @@ class ValidateTripForm(FormValidationAction):
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
             return {"state": None}
 
-    def validate_weather_preference(self,
-                                    slot_value: Any,
-                                    dispatcher: CollectingDispatcher,
-                                    tracker: Tracker,
-                                    domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return {"weather_preference": slot_value}
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         pass
@@ -128,11 +116,6 @@ class ValidateTripForm(FormValidationAction):
     def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         pass
 
-    def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return {"hotel_features": slot_value}
-
-    def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        return {"landmarks_activities": slot_value}
 
     def validate_family_status(self,
                                 slot_value: Any,
@@ -143,6 +126,3 @@ class ValidateTripForm(FormValidationAction):
             if slot_value.lower() in value:
                 return {"family_status": key}
         return {"family_status": None}
-
-
-
