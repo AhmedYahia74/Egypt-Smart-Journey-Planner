@@ -398,8 +398,18 @@ nlu:
     - I’m planning a [8-day](duration) trip
     - My trip will be [9 days](duration) long
     - I’ll stay for [10 weeks](duration)
+    - i will spend [1 week](duration)
+    - i plan to stay for [2 weeks](duration)
+    - i plan to spend [3 days](duration) 
+    - [10 days](duration)
+    - [2 weeks](duration)
+    - [1 week](duration)
+    - [1 month](duration)
+    - [3 months](duration)
+    -
 - intent: share_arrival_date
   examples: |
+    - i plan to have a trip in the [next week] (arrival_date)
     - I’ll arrive on [15th October](arrival_date)
     - My trip starts [next month](arrival_date)
     - I’m coming in [December](arrival_date)
