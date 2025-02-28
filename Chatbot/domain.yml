@@ -1,10 +1,10 @@
 version: '3.1'
 intents:
+- affirm
 - bot_challenge
+- deny
 - goodbye
 - greet
-- affirm
-- deny
 - out_of_scope
 - request_trip
 - share_arrival_date
@@ -30,13 +30,12 @@ slots:
     type: bool
     influence_conversation: true
     mappings:
-      - type: from_intent
-        intent: affirm
-        value: true
-      - type: from_intent
-        intent: deny
-        value: false
-
+    - type: from_intent
+      intent: affirm
+      value: true
+    - type: from_intent
+      intent: deny
+      value: false
   state:
     type: text
     mappings:
@@ -81,15 +80,15 @@ slots:
 forms:
   trip_form:
     required_slots:
-      - specify_place
-      - state
-      - weather_preference
-      - budget
-      - duration
-      - arrival_date
-      - hotel_features
-      - landmarks_activities
-      - family_status
+    - specify_place
+    - state
+    - weather_preference
+    - budget
+    - duration
+    - arrival_date
+    - hotel_features
+    - landmarks_activities
+    - family_status
 responses:
   utter_greet:
   - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
@@ -98,9 +97,9 @@ responses:
   utter_iamabot:
   - text: I am Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
   utter_ask_specify_place:
-    - text: "Is there a specific city you want to visit in Egypt?"
-    - text: "Would you like to specify a city for your trip?"
-    - text: "Do you have a particular city in mind for your trip?"
+  - text: Is there a specific city you want to visit in Egypt?
+  - text: Would you like to specify a city for your trip?
+  - text: Do you have a particular city in mind for your trip?
   utter_ask_state:
   - text: Is there a specific city you want to visit in Egypt?
   - text: Are you planning to visit a particular city in Egypt?
@@ -205,6 +204,7 @@ actions:
 - utter_ask_state
 - utter_ask_weather_preference
 - validate_trip_form
+- action_clear_chat
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

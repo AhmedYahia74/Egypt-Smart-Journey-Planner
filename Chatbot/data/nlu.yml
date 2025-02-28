@@ -100,7 +100,6 @@ nlu:
     - I decline
     - I don't know
     - I'm not sure
-    - I don't think so
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -234,8 +233,8 @@ nlu:
     - I’m planning a [2-week](duration) trip to Egypt arriving on [30th December](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
     - i wanna go in trip
     - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
-
-
+    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)
+    - - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
 - intent: share_state
   examples: |
     - [Luxor](state)
@@ -252,7 +251,6 @@ nlu:
     - I'm going to [Marsa Alam](state)
     - I'm visiting [El Gouna](state)
     - I'm planning a trip to [Siwa Oasis](state)
-    - [Luxor](state)
 - intent: share_weather_preference
   examples: |
     - I prefer [sunny](weather_preference) weather
@@ -296,9 +294,19 @@ nlu:
     - I can spend up to [$8000](budget)
     - My budget is around [$9000](budget)
     - I’m willing to spend [$10000](budget)
-    - My budget is [$11000](budget)
-    - I have a budget of [$12000](budget)
-    - I can spend up to [$13000](budget)
+    - My budget is [11000](budget)
+    - I have a budget of [12000](budget)
+    - I can spend up to [13000](budget)
+    - I’m willing to spend [3000](budget)
+    - I have a budget of [1500](budget)
+    - My budget is [2500](budget)
+    - I can afford up to [3500](budget)
+    - I’m planning to spend [4500](budget)
+    - My budget is [6000](budget)
+    - I have a budget of [7000](budget)
+    - I can spend up to [8000](budget)
+    - My budget is around [9000](budget)
+    - I’m willing to spend [10000](budget)
     - [150$](budget)
     - [$250](budget)
     - [200$](budget)
@@ -307,6 +315,12 @@ nlu:
     - [1000$](budget)
     - [$1500](budget)
     - [$2000](budget)
+    - [1000](budget)
+    - [5000](budget)
+    - [2000](budget)
+    - [3000](budget)
+    - [250](budget)
+    - [100](budget)
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)

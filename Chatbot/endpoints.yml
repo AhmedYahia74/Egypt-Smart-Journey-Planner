@@ -18,13 +18,10 @@ action_endpoint:
 # https://rasa.com/docs/rasa/tracker-stores
 
 #tracker_store:
-#    type: redis
-#    url: <host of the redis instance, e.g. localhost>
-#    port: <port of your redis instance, usually 6379>
-#    db: <number of your database within redis, e.g. 0>
-#    password: <password used for authentication>
-#    use_ssl: <whether or not the communication is encrypted, default false>
-
+#  type: SQL
+#  dialect: postgresql  # or "mysql"
+#  url: postgresql://user:password@localhost:5432/rasa
+  # Add a cron job to delete old sessions periodically  # Session expires after 1 hour (in seconds)
 #tracker_store:
 #    type: mongod
 #    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
