@@ -1,0 +1,68 @@
+version: "3.1"
+
+rules:
+- rule: Clear chat session
+  steps:
+  - intent: clear_chat
+  - action: action_clear_chat
+
+- rule: Greet the user anytime the user says hello
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+
+- rule: When the user is out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: When the user say thankyou
+  steps:
+  - intent: thankyou
+  - action: utter_thankyou
+
+#rule for describing the trip form
+- rule: Activate trip_form
+  steps:
+  - intent: request_trip
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Respond to user's travel plan
+  steps:
+  - intent: share_state
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Fetch Suggestions
+  condition:
+  - active_loop: trip_form
+  steps:
+  - action: trip_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_start_suggestions
+#  - action: action_suggest_trip
+
+- rule: Interruption in trip form
+  condition:
+    - active_loop: trip_form
+  steps:
+    - intent: bot_challenge
+    - action: utter_iamabot
+    - action: trip_form
+    - active_loop: trip_form
+
+

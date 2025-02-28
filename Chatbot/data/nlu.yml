@@ -1,0 +1,489 @@
+version: "3.1"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hi there
+    - greetings
+    - howdy
+    - what's up
+    - hey!
+    - hiya
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+    - take care
+    - see you soon
+    - later
+    - farewell
+    - see ya
+    - I'm off
+    - catch you later
+    - peace out
+    - I'm out
+    - see you next time
+    - until next time
+    - take it easy
+    - bye for now
+    - see you
+    - later alligator
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - absolutely
+    - sure
+    - definitely
+    - yup
+    - yeah
+    - right
+    - exactly
+    - you got it
+    - that's right
+    - affirmative
+    - agreed
+    - sure thing
+    - sounds good
+    - I agree
+    - totally
+    - for sure
+    - yes please
+    - you bet
+    - right on
+    - that's correct
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - nope
+    - no thanks
+    - not at all
+    - absolutely not
+    - not interested
+    - I disagree
+    - I don't agree
+    - negative
+    - not happening
+    - no chance
+    - not possible
+    - I refuse
+    - I decline
+    - I don't know
+    - I'm not sure
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - are you real?
+    - are you a machine?
+    - are you automated?
+    - are you a chatbot?
+    - are you an AI?
+    - is this a bot?
+    - is this a real person?
+    - am I chatting with a bot?
+    - are you a computer?
+    - are you a program?
+    - are you a robot?
+    - are you an algorithm?
+    - are you a virtual assistant?
+    - are you a digital assistant?
+    - are you a software?
+    - are you a script?
+    - are you a real person?
+- intent: thankyou
+  examples: |
+    - thanks
+    - thank you
+    - thank you very much
+    - thanks a lot
+    - thank you so much
+    - much appreciated
+    - thanks a bunch
+    - thanks a million
+    - thanks a ton
+    - thanks so much
+    - I appreciate it
+    - I’m grateful
+    - many thanks
+    - thank you kindly
+    - I can't thank you enough
+    - I owe you one
+    - you're the best
+    - thanks for your help
+    - thanks for your time
+- intent: out_of_scope
+  examples: |
+    - That's not what I asked
+    - Stop talking
+    - You are no help
+    - You are useless
+    - This is not helpful
+    - how old are you
+    - I want to order a pizza
+    - tell me the weather
+    - this isn't working
+    - I already told you that
+    - I don't want to tell you that
+    - none of your business
+    - that's not right
+    - stop asking
+    - nevermind
+    - I want to do something else
+    - I changed my mind
+    - I don't need this
+    - this is irrelevant
+    - this doesn't help
+    - you're not helping
+    - this is off-topic
+    - this isn't what I wanted
+    - this is not what I was expecting
+    - this is not what I was hoping for
+    - this is not what I was thinking
+    - this is not what I was planning
+    - this is not what I was considering
+    - this is not what I was imagining
+    - this is not what I was dreaming of
+    - this is not what I was wishing for
+    - this is not what I was desiring
+- intent: request_trip
+  examples: |
+    - I want to plan a trip
+    - I need help planning a trip
+    - I want to go on a trip
+    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
+    - I want a [10-day](duration) trip to Egypt with a budget of [$5000](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [5 days](duration) arriving on [20th December](arrival_date). I like [warm](weather_preference) weather and have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m planning a [2-week](duration) trip to Egypt arriving on [1st November](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [warm](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [10 days](duration) arriving on [5th January](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [3-week](duration) trip to Egypt arriving on [10th February](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I want a [1-week](duration) trip to Egypt with a budget of [$1000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m planning a [4-day](duration) trip to Egypt arriving on [25th March](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I want a [2-week](duration) trip to Egypt with a budget of [$3000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [7 days](duration) arriving on [10th April](arrival_date). I like [hot](weather_preference) weather and have a budget of [$2500](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [10-day](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3500](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I want a [3-week](duration) trip to Egypt with a budget of [$4000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m planning a [5-day](duration) trip to Egypt arriving on [20th June](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I want a [1-week](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [10 days](duration) arriving on [5th July](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [2-week](duration) trip to Egypt arriving on [10th August](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I’m planning a trip to Egypt arriving on [20th October](arrival_date) for [7 days](duration). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
+    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [2 weeks](duration) arriving on [5th November](arrival_date). I like [warm](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m planning a [5-day](duration) trip to Egypt arriving on [10th December](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$2500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I’m planning a [7-day](duration) trip to [Cairo](state) arriving on [15th October](arrival_date). I have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
+    - I want a [10-day](duration) trip to [Luxor](state) with a budget of [$5000](budget). I want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to [Alexandria](state) for [5 days](duration) arriving on [20th December](arrival_date). I have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m planning a [2-week](duration) trip to [Aswan](state) arriving on [1st November](arrival_date). I have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I want a [5-day](duration) trip to [Hurghada](state) with a budget of [$2000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to [Sharm El Sheikh](state) for [10 days](duration) arriving on [5th January](arrival_date). I have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [3-week](duration) trip to [Dahab](state) arriving on [10th February](arrival_date). I have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I want a [1-week](duration) trip to [Marsa Alam](state) with a budget of [$1000](budget). I want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m planning a [4-day](duration) trip to [El Gouna](state) arriving on [25th March](arrival_date). I have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I want a [2-week](duration) trip to [Siwa Oasis](state) with a budget of [$3000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m planning a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I want a [10-day](duration) trip to Egypt arriving on [15th January](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m coming to Egypt for [5 days](duration) arriving on [20th February](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th March](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I’m coming to Egypt for [4 days](duration) arriving on [10th April](arrival_date). I prefer [hot](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m coming to Egypt for [10 days](duration) arriving on [20th June](arrival_date). I like [hot](weather_preference) weather and have a budget of [$3000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th July](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
+    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [5 days](duration) arriving on [10th August](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
+    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
+    - I want a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
+    - I’m coming to Egypt for [10 days](duration) arriving on [20th October](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).
+    - I’m planning a [5-day](duration) trip to Egypt arriving on [25th November](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).
+    - I’m planning a [2-week](duration) trip to Egypt arriving on [30th December](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
+    - i wanna go in trip
+    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
+    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)
+    - - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
+- intent: share_state
+  examples: |
+    - [Luxor](state)
+    - [Cairo](state)
+    - [Alexandria](state)
+    - [Aswan](state)
+    - I'm traveling to [Luxor](state)
+    - I'm going to [Cairo](state)
+    - I'm visiting [Alexandria](state)
+    - I'm planning a trip to [Aswan](state)
+    - I'm going to [Hurghada](state)
+    - I'm visiting [Sharm El Sheikh](state)
+    - I'm planning a trip to [Dahab](state)
+    - I'm going to [Marsa Alam](state)
+    - I'm visiting [El Gouna](state)
+    - I'm planning a trip to [Siwa Oasis](state)
+- intent: share_weather_preference
+  examples: |
+    - I prefer [sunny](weather_preference) weather
+    - I like [cool](weather_preference) climates
+    - I want [warm](weather_preference) weather
+    - I don’t like [hot](weather_preference) weather
+    - I prefer [mild](weather_preference) weather
+    - I like [cold](weather_preference) climates
+    - I want [hot](weather_preference) weather
+    - I don’t like [rainy](weather_preference) weather
+    - I enjoy [snowy](weather_preference) weather
+    - I prefer [dry](weather_preference) weather
+    - I like [humid](weather_preference) climates
+    - I want [windy](weather_preference) weather
+    - I don’t like [stormy](weather_preference) weather
+    - I enjoy [foggy](weather_preference) weather
+    - I prefer [clear](weather_preference) weather
+    - I like [cloudy](weather_preference) climates
+    - I want [chilly](weather_preference) weather
+    - I don’t like [muggy](weather_preference) weather
+    - I enjoy [breezy](weather_preference) weather
+    - I prefer [temperate](weather_preference) weather
+    - I like [tropical](weather_preference) climates
+- intent: share_budget
+  examples: |
+    - My budget is [$1000](budget)
+    - I have [$5000](budget) for the trip
+    - I can spend up to [$2000](budget)
+    - My budget is around [$3000](budget)
+    - My budget is [$2000](budget)
+    - I have [$1000](budget) for the trip
+    - I can spend up to [$5000](budget)
+    - My budget is around [$4000](budget)
+    - I’m willing to spend [$3000](budget)
+    - I have a budget of [$1500](budget)
+    - My budget is [$2500](budget)
+    - I can afford up to [$3500](budget)
+    - I’m planning to spend [$4500](budget)
+    - My budget is [$6000](budget)
+    - I have a budget of [$7000](budget)
+    - I can spend up to [$8000](budget)
+    - My budget is around [$9000](budget)
+    - I’m willing to spend [$10000](budget)
+    - My budget is [11000](budget)
+    - I have a budget of [12000](budget)
+    - I can spend up to [13000](budget)
+    - I’m willing to spend [3000](budget)
+    - I have a budget of [1500](budget)
+    - My budget is [2500](budget)
+    - I can afford up to [3500](budget)
+    - I’m planning to spend [4500](budget)
+    - My budget is [6000](budget)
+    - I have a budget of [7000](budget)
+    - I can spend up to [8000](budget)
+    - My budget is around [9000](budget)
+    - I’m willing to spend [10000](budget)
+    - [150$](budget)
+    - [$250](budget)
+    - [200$](budget)
+    - [300$](budget)
+    - [500$](budget)
+    - [1000$](budget)
+    - [$1500](budget)
+    - [$2000](budget)
+    - [1000](budget)
+    - [5000](budget)
+    - [2000](budget)
+    - [3000](budget)
+    - [250](budget)
+    - [100](budget)
+- intent: share_hotel_features
+  examples: |
+    - I want a hotel with a [pool](hotel_features)
+    - I’d like a [spa](hotel_features) in the hotel
+    - I prefer a [beachfront](hotel_features) hotel
+    - I need a [family-friendly](hotel_features) hotel
+    - I want a hotel with a [gym](hotel_features)
+    - I’d like a [restaurant](hotel_features) in the hotel
+    - I prefer a [luxury](hotel_features) hotel
+    - I need a [pet-friendly](hotel_features) hotel
+    - I want a hotel with [wifi](hotel_features)
+    - I’d like a [bar](hotel_features) in the hotel
+    - I prefer a [budget](hotel_features) hotel
+    - I need a [boutique](hotel_features) hotel
+    - I want a hotel with a [garden](hotel_features)
+    - I’d like a [rooftop](hotel_features) in the hotel
+    - I prefer a [business](hotel_features) hotel
+    - I need a [resort](hotel_features) hotel
+    - I want a hotel with a [view](hotel_features)
+    - I’d like a [suite](hotel_features) in the hotel
+    - I prefer a [historic](hotel_features) hotel
+    - I need a [modern](hotel_features) hotel
+    - I want a hotel with a [balcony](hotel_features)
+    - I’d like a [beach_view](hotel_features) hotel
+    - I prefer a [city_center](hotel_features) hotel
+    - I’d like a [beach view](hotel_features) hotel
+    - I prefer a [city center](hotel_features) hotel
+    - I need a [beach_view](hotel_features) hotel
+    - I want a hotel with a [city_center](hotel_features)
+    - i want a [sea view](hotel_features) hotel
+    - i want a [sea_view](hotel_features) hotel
+    - i want the hotel to have a [sea view](hotel_features)
+    - i want the hotel to be in the [city center](hotel_features)
+- intent: share_landmarks_activities
+  examples: |
+    - I want to explore [historical landmarks](landmarks_activities)
+    - I’m interested in ["Alexandria library"](landmarks_activities)
+    - I’d like to take a [cruise](landmarks_activities)
+    - I’m interested in [desert safaris](landmarks_activities)
+    - I’d like to visit [museums](landmarks_activities)
+    - I want to explore [markets](landmarks_activities)
+    - I’m interested in [beaches](landmarks_activities)
+    - I’d like to see [temples](landmarks_activities)
+    - I want to visit [gardens](landmarks_activities)
+    - I’m interested in [parks](landmarks_activities)
+    - I’d like to take a [hiking trip](landmarks_activities)
+    - I want to explore [cultural sites](landmarks_activities)
+    - I’m interested in [wildlife reserves](landmarks_activities)
+    - I’d like to see [waterfalls](landmarks_activities)
+    - I want to visit [mountains](landmarks_activities)
+    - I’m interested in [lakes](landmarks_activities)
+    - I’d like to take a [boat ride](landmarks_activities)
+    - I want to explore [forests](landmarks_activities)
+    - I’m interested in [rivers](landmarks_activities)
+    - I’d like to see [caves](landmarks_activities)
+    - I want to visit [islands](landmarks_activities)
+- intent: share_duration
+  examples: |
+    - I’m planning a [7-day](duration) trip
+    - My trip will be [2 weeks](duration) long
+    - I’ll stay for [10 days](duration)
+    - It’s a [5-day](duration) trip
+    - I’m planning a [2-week](duration) trip
+    - My trip will be [3 weeks](duration) long
+    - I’ll stay for [1 month](duration)
+    - It’s a [10-day](duration) trip
+    - I’m planning a [4-day](duration) trip
+    - My trip will be [1 week](duration) long
+    - I’ll stay for [2 months](duration)
+    - It’s a [6-day](duration) trip
+    - I’m planning a [5-week](duration) trip
+    - My trip will be [2 days](duration) long
+    - I’ll stay for [3 months](duration)
+    - It’s a [7-day](duration) trip
+    - I’m planning a [8-day](duration) trip
+    - My trip will be [9 days](duration) long
+    - I’ll stay for [10 weeks](duration)
+    - i will spend [1 week](duration)
+    - i plan to stay for [2 weeks](duration)
+    - i plan to spend [3 days](duration) 
+    - [10 days](duration)
+    - [2 weeks](duration)
+    - [1 week](duration)
+    - [1 month](duration)
+    - [3 months](duration)
+    -
+- intent: share_arrival_date
+  examples: |
+    - i plan to have a trip in the [next week] (arrival_date)
+    - I’ll arrive on [15th October](arrival_date)
+    - My trip starts [next month](arrival_date)
+    - I’m coming in [December](arrival_date)
+    - I’ll be there in [summer](arrival_date)
+    - I’ll arrive on [1st January](arrival_date)
+    - My trip starts [next week](arrival_date)
+    - I’m coming in [March](arrival_date)
+    - I’ll be there in [spring](arrival_date)
+    - I’ll arrive on [20th February](arrival_date)
+    - My trip starts [next year](arrival_date)
+    - I’m coming in [April](arrival_date)
+    - I’ll be there in [autumn](arrival_date)
+    - I’ll arrive on [5th May](arrival_date)
+    - My trip starts [next season](arrival_date)
+    - I’m coming in [June](arrival_date)
+    - I’ll be there in [winter](arrival_date)
+    - I’ll arrive on [10th July](arrival_date)
+    - My trip starts [next quarter](arrival_date)
+    - I’m coming in [August](arrival_date)
+- intent: share_family_status
+  examples: |
+    - I’m traveling with my [family](family_status)
+    - I’m a [solo traveler](family_status)
+    - I’m coming with my [spouse](family_status)
+    - It’s a [family trip](family_status)
+    - I’m traveling with [kids](family_status)
+    - I’m coming with my [friends](family_status)
+    - I’m traveling with my [parents](family_status)
+    - I’m traveling with my [siblings](family_status)
+    - I’m a [couple](family_status)
+    - I’m coming with my [partner](family_status)
+    - It’s a [group trip](family_status)
+    - I’m traveling with my [colleagues](family_status)
+    - I’m coming with my [relatives](family_status)
+    - I’m traveling with my [pets](family_status)
+    - I’m a [single traveler](family_status)
+    - I’m coming with my [neighbors](family_status)
+    - It’s a [honeymoon](family_status)
+    - I’m traveling with my [classmates](family_status)
+    - I’m coming with my [team](family_status)
+    - It’s a [business trip](family_status)
+    - I’m traveling with my [boss](family_status)
+    - I’m coming with my [employees](family_status)
+- lookup: weather_preference
+  examples: |
+    - sunny
+    - cool
+    - warm
+    - hot
+    - mild
+    - cold
+    - rainy
+    - snowy
+    - dry
+    - humid
+    - windy
+    - stormy
+    - foggy
+    - clear
+    - cloudy
+    - chilly
+    - muggy
+    - breezy
+    - temperate
+    - tropical
+- lookup: state
+  examples: |
+    - luxor
+    - cairo
+    - alexandria
+    - aswan
+    - hurghada
+    - sharm el eheikh
+    - dahab
+    - marsa Alam
+    - el gouna
+    - siwa oasis
