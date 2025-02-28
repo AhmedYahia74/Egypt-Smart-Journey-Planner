@@ -344,6 +344,16 @@ nlu:
     - I prefer a [historic](hotel_features) hotel
     - I need a [modern](hotel_features) hotel
     - I want a hotel with a [balcony](hotel_features)
+    - I’d like a [beach_view](hotel_features) hotel
+    - I prefer a [city_center](hotel_features) hotel
+    - I’d like a [beach view](hotel_features) hotel
+    - I prefer a [city center](hotel_features) hotel
+    - I need a [beach_view](hotel_features) hotel
+    - I want a hotel with a [city_center](hotel_features)
+    - i want a [sea view](hotel_features) hotel
+    - i want a [sea_view](hotel_features) hotel
+    - i want the hotel to have a [sea view](hotel_features)
+    - i want the hotel to be in the [city center](hotel_features)
 - intent: share_landmarks_activities
   examples: |
     - I want to explore [historical landmarks](landmarks_activities)
