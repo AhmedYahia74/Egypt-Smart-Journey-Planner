@@ -1,6 +1,10 @@
 version: "3.1"
 
 rules:
+- rule: Clear chat session
+  steps:
+  - intent: clear_chat
+  - action: action_clear_chat
 
 - rule: Greet the user anytime the user says hello
   steps:
@@ -35,10 +39,11 @@ rules:
   - action: trip_form
   - active_loop: trip_form
 
-
-
-
-
+- rule: Respond to user's travel plan
+  steps:
+  - intent: share_state
+  - action: trip_form
+  - active_loop: trip_form
 
 - rule: Fetch Suggestions
   condition:

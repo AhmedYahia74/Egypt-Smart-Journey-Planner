@@ -1,10 +1,11 @@
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet, Restarted
 from typing import Any, Text, Dict, List
 from datetime import datetime
 import re
 
-
+print("✅ Custom Action Server is running...")  # Debugging message
 
 def fetch_cities_from_database() -> List[Text]:
     # Replace with database fetching logic
@@ -126,3 +127,10 @@ class ValidateTripForm(FormValidationAction):
             if slot_value.lower() in value:
                 return {"family_status": key}
         return {"family_status": None}
+
+class ActionClearChat(Action):
+    def name(self) -> Text:
+        return "action_clear_chat"
+
+    async def run(self, dispatcher, tracker: Tracker, domain):
+        return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]
