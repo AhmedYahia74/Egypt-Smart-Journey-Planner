@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-long-band-a8dyarph-pooler.eastus2.azure.neon.tech:5432/rahhal
+    username: neondb_owner
+    password: npg_sKBXgl5CxTd6
+
+security:
+  jwt:
+    secret-key: 9SlLvC1uDlj0vN2e5Wh9a692xd4QZuPaoGDHhhvD404OEJI5g/x6iiNaoM/z7PUfoYHwG5pE35426585AWFFXA==
+
+    expiration-time: 900000
