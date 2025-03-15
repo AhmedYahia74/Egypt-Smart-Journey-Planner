@@ -12,8 +12,8 @@ nlu:
     - hey there
     - let's go
     - hey dude
-    - goodmorning
-    - goodevening
+    - good morning
+    - good evening
     - good afternoon
     - hi there
     - greetings
@@ -79,6 +79,7 @@ nlu:
 - intent: deny
   examples: |
     - no
+    - No
     - n
     - never
     - I don't think so
@@ -160,7 +161,7 @@ nlu:
     - none of your business
     - that's not right
     - stop asking
-    - nevermind
+    - never mind
     - I want to do something else
     - I changed my mind
     - I don't need this
@@ -253,6 +254,10 @@ nlu:
     - I'm planning a trip to [Siwa Oasis](state)
 - intent: share_weather_preference
   examples: |
+    - cold
+    - hot
+    - mild
+    - warm
     - I prefer [sunny](weather_preference) weather
     - I like [cool](weather_preference) climates
     - I want [warm](weather_preference) weather
@@ -293,20 +298,38 @@ nlu:
     - I have a budget of [$7000](budget)
     - I can spend up to [$8000](budget)
     - My budget is around [$9000](budget)
-    - I’m willing to spend [$10000](budget)
-    - My budget is [11000](budget)
-    - I have a budget of [12000](budget)
-    - I can spend up to [13000](budget)
+    - I’m willing to spend [$1000](budget)
+    - My budget is [1000$](budget)
+    - I have [5000$](budget) for the trip
+    - I can spend up to [2000$](budget)
+    - My budget is around [3000$](budget)
+    - My budget is [2000$](budget)
+    - I have [1000$](budget) for the trip
+    - I can spend up to [5000$](budget)
+    - My budget is around [4000$](budget)
+    - I’m willing to spend [3000$](budget)
+    - I have a budget of [1500$](budget)
+    - My budget is [2500$](budget)
+    - I can afford up to [43500$](budget)
+    - I’m planning to spend [4500$](budget)
+    - My budget is [6000$](budget)
+    - I have a budget of [7000$](budget)
+    - I can spend up to [8000$](budget)
+    - My budget is around [9000$](budget)
+    - I’m willing to spend [10000$](budget)
+    - My budget is [1100](budget)
+    - I have a budget of [1200](budget)
+    - I can spend up to [1300](budget)
     - I’m willing to spend [3000](budget)
     - I have a budget of [1500](budget)
     - My budget is [2500](budget)
     - I can afford up to [3500](budget)
     - I’m planning to spend [4500](budget)
-    - My budget is [6000](budget)
-    - I have a budget of [7000](budget)
-    - I can spend up to [8000](budget)
-    - My budget is around [9000](budget)
-    - I’m willing to spend [10000](budget)
+    - My budget is [600](budget)
+    - I have a budget of [700](budget)
+    - I can spend up to [800](budget)
+    - My budget is around [900](budget)
+    - I’m willing to spend [1000](budget)
     - [150$](budget)
     - [$250](budget)
     - [200$](budget)
@@ -453,6 +476,7 @@ nlu:
     - It’s a [business trip](family_status)
     - I’m traveling with my [boss](family_status)
     - I’m coming with my [employees](family_status)
+    - alone
 - lookup: weather_preference
   examples: |
     - sunny
@@ -482,7 +506,7 @@ nlu:
     - alexandria
     - aswan
     - hurghada
-    - sharm el eheikh
+    - sharm el sheikh
     - dahab
     - marsa Alam
     - el gouna
