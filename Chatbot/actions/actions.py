@@ -91,7 +91,28 @@ class ValidateTripForm(FormValidationAction):
 
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        pass
+        try:
+            budget = float(re.sub(r'[^\d.]', '', slot_value))
+            
+            if budget <= 0:
+                dispatcher.utter_message("Please enter a valid budget greater than zero.")
+                return {"budget": None}
+            
+            if not self.is_trip_available_within_budget(budget):
+                dispatcher.utter_message("Sorry, we don't have any trips available within your budget. Please try a higher budget.")
+                return {"budget": None}
+            
+            return {"budget": budget}
+        
+        except ValueError:
+            dispatcher.utter_message("Please enter a valid budget.")
+            return {"budget": None}
+
+    def is_trip_available_within_budget(self, budget: float) -> bool:
+
+        # Replace this with actual logic to check if there are trips within the budget
+
+        return budget >= 100
 
 
     def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
