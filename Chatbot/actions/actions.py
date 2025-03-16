@@ -3,6 +3,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, Restarted
 from typing import Any, Text, Dict, List
 from datetime import datetime
+from word2number import w2n
 import re
 
 print("✅ Custom Action Server is running...")  # Debugging message
@@ -92,20 +93,37 @@ class ValidateTripForm(FormValidationAction):
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            budget = float(re.sub(r'[^\d.]', '', slot_value))
-            
-            if budget <= 0:
-                dispatcher.utter_message("Please enter a valid budget greater than zero.")
+            match = re.match(r'(\$?\d+|[\w\s-]+)\s*(dollar|dollars|usd)?', slot_value, re.IGNORECASE)
+            if not match:
+                dispatcher.utter_message("Please enter a valid budget (e.g., '500 dollars', 'one hundred USD').")
                 return {"budget": None}
-            
+
+            number_part, currency = match.groups()
+
+            if number_part.startswith('$'):
+                number_part = number_part[1:]
+
+            try:
+                budget = int(number_part)
+            except ValueError:
+                try:
+                    budget = w2n.word_to_num(number_part)
+                except ValueError:
+                    dispatcher.utter_message("Please enter a valid number for the budget.")
+                    return {"budget": None}
+
+            if budget <= 0:
+                dispatcher.utter_message("Please enter a valid positive budget.")
+                return {"budget": None}
+
             if not self.is_trip_available_within_budget(budget):
                 dispatcher.utter_message("Sorry, we don't have any trips available within your budget. Please try a higher budget.")
                 return {"budget": None}
             
             return {"budget": budget}
-        
-        except ValueError:
-            dispatcher.utter_message("Please enter a valid budget.")
+
+        except Exception as e:
+            dispatcher.utter_message("Something went wrong while processing the budget. Please try again.")
             return {"budget": None}
 
     def is_trip_available_within_budget(self, budget: float) -> bool:
@@ -116,20 +134,41 @@ class ValidateTripForm(FormValidationAction):
 
 
     def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        duration = re.findall(r'(\d+)[\s|\-]([a-z]+)', slot_value)
-        if not duration:
-            dispatcher.utter_message("Please enter a valid duration")
-            return {"duration": None}
-        duration = duration[0]
-        print(duration)
-        if duration[1] in ["day", "days","night","nights",'d']:
-            return {"duration": int(duration[0])}
-        elif duration[1] in ["week", "weeks", "w"]:
-            return {"duration": int(duration[0]) * 7}
-        elif duration[1] in ["month", "months", "m"]:
-            return {"duration": int(duration[0]) * 30}
-        else:
-            dispatcher.utter_message("Please enter a valid duration")
+        try:
+            match = re.match(r'(\d+|[\w\s-]+)\s*(day|week|month|days|weeks|months)', slot_value, re.IGNORECASE)
+            if not match:
+                dispatcher.utter_message("Please enter a valid duration (e.g., '7 days', 'two weeks', '1 month').")
+                return {"duration": None}
+
+            number_part, unit = match.groups()
+
+            try:
+                number = int(number_part)
+            except ValueError:
+                try:
+                    number = w2n.word_to_num(number_part)
+                except ValueError:
+                    dispatcher.utter_message("Please enter a valid number for the duration.")
+                    return {"duration": None}
+
+            if unit.lower() in ["day", "days"]:
+                duration_days = number
+            elif unit.lower() in ["week", "weeks"]:
+                duration_days = number * 7
+            elif unit.lower() in ["month", "months"]:
+                duration_days = number * 30
+            else:
+                dispatcher.utter_message("Please specify a valid unit (e.g., days, weeks, months).")
+                return {"duration": None}
+
+            if duration_days <= 0:
+                dispatcher.utter_message("Please enter a valid positive duration.")
+                return {"duration": None}
+
+            return {"duration": duration_days}
+
+        except Exception as e:
+            dispatcher.utter_message("Something went wrong while processing the duration. Please try again.")
             return {"duration": None}
 
 

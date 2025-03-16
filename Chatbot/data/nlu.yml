@@ -321,6 +321,20 @@ nlu:
     - [3000](budget)
     - [250](budget)
     - [100](budget)
+    - I have [one thousand dollars](budget) for the trip
+    - My budget is [two thousand dollars](budget)
+    - I can spend up to [five thousand dollar](budget)
+    - I have [three thousand usd](budget) for expenses
+    - Planning with [four thousand USD](budget)
+    - Around [six thousand dollar](budget) budget
+    - I'm looking at [seven thousand USD](budget)
+    - Budget of [eight thousand usd](budget)
+    - Approximately [ten thousand dollars](budget)
+    - I have [fifteen hundred dollars](budget)
+    - About [twenty five hundred usd](budget)
+    - Budget near [thirty five hundred USD](budget)
+    - Around [forty five hundred dollars](budget)
+    - Roughly [fifty thousand USD](budget)
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)
@@ -400,13 +414,26 @@ nlu:
     - I’ll stay for [10 weeks](duration)
     - i will spend [1 week](duration)
     - i plan to stay for [2 weeks](duration)
-    - i plan to spend [3 days](duration) 
+    - i plan to spend [3 days](duration)
     - [10 days](duration)
     - [2 weeks](duration)
     - [1 week](duration)
     - [1 month](duration)
     - [3 months](duration)
-    -
+    - I'll stay for [three weeks](duration)
+    - I'm planning a [two-week](duration) trip
+    - It's a [one-week](duration) trip
+    - I want to stay for [four days](duration)
+    - My trip will be [five days](duration) long
+    - I'm staying for [seven days](duration)
+    - Planning a [six-day](duration) trip
+    - It's going to be [eight days](duration)
+    - A [three-day](duration) trip
+    - I'll be there for [two months](duration)
+    - Planning to stay [one month](duration)
+    - I’ll stay for [three months](duration)
+    - A [four-week](duration) vacation
+    - [seven days](duration)
 - intent: share_arrival_date
   examples: |
     - i plan to have a trip in the [next week] (arrival_date)
