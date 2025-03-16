@@ -50,8 +50,7 @@ class ValidateTripForm(FormValidationAction):
 
         if tracker.get_slot("state") is None:
             required_slots.append("specify_place")
-
-        if tracker.get_slot("specify_place") is True:
+        elif tracker.get_slot("specify_place") is True:
             required_slots.append("state")
         elif tracker.get_slot("specify_place") is False:
             required_slots.append("weather_preference")
@@ -82,9 +81,9 @@ class ValidateTripForm(FormValidationAction):
                        dispatcher: CollectingDispatcher,
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
-
-        if slot_value.lower() in [city.lower() for city in CITIES_NAMES]:
-            return {"state": slot_value}
+        country = tracker.get_slot("state")
+        if country.lower() in [city.lower() for city in CITIES_NAMES]:
+            return {"state": country}
         else:
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
             return {"state": None}
@@ -93,25 +92,49 @@ class ValidateTripForm(FormValidationAction):
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         pass
 
+    def validate_duration(self,
+                          slot_value: Any,
+                          dispatcher: CollectingDispatcher,
+                          tracker: Tracker,
+                          domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        if not isinstance(slot_value, str):
+            dispatcher.utter_message(text="Please enter a valid duration like '5 days' or '1 week'.")
+            return {"duration": None}
 
-    def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        duration = re.findall(r'(\d+)[\s|\-]([a-z]+)', slot_value)
+        duration = re.findall(r'(\d+)[\s|\-]([a-z]+)', slot_value.lower())
         if not duration:
-            dispatcher.utter_message("Please enter a valid duration")
+            dispatcher.utter_message("Please specify your trip duration in a format like '7 days' or '2 weeks'.")
             return {"duration": None}
+
         duration = duration[0]
-        print(duration)
-        if duration[1] in ["day", "days","night","nights",'d']:
-            return {"duration": int(duration[0])}
-        elif duration[1] in ["week", "weeks", "w"]:
-            return {"duration": int(duration[0]) * 7}
-        elif duration[1] in ["month", "months", "m"]:
-            return {"duration": int(duration[0]) * 30}
-        else:
-            dispatcher.utter_message("Please enter a valid duration")
+        print(f"Parsed duration: {duration}")
+
+        # Convert to days
+        try:
+            amount = int(duration[0])
+            unit = duration[1]
+
+            if unit in ["day", "days", "night", "nights", 'd']:
+                days = amount
+            elif unit in ["week", "weeks", "w"]:
+                days = amount * 7
+            elif unit in ["month", "months", "m"]:
+                days = amount * 30
+            else:
+                dispatcher.utter_message("Please use days, weeks, or months for your trip duration.")
+                return {"duration": None}
+
+            # Some basic validation
+            if days < 1:
+                dispatcher.utter_message("Trip duration must be at least 1 day.")
+                return {"duration": None}
+            elif days > 365:  # Arbitrary upper limit
+                dispatcher.utter_message("That's quite a long trip! Please confirm your duration.")
+
+            return {"duration": days}
+        except (ValueError, IndexError):
+            dispatcher.utter_message("I couldn't understand the duration. Please try again.")
             return {"duration": None}
-
-
 
     # Validate the arrival date
     def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:

@@ -66,3 +66,7 @@ rules:
     - active_loop: trip_form
 
 
+- rule: User wants to restart the conversation
+  steps:
+  - intent: restart
+  - action: action_restart
