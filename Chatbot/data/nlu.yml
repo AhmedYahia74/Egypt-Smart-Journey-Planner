@@ -234,7 +234,8 @@ nlu:
     - i wanna go in trip
     - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
     - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)
-    - - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
+    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
+    - I want to make a trip
 - intent: share_state
   examples: |
     - [Luxor](state)
@@ -251,6 +252,8 @@ nlu:
     - I'm going to [Marsa Alam](state)
     - I'm visiting [El Gouna](state)
     - I'm planning a trip to [Siwa Oasis](state)
+    - [Luxor](state)
+    - [luxor]{"entity": "state", "value": "Luxor"}
 - intent: share_weather_preference
   examples: |
     - I prefer [sunny](weather_preference) weather
@@ -335,6 +338,7 @@ nlu:
     - Budget near [thirty five hundred USD](budget)
     - Around [forty five hundred dollars](budget)
     - Roughly [fifty thousand USD](budget)
+    - [five hundred dollars](budget)
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)
@@ -434,6 +438,7 @@ nlu:
     - I’ll stay for [three months](duration)
     - A [four-week](duration) vacation
     - [seven days](duration)
+    - [two months](duration)
 - intent: share_arrival_date
   examples: |
     - i plan to have a trip in the [next week] (arrival_date)
@@ -456,6 +461,7 @@ nlu:
     - I’ll arrive on [10th July](arrival_date)
     - My trip starts [next quarter](arrival_date)
     - I’m coming in [August](arrival_date)
+    - [next month](arrival_date)
 - intent: share_family_status
   examples: |
     - I’m traveling with my [family](family_status)
