@@ -23,6 +23,9 @@ public class UserDto {
     private String password;
 
     @NotNull
+    private String name;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
