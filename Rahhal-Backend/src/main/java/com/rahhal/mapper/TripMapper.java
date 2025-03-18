@@ -17,7 +17,6 @@ public class TripMapper {
                 .price(tripDto.getPrice())
                 .date(tripDto.getDate().atStartOfDay())
                 .availableSeats(tripDto.getAvailableSeats())
-                .active(tripDto.getActive())
                 .build();
     }
 }

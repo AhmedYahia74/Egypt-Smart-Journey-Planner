@@ -12,6 +12,7 @@ public class TripDto {
     @NotBlank
     private String title;
 
+    @NotBlank
     private String description;
 
     @NotBlank
@@ -27,7 +28,4 @@ public class TripDto {
     @NotNull
     @Positive
     private int availableSeats;
-
-    @NotNull
-    private Boolean active;
 }

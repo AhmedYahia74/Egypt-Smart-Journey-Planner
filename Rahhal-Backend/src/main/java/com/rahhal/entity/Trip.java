@@ -1,6 +1,8 @@
 package com.rahhal.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,15 +21,19 @@ public class Trip {
     @JoinColumn(name = "company_id", referencedColumnName = "userId", nullable = false)
     private User company;
 
+    @NotBlank
     @Column(nullable = false)
     private String title;
 
+    @NotBlank
     @Column(nullable = false)
     private String description;
 
+    @NotBlank
     @Column(nullable = false)
     private String state;
 
+    @Positive
     @Column(nullable = false)
     private double price;
 
@@ -39,4 +45,9 @@ public class Trip {
 
     @Column(name = "is_active", nullable = false)
     private Boolean active;
+
+    @PrePersist
+    public void prePersist() {
+        this.active = false;
+    }
 }

@@ -9,7 +9,9 @@ public enum ErrorCode {
 
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "Validation failed"),
 
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred"),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "You hasn't access to this page" ),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"UNAUTHORIZED" );
     private final HttpStatus status;
     private final String defaultMessage;
 

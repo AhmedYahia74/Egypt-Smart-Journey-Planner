@@ -2,9 +2,11 @@ package com.rahhal.exception;
 
 import com.rahhal.dto.ErrorResponseDTO;
 import com.rahhal.enums.ErrorCode;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -62,6 +64,56 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(error, ErrorCode.USER_NOT_FOUND.getStatus());
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGlobalException(
+            Exception ex, HttpServletRequest request) {
+        log.error("Unexpected Error: {}", ex.getMessage(), ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().value())
+                .error(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().getReasonPhrase())
+                .message("An unexpected error occurred. Please try again later.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.INTERNAL_SERVER_ERROR.getStatus());
+    }
+
+
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponseDTO> handleJwtException(
+            JwtException ex, HttpServletRequest request) {
+        log.warn("Invalid JWT: {}", ex.getMessage());
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.UNAUTHORIZED.getStatus().value()) // 401 Unauthorized
+                .error(ErrorCode.UNAUTHORIZED.getStatus().getReasonPhrase())
+                .message("Invalid or expired token. Please log in again.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.UNAUTHORIZED.getStatus());
+    }
+
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAccessDeniedException(
+            AccessDeniedException ex, HttpServletRequest request) {
+        log.warn("Access Denied: {}", ex.getMessage());
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.ACCESS_DENIED.getStatus().value()) // 403 Forbidden
+                .error(ErrorCode.ACCESS_DENIED.getStatus().getReasonPhrase())
+                .message("You do not have permission to access this resource.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.ACCESS_DENIED.getStatus());
     }
 
     @ExceptionHandler(EntityAlreadyExistsException.class)
