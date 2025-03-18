@@ -18,13 +18,13 @@ intents:
 - thankyou
 entities:
 - arrival_date
-- budget
-- hotel_features
 - state
+- budget
+- duration
+- hotel_features
 - weather_preference
 - family_status
 - landmarks_activities
-- duration
 slots:
   specify_place:
     type: bool
