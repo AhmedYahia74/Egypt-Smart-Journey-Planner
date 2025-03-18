@@ -10,6 +10,7 @@ import com.rahhal.repository.UserRepository;
 import com.rahhal.security.JwtService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,20 +24,20 @@ public class TripServiceImpl implements TripService{
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
     }
-//    public int getCurrentUserId() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
-//            String email = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
-//            return userRepository.findByEmail(email)
-//                    .orElseThrow(() -> new RuntimeException("User not found"))
-//                    .getUserId();
-//        }
-//        throw new RuntimeException("Unauthorized access");
-//    }
+    public UserDetails getCurrentUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            return (UserDetails) authentication.getPrincipal();
+        }
+        throw new RuntimeException("Unauthorized access");
+    }
+
 
     @Override
     public Trip createTrip(TripDto tripDto ){
-        int userId = 9;   //فك الضيقة يارب
+        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .getUserId();
 
         User company = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));

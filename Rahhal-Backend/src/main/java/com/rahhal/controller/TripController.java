@@ -20,7 +20,7 @@ public class TripController {
     }
 
     @PostMapping("/create")
-//    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<Void> createTrip(@Valid @RequestBody TripDto tripDto) {
         try {
             tripService.createTrip(tripDto);
