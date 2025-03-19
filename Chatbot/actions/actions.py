@@ -189,7 +189,7 @@ class ValidateTripForm(FormValidationAction):
                 if start_date < datetime.now():
                     dispatcher.utter_message("The arrival date cannot be in the past. Please enter a future date or time frame.")
                     return {"arrival_date": None}
-                unified_date = f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+                unified_date = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
 
             if not self.is_trip_available_on_date(unified_date):
                 dispatcher.utter_message("Sorry, there are no trips available for this date or time frame. Please choose another.")
