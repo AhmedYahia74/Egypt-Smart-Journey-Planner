@@ -1,28 +1,41 @@
+from rasa.shared.utils.schemas.events import FOLLOWUP_ACTION
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, Restarted
 from typing import Any, Text, Dict, List, Tuple, Optional, Union
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from Store_User_Messages import Store_User_Messages
 from word2number import w2n
+from DB_config import DB_Prams
+import psycopg2
+import json
 import re
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 print("✅ Custom Action Server is running...")  # Debugging message
+store_msgs=Store_User_Messages()
 
 def fetch_cities_from_database() -> List[Text]:
-    # Replace with database fetching logic
-    return [
-        "luxor",
-        "cairo",
-        "alexandria",
-        "aswan",
-        "hurghada",
-        "sharm el eheikh",
-        "dahab",
-        "marsa alam",
-        "el gouna",
-        "siwa oasis"
-    ]
+    conn=None
+    cur=None
+    try:
+        conn=psycopg2.connect(**DB_Prams)
+        cur=conn.cursor()
+        cur.execute("SELECT * FROM states")
+        cities_names=[]
+        for row in cur:
+            cities_names.append(row[1])
+        return cities_names
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 
 CITIES_NAMES = fetch_cities_from_database()
@@ -40,6 +53,16 @@ class ValidateTripForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_trip_form"
 
+    async def validate(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+
+        # Store the user message before processing the form
+        return [FOLLOWUP_ACTION("action_store_user_messages")]
+
     async def required_slots(
         self,
         domain_slots: List[Text],
@@ -50,9 +73,9 @@ class ValidateTripForm(FormValidationAction):
         required_slots=[]
 
 
-        if tracker.get_slot("state") is None:
+        if tracker.get_slot("state") is None and tracker.get_slot("specify_place") is None:
             required_slots.append("specify_place")
-        elif tracker.get_slot("specify_place") is True:
+        if tracker.get_slot("specify_place") is True:
             required_slots.append("state")
         elif tracker.get_slot("specify_place") is False:
             required_slots.append("weather_preference")
@@ -61,7 +84,6 @@ class ValidateTripForm(FormValidationAction):
                           "family_status"])
 
         return required_slots
-
 
 
 
@@ -83,8 +105,10 @@ class ValidateTripForm(FormValidationAction):
                        dispatcher: CollectingDispatcher,
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        print("Validating state...")
         country = tracker.get_slot("state")
         if country.lower() in [city.lower() for city in CITIES_NAMES]:
+            store_msgs.store_user_message(tracker)
             return {"state": country}
         else:
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
@@ -119,7 +143,7 @@ class ValidateTripForm(FormValidationAction):
             if not self.is_trip_available_within_budget(budget):
                 dispatcher.utter_message("Sorry, we don't have any trips available within your budget. Please try a higher budget.")
                 return {"budget": None}
-            
+            store_msgs.store_user_message(tracker)
             return {"budget": budget}
 
         except Exception as e:
@@ -163,7 +187,7 @@ class ValidateTripForm(FormValidationAction):
             if duration_days <= 0:
                 dispatcher.utter_message("Please enter a valid positive duration.")
                 return {"duration": None}
-
+            store_msgs.store_user_message(tracker)
             return {"duration": duration_days}
 
         except Exception as e:
@@ -172,9 +196,10 @@ class ValidateTripForm(FormValidationAction):
 
     # Validate the arrival date
     def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+
         try:
             date_or_range = self.parse_flexible_date(slot_value)
-            
+
             if not date_or_range:
                 dispatcher.utter_message("Please enter a valid date or time frame (e.g., 'next week', '15th October', 'summer').")
                 return {"arrival_date": None}
@@ -192,15 +217,17 @@ class ValidateTripForm(FormValidationAction):
                 unified_date = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
 
             if not self.is_trip_available_on_date(unified_date):
+
                 dispatcher.utter_message("Sorry, there are no trips available for this date or time frame. Please choose another.")
                 return {"arrival_date": None}
-
+            store_msgs.store_user_message(tracker)
             return {"arrival_date": unified_date}
 
         except Exception as e:
+
             dispatcher.utter_message("Something went wrong while processing the date. Please try again.")
             return {"arrival_date": None}
-        
+
     def parse_flexible_date(self, date_input: str) -> Optional[Union[datetime, Tuple[datetime, datetime]]]:
         """
         Parses flexible date inputs like "next week", "15th October", "summer", etc.
@@ -208,7 +235,6 @@ class ValidateTripForm(FormValidationAction):
         """
         date_input = date_input.lower()
         today = datetime.now()
-
         # Handle relative dates
         if "next week" in date_input:
             start_date = today + timedelta(weeks=1)
@@ -347,15 +373,87 @@ class ValidateTripForm(FormValidationAction):
         """
         return True
 
-    def validate_family_status(self,
-                                slot_value: Any,
-                                dispatcher: CollectingDispatcher,
-                                tracker: Tracker,
-                                domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        for key, value in FAMILY_STATUS.items():
-            if slot_value.lower() in value:
-                return {"family_status": key}
-        return {"family_status": None}
+
+
+
+
+    def validate(self, tracker: Tracker):
+        print("Storing user message...")
+
+        user_id = tracker.sender_id
+        conversation_id = user_id + '_1'  # need to be changed in future
+
+        slot_values = {}
+        for slot in tracker.slots:
+            value = tracker.slots[slot]
+            if value:
+                # check if slot value is list or not
+                if isinstance(value, list):
+                    slot_values[slot] = value
+                else:
+                    slot_values[slot] = str(value)
+
+        if not slot_values:
+            return
+        # get the latest user message if any slot value is not predicted
+        user_msgs = tracker.latest_message.get('text', '')
+
+        conn = None
+        cur = None
+        try:
+            conn = psycopg2.connect(**DB_prams)
+            cur = conn.cursor()
+
+            select_script = 'SELECT user_msgs, slot_values FROM conversation_data where user_id=%s and conversation_id=%s'
+            select_values = (user_id, conversation_id)
+            cur.execute(select_script, select_values)
+            data = cur.fetchone()
+            # if data is not empty then append the user message to the existing user messages
+            if data:
+                saved_msgs = data[0] if data[0] else []
+                saved_msgs.append(user_msgs)
+                saved_slots = json.loads(data[1]) if data[1] else {}
+
+                # update the slot values
+                for slot, value in saved_slots.items():
+                    if isinstance(value, list):
+                        # user_intent= tracker.latest_message['intent'].get('name','')
+                        # if user_intent == 'add_item':
+                        #     saved_slots[slot]= list(set(saved_slots.get(slot,[])+value))
+                        # else:
+                        saved_slots[slot] = '{' + ','.join(map(str, value)) + '}'
+                    else:
+                        saved_slots[slot] = str(value)
+
+                print(f"User ID: {user_id}, Conversation ID: {conversation_id}")
+                print(f"User Messages: {user_msgs}")
+                print(f"Slot Values: {slot_values}")
+
+                # update the slot values with the new slot values
+                print(f"Update Slot Values: {saved_slots}")
+                update_script = 'UPDATE conversation_data SET user_msgs=%s, slot_values=%s  WHERE user_id=%s and conversation_id=%s'
+                update_values = (saved_msgs, json.dumps(saved_slots), user_id, conversation_id)
+
+                cur.execute(update_script, update_values)
+
+            else:
+                print(f"Inserting new user message {user_id}")
+                insert_script = 'INSERT INTO conversation_data (user_id, conversation_id, user_msgs, slot_values, timestamp ) VALUES (%s,%s,%s,%s,%s)'
+                insert_values = (user_id, conversation_id, user_msgs, json.dumps(slot_values), datetime.now())
+                cur.execute(insert_script, insert_values)
+
+            conn.commit()
+
+
+
+        except Exception as e:
+            print(f"Error in storing user message: {e}")
+        finally:
+            if cur is not None:
+                cur.close()
+            if conn is not None:
+                conn.close()
+        return
 
 class ActionClearChat(Action):
     def name(self) -> Text:
@@ -363,3 +461,11 @@ class ActionClearChat(Action):
 
     async def run(self, dispatcher, tracker: Tracker, domain):
         return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]
+
+
+class StoreUserMessages(Action):
+    def name(self) -> Text:
+        return "action_store_user_messages"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        store_msgs.store_user_message(tracker)
