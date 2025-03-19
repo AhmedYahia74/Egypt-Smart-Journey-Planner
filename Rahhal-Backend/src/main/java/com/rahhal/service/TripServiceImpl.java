@@ -51,4 +51,50 @@ public class TripServiceImpl implements TripService{
 
         tripRepository.save(trip);
     }
+
+
+    @Override
+    public Trip updateTrip(int tripId, TripDto tripDto) {
+        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .getUserId();
+
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
+
+
+        if (trip.getCompany().getUserId() != userId) {
+            throw new RuntimeException("Unauthorized to update this trip");
+        }
+
+        // Don't forget check booking
+
+        trip.setTitle(tripDto.getTitle());
+        trip.setDescription(tripDto.getDescription());
+        trip.setState(tripDto.getState());
+        trip.setPrice(tripDto.getPrice());
+        trip.setDate(tripDto.getDate().atStartOfDay());
+        trip.setAvailableSeats(tripDto.getAvailableSeats());
+
+        return tripRepository.save(trip);
+    }
+
+    @Override
+    public void deleteTrip(int tripId) {
+        Trip trip=tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
+
+        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .getUserId();
+
+        if (trip.getCompany().getUserId() != userId) {
+            throw new RuntimeException("Unauthorized to update this trip");
+        }
+
+        // Don't forget check booking
+
+        tripRepository.delete(trip);
+    }
 }
+

@@ -26,4 +26,25 @@ public class TripController {
         tripService.createTrip(tripDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+
+
+
+    @PutMapping("/update/{tripId}")
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    public ResponseEntity<Trip> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
+        Trip updatedTrip = tripService.updateTrip(tripId, tripDto);
+        return ResponseEntity.ok(updatedTrip);
+    }
+
+
+    @DeleteMapping("/delete/{tripId}")
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    public ResponseEntity<Void>deleteTrip(@PathVariable int tripId)
+    {
+        tripService.deleteTrip(tripId);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
