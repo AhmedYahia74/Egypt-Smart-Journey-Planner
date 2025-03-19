@@ -37,50 +37,21 @@ class Store_User_Messages:
             select_values = (user_id, conversation_id)
             cur.execute(select_script, select_values)
             data = cur.fetchone()
-            # if data is not empty then append the user message to the existing user messages
+            # if data is not empty then append the user message to the existing user messages\
             if data:
-                # Safely access tuple elements with proper error handling
-                try:
-                    if len(data) > 0:
-                        saved_msgs = data[0] if data[0] is not None else []
-                        if len(data) > 1:
-                            saved_slots = json.loads(data[1]) if data[1] is not None else {}
-                        else:
-                            saved_slots = {}
-                        saved_msgs.append(user_msgs)
-                    else:
-                        saved_msgs = [user_msgs]
-                        saved_slots = {}
-                except Exception as e:
-                    print(f"Error processing database result: {e}")
-                    saved_msgs = [user_msgs]
-                    saved_slots = {}
-                # update the slot values
-                for slot, value in saved_slots.items():
-                    if isinstance(value, list):
-                        # user_intent= tracker.latest_message['intent'].get('name','')
-                        # if user_intent == 'add_item':
-                        #     saved_slots[slot]= list(set(saved_slots.get(slot,[])+value))
-                        # else:
-                        saved_slots[slot] = '{' + ','.join(map(str, value)) + '}'
-                    else:
-                        saved_slots[slot] = str(value)
-
-                print(f"User ID: {user_id}, Conversation ID: {conversation_id}")
-                print(f"User Messages: {user_msgs}")
-                print(f"Slot Values: {slot_values}")
+                saved_msgs = data[0]
+                saved_msgs+=', '+ str(user_msgs) if saved_msgs else str(user_msgs) # append the new user message to the existing user messages
+                print(saved_msgs)
 
                 # update the slot values with the new slot values
-                print(f"Update Slot Values: {saved_slots}")
-
                 update_script = 'UPDATE conversation_data SET user_msgs=%s, slot_values=%s  WHERE user_id=%s and conversation_id=%s'
-                update_values = (saved_msgs, json.dumps(saved_slots), user_id, conversation_id)
+                update_values = (saved_msgs, json.dumps(slot_values), user_id, conversation_id)
 
                 cur.execute(update_script, update_values)
 
             else:
                 insert_script = 'INSERT INTO conversation_data (user_id, conversation_id, user_msgs, slot_values ) VALUES (%s,%s,%s,%s)'
-                insert_values = (user_id, conversation_id, [user_msgs], json.dumps(slot_values))
+                insert_values = (user_id, conversation_id, user_msgs, json.dumps(slot_values))
                 cur.execute(insert_script, insert_values)
 
             conn.commit()
