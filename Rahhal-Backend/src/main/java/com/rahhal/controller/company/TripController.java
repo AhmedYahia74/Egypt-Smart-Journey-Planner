@@ -1,8 +1,7 @@
-package com.rahhal.controller;
+package com.rahhal.controller.company;
 
 import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Trip;
-import com.rahhal.security.JwtService;
 import com.rahhal.service.TripService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/trip")
+@RequestMapping("/api/company/trip")
 public class TripController {
     private final TripService tripService;
 
@@ -28,8 +27,6 @@ public class TripController {
     }
 
 
-
-
     @PutMapping("/update/{tripId}")
     @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<Trip> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
@@ -43,7 +40,6 @@ public class TripController {
     public ResponseEntity<Void>deleteTrip(@PathVariable int tripId)
     {
         tripService.deleteTrip(tripId);
-
         return ResponseEntity.noContent().build();
     }
 

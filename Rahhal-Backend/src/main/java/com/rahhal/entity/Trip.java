@@ -50,4 +50,7 @@ public class Trip {
     public void prePersist() {
         this.active = false;
     }
+
+    @Column(name = "is_booked",nullable = false)
+    private boolean booked;
 }
