@@ -42,6 +42,7 @@ rules:
 - rule: Respond to user's travel plan
   steps:
   - intent: share_state
+  - action: action_store_user_messages
   - action: trip_form
   - active_loop: trip_form
 
@@ -65,6 +66,10 @@ rules:
     - action: trip_form
     - active_loop: trip_form
 
+- rule: Store user messages after every input
+  steps:
+    - action: action_store_user_messages
+    - action: action_listen
 
 - rule: User wants to restart the conversation
   steps:

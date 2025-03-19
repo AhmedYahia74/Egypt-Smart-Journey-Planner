@@ -41,7 +41,6 @@ slots:
     mappings:
     - type: from_entity
       entity: state
-    influence_conversation: true
   weather_preference:
     type: text
     mappings:
@@ -205,6 +204,7 @@ actions:
 - utter_ask_weather_preference
 - validate_trip_form
 - action_clear_chat
+- action_store_user_messages
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
