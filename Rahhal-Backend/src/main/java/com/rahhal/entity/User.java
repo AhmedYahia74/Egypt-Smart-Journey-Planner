@@ -28,6 +28,9 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull
+    private String name;
+
+    @NotNull
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;
 
