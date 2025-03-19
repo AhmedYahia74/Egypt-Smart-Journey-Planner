@@ -2,6 +2,7 @@ package com.rahhal.mapper;
 
 import com.rahhal.dto.UserDto;
 import com.rahhal.entity.User;
+import com.rahhal.enums.UserRole;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class UserMapper {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(userDto.getRole());
+        user.setRole(UserRole.valueOf("TOURIST"));
         user.setName(userDto.getName());
         return user;
     }

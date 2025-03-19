@@ -1,7 +1,9 @@
 package com.rahhal.enums;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
 
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found"),
@@ -20,11 +22,4 @@ public enum ErrorCode {
         this.defaultMessage = defaultMessage;
     }
 
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public String getDefaultMessage() {
-        return defaultMessage;
-    }
 }

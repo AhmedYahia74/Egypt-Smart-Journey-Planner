@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/company/trip")
+@RequestMapping("/api/company/trips")
 public class TripController {
     private final TripService tripService;
 
@@ -27,7 +27,7 @@ public class TripController {
     }
 
 
-    @PutMapping("/update/{tripId}")
+    @PutMapping("/{tripId}")
     @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<Trip> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
         Trip updatedTrip = tripService.updateTrip(tripId, tripDto);
@@ -35,7 +35,7 @@ public class TripController {
     }
 
 
-    @DeleteMapping("/delete/{tripId}")
+    @DeleteMapping("/{tripId}")
     @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<Void>deleteTrip(@PathVariable int tripId)
     {

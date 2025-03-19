@@ -9,7 +9,6 @@ import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.mapper.UserMapper;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.security.JwtService;
-import org.apache.tomcat.Jar;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;

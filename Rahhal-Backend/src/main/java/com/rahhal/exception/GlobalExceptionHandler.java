@@ -133,4 +133,24 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, ErrorCode.USER_ALREADY_EXISTS.getStatus());
     }
+
+    @ExceptionHandler(TripModificationNotAllowedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTripModificationNotAllowedException(
+            TripModificationNotAllowedException ex, HttpServletRequest request) {
+
+        log.error("Trip Modification Not Allowed: {}", ex.getMessage(), ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.ACCESS_DENIED.getStatus().value())
+                .error(ErrorCode.ACCESS_DENIED.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.ACCESS_DENIED.getStatus()).body(error);
+    }
+
+
+
 }
