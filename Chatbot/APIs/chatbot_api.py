@@ -5,12 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-NGROK_URL =  "https://d50e-156-203-119-173.ngrok-free.app"
+NGROK_URL = "http://127.0.0.1:8001"
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://127.0.0.1:8000",
+        "http://127.0.0.1:8001",
         NGROK_URL
     ],
     allow_credentials=True,
@@ -21,7 +21,6 @@ app.add_middleware(
 RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
 RASA_RESET_URL = "http://localhost:5005/conversations/{user_id}/tracker/events"
 
-# Store active WebSocket connections
 connections = {}
 
 html = f"""
@@ -30,33 +29,90 @@ html = f"""
 <head>
     <title>Chatbot</title>
     <style>
+        body {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }}
+
         #chat-container {{
             border: 1px solid black;
             padding: 10px;
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 400px;
             overflow: auto;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }}
+
+        .message {{
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }}
+
+        .user-message {{
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }}
+
+        .bot-message {{
+            background-color: #f8d7da;
+            align-self: flex-start;
+        }}
+
+        #input-container {{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }}
+
         #messageInput {{
-            width: 200px;
+            width: 250px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }}
+
+        button {{
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }}
+
+        button:hover {{
+            background-color: #0056b3;
         }}
     </style>
 </head>
 <body>
-    <h2>Chatbot Interface</h2>
-    <div id="chat-container"></div>
-    <br>
-    <input type="text" id="messageInput" autocomplete="off"/>
-    <button onclick="sendMessage()">Send</button>
-    <button onclick="clearChat()">Clear Chat</button>
+    <div>
+        <h2 style="text-align: center;">Rahhal</h2>
+        <div id="chat-container"></div>
+        <div id="input-container">
+            <input type="text" id="messageInput" autocomplete="on"/>
+            <button id="sendBtn">Send</button>
+            <button id="clearBtn" style="background-color: red;">Clear</button>
+        </div>
+    </div>
 
     <script>
         let userId = localStorage.getItem("user_id") || "user_" + Math.floor(Math.random() * 100000);
         localStorage.setItem("user_id", userId);
 
-        let wsUrl = window.location.hostname.includes("ngrok") 
-            ? "{NGROK_URL.replace("https://", "wss://")}/ws/" + userId
-            : "ws://127.0.0.1:8000/ws/" + userId;
+        let wsUrl = "{NGROK_URL}".replace("https://", "wss://") + "/ws/" + userId;
 
         let ws = new WebSocket(wsUrl);
 
@@ -68,7 +124,16 @@ html = f"""
             let messages = document.getElementById('chat-container');
             let message = document.createElement('div');
             message.textContent = event.data;
+            message.classList.add("message");
+
+            if (event.data.startsWith("You:")) {{
+                message.classList.add("user-message");
+            }} else {{
+                message.classList.add("bot-message");
+            }}
+
             messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
         }};
 
         ws.onerror = function(error) {{
@@ -109,27 +174,33 @@ html = f"""
                 console.error("Error resetting chat:", error);
             }}
         }}
+
+        document.getElementById("sendBtn").addEventListener("click", sendMessage);
+        document.getElementById("clearBtn").addEventListener("click", clearChat);
+
     </script>
 </body>
 </html>
 """
 
+
 @app.get("/")
 async def get():
     return HTMLResponse(html)
 
-@app.websocket("/ws/{user_id}")
-async def websocket_endpoint(websocket: WebSocket, user_id: str):
+# after finishing testing , set the conversation_id to int and replace every id with conversation_id
+@app.websocket("/ws/{conversation_id}")
+async def manage_chat_session(websocket: WebSocket, conversation_id: str):
     await websocket.accept()
-    connections[user_id] = websocket
+    connections[conversation_id] = websocket
 
     try:
         while True:
             data = await websocket.receive_text()
             if data.strip():
                 await websocket.send_text(f"You: {data}")
-
-                response = requests.post(RASA_SERVER_URL, json={"sender": user_id, "message": data})
+                id = 123
+                response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
 
                 if response.status_code == 200:
                     messages = response.json()
@@ -140,20 +211,23 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
                 else:
                     await websocket.send_text("Rahhal: Error connecting to the server.")
     except WebSocketDisconnect:
-        print(f"User {user_id} disconnected.")
-        connections.pop(user_id, None)  # Safely remove user
+        print(f"User {conversation_id} disconnected.")
+        connections.pop(conversation_id, None)
     except Exception as e:
         await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
         await websocket.close()
 
-@app.post("/reset_chat/{user_id}")
-async def reset_chat(user_id: str):
+# don't forget to change the user_id to int and replace id with conversation_id
+# Reset chat
+@app.post("/reset_chat/{conversation_id}")
+async def reset_chat(conversation_id: str):
     try:
-        reset_payload = {"event": "restart", "timestamp": None, "sender_id": user_id}
-        response = requests.post(RASA_RESET_URL.format(user_id=user_id), json=reset_payload)
+        reset_payload = {"event": "restart", "timestamp": None}
+        id = 123
+        response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)
 
         if response.status_code == 200:
-            return {"status": "success", "message": f"Chat reset for {user_id}."}
+            return {"status": "success", "message": f"Chat reset for {conversation_id}."}
         else:
             raise HTTPException(status_code=500, detail="Failed to reset chat in Rasa.")
     except Exception as e:
