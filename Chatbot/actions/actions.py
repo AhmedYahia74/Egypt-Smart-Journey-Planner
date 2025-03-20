@@ -106,8 +106,10 @@ class ValidateTripForm(FormValidationAction):
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
         print("Validating state...")
+
         country = tracker.get_slot("state")
         if country.lower() in [city.lower() for city in CITIES_NAMES]:
+            store_msgs.store_user_message(tracker)
             store_msgs.store_user_message(tracker)
             return {"state": country}
         else:
@@ -373,6 +375,12 @@ class ValidateTripForm(FormValidationAction):
         """
         return True
 
+    def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        store_msgs.store_user_message(tracker)
+        return {"hotel_features": slot_value}
+    def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        store_msgs.store_user_message(tracker)
+        return {"landmarks_activities": slot_value}
 
 
 
