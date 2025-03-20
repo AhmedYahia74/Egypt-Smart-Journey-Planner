@@ -4,12 +4,15 @@ import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
 import com.rahhal.exception.EntityNotFoundException;
+import com.rahhal.exception.TripModificationNotAllowedException;
 import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
+
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -25,7 +28,7 @@ public class TripServiceImpl implements TripService {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             return (UserDetails) authentication.getPrincipal();
         }
-        throw new RuntimeException("Unauthorized access");
+        throw new AccessDeniedException("Unauthorized access");
     }
 
 
@@ -63,12 +66,12 @@ public class TripServiceImpl implements TripService {
 
 
         if (trip.getCompany().getUserId() != userId) {
-            throw new RuntimeException("Unauthorized to update this trip");
+            throw new AccessDeniedException("Unauthorized to update this trip");
         }
 
         if(trip.isBooked())
         {
-            throw new IllegalStateException("Can't update the trip is booked");
+            throw new TripModificationNotAllowedException("Can't update the trip is booked");
         }
 
         trip.setTitle(tripDto.getTitle());
@@ -91,12 +94,12 @@ public class TripServiceImpl implements TripService {
                 .getUserId();
 
         if (trip.getCompany().getUserId() != userId) {
-            throw new RuntimeException("Unauthorized to update this trip");
+            throw new AccessDeniedException("Unauthorized to update this trip");
         }
 
         if(trip.isBooked())
         {
-            throw new IllegalStateException("Can't delete the trip is booked");
+            throw new TripModificationNotAllowedException("Can't delete the trip is booked");
         }
 
         tripRepository.delete(trip);
