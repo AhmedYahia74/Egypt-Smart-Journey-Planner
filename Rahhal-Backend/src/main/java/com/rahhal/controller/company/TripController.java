@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/company/trips")
@@ -41,6 +43,14 @@ public class TripController {
     {
         tripService.deleteTrip(tripId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/")
+    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    public ResponseEntity<List<Trip>> viewTrip()
+    {
+        List<Trip> trips= tripService.viewTrip();
+        return ResponseEntity.ok(trips);
     }
 
 }

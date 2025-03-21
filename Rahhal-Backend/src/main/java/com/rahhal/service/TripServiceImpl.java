@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 
+import java.util.List;
+
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -103,6 +105,24 @@ public class TripServiceImpl implements TripService {
         }
 
         tripRepository.delete(trip);
+
+    }
+
+    @Override
+    public List<Trip> viewTrip() {
+        int userId=userRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .getUserId();
+
+
+        User company = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+
+        List<Trip> trips=tripRepository.findTripByCompany(company);
+
+
+        return trips;
     }
 }
 
