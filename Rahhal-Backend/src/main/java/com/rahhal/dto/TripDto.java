@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,7 +24,7 @@ public class TripDto {
     private double price;
 
     @NotNull
-    private LocalDate date;
+    private LocalDateTime date;
 
     @NotNull
     @Positive
