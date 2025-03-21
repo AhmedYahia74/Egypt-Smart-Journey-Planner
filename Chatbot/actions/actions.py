@@ -1,4 +1,3 @@
-from rasa.shared.utils.schemas.events import FOLLOWUP_ACTION
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, Restarted
@@ -9,7 +8,6 @@ from Store_User_Messages import Store_User_Messages
 from word2number import w2n
 from DB_config import DB_Prams
 import psycopg2
-import json
 import re
 import logging
 
@@ -18,14 +16,14 @@ logging.basicConfig(level=logging.DEBUG)
 print("✅ Custom Action Server is running...")  # Debugging message
 store_msgs=Store_User_Messages()
 
-def fetch_cities_from_database() -> List[Text]:
+def fetch_cities_from_database():
     conn=None
     cur=None
+    cities_names = []
     try:
         conn=psycopg2.connect(**DB_Prams)
         cur=conn.cursor()
         cur.execute("SELECT * FROM states")
-        cities_names=[]
         for row in cur:
             cities_names.append(row[1])
         return cities_names
@@ -36,6 +34,7 @@ def fetch_cities_from_database() -> List[Text]:
             cur.close()
         if conn:
             conn.close()
+    return cities_names
 
 
 CITIES_NAMES = fetch_cities_from_database()
@@ -53,22 +52,15 @@ class ValidateTripForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_trip_form"
 
-    async def validate(
-            self,
-            dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]
-    ) -> List[Dict[Text, Any]]:
 
-        # Store the user message before processing the form
-        return [FOLLOWUP_ACTION("action_store_user_messages")]
+
 
     async def required_slots(
         self,
         domain_slots: List[Text],
         dispatcher: "CollectingDispatcher",
         tracker: "Tracker",
-        domain: "DomainDict",
+        domain: Dict[Text, Any],
     ) -> List[Text]:
         required_slots=[]
 
@@ -77,7 +69,7 @@ class ValidateTripForm(FormValidationAction):
             required_slots.append("specify_place")
         if tracker.get_slot("specify_place") is True:
             required_slots.append("state")
-        elif tracker.get_slot("specify_place") is False:
+        elif tracker.get_slot("specify_place") is False :
             required_slots.append("weather_preference")
 
         required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities",
@@ -109,8 +101,7 @@ class ValidateTripForm(FormValidationAction):
 
         country = tracker.get_slot("state")
         if country.lower() in [city.lower() for city in CITIES_NAMES]:
-            store_msgs.store_user_message(tracker)
-            store_msgs.store_user_message(tracker)
+            store_msgs.store_user_message("state", country, tracker.latest_message.get('text', ''), tracker.sender_id)
             return {"state": country}
         else:
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
@@ -145,7 +136,8 @@ class ValidateTripForm(FormValidationAction):
             if not self.is_trip_available_within_budget(budget):
                 dispatcher.utter_message("Sorry, we don't have any trips available within your budget. Please try a higher budget.")
                 return {"budget": None}
-            store_msgs.store_user_message(tracker)
+            store_msgs.store_user_message("budget", budget, tracker.latest_message.get('text', ''), tracker.sender_id)
+
             return {"budget": budget}
 
         except Exception as e:
@@ -187,9 +179,10 @@ class ValidateTripForm(FormValidationAction):
                 return {"duration": None}
 
             if duration_days <= 0:
-                dispatcher.utter_message("Please enter a valid positive duration.")
+                dispatcher.utter_message("Please enter a valid duration,the duration should be greater than zero.")
                 return {"duration": None}
-            store_msgs.store_user_message(tracker)
+            store_msgs.store_user_message("duration", duration_days, tracker.latest_message.get('text', ''), tracker.sender_id)
+
             return {"duration": duration_days}
 
         except Exception as e:
@@ -222,7 +215,9 @@ class ValidateTripForm(FormValidationAction):
 
                 dispatcher.utter_message("Sorry, there are no trips available for this date or time frame. Please choose another.")
                 return {"arrival_date": None}
-            store_msgs.store_user_message(tracker)
+
+            store_msgs.store_user_message("arrival_date", unified_date, tracker.latest_message.get('text', ''), tracker.sender_id)
+
             return {"arrival_date": unified_date}
 
         except Exception as e:
@@ -376,12 +371,18 @@ class ValidateTripForm(FormValidationAction):
         return True
 
     def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        store_msgs.store_user_message(tracker)
+        store_msgs.store_user_message("hotel_features", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
+
         return {"hotel_features": slot_value}
     def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        store_msgs.store_user_message(tracker)
+        store_msgs.store_user_message("landmarks_activities", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
+
         return {"landmarks_activities": slot_value}
 
+    def validate_weather_preference(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        store_msgs.store_user_message("weather_preference", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
+
+        return {"weather_preference": slot_value}
 
 
 
@@ -400,4 +401,6 @@ class StoreUserMessages(Action):
         return "action_store_user_messages"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        store_msgs.store_user_message(tracker)
+        for key in tracker.slots.keys():
+            if tracker.slots[key]:
+                store_msgs.store_user_message(key, tracker.get_slot(key), tracker.latest_message.get('text', ''), tracker.sender_id)

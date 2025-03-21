@@ -257,10 +257,11 @@ nlu:
     - [luxor]{"entity": "state", "value": "Luxor"}
 - intent: share_weather_preference
   examples: |
-    - cold
-    - hot
-    - mild
-    - warm
+    - [cold](weather_preference)
+    - [hot](weather_preference)
+    - [mild](weather_preference)
+    - [warm](weather_preference)
+    - [sunny](weather_preference)
     - I prefer [sunny](weather_preference) weather
     - I like [cool](weather_preference) climates
     - I want [warm](weather_preference) weather

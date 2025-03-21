@@ -36,6 +36,7 @@ rules:
 - rule: Activate trip_form
   steps:
   - intent: request_trip
+  - action: action_store_user_messages
   - action: trip_form
   - active_loop: trip_form
 
@@ -66,8 +67,9 @@ rules:
     - action: trip_form
     - active_loop: trip_form
 
-- rule: Store user messages after every input
+- rule: Store user messages for share budget intent
   steps:
+    - intent: share_budget
     - action: action_store_user_messages
     - action: action_listen
 
