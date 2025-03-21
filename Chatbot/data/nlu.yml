@@ -285,6 +285,7 @@ nlu:
     - I like [tropical](weather_preference) climates
 - intent: share_budget
   examples: |
+    - my budget is about[1500$](budget)
     - My budget is [$1000](budget)
     - I have [$5000](budget) for the trip
     - I can spend up to [$2000](budget)
@@ -486,31 +487,7 @@ nlu:
     - My trip starts [next quarter](arrival_date)
     - I’m coming in [August](arrival_date)
     - [next month](arrival_date)
-- intent: share_family_status
-  examples: |
-    - I’m traveling with my [family](family_status)
-    - I’m a [solo traveler](family_status)
-    - I’m coming with my [spouse](family_status)
-    - It’s a [family trip](family_status)
-    - I’m traveling with [kids](family_status)
-    - I’m coming with my [friends](family_status)
-    - I’m traveling with my [parents](family_status)
-    - I’m traveling with my [siblings](family_status)
-    - I’m a [couple](family_status)
-    - I’m coming with my [partner](family_status)
-    - It’s a [group trip](family_status)
-    - I’m traveling with my [colleagues](family_status)
-    - I’m coming with my [relatives](family_status)
-    - I’m traveling with my [pets](family_status)
-    - I’m a [single traveler](family_status)
-    - I’m coming with my [neighbors](family_status)
-    - It’s a [honeymoon](family_status)
-    - I’m traveling with my [classmates](family_status)
-    - I’m coming with my [team](family_status)
-    - It’s a [business trip](family_status)
-    - I’m traveling with my [boss](family_status)
-    - I’m coming with my [employees](family_status)
-    - alone
+
 - lookup: weather_preference
   examples: |
     - sunny

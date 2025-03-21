@@ -72,8 +72,7 @@ class ValidateTripForm(FormValidationAction):
         elif tracker.get_slot("specify_place") is False :
             required_slots.append("weather_preference")
 
-        required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities",
-                          "family_status"])
+        required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
 
         return required_slots
 
@@ -381,7 +380,6 @@ class ValidateTripForm(FormValidationAction):
 
     def validate_weather_preference(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         store_msgs.store_user_message("weather_preference", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
-
         return {"weather_preference": slot_value}
 
 
@@ -393,6 +391,20 @@ class ActionClearChat(Action):
         return "action_clear_chat"
 
     async def run(self, dispatcher, tracker: Tracker, domain):
+        conn=None
+        cur=None
+        try:
+            conn=psycopg2.connect(**DB_Prams)
+            cur=conn.cursor()
+            cur.execute("UPDATE conversation_data SET user_msgs= %s, slot_values= %s  WHERE conversation_id=%s",(None,None,tracker.sender_id,))
+            conn.commit()
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            if cur:
+                cur.close()
+            if conn:
+                conn.close()
         return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]
 
 
