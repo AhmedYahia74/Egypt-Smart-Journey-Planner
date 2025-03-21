@@ -226,8 +226,6 @@ async def reset_chat(conversation_id: int):
         reset_payload = {"event": "restart", "timestamp": None}
         response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)
 
-        print(f"Rasa Reset API Response: {response.status_code} - {response.text}")  # ⬅️ طباعة الرد لمعرفة الخطأ إن وجد
-
         if response.status_code == 200:
             return {"status": "success", "message": f"Chat reset for {conversation_id}."}
         else:
