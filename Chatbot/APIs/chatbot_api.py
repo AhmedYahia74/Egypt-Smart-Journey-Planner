@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
-RASA_RESET_URL = "http://localhost:5005/conversations/{user_id}/tracker/events"
+RASA_RESET_URL = "http://localhost:5005/conversations/{conversation_id}/tracker/events"
 
 connections = {}
 
@@ -193,14 +193,14 @@ async def get():
 async def manage_chat_session(websocket: WebSocket, conversation_id: str):
     await websocket.accept()
     connections[conversation_id] = websocket
-
+    id=123
     try:
         while True:
             data = await websocket.receive_text()
             if data.strip():
                 await websocket.send_text(f"You: {data}")
                 id = 123
-                response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
+                response = requests.post(RASA_SERVER_URL, json={"sender": id, "message": data})
 
                 if response.status_code == 200:
                     messages = response.json()
@@ -211,20 +211,22 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
                 else:
                     await websocket.send_text("Rahhal: Error connecting to the server.")
     except WebSocketDisconnect:
-        print(f"User {conversation_id} disconnected.")
-        connections.pop(conversation_id, None)
+        print(f"User {id} disconnected.")
+        connections.pop(id, None)
     except Exception as e:
         await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
         await websocket.close()
 
 # don't forget to change the user_id to int and replace id with conversation_id
 # Reset chat
+
 @app.post("/reset_chat/{conversation_id}")
-async def reset_chat(conversation_id: str):
+async def reset_chat(conversation_id: int):
     try:
         reset_payload = {"event": "restart", "timestamp": None}
-        id = 123
         response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)
+
+        print(f"Rasa Reset API Response: {response.status_code} - {response.text}")  # ⬅️ طباعة الرد لمعرفة الخطأ إن وجد
 
         if response.status_code == 200:
             return {"status": "success", "message": f"Chat reset for {conversation_id}."}
@@ -232,3 +234,4 @@ async def reset_chat(conversation_id: str):
             raise HTTPException(status_code=500, detail="Failed to reset chat in Rasa.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
