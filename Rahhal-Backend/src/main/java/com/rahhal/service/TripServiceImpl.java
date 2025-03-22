@@ -49,7 +49,7 @@ public class TripServiceImpl implements TripService {
                 .description(tripDto.getDescription())
                 .state(tripDto.getState())
                 .price(tripDto.getPrice())
-                .date(tripDto.getDate().atStartOfDay())
+                .date(tripDto.getDate())
                 .availableSeats(tripDto.getAvailableSeats())
                 .build();
 
@@ -80,7 +80,7 @@ public class TripServiceImpl implements TripService {
         trip.setDescription(tripDto.getDescription());
         trip.setState(tripDto.getState());
         trip.setPrice(tripDto.getPrice());
-        trip.setDate(tripDto.getDate().atStartOfDay());
+        trip.setDate(tripDto.getDate());
         trip.setAvailableSeats(tripDto.getAvailableSeats());
 
         return tripRepository.save(trip);
@@ -109,7 +109,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> viewTrip() {
+    public List<TripDto> viewTrip() {
         int userId=userRepository.findByEmail(getCurrentUserDetails().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"))
                 .getUserId();
@@ -119,9 +119,7 @@ public class TripServiceImpl implements TripService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 
-        List<Trip> trips=tripRepository.findTripByCompany(company);
-
-
+        List<TripDto> trips=tripRepository.findTripByCompany(company);
         return trips;
     }
 }

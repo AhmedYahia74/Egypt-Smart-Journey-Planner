@@ -15,7 +15,7 @@ public class TripMapper {
                 .description(tripDto.getDescription())
                 .state(tripDto.getState())
                 .price(tripDto.getPrice())
-                .date(tripDto.getDate().atStartOfDay())
+                .date(tripDto.getDate())
                 .availableSeats(tripDto.getAvailableSeats())
                 .build();
     }

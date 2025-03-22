@@ -47,9 +47,9 @@ public class TripController {
 
     @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_COMPANY')")
-    public ResponseEntity<List<Trip>> viewTrip()
+    public ResponseEntity<List<TripDto>> viewTrip()
     {
-        List<Trip> trips= tripService.viewTrip();
+        List<TripDto> trips= tripService.viewTrip();
         return ResponseEntity.ok(trips);
     }
 

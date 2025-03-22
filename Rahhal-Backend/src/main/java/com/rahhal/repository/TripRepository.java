@@ -1,5 +1,6 @@
 package com.rahhal.repository;
 
+import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
-    List<Trip> findTripByCompany(User company);
+    List<TripDto> findTripByCompany(User company);
 
 }

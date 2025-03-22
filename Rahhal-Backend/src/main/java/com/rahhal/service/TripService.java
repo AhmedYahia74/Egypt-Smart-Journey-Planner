@@ -9,5 +9,5 @@ public interface TripService {
     void createTrip(TripDto tripDto);
     Trip updateTrip(int tripId, TripDto tripDto);
     void deleteTrip(int tripId);
-    List<Trip> viewTrip();
+    List<TripDto> viewTrip();
 }
