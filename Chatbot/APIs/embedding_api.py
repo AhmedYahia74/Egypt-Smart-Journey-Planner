@@ -8,6 +8,6 @@ model = SentenceTransformer("all-MiniLM-L12-v2")
 class TextRequest(BaseModel):
     text: str
 @app.post("/empadding")
-def get_empadding(text: TextRequest):
-    empadding =  model.encode(text).tolist()
+def get_empadding(request: TextRequest):
+    empadding =  model.encode(request.text).tolist()
     return {"empadding": empadding}

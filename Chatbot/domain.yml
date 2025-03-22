@@ -71,11 +71,7 @@ slots:
     mappings:
     - type: from_entity
       entity: arrival_date
-  family_status:
-    type: text
-    mappings:
-    - type: from_entity
-      entity: family_status
+
 forms:
   trip_form:
     required_slots:
@@ -87,7 +83,7 @@ forms:
     - arrival_date
     - hotel_features
     - landmarks_activities
-    - family_status
+
 responses:
   utter_greet:
   - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
