@@ -53,8 +53,8 @@ def suggest_trips(conversation_id:int,city_name:str):
         end_date=user_values["arrival_date"][1]
         # get the best 3 matched trips from the database considering the city name and trip date
         select_query=("SELECT *, embedding <-> %s::vector AS similarity FROM trips \
-                    WHERE state= %s AND price <= %s AND date BETWEEN %s AND%s AND is_active = true ORDER BY similarity LIMIT 3")
-        select_prams=(str(user_msgs_embedding["embedding"]),city_name,budget,start_date,end_date)
+                    WHERE lower(state)= %s AND price <= %s AND date BETWEEN %s AND %s AND is_active = true ORDER BY similarity LIMIT 3")
+        select_prams=(str(user_msgs_embedding["embedding"]),city_name.lower(),budget,start_date,end_date)
 
         cur.execute(select_query,select_prams)
         trips=cur.fetchall()
