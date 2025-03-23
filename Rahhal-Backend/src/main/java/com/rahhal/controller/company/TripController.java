@@ -1,7 +1,6 @@
 package com.rahhal.controller.company;
 
 import com.rahhal.dto.TripDto;
-import com.rahhal.entity.Trip;
 import com.rahhal.service.TripService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -30,9 +29,8 @@ public class TripController {
 
 
     @PutMapping("/{tripId}")
-    public ResponseEntity<Trip> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
-        Trip updatedTrip = tripService.updateTrip(tripId, tripDto);
-        return ResponseEntity.ok(updatedTrip);
+    public ResponseEntity<TripDto> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
+        return ResponseEntity.ok(tripService.updateTrip(tripId, tripDto));
     }
 
 

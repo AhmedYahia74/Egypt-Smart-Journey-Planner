@@ -31,5 +31,17 @@ public class TripMapper {
         existingTrip.setAvailableSeats(tripDto.getAvailableSeats());
         existingTrip.setDuration(tripDto.getDuration());
     }
+    public TripDto mapToDto(Trip trip) {
+        return TripDto.builder()
+                .tripId(trip.getTripId())
+                .title(trip.getTitle())
+                .description(trip.getDescription())
+                .state(trip.getState())
+                .price(trip.getPrice())
+                .date(trip.getDate())
+                .availableSeats(trip.getAvailableSeats())
+                .duration(trip.getDuration())
+                .build();
+    }
 
 }

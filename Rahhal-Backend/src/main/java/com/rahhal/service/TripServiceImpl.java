@@ -53,7 +53,7 @@ public class TripServiceImpl implements TripService {
 
 
     @Override
-    public Trip updateTrip(int tripId, TripDto tripDto) {
+    public TripDto updateTrip(int tripId, TripDto tripDto) {
         int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"))
                 .getUserId();
@@ -73,7 +73,8 @@ public class TripServiceImpl implements TripService {
 
         tripMapper.updateEntity(tripDto, trip);
 
-        return tripRepository.save(trip);
+        tripRepository.save(trip);
+        return tripMapper.mapToDto(trip);
     }
 
     @Override
