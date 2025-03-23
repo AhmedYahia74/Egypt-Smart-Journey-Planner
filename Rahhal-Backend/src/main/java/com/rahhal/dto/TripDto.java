@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class TripDto {
+
+    int tripId;
+
     @NotBlank
     private String title;
 
