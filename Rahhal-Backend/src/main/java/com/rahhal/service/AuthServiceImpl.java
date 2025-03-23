@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
                     throw new EntityAlreadyExistsException("User with email " + user.getEmail() + " already exists");
                 });
 
-        userRepository.save(userMapper.mapToEntity(request));
+        userRepository.save(userMapper.mapToTourist(request));
     }
 
     @Override

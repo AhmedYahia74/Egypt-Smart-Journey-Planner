@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,6 +21,9 @@ public class TripDto {
     @NotNull
     @Min(value = 0, message = "Price cannot be negative")
     private double price;
+
+    @NotBlank
+    private String duration;
 
     @NotNull
     private LocalDateTime date;

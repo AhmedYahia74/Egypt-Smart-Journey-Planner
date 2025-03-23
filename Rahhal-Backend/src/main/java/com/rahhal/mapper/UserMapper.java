@@ -14,7 +14,7 @@ public class UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User mapToEntity(UserDto userDto) {
+    public User mapToTourist(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));

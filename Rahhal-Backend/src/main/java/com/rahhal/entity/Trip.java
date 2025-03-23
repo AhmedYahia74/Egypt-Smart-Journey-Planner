@@ -37,6 +37,9 @@ public class Trip {
     @Column(nullable = false)
     private double price;
 
+    @NotBlank
+    private String duration;
+
     @Column(nullable = false)
     private LocalDateTime date;
 
@@ -46,11 +49,13 @@ public class Trip {
     @Column(name = "is_active", nullable = false)
     private Boolean active;
 
+    @Column(name = "is_booked",nullable = false)
+    private boolean booked;
+
     @PrePersist
     public void prePersist() {
         this.active = false;
+        this.booked = false;
     }
 
-    @Column(name = "is_booked",nullable = false)
-    private boolean booked;
 }
