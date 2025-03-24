@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TripService {
     void createTrip(TripDto tripDto);
-    Trip updateTrip(int tripId, TripDto tripDto);
+    TripDto updateTrip(int tripId, TripDto tripDto);
     void deleteTrip(int tripId);
     List<TripDto> viewTrip();
 }

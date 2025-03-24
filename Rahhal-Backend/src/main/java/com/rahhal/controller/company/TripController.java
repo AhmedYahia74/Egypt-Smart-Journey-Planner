@@ -1,7 +1,6 @@
 package com.rahhal.controller.company;
 
 import com.rahhal.dto.TripDto;
-import com.rahhal.entity.Trip;
 import com.rahhal.service.TripService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/company/trips")
+@PreAuthorize("hasRole('ROLE_COMPANY')")
 public class TripController {
     private final TripService tripService;
 
@@ -21,8 +21,7 @@ public class TripController {
         this.tripService = tripService;
     }
 
-    @PostMapping("/create")
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    @PostMapping
     public ResponseEntity<Void> createTrip(@Valid @RequestBody TripDto tripDto) {
         tripService.createTrip(tripDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -30,23 +29,19 @@ public class TripController {
 
 
     @PutMapping("/{tripId}")
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
-    public ResponseEntity<Trip> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
-        Trip updatedTrip = tripService.updateTrip(tripId, tripDto);
-        return ResponseEntity.ok(updatedTrip);
+    public ResponseEntity<TripDto> updateTrip(@PathVariable int tripId, @Valid @RequestBody TripDto tripDto) {
+        return ResponseEntity.ok(tripService.updateTrip(tripId, tripDto));
     }
 
 
     @DeleteMapping("/{tripId}")
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
     public ResponseEntity<Void>deleteTrip(@PathVariable int tripId)
     {
         tripService.deleteTrip(tripId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/")
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    @GetMapping
     public ResponseEntity<List<TripDto>> viewTrip()
     {
         List<TripDto> trips= tripService.viewTrip();

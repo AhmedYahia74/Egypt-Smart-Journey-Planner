@@ -5,6 +5,7 @@ import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
 import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.exception.TripModificationNotAllowedException;
+import com.rahhal.mapper.TripMapper;
 import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -20,10 +21,12 @@ import java.util.List;
 public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
+    private final TripMapper tripMapper;
 
-    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository) {
+    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, TripMapper tripMapper) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
+        this.tripMapper = tripMapper;
     }
     public UserDetails getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -35,30 +38,22 @@ public class TripServiceImpl implements TripService {
 
 
     @Override
-    public void createTrip(TripDto tripDto ){
+    public void createTrip(TripDto tripDto ) {
         int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"))
                 .getUserId();
 
-        User company = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User company = userRepository
+                .findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        Trip trip = Trip.builder()
-                .company(company)
-                .title(tripDto.getTitle())
-                .description(tripDto.getDescription())
-                .state(tripDto.getState())
-                .price(tripDto.getPrice())
-                .date(tripDto.getDate())
-                .availableSeats(tripDto.getAvailableSeats())
-                .build();
+        Trip trip = tripMapper.mapToEntity(tripDto, company);
 
         tripRepository.save(trip);
     }
 
 
     @Override
-    public Trip updateTrip(int tripId, TripDto tripDto) {
+    public TripDto updateTrip(int tripId, TripDto tripDto) {
         int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"))
                 .getUserId();
@@ -76,14 +71,10 @@ public class TripServiceImpl implements TripService {
             throw new TripModificationNotAllowedException("Can't update the trip is booked");
         }
 
-        trip.setTitle(tripDto.getTitle());
-        trip.setDescription(tripDto.getDescription());
-        trip.setState(tripDto.getState());
-        trip.setPrice(tripDto.getPrice());
-        trip.setDate(tripDto.getDate());
-        trip.setAvailableSeats(tripDto.getAvailableSeats());
+        tripMapper.updateEntity(tripDto, trip);
 
-        return tripRepository.save(trip);
+        tripRepository.save(trip);
+        return tripMapper.mapToDto(trip);
     }
 
     @Override
