@@ -1,11 +1,13 @@
 package com.rahhal.service;
 
 import com.rahhal.dto.TripDto;
+import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
 import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.exception.TripModificationNotAllowedException;
 import com.rahhal.mapper.TripMapper;
+import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -21,11 +23,13 @@ import java.util.List;
 public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
     private final TripMapper tripMapper;
 
-    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, TripMapper tripMapper) {
+    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
         this.tripMapper = tripMapper;
     }
     public UserDetails getCurrentUserDetails() {
@@ -40,11 +44,11 @@ public class TripServiceImpl implements TripService {
     @Override
     public void createTrip(TripDto tripDto ) {
         int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .orElseThrow(() -> new EntityNotFoundException("Company not found"))
                 .getUserId();
 
-        User company = userRepository
-                .findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        Company company = companyRepository
+                .findById(userId).orElseThrow(() -> new EntityNotFoundException("Company not found"));
 
         Trip trip = tripMapper.mapToEntity(tripDto, company);
 
@@ -82,8 +86,8 @@ public class TripServiceImpl implements TripService {
         Trip trip=tripRepository.findById(tripId)
                 .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
 
-        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+        int userId = companyRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("Company not found"))
                 .getUserId();
 
         if (trip.getCompany().getUserId() != userId) {
@@ -106,7 +110,7 @@ public class TripServiceImpl implements TripService {
                 .getUserId();
 
 
-        User company = userRepository.findById(userId)
+        Company company = companyRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 

@@ -1,6 +1,7 @@
 package com.rahhal.mapper;
 
 import com.rahhal.dto.TripDto;
+import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Component
 public class TripMapper {
-    public Trip mapToEntity(TripDto tripDto, User company) {
+    public Trip mapToEntity(TripDto tripDto, Company company) {
         return Trip.builder()
                 .title(tripDto.getTitle())
                 .description(tripDto.getDescription())

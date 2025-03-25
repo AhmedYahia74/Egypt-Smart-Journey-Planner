@@ -1,3 +1,5 @@
+server:
+  port: 8088
 spring:
   datasource:
     url: jdbc:postgresql://ep-long-band-a8dyarph-pooler.eastus2.azure.neon.tech:5432/rahhal
