@@ -1,4 +1,4 @@
-package com.rahhal.service;
+package com.rahhal.service.Impl;
 
 import com.rahhal.dto.AuthenticationResponseDto;
 import com.rahhal.dto.LogInRequestDto;
@@ -9,6 +9,7 @@ import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.mapper.TouristMapper;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.security.JwtService;
+import com.rahhal.service.AuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;

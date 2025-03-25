@@ -1,4 +1,4 @@
-package com.rahhal.service;
+package com.rahhal.service.Impl;
 
 import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Company;
@@ -10,6 +10,7 @@ import com.rahhal.mapper.TripMapper;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
+import com.rahhal.service.TripService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
