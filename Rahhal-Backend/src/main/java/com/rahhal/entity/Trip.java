@@ -19,7 +19,7 @@ public class Trip {
 
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "userId", nullable = false)
-    private User company;
+    private Company company;
 
     @NotBlank
     @Column(nullable = false)

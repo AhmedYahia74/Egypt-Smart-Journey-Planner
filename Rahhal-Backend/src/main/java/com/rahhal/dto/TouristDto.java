@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserDto {
+public class TouristDto {
     @Email(message = "Please provide a valid e-mail")
     @NotNull
     @NotBlank
