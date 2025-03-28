@@ -1,6 +1,8 @@
 package com.rahhal.controller.company;
 
+import com.rahhal.dto.BookingDto;
 import com.rahhal.dto.TripDto;
+import com.rahhal.service.BookingService;
 import com.rahhal.service.TripService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,11 @@ import java.util.List;
 @PreAuthorize("hasRole('ROLE_COMPANY')")
 public class TripController {
     private final TripService tripService;
+    private final BookingService bookingService;
 
-    public TripController(TripService tripService) {
+    public TripController(TripService tripService, BookingService bookingService) {
         this.tripService = tripService;
+        this.bookingService = bookingService;
     }
 
     @PostMapping
@@ -46,6 +50,12 @@ public class TripController {
     {
         List<TripDto> trips= tripService.viewTrip();
         return ResponseEntity.ok(trips);
+    }
+
+    @GetMapping("/bookings/{tripId}")
+    public ResponseEntity<List<BookingDto>> viewBookings(@PathVariable int tripId) {
+        List<BookingDto> bookings= bookingService.getBookings(tripId);
+        return ResponseEntity.ok(bookings);
     }
 
 }
