@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
     List<TripDto> findTripByCompany(Company company);
+    List<TripDto> findByActiveFalse();
 
 }

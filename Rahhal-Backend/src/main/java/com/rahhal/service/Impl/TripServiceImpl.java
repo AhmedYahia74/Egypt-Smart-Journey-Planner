@@ -118,5 +118,11 @@ public class TripServiceImpl implements TripService {
         List<TripDto> trips=tripRepository.findTripByCompany(company);
         return trips;
     }
+
+    @Override
+    public List<TripDto> viewAllInactiveTrips() {
+        List<TripDto>trips = tripRepository.findByActiveFalse();
+        return trips;
+    }
 }
 
