@@ -159,13 +159,13 @@ public class GlobalExceptionHandler {
 
         ErrorResponseDTO error = ErrorResponseDTO.builder()
                 .timestamp(LocalDateTime.now())
-                .status(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus().value())
-                .error(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus().getReasonPhrase())
+                .status(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus().value())
+                .error(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus().getReasonPhrase())
                 .message(ex.getMessage())
                 .path(request.getRequestURI())
                 .build();
 
-        return ResponseEntity.status(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus()).body(error);
+        return ResponseEntity.status(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus()).body(error);
 
     }
 

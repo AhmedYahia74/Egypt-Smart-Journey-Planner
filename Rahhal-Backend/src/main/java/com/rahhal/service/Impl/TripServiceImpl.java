@@ -154,6 +154,16 @@ public class TripServiceImpl implements TripService {
 
     }
 
+    @Override
+    public void deleteInactiveTrip(int tripId) {
+        Trip trip=tripRepository.findById(tripId)
+                .orElseThrow(()->new EntityNotFoundException("Trip not found"));
 
+        if (trip.getActive())
+            throw new TripModificationNotAllowedException("Can't delete this trip is activated");
+
+        tripRepository.delete(trip);
+
+    }
 }
 

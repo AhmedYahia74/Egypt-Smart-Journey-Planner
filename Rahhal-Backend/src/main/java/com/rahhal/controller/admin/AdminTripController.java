@@ -41,4 +41,13 @@ public class AdminTripController {
         return ResponseEntity.ok("Trip activated successfully");
     }
 
+    @DeleteMapping("/{tripId}")
+    public ResponseEntity<Void> deleteInactiveTrip(@PathVariable int tripId)
+    {
+        tripService.deleteInactiveTrip(tripId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }

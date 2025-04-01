@@ -14,4 +14,5 @@ public interface TripService {
     List<TripDto> viewAllInactiveTrips();
     List<TripDto> viewInactiveTripsForCompany(int companyId);
     void activeTrip(int tripId);
+    void deleteInactiveTrip(int tripId);
 }
