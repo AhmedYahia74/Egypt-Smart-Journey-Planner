@@ -12,4 +12,5 @@ public interface TripService {
     List<TripDto> viewTrip();
 
     List<TripDto> viewAllInactiveTrips();
+    List<TripDto> viewInactiveTripsForCompany(int companyId);
 }

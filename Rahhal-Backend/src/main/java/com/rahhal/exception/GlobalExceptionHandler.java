@@ -151,6 +151,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.ACCESS_DENIED.getStatus()).body(error);
     }
 
+    @ExceptionHandler(CompanyHasNoInactiveTripsExeption.class)
+    public ResponseEntity<ErrorResponseDTO>handelCompanyHasNoInactiveTripsExeption(
+            CompanyHasNoInactiveTripsExeption ex,HttpServletRequest request)
+    {
+        log.error("Company Has No Inactive Trips: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus().value())
+                .error(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.COMPANY_HAS_NO_INACTIVEATED_TRIPS.getStatus()).body(error);
+
+    }
 
 
 }

@@ -4,6 +4,7 @@ import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
+import com.rahhal.exception.CompanyHasNoInactiveTripsExeption;
 import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.exception.TripModificationNotAllowedException;
 import com.rahhal.mapper.TripMapper;
@@ -122,6 +123,16 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<TripDto> viewAllInactiveTrips() {
         List<TripDto>trips = tripRepository.findByActiveFalse();
+        return trips;
+    }
+
+    @Override
+    public List<TripDto> viewInactiveTripsForCompany(int companyId) {
+        List<TripDto> trips=tripRepository.findByActiveFalseAndCompany_UserId(companyId);
+        if(trips.size()==0)
+        {
+            throw new CompanyHasNoInactiveTripsExeption("Company Has No Inactive Trips");
+        }
         return trips;
     }
 }
