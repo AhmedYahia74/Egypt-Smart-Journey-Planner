@@ -170,4 +170,24 @@ public class GlobalExceptionHandler {
     }
 
 
+
+    @ExceptionHandler(TripAlreadyActivatedException.class)
+    public ResponseEntity<ErrorResponseDTO>handelTripAlreadyActivatedException(
+            TripAlreadyActivatedException ex,HttpServletRequest request)
+    {
+        log.error("Trip Has Been Already Activated: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus().value())
+                .error(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus()).body(error);
+
+    }
+
+
 }

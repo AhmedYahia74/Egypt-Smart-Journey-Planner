@@ -4,10 +4,7 @@ import com.rahhal.dto.TripDto;
 import com.rahhal.service.TripService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,14 @@ public class AdminTripController {
     {
         List<TripDto> trips=tripService.viewInactiveTripsForCompany(companyId);
         return ResponseEntity.ok(trips);
+    }
+
+    @PutMapping("/{tripId}")
+    public ResponseEntity<String> activeTrip(@PathVariable int tripId)
+    {
+        tripService.activeTrip(tripId);
+
+        return ResponseEntity.ok("Trip activated successfully");
     }
 
 }
