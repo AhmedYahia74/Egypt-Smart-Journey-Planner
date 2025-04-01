@@ -109,7 +109,8 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(ErrorCode.ACCESS_DENIED.getStatus().value()) // 403 Forbidden
                 .error(ErrorCode.ACCESS_DENIED.getStatus().getReasonPhrase())
-                .message("You do not have permission to access this resource.")
+//                .message("You do not have permission to access this resource.")
+                .message(ex.getMessage())
                 .path(request.getRequestURI())
                 .build();
 
