@@ -13,7 +13,9 @@ public enum ErrorCode {
 
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred"),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "You hasn't access to this page" ),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"UNAUTHORIZED" );
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"UNAUTHORIZED" ),
+    COMPANY_HAS_NO_INACTIVE_TRIPS(HttpStatus.NOT_FOUND,"There is no inactive trip"),
+    TRIP_ALREADY_ACTIVATED(HttpStatus.CONFLICT,"Trip is already activated");
     private final HttpStatus status;
     private final String defaultMessage;
 

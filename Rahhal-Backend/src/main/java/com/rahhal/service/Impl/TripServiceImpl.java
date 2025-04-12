@@ -4,7 +4,9 @@ import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
 import com.rahhal.entity.User;
+import com.rahhal.exception.CompanyHasNoInactiveTripsExeption;
 import com.rahhal.exception.EntityNotFoundException;
+import com.rahhal.exception.TripAlreadyActivatedException;
 import com.rahhal.exception.TripModificationNotAllowedException;
 import com.rahhal.mapper.TripMapper;
 import com.rahhal.repository.CompanyRepository;
@@ -117,6 +119,51 @@ public class TripServiceImpl implements TripService {
 
         List<TripDto> trips=tripRepository.findTripByCompany(company);
         return trips;
+    }
+
+    @Override
+    public List<TripDto> viewAllInactiveTrips() {
+        List<TripDto>trips = tripRepository.findByActiveFalse();
+        return trips;
+    }
+
+    @Override
+    public List<TripDto> viewInactiveTripsForCompany(int companyId) {
+        List<TripDto> trips=tripRepository.findByActiveFalseAndCompany_UserId(companyId);
+        if(trips.size()==0)
+        {
+            throw new CompanyHasNoInactiveTripsExeption("Company Has No Inactive Trips");
+        }
+        return trips;
+    }
+
+    @Override
+    public void activeTrip(int tripId) {
+
+        Trip trip=tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
+
+        if(trip.getActive())
+        {
+            throw new TripAlreadyActivatedException("Trip is already activated");
+        }
+
+        trip.setActive(true);
+        tripRepository.save(trip);
+
+
+    }
+
+    @Override
+    public void deleteInactiveTrip(int tripId) {
+        Trip trip=tripRepository.findById(tripId)
+                .orElseThrow(()->new EntityNotFoundException("Trip not found"));
+
+        if (trip.getActive())
+            throw new TripModificationNotAllowedException("Can't delete this trip is activated");
+
+        tripRepository.delete(trip);
+
     }
 }
 

@@ -152,6 +152,43 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ErrorCode.ACCESS_DENIED.getStatus()).body(error);
     }
 
+    @ExceptionHandler(CompanyHasNoInactiveTripsExeption.class)
+    public ResponseEntity<ErrorResponseDTO>handelCompanyHasNoInactiveTripsExeption(
+            CompanyHasNoInactiveTripsExeption ex,HttpServletRequest request)
+    {
+        log.error("Company Has No Inactive Trips: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus().value())
+                .error(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.COMPANY_HAS_NO_INACTIVE_TRIPS.getStatus()).body(error);
+
+    }
+
+
+
+    @ExceptionHandler(TripAlreadyActivatedException.class)
+    public ResponseEntity<ErrorResponseDTO>handelTripAlreadyActivatedException(
+            TripAlreadyActivatedException ex,HttpServletRequest request)
+    {
+        log.error("Trip Has Been Already Activated: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus().value())
+                .error(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.TRIP_ALREADY_ACTIVATED.getStatus()).body(error);
+
+    }
 
 
 }
