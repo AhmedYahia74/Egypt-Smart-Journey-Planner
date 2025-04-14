@@ -2,9 +2,12 @@ package com.rahhal.service.Impl;
 
 import com.rahhal.dto.CompanyDto;
 import com.rahhal.entity.Company;
+import com.rahhal.entity.User;
 import com.rahhal.exception.EntityAlreadyExistsException;
+import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.mapper.CompanyMapper;
 import com.rahhal.repository.CompanyRepository;
+import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +15,14 @@ import org.springframework.stereotype.Service;
 public class AdminServiceImpl implements AdminService {
 
    private final CompanyRepository companyRepository;
-    private final CompanyMapper companyMapper;
+   private final CompanyMapper companyMapper;
+   private final UserRepository userRepository;
 
 
-    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper) {
+    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository) {
         this.companyRepository = companyRepository;
         this.companyMapper = companyMapper;
-
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,4 +43,13 @@ public class AdminServiceImpl implements AdminService {
         companyRepository.save(company);
 
     }
+
+    @Override
+    public void deleteAccount(int id) {
+        User user= userRepository.findById(id)
+                .orElseThrow(() ->  new  EntityNotFoundException("Account not found"));
+
+        userRepository.delete(user);
+    }
+
 }
