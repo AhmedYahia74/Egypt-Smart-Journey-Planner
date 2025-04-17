@@ -488,6 +488,33 @@ nlu:
     - I’m coming in [August](arrival_date)
     - [next month](arrival_date)
 
+- intent: describe_state
+  examples: |
+    - I’m thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it’s famous for water sports like snorkeling and windsurfing
+    - Imagine a coastal retreat where the sea meets the desert. There are olive groves, salt lakes, and ancient ruins nearby. The sunsets are pink and orange, and the locals are known for their hospitality.
+    - Picture a city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the culture is vibrant with music and dance.
+    - Imagine a place with stunning beaches, crystal-clear waters, and a vibrant nightlife. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
+    - Picture a city with ancient pyramids, bustling bazaars, and a rich cultural heritage. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
+    - Imagine a coastal paradise with white sandy beaches, crystal-clear waters, and vibrant coral reefs. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
+    - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It’s less touristy than Hurghada but has a charming Italian-Egyptian vibe.
+    - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It’s less crowded than Sharm but just as beautiful.
+    - A vibrant city with a mix of ancient history and modern culture. The Nile River flows through it, and there are beautiful parks and gardens. The weather is warm, and the locals are known for their hospitality.
+    - A bohemian beach town with a laid-back vibe, where you can dive in the Blue Hole or hike to Mount Sinai at sunrise. The streets are lined with palm trees, cozy cafés, and Bedouin-style lounges. The sea is crystal clear, and the mountains are rugged and dramatic.
+    - A city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
+    - I want to visit a historic city full of ancient temples, giant statues, and tombs carved into the mountains. It’s on the Nile River, with hot, dry weather, and is known for its open-air museums, hieroglyphics, and sunset felucca rides. The locals sell handmade souvenirs near the ruins.
+    - A coastal city with beautiful beaches, luxury resorts, and a vibrant nightlife. The weather is warm and sunny, perfect for relaxation and water sports. The locals are friendly, and the seafood is fresh and delicious.
+
+- intent: edit_preference
+  examples: |
+  - I want to change my [budget](modify_field)
+  - I want to modify my [hotel features](modify_field)
+  - I want to update my [landmarks and activities](modify_field)
+  - I want to change my [weather preference](modify_field)
+  - Let’s change [hotel features](modify_field)
+  - I want to modify my [duration](modify_field)
+  - Edit [landmarks and activities](modify_field)
+  
+
 - lookup: weather_preference
   examples: |
     - sunny
