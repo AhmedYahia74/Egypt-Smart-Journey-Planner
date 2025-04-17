@@ -19,6 +19,7 @@ public class UserMapper {
                         .name(user.getName())
                         .email(user.getEmail())
                         .role(user.getClass().getAnnotation(DiscriminatorValue.class).value())
+                        .suspended(user.isSuspended())
                         .build())
                 .collect(Collectors.toList());
 

@@ -13,6 +13,7 @@ import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,6 +64,21 @@ public class AdminServiceImpl implements AdminService {
         List<User> users=userRepository.findAll();
         List<UserDto> userDtos= userMapper.mapToEntity(users);
         return userDtos;
+    }
+
+    @Override
+    public void reactivateCompanyAccount(int companyId) {
+        User user=userRepository.findById(companyId)
+                .orElseThrow(()-> new EntityNotFoundException("user not found"));
+
+        if(user instanceof Company)
+        {
+            user.setSuspended(false);
+            ((Company) user).setSubscriptionExpireDate(LocalDateTime.now().plusYears(1));
+            userRepository.save(user);
+        }
+        else
+            throw new EntityNotFoundException("This account not for company");
     }
 
 }

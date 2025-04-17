@@ -1,6 +1,5 @@
 package com.rahhal.entity;
 
-import com.rahhal.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.*;
@@ -8,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,6 +35,16 @@ public abstract class User implements UserDetails {
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;
 
+
+    @Column(name = "suspended")
+    private boolean suspended;
+
+    @Column(name = "suspended_time")
+    private LocalDateTime suspendedAt;
+
+    @Column(name = "failed_login_attempts")
+    private int FailedLoginAttempts =0;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.getClass().getAnnotation(DiscriminatorValue.class).value()));
@@ -48,5 +58,11 @@ public abstract class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return FailedLoginAttempts < 3;
     }
 }

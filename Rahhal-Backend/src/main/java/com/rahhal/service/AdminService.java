@@ -9,4 +9,5 @@ public interface AdminService {
     void addNewCompany(CompanyDto companyDto);
     void deleteAccount(int id);
     List<UserDto> viewAllAccounts();
+    void reactivateCompanyAccount(int companyId);
 }

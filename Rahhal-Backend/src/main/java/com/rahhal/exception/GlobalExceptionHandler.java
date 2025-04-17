@@ -190,5 +190,23 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(AccountIsSuspendedException.class)
+    public ResponseEntity<ErrorResponseDTO>handelTAccountIsSuspendedException(
+            TripAlreadyActivatedException ex,HttpServletRequest request)
+    {
+        log.error("Account Has Been Suspended: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.Account_Is_Suspendeed.getStatus().value())
+                .error(ErrorCode.Account_Is_Suspendeed.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.Account_Is_Suspendeed.getStatus()).body(error);
+
+    }
+
 
 }

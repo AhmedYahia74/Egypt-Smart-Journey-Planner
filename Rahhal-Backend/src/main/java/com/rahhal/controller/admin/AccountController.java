@@ -40,4 +40,10 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/company/{companyId}")
+    public ResponseEntity<String> reactivateCompany(@PathVariable int companyId) {
+        adminService.reactivateCompanyAccount(companyId);
+        return ResponseEntity.ok("Company account reactivated successfully");
+    }
+
 }

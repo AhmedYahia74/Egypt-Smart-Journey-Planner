@@ -24,4 +24,6 @@ public class UserDto {
 
     @NotBlank
     private String role;
+
+    private boolean suspended;
 }

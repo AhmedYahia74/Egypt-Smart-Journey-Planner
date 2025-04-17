@@ -17,6 +17,7 @@ public class CompanyMapper {
         company.setEmail(companyDto.getEmail());
         company.setPassword(passwordEncoder.encode(companyDto.getPassword()));
         company.setName(companyDto.getName());
+        company.setSubscriptionExpireDate(companyDto.getSubscriptionExpired());
         return company;
     }
 
