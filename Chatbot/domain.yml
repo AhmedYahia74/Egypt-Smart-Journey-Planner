@@ -72,6 +72,30 @@ slots:
     - type: from_entity
       entity: arrival_date
 
+  valid_budget:  
+    type: bool  
+    influence_conversation: true  
+    initial_value: false  
+    mappings:  
+      - type: custom  
+
+  valid_landmarks_activities:  
+    type: bool  
+    influence_conversation: true  
+    initial_value: false  
+    mappings:  
+      - type: custom  
+
+  conflict_flag:  
+    type: text  
+    influence_conversation: true  
+    mappings:  
+      - type: custom
+
+  state_alternatives:
+    type: list 
+    influence_conversation: false
+
 forms:
   trip_form:
     required_slots:
