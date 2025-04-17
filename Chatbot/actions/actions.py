@@ -6,14 +6,15 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from Store_User_Messages import Store_User_Messages
 from word2number import w2n
-from DB_config import DB_Prams
+from config_helper import get_db_params
 import psycopg2
 import re
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-
 print("✅ Custom Action Server is running...")  # Debugging message
+
+DB_Prams=get_db_params()
 store_msgs=Store_User_Messages()
 
 def fetch_cities_from_database():

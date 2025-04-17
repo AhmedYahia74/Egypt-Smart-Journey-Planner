@@ -1,12 +1,13 @@
 import requests
 
-from DB_config import DB_Prams
+from config_helper import get_db_params, get_api_urls
 from fastapi import FastAPI, HTTPException
 import psycopg2
 
 app = FastAPI()
 
-EMBEDDING_API_URL = "http://localhost:8000/embedding"
+EMBEDDING_API_URL = get_api_urls().get('embedding')
+DB_Prams = get_db_params()
 
 
 def concatenate_user_messages(user_msgs_json):
