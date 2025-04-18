@@ -1,35 +1,34 @@
 version: '3.1'
 intents:
-- affirm
-- bot_challenge
-- deny
-- goodbye
-- greet
-- out_of_scope
-- request_trip
-- share_arrival_date
-- share_budget
-- share_duration
-- share_family_status
-- share_hotel_features
-- share_landmarks_activities
-- share_state
-- share_weather_preference
-- thankyou
-- describe_state
-- edit_preference
-- request_activity_suggestions
+  - affirm
+  - bot_challenge
+  - deny
+  - goodbye
+  - greet
+  - out_of_scope
+  - request_trip
+  - share_arrival_date
+  - share_budget
+  - share_duration
+  - share_family_status
+  - share_hotel_features
+  - share_landmarks_activities
+  - share_state
+  - share_weather_preference
+  - thankyou
+  - describe_city
+  - edit_preference
+  - request_activity_suggestions
 
 entities:
-- arrival_date
-- state
-- budget
-- duration
-- hotel_features
-- weather_preference
-- family_status
-- landmarks_activities
-- modify_field
+  - arrival_date
+  - state
+  - budget
+  - duration
+  - hotel_features
+  - weather_preference
+  - landmarks_activities
+  - modify_field
 
 slots:
   specify_place:
@@ -78,29 +77,25 @@ slots:
     - type: from_entity
       entity: arrival_date
 
-  state_description:
+  city_description:
     type: text
     mappings:
       - type: from_text
-        intent: describe_state
-
+        intent: describe_city
   modify_request:
     type: text
     mappings:
-      - type: from_intent
-        intent: edit_preference
       - type: from_entity
         entity: modify_field
-
-  state_alternatives:
-    type: list 
-    influence_conversation: false
 
   activity_recommendations:
     type: list
     influence_conversation: false
     mappings:
       - type: custom
+#  state_alternatives:
+#    type: list
+#    influence_conversation: false
 
 forms:
   trip_form:
@@ -108,11 +103,13 @@ forms:
     - specify_place
     - state
     - weather_preference
+    - city_description
     - budget
     - duration
     - arrival_date
     - hotel_features
     - landmarks_activities
+
 
 responses:
   utter_greet:
@@ -220,6 +217,12 @@ responses:
   utter_out_of_scope:
   - text: I'm sorry, I'm not equipped to help with that.
   - text: Sorry, I can't help with that.
+  utter_ask_city_description:
+    - text: Can you describe the city you want to visit?
+    - text: Can you provide more details about the city you want to visit?
+    - text: Can you tell me more about the city you want to visit?
+    - text: Can you describe the city you're interested in?
+    - text: Can you provide more information about the city you want to visit?
 actions:
 - utter_start_suggestions
 - utter_greet

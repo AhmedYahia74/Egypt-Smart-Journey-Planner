@@ -285,7 +285,7 @@ nlu:
     - I like [tropical](weather_preference) climates
 - intent: share_budget
   examples: |
-    - my budget is about[1500$](budget)
+    - my budget is about [1500$](budget)
     - My budget is [$1000](budget)
     - I have [$5000](budget) for the trip
     - I can spend up to [$2000](budget)
@@ -400,7 +400,7 @@ nlu:
 - intent: share_landmarks_activities
   examples: |
     - I want to explore [historical landmarks](landmarks_activities)
-    - I’m interested in ["Alexandria library"](landmarks_activities)
+    - I’m interested in [Alexandria library](landmarks_activities)
     - I’d like to take a [cruise](landmarks_activities)
     - I’m interested in [desert safaris](landmarks_activities)
     - I’d like to visit [museums](landmarks_activities)
@@ -488,7 +488,7 @@ nlu:
     - I’m coming in [August](arrival_date)
     - [next month](arrival_date)
 
-- intent: describe_state
+- intent: describe_city
   examples: |
     - I’m thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it’s famous for water sports like snorkeling and windsurfing
     - Imagine a coastal retreat where the sea meets the desert. There are olive groves, salt lakes, and ancient ruins nearby. The sunsets are pink and orange, and the locals are known for their hospitality.
@@ -506,35 +506,35 @@ nlu:
 
 - intent: edit_preference
   examples: |
-  - I want to change my [budget](modify_field)
-  - I want to modify my [hotel features](modify_field)
-  - I want to update my [landmarks and activities](modify_field)
-  - I want to change my [weather preference](modify_field)
-  - Let’s change [hotel features](modify_field)
-  - I want to modify my [duration](modify_field)
-  - Edit [landmarks and activities](modify_field)
+    - I want to change my [budget](modify_field)
+    - I want to modify my [hotel features](modify_field)
+    - I want to update my [landmarks and activities](modify_field)
+    - I want to change my [weather preference](modify_field)
+    - Let’s change [hotel features](modify_field)
+    - I want to modify my [duration](modify_field)
+    - Edit [landmarks and activities](modify_field)
 
 - intent: request_activity_suggestions
   examples: |
-  - What activities can I do?
-  - I don't know what to do, suggest something
-  - Recommend some activities
-  - What are my options?
-  - Give me ideas for things to do
-  - I'm not sure, help me choose
-  - What can I do there?
-  - Suggest some activities for me
-  - What are some fun things to do?
-  - I need suggestions for activities
-  - What activities do you recommend?
-  - I need help with activity ideas
-  - What can I do during my trip?
-  - I want to know about activities
-  - What are some activities I can do?
-  - I need help with activity suggestions
-  - What activities should I consider?
-  - I want to know what to do
-  - I need ideas for activities
+    - What activities can I do?
+    - I don't know what to do, suggest something
+    - Recommend some activities
+    - What are my options?
+    - Give me ideas for things to do
+    - I'm not sure, help me choose
+    - What can I do there?
+    - Suggest some activities for me
+    - What are some fun things to do?
+    - I need suggestions for activities
+    - What activities do you recommend?
+    - I need help with activity ideas
+    - What can I do during my trip?
+    - I want to know about activities
+    - What are some activities I can do?
+    - I need help with activity suggestions
+    - What activities should I consider?
+    - I want to know what to do
+    - I need ideas for activities
 
 - lookup: weather_preference
   examples: |
