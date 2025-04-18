@@ -18,6 +18,7 @@ intents:
 - thankyou
 - describe_state
 - edit_preference
+- request_activity_suggestions
 
 entities:
 - arrival_date
@@ -94,6 +95,12 @@ slots:
   state_alternatives:
     type: list 
     influence_conversation: false
+
+  activity_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
 
 forms:
   trip_form:
