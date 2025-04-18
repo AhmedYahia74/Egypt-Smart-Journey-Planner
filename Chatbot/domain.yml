@@ -16,6 +16,10 @@ intents:
 - share_state
 - share_weather_preference
 - thankyou
+- describe_state
+- edit_preference
+- request_activity_suggestions
+
 entities:
 - arrival_date
 - state
@@ -25,6 +29,8 @@ entities:
 - weather_preference
 - family_status
 - landmarks_activities
+- modify_field
+
 slots:
   specify_place:
     type: bool
@@ -71,6 +77,30 @@ slots:
     mappings:
     - type: from_entity
       entity: arrival_date
+
+  state_description:
+    type: text
+    mappings:
+      - type: from_text
+        intent: describe_state
+
+  modify_request:
+    type: text
+    mappings:
+      - type: from_intent
+        intent: edit_preference
+      - type: from_entity
+        entity: modify_field
+
+  state_alternatives:
+    type: list 
+    influence_conversation: false
+
+  activity_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
 
 forms:
   trip_form:
