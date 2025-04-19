@@ -19,6 +19,8 @@ intents:
 - describe_state
 - edit_preference
 - request_activity_suggestions
+- add_hotel_features
+- add_landmarks_activities
 
 entities:
 - arrival_date
