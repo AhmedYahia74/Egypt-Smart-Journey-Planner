@@ -9,6 +9,15 @@ app = FastAPI()
 EMBEDDING_API_URL = get_api_urls().get('embedding')
 DB_Prams = get_db_params()
 
+def get_user_msgs_embedding(conversation_id, cur=None, conn=None):
+    cur.execute("SELECT user_msgs,slot_values FROM conversation_data WHERE conversation_id=%s", (conversation_id,))
+    user_data = cur.fetchone()
+    if not user_data:
+        return {"error": "No conversation found with this conversation id"}
+    user_msgs, user_values = concatenate_user_messages(user_data[0]), user_data[1]
+    user_msgs_embedding = requests.post(EMBEDDING_API_URL, json={"text": user_msgs}).json()
+    return user_msgs_embedding, user_values
+
 
 def concatenate_user_messages(user_msgs_json):
     user_msgs_str = ''
@@ -19,23 +28,25 @@ def concatenate_user_messages(user_msgs_json):
 
 
 @app.get("/suggest_cities")
-def suggest_cities(conversation_id: int):
+def suggest_cities(user_msgs: str):
     conn = None
     cur = None
     try:
         conn = psycopg2.connect(**DB_Prams)
         cur = conn.cursor()
-        user_msgs_embedding, user_values = get_user_msgs_embedding(conversation_id, cur, conn)
-
-        if "error" in user_msgs_embedding:
-            raise HTTPException(status_code=404, detail=user_msgs_embedding["error"])
+        # get the user messages embedding
+        user_msgs_embedding = requests.post(EMBEDDING_API_URL, json={"text": user_msgs}).json()
 
         # get the cities the top 3 matched cities from the database
-        select_query = "SELECT name, description, embedding <-> %s::vector AS similarity FROM states ORDER BY similarity LIMIT 3"
+        select_query = "SELECT name, description,1 - (embedding <=> %s::vector) AS similarity FROM states ORDER BY similarity desc LIMIT 3"
 
         cur.execute(select_query, (user_msgs_embedding["embedding"],))
-        trips = cur.fetchall()
-        return {"trips": trips}
+        cities = cur.fetchall()
+        print(type(cities[0][0]))
+        cities_list = [{"name": city[0], "description": city[1], "similarity": city[2]} for city in cities]
+
+        return {"top_cities": cities_list}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
     finally:
@@ -96,11 +107,3 @@ def suggest_trips(conversation_id: int, city_name: str):
             conn.close()
 
 
-def get_user_msgs_embedding(conversation_id, cur=None, conn=None):
-    cur.execute("SELECT user_msgs,slot_values FROM conversation_data WHERE conversation_id=%s", (conversation_id,))
-    user_data = cur.fetchone()
-    if not user_data:
-        return {"error": "No conversation found with this conversation id"}
-    user_msgs, user_values = concatenate_user_messages(user_data[0]), user_data[1]
-    user_msgs_embedding = requests.post(EMBEDDING_API_URL, json={"text": user_msgs}).json()
-    return user_msgs_embedding, user_values
