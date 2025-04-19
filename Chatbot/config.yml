@@ -23,7 +23,7 @@ apis:
   local_host: "http://localhost:8000"
   ngrok: "http://127.0.0.1:8000"
   embedding: "http://localhost:8001/embedding"
-  suggest_city: "http://localhost:3000/suggestion/suggest_cities"
+  suggest_city: "http://localhost:3000/suggest_cities"
   suggestion: "http://localhost:3000/suggestion"
   rasa_server: "http://localhost:5005/webhooks/rest/webhook"
   rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
