@@ -122,6 +122,7 @@ def suggest_hotels(request: HotelRequest):
         hotels = []
         for hotel in sorted_hotels:
             hotel_data = {
+                "hotel_id": hotel["hotel_id"],
                 "hotel_name": hotel["hotel_name"],
                 "facilities": list(hotel["facilities"]),
                 "matching_score": hotel["matching_score"]
@@ -134,7 +135,7 @@ def suggest_hotels(request: HotelRequest):
                 hotel_data["price_per_night"] = hotel["price_per_night"]
 
             hotels.append(hotel_data)
-
+        print(hotels)
         return {"hotels": hotels}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
