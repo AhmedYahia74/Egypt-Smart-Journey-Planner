@@ -536,6 +536,50 @@ nlu:
     - I want to know what to do
     - I need ideas for activities
 
+- intent: add_hotel_features
+  examples: |
+  - I want to add [pool](hotel_features) for my hotel
+  - I want to add [spa](hotel_features) for my hotel
+  - I want to add [gym](hotel_features) for my hotel
+  - Add [restaurant](hotel_features) for my hotel
+  - Add [bar](hotel_features) and [spa](hotel_features) for my hotel
+  - Add a [beach_view](hotel_features) for my hotel
+  - Add a [city_center](hotel_features) to my hotel
+  - I want to add [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+  - I want to add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+  - also add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+  - add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+  - include [spa](hotel_features) and [beach_view](hotel_features) in my hotel
+  - include [gym](hotel_features) in the hotel
+  - I want [pool](hotel_features), [spa](hotel_features), and [gym](hotel_features) in my hotel
+  - I want [restaurant](hotel_features), and [bar](hotel_features) in my hotel
+  - add [restaurant](hotel_features) and [bar](hotel_features)
+  - add [gym](hotel_features) and [spa](hotel_features)
+  - include [spa](hotel_features) and [beach_view](hotel_features)
+  - also add [city_center](hotel_features) and [beach_view](hotel_features)
+  - also add [beach_view](hotel_features) and [city_center](hotel_features)
+  - I want [city_center](hotel_features) and [beach_view](hotel_features) too
+  - I want [beach_view](hotel_features) and [city_center](hotel_features) too
+  
+  
+- intent: add_landmarks_activities
+  examples: |
+  - I want to add [historical landmarks](landmarks_activities) to my trip
+  - I want to add [desert safaris](landmarks_activities) to my trip
+  - I want to add [museums](landmarks_activities) to my trip
+  - I want to add [beaches](landmarks_activities) too
+  - I want to add [temples](landmarks_activities) too
+  - add [cruise](landmarks_activities) and [desert safaris](landmarks_activities)
+  - add [museums](landmarks_activities) and [beaches](landmarks_activities)
+  - add [historical landmarks](landmarks_activities) and [desert safaris](landmarks_activities)
+  - include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+  - also add [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+  - also include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+  - also include [museums](landmarks_activities) and [beaches](landmarks_activities)
+  - include [museums](landmarks_activities) and [beaches](landmarks_activities)
+  - include [cruise](landmarks_activities)
+  - add [desert safaris](landmarks_activities)
+
 - lookup: weather_preference
   examples: |
     - sunny
