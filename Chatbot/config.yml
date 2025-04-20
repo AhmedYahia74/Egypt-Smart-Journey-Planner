@@ -10,6 +10,25 @@ assistant_id: 20250202-175814-recent-compass
 # https://rasa.com/docs/rasa/nlu/components/
 language: en
 
+
+database:
+  dbname: "rahhal"
+  user: "neondb_owner"
+  password: "npg_sKBXgl5CxTd6"
+  host: "ep-long-band-a8dyarph-pooler.eastus2.azure.neon.tech"
+  port: "5432"
+  sslmode: "require"
+
+apis:
+  local_host: "http://localhost:8000"
+  ngrok: "http://127.0.0.1:8000"
+  embedding: "http://localhost:8001/embedding"
+  suggest_city: "http://localhost:3000/suggest_cities"
+  suggestion: "http://localhost:3000/suggestion"
+  rasa_server: "http://localhost:5005/webhooks/rest/webhook"
+  rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
+
+
 pipeline: null
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
