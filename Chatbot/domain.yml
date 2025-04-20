@@ -96,16 +96,18 @@ slots:
     influence_conversation: false
     mappings:
       - type: custom
-#  state_alternatives:
-#    type: list
-#    influence_conversation: false
+
+  hotel_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
 
 forms:
   trip_form:
     required_slots:
     - specify_place
     - state
-    - weather_preference
     - city_description
     - budget
     - duration
@@ -237,6 +239,7 @@ actions:
 - validate_trip_form
 - action_clear_chat
 - action_store_user_messages
+- action_suggest_hotels
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

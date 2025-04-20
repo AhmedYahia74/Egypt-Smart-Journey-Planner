@@ -24,7 +24,8 @@ apis:
   ngrok: "http://127.0.0.1:8000"
   embedding: "http://localhost:8001/embedding"
   suggest_city: "http://localhost:3000/suggest_cities"
-  suggestion: "http://localhost:3000/suggestion"
+  suggest_hotels: "http://localhost:3001/suggest_hotels"
+  suggest_activities: "http://localhost:3002/suggest_trips"
   rasa_server: "http://localhost:5005/webhooks/rest/webhook"
   rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
 
