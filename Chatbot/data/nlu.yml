@@ -285,7 +285,7 @@ nlu:
     - I like [tropical](weather_preference) climates
 - intent: share_budget
   examples: |
-    - my budget is about[1500$](budget)
+    - my budget is about [1500$](budget)
     - My budget is [$1000](budget)
     - I have [$5000](budget) for the trip
     - I can spend up to [$2000](budget)
@@ -382,7 +382,7 @@ nlu:
     - I’d like a [rooftop](hotel_features) in the hotel
     - I prefer a [business](hotel_features) hotel
     - I need a [resort](hotel_features) hotel
-    - I want a hotel with a [view](hotel_features)
+    - I want a hotel with a [sea view](hotel_features)
     - I’d like a [suite](hotel_features) in the hotel
     - I prefer a [historic](hotel_features) hotel
     - I need a [modern](hotel_features) hotel
@@ -400,7 +400,7 @@ nlu:
 - intent: share_landmarks_activities
   examples: |
     - I want to explore [historical landmarks](landmarks_activities)
-    - I’m interested in ["Alexandria library"](landmarks_activities)
+    - I’m interested in [Alexandria library](landmarks_activities)
     - I’d like to take a [cruise](landmarks_activities)
     - I’m interested in [desert safaris](landmarks_activities)
     - I’d like to visit [museums](landmarks_activities)
@@ -487,6 +487,98 @@ nlu:
     - My trip starts [next quarter](arrival_date)
     - I’m coming in [August](arrival_date)
     - [next month](arrival_date)
+
+- intent: describe_city
+  examples: |
+    - I’m thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it’s famous for water sports like snorkeling and windsurfing
+    - Imagine a coastal retreat where the sea meets the desert. There are olive groves, salt lakes, and ancient ruins nearby. The sunsets are pink and orange, and the locals are known for their hospitality.
+    - Picture a city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the culture is vibrant with music and dance.
+    - Imagine a place with stunning beaches, crystal-clear waters, and a vibrant nightlife. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
+    - Picture a city with ancient pyramids, bustling bazaars, and a rich cultural heritage. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
+    - Imagine a coastal paradise with white sandy beaches, crystal-clear waters, and vibrant coral reefs. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
+    - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It’s less touristy than Hurghada but has a charming Italian-Egyptian vibe.
+    - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It’s less crowded than Sharm but just as beautiful.
+    - A vibrant city with a mix of ancient history and modern culture. The Nile River flows through it, and there are beautiful parks and gardens. The weather is warm, and the locals are known for their hospitality.
+    - A bohemian beach town with a laid-back vibe, where you can dive in the Blue Hole or hike to Mount Sinai at sunrise. The streets are lined with palm trees, cozy cafés, and Bedouin-style lounges. The sea is crystal clear, and the mountains are rugged and dramatic.
+    - A city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
+    - I want to visit a historic city full of ancient temples, giant statues, and tombs carved into the mountains. It’s on the Nile River, with hot, dry weather, and is known for its open-air museums, hieroglyphics, and sunset felucca rides. The locals sell handmade souvenirs near the ruins.
+    - A coastal city with beautiful beaches, luxury resorts, and a vibrant nightlife. The weather is warm and sunny, perfect for relaxation and water sports. The locals are friendly, and the seafood is fresh and delicious.
+
+- intent: edit_preference
+  examples: |
+    - I want to change my [budget](modify_field)
+    - I want to modify my [hotel features](modify_field)
+    - I want to update my [landmarks and activities](modify_field)
+    - I want to change my [weather preference](modify_field)
+    - Let’s change [hotel features](modify_field)
+    - I want to modify my [duration](modify_field)
+    - Edit [landmarks and activities](modify_field)
+
+- intent: request_activity_suggestions
+  examples: |
+    - What activities can I do?
+    - I don't know what to do, suggest something
+    - Recommend some activities
+    - What are my options?
+    - Give me ideas for things to do
+    - I'm not sure, help me choose
+    - What can I do there?
+    - Suggest some activities for me
+    - What are some fun things to do?
+    - I need suggestions for activities
+    - What activities do you recommend?
+    - I need help with activity ideas
+    - What can I do during my trip?
+    - I want to know about activities
+    - What are some activities I can do?
+    - I need help with activity suggestions
+    - What activities should I consider?
+    - I want to know what to do
+    - I need ideas for activities
+
+- intent: add_hotel_features
+  examples: |
+    - I want to add [pool](hotel_features) for my hotel
+    - I want to add [spa](hotel_features) for my hotel
+    - I want to add [gym](hotel_features) for my hotel
+    - Add [restaurant](hotel_features) for my hotel
+    - Add [bar](hotel_features) and [spa](hotel_features) for my hotel
+    - Add a [beach_view](hotel_features) for my hotel
+    - Add a [city_center](hotel_features) to my hotel
+    - I want to add [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+    - I want to add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+    - also add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+    - add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
+    - include [spa](hotel_features) and [beach_view](hotel_features) in my hotel
+    - include [gym](hotel_features) in the hotel
+    - I want [pool](hotel_features), [spa](hotel_features), and [gym](hotel_features) in my hotel
+    - I want [restaurant](hotel_features), and [bar](hotel_features) in my hotel
+    - add [restaurant](hotel_features) and [bar](hotel_features)
+    - add [gym](hotel_features) and [spa](hotel_features)
+    - include [spa](hotel_features) and [beach_view](hotel_features)
+    - also add [city_center](hotel_features) and [beach_view](hotel_features)
+    - also add [beach_view](hotel_features) and [city_center](hotel_features)
+    - I want [city_center](hotel_features) and [beach_view](hotel_features) too
+    - I want [beach_view](hotel_features) and [city_center](hotel_features) too
+    
+
+- intent: add_landmarks_activities
+  examples: |
+    - I want to add [historical landmarks](landmarks_activities) to my trip
+    - I want to add [desert safaris](landmarks_activities) to my trip
+    - I want to add [museums](landmarks_activities) to my trip
+    - I want to add [beaches](landmarks_activities) too
+    - I want to add [temples](landmarks_activities) too
+    - add [cruise](landmarks_activities) and [desert safaris](landmarks_activities)
+    - add [museums](landmarks_activities) and [beaches](landmarks_activities)
+    - add [historical landmarks](landmarks_activities) and [desert safaris](landmarks_activities)
+    - include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+    - also add [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+    - also include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
+    - also include [museums](landmarks_activities) and [beaches](landmarks_activities)
+    - include [museums](landmarks_activities) and [beaches](landmarks_activities)
+    - include [cruise](landmarks_activities)
+    - add [desert safaris](landmarks_activities)
 
 - lookup: weather_preference
   examples: |

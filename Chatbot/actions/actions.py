@@ -1,3 +1,4 @@
+import requests
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, Restarted
@@ -6,14 +7,15 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from Store_User_Messages import Store_User_Messages
 from word2number import w2n
-from DB_config import DB_Prams
+from config_helper import get_db_params, get_api_urls
 import psycopg2
 import re
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-
 print("✅ Custom Action Server is running...")  # Debugging message
+
+DB_Prams=get_db_params()
 store_msgs=Store_User_Messages()
 
 def fetch_cities_from_database():
@@ -38,22 +40,12 @@ def fetch_cities_from_database():
 
 
 CITIES_NAMES = fetch_cities_from_database()
-FAMILY_STATUS = {
-    'solo': ["solo traveler", "single traveler"],
-    'romantic': ["couple", "honeymoon", "partner"],
-    'family': ["family", "kids", "parents", "siblings", "relatives"],
-    'group trip': ["group", "friends", "colleagues"],
-    'business': ["business", "work", "conference"],
-    'pet-friendly trip': ["pet", "dog", "cat", "animal"]
-}
+
 
 class ValidateTripForm(FormValidationAction):
 
     def name(self) -> Text:
         return "validate_trip_form"
-
-
-
 
     async def required_slots(
         self,
@@ -70,7 +62,7 @@ class ValidateTripForm(FormValidationAction):
         if tracker.get_slot("specify_place") is True:
             required_slots.append("state")
         elif tracker.get_slot("specify_place") is False :
-            required_slots.append("weather_preference")
+            required_slots.append( "city_description")
 
         required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
 
@@ -96,8 +88,6 @@ class ValidateTripForm(FormValidationAction):
                        dispatcher: CollectingDispatcher,
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        print("Validating state...")
-
         country = tracker.get_slot("state")
         if country.lower() in [city.lower() for city in CITIES_NAMES]:
             store_msgs.store_user_message("state", country, tracker.latest_message.get('text', ''), tracker.sender_id)
@@ -106,6 +96,25 @@ class ValidateTripForm(FormValidationAction):
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
             return {"state": None}
 
+
+    def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                                      domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        try:
+            response = requests.get(get_api_urls()["suggest_city"], params={"user_msgs": slot_value})
+            if response.status_code == 200:
+                buttons = [{"title": city['name'], "payload": f"/inform{{\"state\": \"{city['name']}\"}}"} for city in
+                           response.json()["top_cities"]]
+                dispatcher.utter_message(text="Here are some suggested cities that may suit you", buttons=buttons)
+                store_msgs.store_user_message("city_description", slot_value, tracker.latest_message.get('text', ''),
+                                              tracker.sender_id)
+                return {"city_description": slot_value}
+            else:
+                dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again.")
+                return {"city_description": None}
+        except Exception as e:
+            dispatcher.utter_message(
+                f"Something went wrong while processing your city description. Please try again. Error: {str(e)}")
+            return {"city_description": None}
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
@@ -369,19 +378,42 @@ class ValidateTripForm(FormValidationAction):
         """
         return True
 
-    def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        store_msgs.store_user_message("hotel_features", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
+    def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                                domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        store_msgs.store_user_message("hotel_features", slot_value, tracker.latest_message.get('text', ''),
+                                      tracker.sender_id)
 
+        # Suggest hotels right after validating the hotel features
+        try:
+            city_name = tracker.get_slot("state")
+            hotel_facilities = tracker.get_slot("hotel_features")
+            print(hotel_facilities)
+            # Call the API to get hotel recommendations
+            api_urls = get_api_urls()
+            hotels_api_url = api_urls.get("suggest_hotels")
+            if not hotels_api_url:
+                raise KeyError("'suggest_hotels' key not found in API URLs configuration")
+            response = requests.post(
+                hotels_api_url,
+                json={
+                    "city_name": city_name,
+                    "user_facilities": hotel_facilities
+                }
+            )
+            print(response.json())
+
+            if response.status_code == 200:
+                hotels = response.json()
+                return {"hotel_features": slot_value, "hotel_recommendations": hotels}
+
+        except Exception as e:
+            logging.error(f"Error suggesting hotels: {e}")
         return {"hotel_features": slot_value}
+
     def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         store_msgs.store_user_message("landmarks_activities", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
 
         return {"landmarks_activities": slot_value}
-
-    def validate_weather_preference(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        store_msgs.store_user_message("weather_preference", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
-        return {"weather_preference": slot_value}
-
 
 
 

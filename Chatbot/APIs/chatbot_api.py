@@ -2,15 +2,20 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import HTMLResponse
 import requests
 from fastapi.middleware.cors import CORSMiddleware
+from config_helper import get_db_params, get_api_urls
 
 app = FastAPI()
 
-NGROK_URL = "http://127.0.0.1:8001"
+NGROK_URL = get_api_urls().get('ngrok')
+LOCAL_HOST_URL = get_api_urls().get('local')
+RASA_SERVER_URL = get_api_urls().get('rasa_server')
+RASA_RESET_URL = get_api_urls().get('rasa_reset')
+
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://127.0.0.1:8001",
+        LOCAL_HOST_URL,
         NGROK_URL
     ],
     allow_credentials=True,
@@ -18,8 +23,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
-RASA_RESET_URL = "http://localhost:5005/conversations/{conversation_id}/tracker/events"
 
 connections = {}
 
@@ -190,17 +193,18 @@ async def get():
 
 # after finishing testing , set the conversation_id to int and replace every id with conversation_id
 @app.websocket("/ws/{conversation_id}")
-async def manage_chat_session(websocket: WebSocket, conversation_id: str):
+async def manage_chat_session(websocket: WebSocket, conversation_id: int):
     await websocket.accept()
     connections[conversation_id] = websocket
-    id=123
+
     try:
         while True:
             data = await websocket.receive_text()
             if data.strip():
                 await websocket.send_text(f"You: {data}")
-                id = 123
-                response = requests.post(RASA_SERVER_URL, json={"sender": id, "message": data})
+                print(f"User {conversation_id} sent: {data}")
+
+                response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
 
                 if response.status_code == 200:
                     messages = response.json()
@@ -211,8 +215,8 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
                 else:
                     await websocket.send_text("Rahhal: Error connecting to the server.")
     except WebSocketDisconnect:
-        print(f"User {id} disconnected.")
-        connections.pop(id, None)
+        print(f"User {conversation_id} disconnected.")
+        connections.pop(conversation_id, None)
     except Exception as e:
         await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
         await websocket.close()

@@ -10,4 +10,9 @@ public interface TripService {
     TripDto updateTrip(int tripId, TripDto tripDto);
     void deleteTrip(int tripId);
     List<TripDto> viewTrip();
+
+    List<TripDto> viewAllInactiveTrips();
+    List<TripDto> viewInactiveTripsForCompany(int companyId);
+    void activeTrip(int tripId);
+    void deleteInactiveTrip(int tripId);
 }

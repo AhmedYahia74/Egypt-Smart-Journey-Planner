@@ -1,9 +1,9 @@
 from rasa_sdk import Tracker
 import psycopg2
-from DB_config import *
+from config_helper import get_db_params
 import json
 
-
+DB_Prams= get_db_params()
 class Store_User_Messages:
     def __init__(self):
         self.user_messages = []
@@ -58,3 +58,5 @@ class Store_User_Messages:
 
     def get_user_messages(self):
         return self.user_messages
+
+

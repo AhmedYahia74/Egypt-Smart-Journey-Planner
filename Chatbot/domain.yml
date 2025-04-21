@@ -1,30 +1,38 @@
 version: '3.1'
 intents:
-- affirm
-- bot_challenge
-- deny
-- goodbye
-- greet
-- out_of_scope
-- request_trip
-- share_arrival_date
-- share_budget
-- share_duration
-- share_family_status
-- share_hotel_features
-- share_landmarks_activities
-- share_state
-- share_weather_preference
-- thankyou
+  - affirm
+  - bot_challenge
+  - deny
+  - goodbye
+  - greet
+  - out_of_scope
+  - request_trip
+  - share_arrival_date
+  - share_budget
+  - share_duration
+  - share_family_status
+  - share_hotel_features
+  - share_landmarks_activities
+  - share_state
+  - share_weather_preference
+  - thankyou
+  - describe_state
+  - edit_preference
+  - request_activity_suggestions
+  - add_hotel_features
+  - add_landmarks_activities
+
+
 entities:
-- arrival_date
-- state
-- budget
-- duration
-- hotel_features
-- weather_preference
-- family_status
-- landmarks_activities
+  - arrival_date
+  - state
+  - budget
+  - duration
+  - hotel_features
+  - weather_preference
+  - landmarks_activities
+  - modify_field
+
 slots:
   specify_place:
     type: bool
@@ -72,17 +80,41 @@ slots:
     - type: from_entity
       entity: arrival_date
 
+  city_description:
+    type: text
+    mappings:
+      - type: from_text
+        intent: describe_city
+  modify_request:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: modify_field
+
+  activity_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  hotel_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
 forms:
   trip_form:
     required_slots:
     - specify_place
     - state
-    - weather_preference
+    - city_description
     - budget
     - duration
     - arrival_date
     - hotel_features
     - landmarks_activities
+
 
 responses:
   utter_greet:
@@ -190,6 +222,12 @@ responses:
   utter_out_of_scope:
   - text: I'm sorry, I'm not equipped to help with that.
   - text: Sorry, I can't help with that.
+  utter_ask_city_description:
+    - text: Can you describe the city you want to visit?
+    - text: Can you provide more details about the city you want to visit?
+    - text: Can you tell me more about the city you want to visit?
+    - text: Can you describe the city you're interested in?
+    - text: Can you provide more information about the city you want to visit?
 actions:
 - utter_start_suggestions
 - utter_greet
@@ -201,6 +239,7 @@ actions:
 - validate_trip_form
 - action_clear_chat
 - action_store_user_messages
+- action_suggest_hotels
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

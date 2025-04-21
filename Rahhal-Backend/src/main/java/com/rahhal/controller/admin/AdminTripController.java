@@ -1,0 +1,53 @@
+package com.rahhal.controller.admin;
+
+import com.rahhal.dto.TripDto;
+import com.rahhal.service.TripService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/admin/trips")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+public class AdminTripController {
+    private final TripService tripService;
+
+    public AdminTripController(TripService tripService) {
+        this.tripService = tripService;
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<TripDto>> viewAllInactiveTrips()
+    {
+        List<TripDto> trips= tripService.viewAllInactiveTrips();
+        return ResponseEntity.ok(trips);
+    }
+
+    @GetMapping("/{companyId}")
+    public ResponseEntity<List<TripDto>> viewInactiveTripsForCompany(@PathVariable int companyId)
+    {
+        List<TripDto> trips=tripService.viewInactiveTripsForCompany(companyId);
+        return ResponseEntity.ok(trips);
+    }
+
+    @PutMapping("/{tripId}")
+    public ResponseEntity<String> activeTrip(@PathVariable int tripId)
+    {
+        tripService.activeTrip(tripId);
+
+        return ResponseEntity.ok("Trip activated successfully");
+    }
+
+    @DeleteMapping("/{tripId}")
+    public ResponseEntity<Void> deleteInactiveTrip(@PathVariable int tripId)
+    {
+        tripService.deleteInactiveTrip(tripId);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+}

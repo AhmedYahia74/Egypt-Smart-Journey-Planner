@@ -20,6 +20,7 @@ public class TripMapper {
                 .availableSeats(tripDto.getAvailableSeats())
                 .duration(tripDto.getDuration())
                 .company(company)
+                .active(false)
                 .build();
     }
 
