@@ -33,10 +33,7 @@ def get_db_connection():
         if conn:
             conn.close()
 
-class ActivityRequestByText(BaseModel):
-    city_name: str
-    user_massage: str
-    preferred_activities: List[str] = []
+
 
 
 def convert_row_to_dict(row: tuple):
@@ -52,13 +49,17 @@ def get_embedding(text: str) -> List[float]:
         raise HTTPException(status_code=500, detail="Error getting embedding")
     return response.json().get("embedding")
 
+class ActivityRequestByText(BaseModel):
+    city_name: str
+    user_message: str
+    preferred_activities: List[str] = []
 
-@app.post("/suggest_activities")
+@app.post("/suggest_landmarks_activities")
 def suggest_activities(request: ActivityRequestByText):
     with get_db_connection() as conn:
         # Search for Activities and Landmarks by user message
-        activities_by_message = get_activities_by_text(conn, request.city_name, request.user_massage)
-        landmarks_by_message = get_landmark_by_text(conn, request.city_name, request.user_massage)
+        activities_by_message = get_activities_by_text(conn, request.city_name, request.user_message)
+        landmarks_by_message = get_landmark_by_text(conn, request.city_name, request.user_message)
 
         # Search for Activities and Landmarks by user activities
         activities_by_user_activities = []
@@ -73,12 +74,12 @@ def suggest_activities(request: ActivityRequestByText):
         # remove duplicates
         activity_list = list({activity['id']: activity for activity in activity_list}.values())
         landmark_list = list({landmark['id']: landmark for landmark in landmark_list}.values())
-
         # sort by similarity
-        unique_activities=activity_list.sort(key=lambda x: x['similarity'], reverse=True)
-        unique_landmarks=landmark_list.sort(key=lambda x: x['similarity'], reverse=True)
+        activity_list.sort(key=lambda x: x['similarity'], reverse=True)
+        landmark_list.sort(key=lambda x: x['similarity'], reverse=True)
 
-        return {"activities": unique_activities, "landmarks": unique_landmarks}
+
+        return {"activities": activity_list, "landmarks": landmark_list}
 
 
 
@@ -89,7 +90,10 @@ def get_activities_by_text(conn, city_name, user_massage):
         embedding = get_embedding(user_massage)
         cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%', ))
         result = cursor.fetchall()
-        return [convert_row_to_dict(row) for row in result]
+        result= [convert_row_to_dict(row) for row in result]
+
+
+        return result
 
 def get_activities_by_user_activities(conn, city_name, user_activities):
     activities_list = []
@@ -99,7 +103,9 @@ def get_activities_by_user_activities(conn, city_name, user_activities):
             embedding = get_embedding(activity)
             cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%',))
             activities_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
-        return list({activity['id']: activity for activity in activities_list}.values())
+        activities_list = list({activity['id']: activity for activity in activities_list}.values())
+
+        return activities_list
 
 
 def get_landmark_by_text(conn, city_name, user_massage):
@@ -118,3 +124,4 @@ def get_landmark_by_user_activities(conn, city_name, user_activities):
             cursor.execute(LANDMARK_QUERY, (embedding, '%' + city_name.lower() + '%',))
             landmarks_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
         return list({landmark['id']: landmark for landmark in landmarks_list}.values())
+
