@@ -17,6 +17,12 @@ ACTIVITY_QUERY = """
     WHERE lower(S.name) LIKE %s 
     ORDER BY similarity desc 
 """
+LANDMARK_QUERY = """
+    SELECT landmark_id, L.name, L.description, 1 - (L.embedding <=> %s::vector) AS similarity
+    FROM landmarks L join states S on L.state_id = S.state_id
+    WHERE lower(S.name) LIKE %s
+    ORDER BY similarity desc
+   """
 @contextmanager
 def get_db_connection():
     conn = None
@@ -30,10 +36,10 @@ def get_db_connection():
 class ActivityRequestByText(BaseModel):
     city_name: str
     user_massage: str
-    user_activities: List[str] = []
+    preferred_activities: List[str] = []
 
 
-def format_activity(row: tuple):
+def convert_row_to_dict(row: tuple):
     return {
         "id": row[0],
         "name": row[1],
@@ -50,28 +56,40 @@ def get_embedding(text: str) -> List[float]:
 @app.post("/suggest_activities")
 def suggest_activities(request: ActivityRequestByText):
     with get_db_connection() as conn:
-        activities_by_message = get_activities_by_massage(conn, request.city_name, request.user_massage)
+        # Search for Activities and Landmarks by user message
+        activities_by_message = get_activities_by_text(conn, request.city_name, request.user_massage)
+        landmarks_by_message = get_landmark_by_text(conn, request.city_name, request.user_massage)
+
+        # Search for Activities and Landmarks by user activities
         activities_by_user_activities = []
-        if user_activities:
-            activities_by_user_activities = get_activities_by_user_activities(conn, request.city_name, request.user_activities)
+        landmarks_by_user_activities = []
+        if request.preferred_activities:
+            activities_by_user_activities = get_activities_by_user_activities(conn, request.city_name, request.preferred_activities)
+            landmarks_by_user_activities = get_landmark_by_user_activities(conn, request.city_name, request.preferred_activities)
 
         activity_list = activities_by_message + activities_by_user_activities
+        landmark_list = landmarks_by_message + landmarks_by_user_activities
+
         # remove duplicates
         activity_list = list({activity['id']: activity for activity in activity_list}.values())
+        landmark_list = list({landmark['id']: landmark for landmark in landmark_list}.values())
+
         # sort by similarity
         unique_activities=activity_list.sort(key=lambda x: x['similarity'], reverse=True)
-        return {"activities": unique_activities}
+        unique_landmarks=landmark_list.sort(key=lambda x: x['similarity'], reverse=True)
+
+        return {"activities": unique_activities, "landmarks": unique_landmarks}
 
 
 
 
-def get_activities_by_massage(conn, city_name, user_massage):
+def get_activities_by_text(conn, city_name, user_massage):
     with conn.cursor() as cursor:
         # get the embedding for the user message
         embedding = get_embedding(user_massage)
         cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%', ))
         result = cursor.fetchall()
-        return [format_activity(row) for row in result]
+        return [convert_row_to_dict(row) for row in result]
 
 def get_activities_by_user_activities(conn, city_name, user_activities):
     activities_list = []
@@ -80,7 +98,23 @@ def get_activities_by_user_activities(conn, city_name, user_activities):
             # get the embedding for the activity
             embedding = get_embedding(activity)
             cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%',))
-            activities_list.extend(format_activity(row) for row in cursor.fetchall())
+            activities_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
         return list({activity['id']: activity for activity in activities_list}.values())
 
 
+def get_landmark_by_text(conn, city_name, user_massage):
+    with conn.cursor() as cursor:
+        # get the embedding for the user message
+        embedding = get_embedding(user_massage)
+        cursor.execute(LANDMARK_QUERY, (embedding, '%' + city_name.lower() + '%', ))
+        result = cursor.fetchall()
+        return [convert_row_to_dict(row) for row in result]
+def get_landmark_by_user_activities(conn, city_name, user_activities):
+    landmarks_list = []
+    with conn.cursor() as cursor:
+        for landmark in user_activities:
+            # get the embedding for the activity
+            embedding = get_embedding(landmark)
+            cursor.execute(LANDMARK_QUERY, (embedding, '%' + city_name.lower() + '%',))
+            landmarks_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
+        return list({landmark['id']: landmark for landmark in landmarks_list}.values())
