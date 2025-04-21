@@ -91,13 +91,19 @@ slots:
       - type: from_entity
         entity: modify_field
 
-  activity_recommendations:
+  activities_recommendations:
     type: list
     influence_conversation: false
     mappings:
       - type: custom
 
-  hotel_recommendations:
+  landmarks_recommendations:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  hotels_recommendations:
     type: list
     influence_conversation: false
     mappings:

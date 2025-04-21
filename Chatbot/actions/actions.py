@@ -382,13 +382,10 @@ class ValidateTripForm(FormValidationAction):
                                 domain: Dict[Text, Any]) -> Dict[Text, Any]:
         store_msgs.store_user_message("hotel_features", slot_value, tracker.latest_message.get('text', ''),
                                       tracker.sender_id)
-
-        # Suggest hotels right after validating the hotel features
+        # Call the API to get hotel recommendations
         try:
             city_name = tracker.get_slot("state")
             hotel_facilities = tracker.get_slot("hotel_features")
-            print(hotel_facilities)
-            # Call the API to get hotel recommendations
             api_urls = get_api_urls()
             hotels_api_url = api_urls.get("suggest_hotels")
             if not hotels_api_url:
@@ -404,7 +401,7 @@ class ValidateTripForm(FormValidationAction):
 
             if response.status_code == 200:
                 hotels = response.json()
-                return {"hotel_features": slot_value, "hotel_recommendations": hotels}
+                return {"hotel_features": slot_value, "hotels_recommendations": hotels}
 
         except Exception as e:
             logging.error(f"Error suggesting hotels: {e}")
@@ -412,7 +409,31 @@ class ValidateTripForm(FormValidationAction):
 
     def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
         store_msgs.store_user_message("landmarks_activities", slot_value, tracker.latest_message.get('text', ''), tracker.sender_id)
-
+        # Call the API to get landmarks and activities
+        try:
+            city_name = tracker.get_slot("state")
+            user_message = tracker.latest_message.get('text', '')
+            landmarks_activities = tracker.get_slot("landmarks_activities")
+            api_urls = get_api_urls()
+            landmarks_api_url = api_urls.get("suggest_landmarks_activities")
+            if not landmarks_api_url:
+                raise KeyError("'suggest_landmarks_activities' key not found in API URLs configuration")
+            response = requests.post(
+                landmarks_api_url,
+                json={
+                    "city_name": city_name,
+                    "user_message": user_message,
+                    "preferred_activities": landmarks_activities
+                }
+            )
+            if response.status_code == 200:
+                activities = response.json()["activities"]
+                landmarks = response.json()["landmarks"]
+                print("Activities:", activities)
+                print("Landmarks:", landmarks)
+                return {"landmarks_activities": slot_value, "landmarks_recommendations": landmarks, "activities_recommendations": activities}
+        except Exception as e:
+            logging.error(f"Error suggesting landmarks and activities: {e}")
         return {"landmarks_activities": slot_value}
 
 
