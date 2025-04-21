@@ -22,8 +22,7 @@ def best_match_score(query, choices):
 
 def get_facilities_ids(conn, user_facilities):
     with conn.cursor() as cur:
-        select_query = """SELECT facility_id , name 
-                           from hotel_facilities """
+        select_query = """SELECT facility_id , name from hotel_facilities """
         cur.execute(select_query,)
         facilities_ids = cur.fetchall()
         # search for the facilities in the rooms
@@ -47,7 +46,7 @@ def get_facilities_ids(conn, user_facilities):
 
 
 
-def get_hotels_facilities(conn, city_name, facilities_ids):
+def get_hotels_facilities(conn, city_name, facilities_ids, price_limit_per_night):
     with conn.cursor() as cur:
         select_query = '''SELECT h.hotel_id, h.name, r.total_price, hf.name
                           FROM hotels h
@@ -55,13 +54,15 @@ def get_hotels_facilities(conn, city_name, facilities_ids):
                           JOIN hotel_facilities hf ON hfr.facility_id = hf.facility_id
                           JOIN rooms r ON h.hotel_id = r.hotel_id
                           JOIN states s ON h.state_id = s.state_id
-                          WHERE lower(s.name) LIKE %s and hf.facility_id = ANY(%s)'''
-        cur.execute(select_query, ('%' + city_name.lower() + '%',facilities_ids))
+                          WHERE lower(s.name) LIKE %s and hf.facility_id = ANY(%s)
+                           and r.total_price <= %s'''
+        cur.execute(select_query, ('%' + city_name.lower() + '%',facilities_ids, price_limit_per_night))
         result = cur.fetchall()
         hotels = {}
         for hotel_id, hotel_name, price, facility in result:
             if hotel_id not in hotels:
                 hotels[hotel_id]={
+                    "hotel_id": hotel_id,
                     "hotel_name": hotel_name,
                     "price_per_night":price,
                     "facilities": set()
@@ -104,6 +105,8 @@ def calculate_matching_score(hotel_facilities, user_facilities):
 
 class HotelRequest(BaseModel):
     city_name: str
+    duration: int
+    budget: int
     user_facilities: List[str]
 @app.post("/suggest_hotels")
 def suggest_hotels(request: HotelRequest):
@@ -115,7 +118,8 @@ def suggest_hotels(request: HotelRequest):
         conn = psycopg2.connect(**DB_Prams)
         # get all the hotels in the city with the user preferences
         facilities_ids = get_facilities_ids(conn,user_facilities)
-        hotels_facilitates = get_hotels_facilities(conn, city_name, list(facilities_ids.values()))
+        price_limit_per_night = request.budget / request.duration
+        hotels_facilitates = get_hotels_facilities(conn, city_name, list(facilities_ids.values()),price_limit_per_night)
         # calculate the matching score for each hotel
         sorted_hotels = calculate_matching_score(hotels_facilitates , set(user_facilities))
 
@@ -142,5 +146,3 @@ def suggest_hotels(request: HotelRequest):
     finally:
         if conn:
             conn.close()
-
-
