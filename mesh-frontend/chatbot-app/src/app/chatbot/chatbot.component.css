@@ -1,0 +1,34 @@
+kendo-chat {
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  kendo-chat .k-chat-message {
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  kendo-chat .k-chat-message-user {
+    background-color: #e1f7ff;
+  }
+  
+  kendo-chat .k-chat-message-bot {
+    background-color: #f1f1f1;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
