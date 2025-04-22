@@ -1,24 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KENDO_BUTTONS } from "@progress/kendo-angular-buttons";
-import {
-  KENDO_INPUTS,
-  TextAreaComponent,
-} from "@progress/kendo-angular-inputs";
-import { SVGIcon, imageIcon, xCircleIcon } from "@progress/kendo-svg-icons";
 
-import {
-  ChatModule,
-  Message,
-  SendMessageEvent,
-  User
-} from '@progress/kendo-angular-conversational-ui';
+interface Message {
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
+}
+
+interface User {
+  id: number;
+  name: string;
+  avatarUrl: string;
+}
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChatModule, KENDO_BUTTONS, KENDO_INPUTS, TextAreaComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
@@ -37,26 +36,42 @@ export class ChatbotComponent {
 
   public messages: Message[] = [
     {
-      author: this.bot,
-      text: 'Hello, this is a Kendo Chat demo.'
+      text: 'Hello, this is a custom chat demo.',
+      sender: 'bot',
+      timestamp: new Date()
     },
     {
-      author: this.user,
-      text: 'Looks amazing!'
+      text: 'Looks amazing!',
+      sender: 'user',
+      timestamp: new Date()
     }
   ];
 
-  
-  public sendMessage(event: SendMessageEvent): void {
-    const userMsg = event.message;
-    this.messages = [...this.messages, userMsg];
+  public newMessage: string = '';
+  public isTyping: boolean = false;
+
+  public sendMessage(): void {
+    if (!this.newMessage.trim()) return;
+
+    const userMsg: Message = {
+      text: this.newMessage,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    this.messages.push(userMsg);
+    this.newMessage = '';
+    this.isTyping = true;
 
     setTimeout(() => {
-      this.messages = [...this.messages, {
-        author: this.bot,
-        text: this.getBotReply(userMsg.text || '')
-      }];
-    }, 500);
+      const botReply: Message = {
+        text: this.getBotReply(userMsg.text),
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      this.isTyping = false;
+      this.messages.push(botReply);
+    }, 2000);
   }
 
   private getBotReply(input: string): string {

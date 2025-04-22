@@ -1,6 +1,39 @@
-<kendo-chat
-  [messages]="messages"
-  [user]="user"
-  (sendMessage)="sendMessage($event)">
-</kendo-chat>
-
+<div class="chat-container">
+  <div class="chat-messages">
+    <div *ngFor="let message of messages" 
+         [class]="'message ' + (message.sender === 'user' ? 'user-message' : 'bot-message')">
+      <img [src]="message.sender === 'user' ? user.avatarUrl : bot.avatarUrl" 
+           class="avatar" 
+           [alt]="message.sender === 'user' ? user.name : bot.name">
+      <div class="message-content">
+        <div class="message-text">{{message.text}}</div>
+        <div class="message-time">{{message.timestamp | date:'shortTime'}}</div>
+      </div>
+    </div>
+    
+    <div *ngIf="isTyping" class="message bot-message">
+      <img [src]="bot.avatarUrl" class="avatar" [alt]="bot.name">
+      <div class="message-content">
+        <div class="message-text typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-input">
+    <input type="text" 
+           [(ngModel)]="newMessage" 
+           (keyup.enter)="sendMessage()" 
+           [disabled]="isTyping"
+           placeholder="Message Rahhal">
+    <button (click)="sendMessage()" [disabled]="isTyping || !newMessage.trim()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
