@@ -1,0 +1,90 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Embedding API",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && uvicorn APIs.embedding_api:app --reload --host 127.0.0.1 --port 8001",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run Suggest Hotels API",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && uvicorn APIs.suggest_hotels_api:app --reload --host 127.0.0.1 --port 3001",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run Suggestion Cities API",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && uvicorn APIs.suggest_cities_api:app --reload --host 127.0.0.1 --port 3000",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run Rasa Actions",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && rasa run actions",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run Rasa Server",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && rasa run --enable-api",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run Chatbot API",
+        "type": "shell",
+        "command": ".\\.venv310\\Scripts\\activate && uvicorn APIs.chatbot_api:app --reload --host 127.0.0.1 --port 8000",
+        "problemMatcher": [],
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      {
+        "label": "Run All APIs",
+        "dependsOn": [
+          "Run Embedding API",
+          "Run Suggest Hotels API",
+          "Run Suggestion Cities API",
+          "Run Rasa Actions",
+          "Run Rasa Server",
+          "Run Chatbot API"
+        ],
+        "dependsOrder": "parallel"
+      }
+    ]
+  }
+  
