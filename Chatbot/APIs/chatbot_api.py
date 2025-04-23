@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import HTMLResponse
 import requests
@@ -191,9 +193,12 @@ html = f"""
 async def get():
     return HTMLResponse(html)
 
+def handle_city_description(websocket: WebSocket, conversation_id: str, data: str):
+    pass
+
 # after finishing testing , set the conversation_id to int and replace every id with conversation_id
 @app.websocket("/ws/{conversation_id}")
-async def manage_chat_session(websocket: WebSocket, conversation_id: int):
+async def manage_chat_session(websocket: WebSocket, conversation_id: str):
     await websocket.accept()
     connections[conversation_id] = websocket
 
@@ -210,8 +215,13 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: int):
                     messages = response.json()
                     for msg in messages:
                         text = msg.get("text", "").strip()
-                        if text:
+                        buttons= msg.get("buttons", [])
+                        if text and not buttons:
                             await websocket.send_text(f'Rahhal: {text}')
+                        elif buttons:
+                            button_labels = [{"title": btn["title"], "payload": btn["payload"]} for btn in buttons]
+                            await websocket.send_text(f'Rahhal: {json.dumps({"text": text, "buttons": button_labels})}')
+
                 else:
                     await websocket.send_text("Rahhal: Error connecting to the server.")
     except WebSocketDisconnect:
@@ -225,7 +235,7 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: int):
 # Reset chat
 
 @app.post("/reset_chat/{conversation_id}")
-async def reset_chat(conversation_id: int):
+async def reset_chat(conversation_id: str):
     try:
         reset_payload = {"event": "restart", "timestamp": None}
         response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)
@@ -237,3 +247,6 @@ async def reset_chat(conversation_id: int):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+if __name__ == "__main__":
+    import  uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

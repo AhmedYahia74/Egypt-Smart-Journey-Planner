@@ -16,7 +16,7 @@ intents:
   - share_state
   - share_weather_preference
   - thankyou
-  - describe_state
+  - describe_city
   - edit_preference
   - request_activity_suggestions
   - add_hotel_features
@@ -49,11 +49,6 @@ slots:
     mappings:
     - type: from_entity
       entity: state
-  weather_preference:
-    type: text
-    mappings:
-    - type: from_entity
-      entity: weather_preference
   budget:
     type: text
     mappings:

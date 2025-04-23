@@ -5,6 +5,8 @@ from rasa_sdk.events import SlotSet, Restarted
 from typing import Any, Text, Dict, List, Tuple, Optional, Union
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+
+from APIs.suggest_cities_api import suggest_cities
 from Store_User_Messages import Store_User_Messages
 from word2number import w2n
 from config_helper import get_db_params, get_api_urls
@@ -100,7 +102,17 @@ class ValidateTripForm(FormValidationAction):
     def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                                       domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            response = requests.get(get_api_urls()["suggest_city"], params={"user_msgs": slot_value})
+            suggest_cities_url= get_api_urls().get("suggest_city")
+            if not suggest_cities_url:
+                raise KeyError("'suggest_cities' key not found in API URLs configuration")
+            response = requests.post(
+                suggest_cities_url,
+                json={
+                    "city_description": slot_value
+                }
+            )
+
+
             if response.status_code == 200:
                 buttons = [{"title": city['name'], "payload": f"/inform{{\"state\": \"{city['name']}\"}}"} for city in
                            response.json()["top_cities"]]
