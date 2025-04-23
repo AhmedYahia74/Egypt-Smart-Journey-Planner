@@ -490,6 +490,21 @@ nlu:
 
 - intent: describe_city
   examples: |
+    - I'm looking for a city with beaches and warm weather
+    - I want a historical city with old buildings
+    - A modern city with good shopping malls and nightlife
+    - Somewhere calm and surrounded by nature
+    - I love mountains and hiking, so a city near that
+    - I prefer cities with a lot of museums and culture
+    - A coastal city with seafood restaurants
+    - A city that's famous for its traditional markets
+    - I’m into adventure, so somewhere with outdoor activities
+    - I want a peaceful city with beautiful landscapes
+    - A city known for its religious or spiritual places
+    - Somewhere family-friendly and safe
+    - A romantic city for couples
+    - I want a city that's lively and has festivals
+    - A desert city with unique scenery
     - I’m thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it’s famous for water sports like snorkeling and windsurfing
     - Imagine a coastal retreat where the sea meets the desert. There are olive groves, salt lakes, and ancient ruins nearby. The sunsets are pink and orange, and the locals are known for their hospitality.
     - Picture a city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the culture is vibrant with music and dance.
