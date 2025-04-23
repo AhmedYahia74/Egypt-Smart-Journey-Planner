@@ -7,6 +7,16 @@
            [alt]="message.sender === 'user' ? user.name : bot.name">
       <div class="message-content">
         <div class="message-text">{{message.text}}</div>
+        <div *ngIf="message.options" class="message-options">
+          <button *ngFor="let option of message.options; let i = index" 
+                  (click)="selectOption(option)"
+                  class="option-button"
+                  [class.option-1]="i === 0"
+                  [class.option-2]="i === 1"
+                  [class.option-3]="i === 2">
+            {{option}}
+          </button>
+        </div>
         <div class="message-time">{{message.timestamp | date:'shortTime'}}</div>
       </div>
     </div>
@@ -28,7 +38,8 @@
            [(ngModel)]="newMessage" 
            (keyup.enter)="sendMessage()" 
            [disabled]="isTyping"
-           placeholder="Message Rahhal">
+           placeholder="Message Rahhal"
+           class="message-input">
     <button (click)="sendMessage()" [disabled]="isTyping || !newMessage.trim()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

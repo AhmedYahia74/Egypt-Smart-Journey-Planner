@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { log } from 'console';
 
 interface Message {
   text: string;
-  sender: 'user' | 'bot';
+  sender: 'user' | 'bot' ;
   timestamp: Date;
+  options?: [string, string, string];
 }
 
 interface User {
@@ -21,7 +23,12 @@ interface User {
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent {
+export class ChatbotComponent implements OnInit, OnDestroy {
+  private socket: WebSocket | null = null;
+  private reconnectAttempts = 0;
+  private maxReconnectAttempts = 5;
+  private reconnectTimeout: any = null;
+
   public bot: User = {
     id: 0,
     name: 'Rahhal',
@@ -34,50 +41,141 @@ export class ChatbotComponent {
     avatarUrl: 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg',
   };
 
-  public messages: Message[] = [
-    {
-      text: 'Hello, this is a custom chat demo.',
-      sender: 'bot',
-      timestamp: new Date()
-    },
-    {
-      text: 'Looks amazing!',
-      sender: 'user',
-      timestamp: new Date()
-    }
-  ];
-
+  public messages: Message[] = [];
   public newMessage: string = '';
   public isTyping: boolean = false;
+  public connectionStatus: 'connected' | 'disconnected' | 'connecting' = 'disconnected';
+
+  ngOnInit() {
+    this.connectWebSocket();
+  }
+
+  ngOnDestroy() {
+    this.cleanup();
+  }
+
+  private cleanup() {
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+    }
+    if (this.socket) {
+      this.socket.close();
+    }
+  }
+
+  private addSystemMessage(text: string) {
+      console.log(text);
+  }
+
+  private connectWebSocket() {
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      return;
+    }
+
+    this.connectionStatus = 'connecting';
+    try {
+      this.socket = new WebSocket('ws://localhost:8000/ws/123');
+
+      this.socket.onopen = () => {
+        console.log('WebSocket connection established');
+        this.connectionStatus = 'connected';
+        this.reconnectAttempts = 0;
+        this.addSystemMessage('Connected to chat server');
+      };
+
+      this.socket.onmessage = (event) => {
+        const messageText = event.data;
+        console.log('Received message:', messageText);
+
+        // Parse the message to separate sender and content
+        const [sender, ...contentParts] = messageText.split(':');
+        const content = contentParts.join(':').trim();
+
+        if (content) {
+          const message: Message = {
+            text: content,
+            sender: sender.trim() === 'You' ? 'user' : 'bot',
+            timestamp: new Date()
+          };
+          
+          if (message.sender === 'bot') {
+            this.messages.push(message);
+            this.isTyping = false;
+          }
+        }
+      };
+
+      this.socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        this.connectionStatus = 'disconnected';
+        this.addSystemMessage('Connection error occurred');
+      };
+
+      this.socket.onclose = () => {
+        console.log('WebSocket connection closed');
+        this.connectionStatus = 'disconnected';
+        this.attemptReconnect();
+      };
+
+    } catch (error) {
+      console.error('Failed to create WebSocket connection:', error);
+      this.connectionStatus = 'disconnected';
+      this.attemptReconnect();
+    }
+  }
+
+  private attemptReconnect() {
+    if (this.reconnectAttempts < this.maxReconnectAttempts) {
+      this.reconnectAttempts++;
+      console.log(`Attempting to reconnect... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
+      this.addSystemMessage(`Attempting to reconnect... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
+
+      this.reconnectTimeout = setTimeout(() => {
+        this.connectWebSocket();
+      }, 5000);
+    } else {
+      console.log('Max reconnection attempts reached');
+      this.addSystemMessage('Failed to connect to chat server. Please refresh the page to try again.');
+    }
+  }
 
   public sendMessage(): void {
-    if (!this.newMessage.trim()) return;
+    if (!this.newMessage.trim() || this.connectionStatus !== 'connected') return;
+    
+    const messageToSend = this.newMessage.trim();
+    console.log('Sending message:', messageToSend);
 
     const userMsg: Message = {
-      text: this.newMessage,
+      text: messageToSend,
       sender: 'user',
       timestamp: new Date()
     };
 
-    this.messages.push(userMsg);
-    this.newMessage = '';
-    this.isTyping = true;
-
-    setTimeout(() => {
-      const botReply: Message = {
-        text: this.getBotReply(userMsg.text),
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      this.isTyping = false;
-      this.messages.push(botReply);
-    }, 2000);
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.messages.push(userMsg);  // Add user message to chat
+      this.isTyping = true;         // Start typing animation
+      this.newMessage = '';         // Clear input
+      this.socket.send(messageToSend);  // Send message to server
+    } else {
+      this.addSystemMessage('Message could not be sent. Connection lost.');
+    }
   }
 
-  private getBotReply(input: string): string {
-    if (input.toLowerCase().includes('hello')) {
-      return 'Hi there! How can I help you today?';
+  public selectOption(option: string): void {
+    if (this.connectionStatus !== 'connected') return;
+
+    const userMsg: Message = {
+      text: option,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.messages.push(userMsg);
+      this.isTyping = true;
+      this.socket.send(option);
+    } else {
+      this.addSystemMessage('Option could not be sent. Connection lost.');
     }
-    return "I'm here to assist you!";
   }
 }

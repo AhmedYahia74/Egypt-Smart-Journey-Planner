@@ -214,3 +214,59 @@ body, html {
   scrollbar-width: thin;
   scrollbar-color: #1B4353 transparent;
 }
+
+.message-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.option-button {
+  background-color: #1B4353;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-align: left;
+  max-width: 100%;
+  word-wrap: break-word;
+  margin: 4px 0;
+}
+
+.option-1 {
+  background-color: #2a5a6e;
+  border-left: 4px solid #4CAF50;
+}
+
+.option-2 {
+  background-color: #2a5a6e;
+  border-left: 4px solid #2196F3;
+}
+
+.option-3 {
+  background-color: #2a5a6e;
+  border-left: 4px solid #FF9800;
+}
+
+.option-button:hover {
+  transform: translateX(5px);
+  background-color: #3a6a7e;
+}
+
+.system-message {
+  justify-content: center;
+  margin: 8px auto !important;
+  max-width: 90% !important;
+}
+
+.system-text {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #8B8B8B !important;
+  font-style: italic;
+  text-align: center;
+  padding: 8px 16px !important;
+}
