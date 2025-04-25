@@ -18,16 +18,17 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 print("✅ Custom Action Server is running...")  # Debugging message
 
-DB_Prams=get_db_params()
-store_msgs=Store_User_Messages()
+DB_Prams = get_db_params()
+store_msgs = Store_User_Messages()
+
 
 def fetch_cities_from_database():
-    conn=None
-    cur=None
+    conn = None
+    cur = None
     cities_names = []
     try:
-        conn=psycopg2.connect(**DB_Prams)
-        cur=conn.cursor()
+        conn = psycopg2.connect(**DB_Prams)
+        cur = conn.cursor()
         cur.execute("SELECT * FROM states")
         for row in cur:
             cities_names.append(row[1])
@@ -51,35 +52,32 @@ class ValidateTripForm(FormValidationAction):
         return "validate_trip_form"
 
     async def required_slots(
-        self,
-        domain_slots: List[Text],
-        dispatcher: "CollectingDispatcher",
-        tracker: "Tracker",
-        domain: Dict[Text, Any],
+            self,
+            domain_slots: List[Text],
+            dispatcher: "CollectingDispatcher",
+            tracker: "Tracker",
+            domain: Dict[Text, Any],
     ) -> List[Text]:
-        required_slots=[]
-
+        required_slots = []
 
         if tracker.get_slot("state") is None and tracker.get_slot("specify_place") is None:
             required_slots.append("specify_place")
         if tracker.get_slot("specify_place") is True:
             required_slots.append("state")
-        elif tracker.get_slot("specify_place") is False :
-            required_slots.append( "city_description")
+        elif tracker.get_slot("specify_place") is False:
+            required_slots.append("city_description")
 
-        required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
+        required_slots.extend(["budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
 
         return required_slots
 
-
-
     def validate_specify_place(self,
-                            slot_value: Any,
-                            dispatcher: CollectingDispatcher,
-                            tracker: Tracker,
-                            domain: Dict[Text, Any]) -> Dict[Text, Any]:
+                               slot_value: Any,
+                               dispatcher: CollectingDispatcher,
+                               tracker: Tracker,
+                               domain: Dict[Text, Any]) -> Dict[Text, Any]:
 
-        intent=tracker.latest_message['intent'].get('name')
+        intent = tracker.latest_message['intent'].get('name')
         if intent == "deny":
             return {"specify_place": False}
         elif intent == "affirm":
@@ -92,19 +90,18 @@ class ValidateTripForm(FormValidationAction):
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
         city = tracker.get_slot("state") or slot_value
-        user_messages= tracker.get_slot("user_message")
+        user_messages = tracker.get_slot("user_message")
         if city.lower() in [city.lower() for city in CITIES_NAMES]:
-            user_messages["state"]= tracker.latest_message.get('text', '')
+            user_messages["state"] = tracker.latest_message.get('text', '')
             return {"state": city, "user_message": [user_messages]}
         else:
             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
             return {"state": None}
 
-
     def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
-                                      domain: Dict[Text, Any]) -> Dict[Text, Any]:
+                                  domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            suggest_cities_url= get_api_urls().get("suggest_city")
+            suggest_cities_url = get_api_urls().get("suggest_city")
             if not suggest_cities_url:
                 raise KeyError("'suggest_cities' key not found in API URLs configuration")
             response = requests.post(
@@ -117,9 +114,9 @@ class ValidateTripForm(FormValidationAction):
                 buttons = [{"title": city['name'], "payload": f"/inform{{\"state\": \"{city['name']}\"}}"} for city in
                            response.json()["top_cities"]]
                 dispatcher.utter_message(text="Here are some suggested cities that may suit you", buttons=buttons)
-                user_messages= tracker.get_slot("user_message") or {}
-                user_messages["city_description"]=tracker.latest_message.get('text', '')
-                return {"city_description": slot_value,"user_message": user_messages}
+                user_messages = tracker.get_slot("user_message") or {}
+                user_messages["city_description"] = tracker.latest_message.get('text', '')
+                return {"city_description": slot_value, "user_message": user_messages}
             else:
                 dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again.")
                 return {"city_description": None}
@@ -128,7 +125,8 @@ class ValidateTripForm(FormValidationAction):
                 f"Something went wrong while processing your city description. Please try again. Error: {str(e)}")
             return {"city_description": None}
 
-    def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+    def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
             match = re.match(r'(\$?\d+|[\w\s-]+)\s*(dollar|dollars|usd)?', slot_value, re.IGNORECASE)
             if not match:
@@ -154,12 +152,13 @@ class ValidateTripForm(FormValidationAction):
                 return {"budget": None}
 
             if not self.is_trip_available_within_budget(budget):
-                dispatcher.utter_message("Sorry, we don't have any trips available within your budget. Please try a higher budget.")
+                dispatcher.utter_message(
+                    "Sorry, we don't have any trips available within your budget. Please try a higher budget.")
                 return {"budget": None}
 
-            user_message= tracker.get_slot("user_message") or {}
-            user_message["budget"]=tracker.latest_message.get('text', '')
-            return {"budget": budget, "user_message":user_message}
+            user_message = tracker.get_slot("user_message") or {}
+            user_message["budget"] = tracker.latest_message.get('text', '')
+            return {"budget": budget, "user_message": user_message}
 
         except Exception as e:
             dispatcher.utter_message("Something went wrong while processing the budget. Please try again.")
@@ -171,7 +170,8 @@ class ValidateTripForm(FormValidationAction):
 
         return budget >= 100
 
-    def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+    def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                          domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
             match = re.match(r'(\d+|[\w\s-]+)\s*(day|week|month|days|weeks|months)', slot_value, re.IGNORECASE)
             if not match:
@@ -202,8 +202,8 @@ class ValidateTripForm(FormValidationAction):
             if duration_days <= 0:
                 dispatcher.utter_message("Please enter a valid duration,the duration should be greater than zero.")
                 return {"duration": None}
-            user_message= tracker.get_slot("user_message") or {}
-            user_message["duration"]=tracker.latest_message.get('text', '')
+            user_message = tracker.get_slot("user_message") or {}
+            user_message["duration"] = tracker.latest_message.get('text', '')
             return {"duration": duration_days, "user_message": user_message}
 
         except Exception as e:
@@ -211,30 +211,34 @@ class ValidateTripForm(FormValidationAction):
             return {"duration": None}
 
     # Validate the arrival date
-    def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+    def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                              domain: Dict[Text, Any]) -> Dict[Text, Any]:
 
         try:
             date_or_range = self.parse_flexible_date(slot_value)
 
             if not date_or_range:
-                dispatcher.utter_message("Please enter a valid date or time frame (e.g., 'next week', '15th October', 'summer').")
+                dispatcher.utter_message(
+                    "Please enter a valid date or time frame (e.g., 'next week', '15th October', 'summer').")
                 return {"arrival_date": None}
 
             if isinstance(date_or_range, datetime):
                 if date_or_range < datetime.now():
-                    dispatcher.utter_message("The arrival date cannot be in the past. Please enter a future date or time frame.")
+                    dispatcher.utter_message(
+                        "The arrival date cannot be in the past. Please enter a future date or time frame.")
                     return {"arrival_date": None}
                 unified_date = date_or_range.strftime("%Y-%m-%d")
             else:
                 start_date, end_date = date_or_range
                 if start_date < datetime.now():
-                    dispatcher.utter_message("The arrival date cannot be in the past. Please enter a future date or time frame.")
+                    dispatcher.utter_message(
+                        "The arrival date cannot be in the past. Please enter a future date or time frame.")
                     return {"arrival_date": None}
                 unified_date = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
 
             # Store the user message in the slot
-            user_messages= tracker.get_slot("user_message") or {}
-            user_messages["arrival_date"]=tracker.latest_message.get('text', '')
+            user_messages = tracker.get_slot("user_message") or {}
+            user_messages["arrival_date"] = tracker.latest_message.get('text', '')
             return {"arrival_date": unified_date, "user_message": user_messages}
 
         except Exception as e:
@@ -296,15 +300,15 @@ class ValidateTripForm(FormValidationAction):
         """
         try:
             date_input = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date_input)
-            
+
             # Try parsing with common date formats
             date_formats = [
                 "%d %B %Y",  # 15 October 2023
                 "%d %b %Y",  # 15 Oct 2023
-                "%d %B",     # 15 October (assumes current year)
-                "%d %b",     # 15 Oct (assumes current year)
+                "%d %B",  # 15 October (assumes current year)
+                "%d %b",  # 15 Oct (assumes current year)
             ]
-            
+
             for fmt in date_formats:
                 try:
                     return datetime.strptime(date_input, fmt)
@@ -325,7 +329,7 @@ class ValidateTripForm(FormValidationAction):
                 "may": 5, "june": 6, "july": 7, "august": 8,
                 "september": 9, "october": 10, "november": 11, "december": 12,
             }
-            
+
             for month_name, month_num in month_names.items():
                 if month_name in date_input:
                     year = datetime.now().year
@@ -380,19 +384,17 @@ class ValidateTripForm(FormValidationAction):
         else:
             return (datetime(today.year + 1, 1, 1), datetime(today.year + 1, 3, 31))
 
-
     def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                                 domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        user_message= tracker.get_slot("user_message") or {}
-        user_message["hotel_features"]= tracker.latest_message.get('text', '')
-        return {"hotel_features": slot_value,"user_message": user_message}
+        user_message = tracker.get_slot("user_message") or {}
+        user_message["hotel_features"] = tracker.latest_message.get('text', '')
+        return {"hotel_features": slot_value, "user_message": user_message}
 
-
-
-    def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        user_message= tracker.get_slot("user_message") or {}
-        user_message["landmarks_activities"]= tracker.latest_message.get('text', '')
-        return {"landmarks_activities": slot_value,"user_message": user_message}
+    def validate_landmarks_activities(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                                      domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        user_message = tracker.get_slot("user_message") or {}
+        user_message["landmarks_activities"] = tracker.latest_message.get('text', '')
+        return {"landmarks_activities": slot_value, "user_message": user_message}
 
 
 class ActionClearChat(Action):
@@ -400,12 +402,13 @@ class ActionClearChat(Action):
         return "action_clear_chat"
 
     async def run(self, dispatcher, tracker: Tracker, domain):
-        conn=None
-        cur=None
+        conn = None
+        cur = None
         try:
-            conn=psycopg2.connect(**DB_Prams)
-            cur=conn.cursor()
-            cur.execute("UPDATE conversation_data SET user_msgs= %s, slot_values= %s  WHERE conversation_id=%s",(None,None,tracker.sender_id,))
+            conn = psycopg2.connect(**DB_Prams)
+            cur = conn.cursor()
+            cur.execute("UPDATE conversation_data SET user_msgs= %s, slot_values= %s  WHERE conversation_id=%s",
+                        (None, None, tracker.sender_id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")
@@ -424,7 +427,9 @@ class StoreUserMessages(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         for key in tracker.slots.keys():
             if tracker.slots[key]:
-                store_msgs.store_user_message(key, tracker.get_slot(key), tracker.latest_message.get('text', ''), tracker.sender_id)
+                store_msgs.store_user_message(key, tracker.get_slot(key), tracker.latest_message.get('text', ''),
+                                              tracker.sender_id)
+
 
 class SuggestPlan(Action):
     def name(self) -> Text:
@@ -531,13 +536,15 @@ class SuggestPlan(Action):
             if response.status_code == 200:
                 plan = response.json()
                 if plan:
-                    print("plan: ",plan)
-                    dispatcher.utter_message(f"Here is a suggested plan for your trip to {city_name}:")
-                    dispatcher.utter_message(json_message=plan)
+                    print("plan: ", plan)
+                    dispatcher.utter_message(f"Here is a suggested plan for your trip to {city_name}:{plan}")
+
                 else:
-                    dispatcher.utter_message("Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration.")
+                    dispatcher.utter_message(
+                        "Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration.")
             else:
-                dispatcher.utter_message(f"Sorry, I couldn't process your plan request. Status code: {response.status_code}")
+                dispatcher.utter_message(
+                    f"Sorry, I couldn't process your plan request. Status code: {response.status_code}")
 
         except KeyError as ke:
             dispatcher.utter_message(f"Configuration error: {str(ke)}")
