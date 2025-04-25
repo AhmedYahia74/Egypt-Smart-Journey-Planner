@@ -5,7 +5,7 @@ import numpy as np
 app = FastAPI()
 
 
-model = SentenceTransformer('..\Fine-tuning-SBERT\\fine-tuned-sbert-for-tourism-data')
+model = SentenceTransformer("Camellia-Mohamed/fine-tuned-sbert-for-tourism")
 def split_into_chunks(text, chunk_size=200, overlap=50):
     words = text.split()
     chunks = []
