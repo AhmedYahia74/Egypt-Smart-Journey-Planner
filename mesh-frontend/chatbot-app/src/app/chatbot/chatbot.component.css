@@ -220,21 +220,23 @@ body, html {
   flex-direction: column;
   gap: 8px;
   margin-top: 8px;
+  width: 100%;
 }
 
 .option-button {
   background-color: #1B4353;
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
+  padding: 12px 20px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   transition: all 0.3s ease;
   text-align: left;
   max-width: 100%;
   word-wrap: break-word;
   margin: 4px 0;
+  width: 100%;
 }
 
 .option-1 {

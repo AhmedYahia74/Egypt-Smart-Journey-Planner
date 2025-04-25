@@ -6,7 +6,7 @@
            class="avatar" 
            [alt]="message.sender === 'user' ? user.name : bot.name">
       <div class="message-content">
-        <div class="message-text">{{message.text}}</div>
+        <div *ngIf="!message.options && message.text" class="message-text">{{message.text}}</div>
         <div *ngIf="message.options" class="message-options">
           <button *ngFor="let option of message.options; let i = index" 
                   (click)="selectOption(option)"
