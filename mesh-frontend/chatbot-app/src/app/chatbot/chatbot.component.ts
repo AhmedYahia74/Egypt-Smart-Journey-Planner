@@ -5,9 +5,13 @@ import { log } from 'console';
 
 interface Message {
   text: string;
-  sender: 'user' | 'bot' ;
+  sender: 'user' | 'bot';
   timestamp: Date;
-  options?: [string, string, string];
+  options?: string[];
+  buttons?: Array<{
+    title: string;
+    payload: string;
+  }>;
 }
 
 interface User {
@@ -84,24 +88,49 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       };
 
       this.socket.onmessage = (event) => {
-        const messageText = event.data;
-        console.log('Received message:', messageText);
+        let messageData;
+        try {
+          messageData = JSON.parse(event.data);
+        } catch (e) {
+          // Handle plain text messages
+          const messageText = event.data;
+          console.log('Received text message:', messageText);
 
-        // Parse the message to separate sender and content
-        const [sender, ...contentParts] = messageText.split(':');
-        const content = contentParts.join(':').trim();
+          // Parse the message to separate sender and content
+          const [sender, ...contentParts] = messageText.split(':');
+          const content = contentParts.join(':').trim();
 
-        if (content) {
+          if (content) {
+            const message: Message = {
+              text: content,
+              sender: sender.trim() === 'You' ? 'user' : 'bot',
+              timestamp: new Date()
+            };
+            
+            if (message.sender === 'bot') {
+              this.messages.push(message);
+              this.isTyping = false;
+            }
+          }
+          return;
+        }
+
+        // Handle JSON messages (for buttons)
+        console.log('Received JSON message:', messageData);
+        if (messageData.text) {
           const message: Message = {
-            text: content,
-            sender: sender.trim() === 'You' ? 'user' : 'bot',
+            text: messageData.text,
+            sender: 'bot',
             timestamp: new Date()
           };
-          
-          if (message.sender === 'bot') {
-            this.messages.push(message);
-            this.isTyping = false;
+
+          if (messageData.buttons) {
+            message.buttons = messageData.buttons;
+            message.options = messageData.buttons.map((button: { title: string; }) => button.title);
           }
+          
+          this.messages.push(message);
+          this.isTyping = false;
         }
       };
 
@@ -164,6 +193,11 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   public selectOption(option: string): void {
     if (this.connectionStatus !== 'connected') return;
 
+    // Find the corresponding button payload
+    const lastBotMessage = this.messages[this.messages.length - 1];
+    const selectedButton = lastBotMessage.buttons?.find(button => button.title === option);
+    const payload = selectedButton?.payload || option;
+
     const userMsg: Message = {
       text: option,
       sender: 'user',
@@ -173,7 +207,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     if (this.socket?.readyState === WebSocket.OPEN) {
       this.messages.push(userMsg);
       this.isTyping = true;
-      this.socket.send(option);
+      this.socket.send(payload);
     } else {
       this.addSystemMessage('Option could not be sent. Connection lost.');
     }
