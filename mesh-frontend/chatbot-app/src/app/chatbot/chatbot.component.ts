@@ -117,9 +117,9 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
         // Handle JSON messages (for buttons)
         console.log('Received JSON message:', messageData);
-        if (messageData.text) {
+        if (messageData.text || messageData.buttons) {
           const message: Message = {
-            text: messageData.text,
+            text: messageData.text || '',
             sender: 'bot',
             timestamp: new Date()
           };
