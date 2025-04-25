@@ -1,10 +1,11 @@
 import json
 
+from anyio.abc import value
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import HTMLResponse
 import requests
 from fastapi.middleware.cors import CORSMiddleware
-from config_helper import get_db_params, get_api_urls
+from config_helper import  get_api_urls
 
 app = FastAPI()
 
@@ -12,6 +13,10 @@ NGROK_URL = get_api_urls().get('ngrok')
 LOCAL_HOST_URL = get_api_urls().get('local')
 RASA_SERVER_URL = get_api_urls().get('rasa_server')
 RASA_RESET_URL = get_api_urls().get('rasa_reset')
+SUGGEST_PLAN_URL = get_api_urls().get('suggest_plan')
+SUGGEST_HOTELS_URL = get_api_urls().get('suggest_hotels')
+SUGGEST_LANDMARKS_ACTIVITIES_URL = get_api_urls().get('suggest_landmarks_activities')
+
 
 
 app.add_middleware(
@@ -193,10 +198,9 @@ html = f"""
 async def get():
     return HTMLResponse(html)
 
-def handle_city_description(websocket: WebSocket, conversation_id: str, data: str):
-    pass
+SUGGEST_MSG="suggest your trip"
 
-# after finishing testing , set the conversation_id to int and replace every id with conversation_id
+# after finishing testing, set the conversation_id to int and replace every id with conversation_id
 @app.websocket("/ws/{conversation_id}")
 async def manage_chat_session(websocket: WebSocket, conversation_id: str):
     await websocket.accept()
@@ -213,6 +217,7 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
 
                 if response.status_code == 200:
                     messages = response.json()
+
                     for msg in messages:
                         text = msg.get("text", "").strip()
                         buttons= msg.get("buttons", [])
