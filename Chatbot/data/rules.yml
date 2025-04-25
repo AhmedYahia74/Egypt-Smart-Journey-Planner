@@ -56,7 +56,7 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
-#  - action: action_suggest_trip
+  - action: action_suggest_plan
 
 - rule: Interruption in trip form
   condition:
@@ -67,11 +67,6 @@ rules:
     - action: trip_form
     - active_loop: trip_form
 
-- rule: Store user messages for share budget intent
-  steps:
-    - intent: share_budget
-    - action: action_store_user_messages
-    - action: action_listen
 
 - rule: User wants to restart the conversation
   steps:

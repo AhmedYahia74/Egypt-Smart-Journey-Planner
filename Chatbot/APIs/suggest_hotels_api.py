@@ -55,7 +55,7 @@ def get_hotels_facilities(conn, city_name, facilities_ids, price_limit_per_night
                           JOIN rooms r ON h.hotel_id = r.hotel_id
                           JOIN states s ON h.state_id = s.state_id
                           WHERE lower(s.name) LIKE %s and hf.facility_id = ANY(%s)
-                           and r.total_price <= %s'''
+                           and r.total_price <= %s limit 10'''
         cur.execute(select_query, ('%' + city_name.lower() + '%',facilities_ids, price_limit_per_night))
         result = cur.fetchall()
         hotels = {}
@@ -94,10 +94,10 @@ def calculate_matching_score(hotel_facilities, user_facilities):
         # Calculate the final score
         normalized_score= alpha * matching_score + beta * normalized_price
 
-        hotel_data["matching_score"] = normalized_score
+        hotel_data["score"] = normalized_score
 
     # Sort hotels by matching score in descending order
-    sorted_hotels = sorted(hotel_facilities.values(), key=lambda x: x["matching_score"], reverse=True)
+    sorted_hotels = sorted(hotel_facilities.values(), key=lambda x: x["score"], reverse=True)
     return sorted_hotels
 
 
@@ -106,7 +106,7 @@ def calculate_matching_score(hotel_facilities, user_facilities):
 class HotelRequest(BaseModel):
     city_name: str
     duration: int
-    budget: int
+    budget: float
     user_facilities: List[str]
 @app.post("/suggest_hotels")
 def suggest_hotels(request: HotelRequest):
@@ -129,7 +129,7 @@ def suggest_hotels(request: HotelRequest):
                 "hotel_id": hotel["hotel_id"],
                 "hotel_name": hotel["hotel_name"],
                 "facilities": list(hotel["facilities"]),
-                "matching_score": hotel["matching_score"]
+                "score": hotel["score"]
             }
 
             # Handle NaN values in price
