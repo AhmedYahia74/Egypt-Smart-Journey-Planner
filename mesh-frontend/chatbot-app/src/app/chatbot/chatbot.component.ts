@@ -89,48 +89,53 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
       this.socket.onmessage = (event) => {
         let messageData;
-        try {
-          messageData = JSON.parse(event.data);
-        } catch (e) {
-          // Handle plain text messages
-          const messageText = event.data;
-          console.log('Received text message:', messageText);
+        const messageText = event.data;
+        console.log('Received message:', messageText);
 
-          // Parse the message to separate sender and content
-          const [sender, ...contentParts] = messageText.split(':');
-          const content = contentParts.join(':').trim();
-
-          if (content) {
-            const message: Message = {
-              text: content,
-              sender: sender.trim() === 'You' ? 'user' : 'bot',
-              timestamp: new Date()
-            };
-            
-            if (message.sender === 'bot') {
-              this.messages.push(message);
-              this.isTyping = false;
-            }
-          }
+        // Skip if it's a user message echo from server
+        if (messageText.startsWith('You:')) {
           return;
         }
 
-        // Handle JSON messages (for buttons)
-        console.log('Received JSON message:', messageData);
-        if (messageData.text || messageData.buttons) {
-          const message: Message = {
-            text: messageData.text || '',
-            sender: 'bot',
-            timestamp: new Date()
-          };
+        // First check if the message starts with "Rahhal: " and contains JSON
+        if (messageText.startsWith('Rahhal: {')) {
+          try {
+            // Extract the JSON part after "Rahhal: "
+            const jsonStr = messageText.substring('Rahhal: '.length);
+            messageData = JSON.parse(jsonStr);
+            
+            const message: Message = {
+              text: messageData.text || '',
+              sender: 'bot',
+              timestamp: new Date()
+            };
 
-          if (messageData.buttons) {
-            message.buttons = messageData.buttons;
-            message.options = messageData.buttons.map((button: { title: string; }) => button.title);
+            if (messageData.buttons) {
+              message.buttons = messageData.buttons;
+              message.options = messageData.buttons.map((button: { title: string; }) => button.title);
+            }
+            
+            this.messages.push(message);
+            this.isTyping = false;
+            return;
+          } catch (e) {
+            console.error('Error parsing JSON message:', e);
           }
-          
-          this.messages.push(message);
-          this.isTyping = false;
+        }
+
+        // Handle regular bot messages
+        if (messageText.startsWith('Rahhal:')) {
+          const content = messageText.substring('Rahhal:'.length).trim();
+          if (content) {
+            const message: Message = {
+              text: content,
+              sender: 'bot',
+              timestamp: new Date()
+            };
+            
+            this.messages.push(message);
+            this.isTyping = false;
+          }
         }
       };
 
