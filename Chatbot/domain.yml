@@ -80,29 +80,19 @@ slots:
     mappings:
       - type: from_text
         intent: describe_city
+
   modify_request:
     type: text
     mappings:
       - type: from_entity
         entity: modify_field
 
-  activities_recommendations:
-    type: list
+  user_message:
+    type: any
     influence_conversation: false
     mappings:
       - type: custom
 
-  landmarks_recommendations:
-    type: list
-    influence_conversation: false
-    mappings:
-      - type: custom
-
-  hotels_recommendations:
-    type: list
-    influence_conversation: false
-    mappings:
-      - type: custom
 
 forms:
   trip_form:
@@ -241,6 +231,7 @@ actions:
 - action_clear_chat
 - action_store_user_messages
 - action_suggest_hotels
+- action_suggest_plan
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
