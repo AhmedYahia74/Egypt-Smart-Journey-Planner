@@ -19,6 +19,7 @@ class PlanRequest(BaseModel):
 
 def search_optimal_items(budget, activity_landmark_options):
     scale = 100
+
     max_b= int(budget*scale)+1
     dp=[0]*max_b
     selected_options=[[] for _ in range(max_b)]
@@ -42,7 +43,7 @@ def search_optimal_items(budget, activity_landmark_options):
 def seperate_activities_landmarks(selected_options,activities,landmarks):
     activities_options=[item for item in selected_options if item in activities]
     landmarks_options=[item for item in selected_options if item in landmarks]
-    return activities_options,landmarks_options
+    return activities_options[:5],landmarks_options[:5]
 def calculate_similarity(comb1, comb2):
     hotel_overlap = int(comb1['hotel']['hotel_id'] == comb2['hotel']['hotel_id'])
     activity_overlap = len(set(a['id'] for a in comb1['activities']) & set(a['id'] for a in comb2['activities']))
