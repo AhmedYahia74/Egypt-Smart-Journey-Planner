@@ -13,6 +13,7 @@ app = FastAPI()
 class PlanRequest(BaseModel):
     city_name: str
     budget: float
+    duration: int
     suggested_hotels: List[dict]
     suggested_activities: List[dict]
     suggested_landmarks: List[dict]
@@ -52,7 +53,7 @@ def calculate_similarity(comb1, comb2):
 
 
 
-def find_best_plan_options(hotels, activities, landmarks, budget):
+def find_best_plan_options(hotels, activities, landmarks, budget, duration):
    activity_landmark_options = activities + landmarks
    for item_list in activity_landmark_options:
         for key,item in item_list.items():
@@ -61,6 +62,7 @@ def find_best_plan_options(hotels, activities, landmarks, budget):
    best_options = []
    activity_landmark_options.sort(key=lambda x: x['score'], reverse=True)
    for hotel in hotels:
+       hotel['price_per_night'] *= duration
        remaining_budget = budget - hotel['price_per_night']
        if remaining_budget <= 0:
            continue
@@ -95,7 +97,8 @@ def suggest_plan(request: PlanRequest):
         request.suggested_hotels,
         request.suggested_activities,
         request.suggested_landmarks,
-        request.budget
+        request.budget,
+        request.duration
     )
     displayed_plan_combinations = []
     remove_keys = ['id', 'score']
