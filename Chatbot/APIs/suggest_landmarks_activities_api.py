@@ -11,7 +11,7 @@ app = FastAPI()
 EMBEDDING_API_URL = get_api_urls().get('embedding')
 DB_Prams = get_db_params()
 ACTIVITY_QUERY = """
-    SELECT activity_id, A.name, A.description, 1 - (A.embedding <=> %s::vector) AS similarity , price 
+    SELECT activity_id, A.name, A.description, 1 - (A.embedding <=> %s::vector) AS similarity , price , A.duration_in_hours
     FROM activities A 
     JOIN states S ON A.state_id = S.state_id
     WHERE lower(S.name) LIKE %s 
@@ -36,14 +36,17 @@ def get_db_connection():
 
 
 
-def convert_row_to_dict(row: tuple):
-    return {
+def convert_row_to_dict(row: tuple,kind):
+    ret={
         "id": row[0],
         "name": row[1],
         "description": row[2],
         "score": row[3],
         "price":row[4]
     }
+    if kind == 'a':
+        ret['duration']=row[5]
+    return ret
 def get_embedding(text: str) -> List[float]:
     response = requests.post(EMBEDDING_API_URL, json={"text": text})
     if response.status_code != 200:
@@ -91,7 +94,7 @@ def get_activities_by_text(conn, city_name, user_massage):
         embedding = get_embedding(user_massage)
         cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%', ))
         result = cursor.fetchall()
-        result= [convert_row_to_dict(row) for row in result]
+        result= [convert_row_to_dict(row,'a') for row in result]
 
 
         return result
@@ -103,7 +106,7 @@ def get_activities_by_user_activities(conn, city_name, user_activities):
             # get the embedding for the activity
             embedding = get_embedding(activity)
             cursor.execute(ACTIVITY_QUERY, (embedding, '%' + city_name.lower() + '%',))
-            activities_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
+            activities_list.extend(convert_row_to_dict(row,'a') for row in cursor.fetchall())
         activities_list = list({activity['id']: activity for activity in activities_list}.values())
 
         return activities_list
@@ -116,7 +119,7 @@ def get_landmark_by_text(conn, city_name, user_massage):
         embedding = get_embedding(user_massage)
         cursor.execute(LANDMARK_QUERY, (embedding, '%' + city_name.lower() + '%', ))
         result = cursor.fetchall()
-        return [convert_row_to_dict(row) for row in result]
+        return [convert_row_to_dict(row,'l') for row in result]
 def get_landmark_by_user_activities(conn, city_name, user_activities):
     landmarks_list = []
     with conn.cursor() as cursor:
@@ -124,7 +127,7 @@ def get_landmark_by_user_activities(conn, city_name, user_activities):
             # get the embedding for the activity
             embedding = get_embedding(landmark)
             cursor.execute(LANDMARK_QUERY, (embedding, '%' + city_name.lower() + '%',))
-            landmarks_list.extend(convert_row_to_dict(row) for row in cursor.fetchall())
+            landmarks_list.extend(convert_row_to_dict(row,'l') for row in cursor.fetchall())
         return list({landmark['id']: landmark for landmark in landmarks_list}.values())
 
 if __name__ == "__main__":

@@ -126,9 +126,8 @@ def suggest_hotels(request: HotelRequest):
         hotels = []
         for hotel in sorted_hotels:
             hotel_data = {
-                "hotel_id": hotel["hotel_id"],
+                'id': hotel['hotel_id'],
                 "hotel_name": hotel["hotel_name"],
-                "facilities": list(hotel["facilities"]),
                 "score": hotel["score"]
             }
 

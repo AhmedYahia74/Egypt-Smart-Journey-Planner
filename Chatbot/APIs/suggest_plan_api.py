@@ -13,12 +13,14 @@ app = FastAPI()
 class PlanRequest(BaseModel):
     city_name: str
     budget: float
+    duration: int
     suggested_hotels: List[dict]
     suggested_activities: List[dict]
     suggested_landmarks: List[dict]
 
 def search_optimal_items(budget, activity_landmark_options):
     scale = 100
+
     max_b= int(budget*scale)+1
     dp=[0]*max_b
     selected_options=[[] for _ in range(max_b)]
@@ -42,7 +44,7 @@ def search_optimal_items(budget, activity_landmark_options):
 def seperate_activities_landmarks(selected_options,activities,landmarks):
     activities_options=[item for item in selected_options if item in activities]
     landmarks_options=[item for item in selected_options if item in landmarks]
-    return activities_options,landmarks_options
+    return activities_options[:5],landmarks_options[:5]
 def calculate_similarity(comb1, comb2):
     hotel_overlap = int(comb1['hotel']['hotel_id'] == comb2['hotel']['hotel_id'])
     activity_overlap = len(set(a['id'] for a in comb1['activities']) & set(a['id'] for a in comb2['activities']))
@@ -51,7 +53,7 @@ def calculate_similarity(comb1, comb2):
 
 
 
-def find_best_plan_options(hotels, activities, landmarks, budget):
+def find_best_plan_options(hotels, activities, landmarks, budget, duration):
    activity_landmark_options = activities + landmarks
    for item_list in activity_landmark_options:
         for key,item in item_list.items():
@@ -60,6 +62,7 @@ def find_best_plan_options(hotels, activities, landmarks, budget):
    best_options = []
    activity_landmark_options.sort(key=lambda x: x['score'], reverse=True)
    for hotel in hotels:
+       hotel['price_per_night'] *= duration
        remaining_budget = budget - hotel['price_per_night']
        if remaining_budget <= 0:
            continue
@@ -68,12 +71,13 @@ def find_best_plan_options(hotels, activities, landmarks, budget):
        total_cost = options_cost+ hotel['price_per_night']
        total_score = options_score+hotel['score']
        activities_options,landmarks_options=seperate_activities_landmarks(selected_options,activities,landmarks)
+
        plan_combination = {
            "hotel": hotel,
            "activities": activities_options,
            "landmarks": landmarks_options,
            "total_score": total_score,
-           "total_cost": total_cost
+           "total_plan_cost": total_cost
        }
        if len(best_options) < 3:
             heapq.heappush(best_options,  (total_score, plan_combination))
@@ -93,9 +97,34 @@ def suggest_plan(request: PlanRequest):
         request.suggested_hotels,
         request.suggested_activities,
         request.suggested_landmarks,
-        request.budget
+        request.budget,
+        request.duration
     )
-    return {"plan_combinations": plan_combinations}
+    displayed_plan_combinations = []
+    remove_keys = ['id', 'score']
+    for plan_combination in plan_combinations:
+        temp = {}
+        for key, value in plan_combination.items():
+            if key == 'total_score':
+                continue
+
+            if key == 'hotel':
+                # Hotel is a single dictionary
+                cleaned_hotel = {k: v for k, v in value.items() if k not in remove_keys}
+                temp[key] = cleaned_hotel
+            elif key in ['activities', 'landmarks']:
+                # Activities and landmarks are lists of dictionaries
+                cleaned_items = []
+                for item in value:
+                    cleaned_item = {k: v for k, v in item.items() if k not in remove_keys}
+                    cleaned_items.append(cleaned_item)
+                temp[key] = cleaned_items
+            else:
+                # Handle other keys normally
+                temp[key] = value
+
+        displayed_plan_combinations.append(temp)
+    return {"plan_combinations": displayed_plan_combinations}
 
 if __name__ == "__main__":
     import uvicorn

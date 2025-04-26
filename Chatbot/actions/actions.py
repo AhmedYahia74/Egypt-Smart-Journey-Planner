@@ -526,7 +526,6 @@ class SuggestPlan(Action):
                     "city_name": city_name,
                     "budget": budget,
                     "duration": duration,
-                    "arrival_date": arrival_date,
                     "suggested_hotels": recommended_hotels,
                     "suggested_activities": recommended_activities,
                     "suggested_landmarks": recommended_landmarks
