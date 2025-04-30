@@ -73,3 +73,12 @@ rules:
   - intent: restart
   - action: action_restart
 
+- rule: Handle city selection from buttons
+  condition:
+    - slot_was_set:
+      - awaiting_city_selection: true
+  steps:
+  - intent: inform
+  - action: action_handle_city_selection
+  - action: trip_form
+  - active_loop: trip_form

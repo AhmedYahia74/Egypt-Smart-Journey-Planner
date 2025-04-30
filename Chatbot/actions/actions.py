@@ -5,9 +5,10 @@ from rasa_sdk.events import SlotSet, Restarted
 from typing import Any, Text, Dict, List, Tuple, Optional, Union
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import json
 
-from APIs.suggest_cities_api import suggest_cities
-from APIs.suggest_landmarks_activities_api import user_message
+from sympy.codegen.ast import continue_
+
 from Store_User_Messages import Store_User_Messages
 from word2number import w2n
 from config_helper import get_db_params, get_api_urls
@@ -60,11 +61,13 @@ class ValidateTripForm(FormValidationAction):
     ) -> List[Text]:
         required_slots = []
 
-        if tracker.get_slot("state") is None and tracker.get_slot("specify_place") is None:
+        if tracker.get_slot("awaiting_city_selection"):
+            return ["city_description"]
+        if tracker.get_slot("state") is None and tracker.get_slot("specify_place") is None :
             required_slots.append("specify_place")
-        if tracker.get_slot("specify_place") is True:
+        if tracker.get_slot("specify_place"):
             required_slots.append("state")
-        elif tracker.get_slot("specify_place") is False:
+        elif not tracker.get_slot("specify_place"):
             required_slots.append("city_description")
 
         required_slots.extend(["budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
@@ -116,7 +119,7 @@ class ValidateTripForm(FormValidationAction):
                 dispatcher.utter_message(text="Here are some suggested cities that may suit you", buttons=buttons)
                 user_messages = tracker.get_slot("user_message") or {}
                 user_messages["city_description"] = tracker.latest_message.get('text', '')
-                return {"city_description": slot_value, "user_message": user_messages}
+                return {"city_description": slot_value, "user_message": user_messages, 'awaiting_city_selection': True, "requested_slot": None}
             else:
                 dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again.")
                 return {"city_description": None}
@@ -128,7 +131,7 @@ class ValidateTripForm(FormValidationAction):
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                         domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            match = re.match(r'(\$?\d+|[\w\s-]+)\s*(dollar|dollars|usd)?', slot_value, re.IGNORECASE)
+            match = re.match(r'(\$?\d+|[\w\s-]+\$?)\s*(dollar|dollars|usd)?', slot_value, re.IGNORECASE)
             if not match:
                 dispatcher.utter_message("Please enter a valid budget (e.g., '500 dollars', 'one hundred USD').")
                 return {"budget": None}
@@ -431,6 +434,24 @@ class StoreUserMessages(Action):
                                               tracker.sender_id)
 
 
+class ActionHandleCitySelection(Action):
+    def name(self) -> Text:
+        return "action_handle_city_selection"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # Check if we're awaiting city selection and a state was provided
+        state = tracker.get_slot("state")
+        awaiting_selection = tracker.get_slot("awaiting_city_selection")
+
+        if awaiting_selection and state:
+            dispatcher.utter_message(f"Great! You've selected {state}.")
+            # Reset the awaiting_city_selection flag
+            return [SlotSet("awaiting_city_selection", False)]
+
+        return []
+
 class SuggestPlan(Action):
     def name(self) -> Text:
         return "action_suggest_plan"
@@ -535,8 +556,9 @@ class SuggestPlan(Action):
             if response.status_code == 200:
                 plan = response.json()
                 if plan:
-                    print("plan: ", plan)
-                    dispatcher.utter_message(f"Here is a suggested plan for your trip to {city_name}:{plan}")
+                    json_plan = json.dumps(plan, indent=5)
+                    dispatcher.utter_message(f"Here is a suggested plan for your trip to {city_name}")
+                    dispatcher.utter_message(json_plan)
 
                 else:
                     dispatcher.utter_message(
