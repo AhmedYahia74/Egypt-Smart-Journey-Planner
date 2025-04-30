@@ -94,6 +94,14 @@ slots:
       - type: custom
 
 
+  awaiting_city_selection:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+
 forms:
   trip_form:
     required_slots:
@@ -232,6 +240,7 @@ actions:
 - action_store_user_messages
 - action_suggest_hotels
 - action_suggest_plan
+- action_handle_city_selection
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
