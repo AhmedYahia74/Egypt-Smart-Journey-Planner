@@ -12,6 +12,29 @@ interface Message {
     title: string;
     payload: string;
   }>;
+  plan?: {
+    plan_combinations: Array<{
+      hotel: {
+        name: string;
+        price_per_night: number;
+        location: string;
+        rating: number;
+        amenities: string[];
+      };
+      activities: Array<{
+        name: string;
+        price: number;
+        duration: string;
+        description: string;
+      }>;
+      landmarks: Array<{
+        name: string;
+        price: number;
+        description: string;
+      }>;
+      total_plan_cost: number;
+    }>;
+  };
 }
 
 interface User {
@@ -113,6 +136,10 @@ export class ChatbotComponent implements OnInit, OnDestroy {
             if (messageData.buttons) {
               message.buttons = messageData.buttons;
               message.options = messageData.buttons.map((button: { title: string; }) => button.title);
+            }
+
+            if (messageData.plan) {
+              message.plan = messageData.plan;
             }
             
             this.messages.push(message);

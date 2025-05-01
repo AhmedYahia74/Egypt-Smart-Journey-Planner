@@ -7,6 +7,57 @@
            [alt]="message.sender === 'user' ? user.name : bot.name">
       <div class="message-content">
         <div *ngIf="!message.options && message.text" class="message-text">{{message.text}}</div>
+        <div *ngIf="message.plan" class="plan-container">
+          <div *ngFor="let combination of message.plan.plan_combinations; let i = index" class="plan-combination">
+            <h3 class="plan-title">Option {{i + 1}}</h3>
+            
+            <div class="hotel-section">
+              <h4 class="section-title">Hotel</h4>
+              <div class="hotel-info">
+                <div class="hotel-name">{{combination.hotel.name}}</div>
+                <div class="hotel-details">
+                  <span class="price">${{combination.hotel.price_per_night}}/night</span>
+                  <span class="rating">Rating: {{combination.hotel.rating}}/5</span>
+                </div>
+                <div class="hotel-location">{{combination.hotel.location}}</div>
+                <div class="amenities">
+                  <span *ngFor="let amenity of combination.hotel.amenities" class="amenity-tag">{{amenity}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="activities-section">
+              <h4 class="section-title">Activities</h4>
+              <div class="activities-list">
+                <div *ngFor="let activity of combination.activities" class="activity-item">
+                  <div class="activity-name">{{activity.name}}</div>
+                  <div class="activity-details">
+                    <span class="price">${{activity.price}}</span>
+                    <span class="duration">{{activity.duration}}</span>
+                  </div>
+                  <div class="activity-description">{{activity.description}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="landmarks-section">
+              <h4 class="section-title">Landmarks</h4>
+              <div class="landmarks-list">
+                <div *ngFor="let landmark of combination.landmarks" class="landmark-item">
+                  <div class="landmark-name">{{landmark.name}}</div>
+                  <div class="landmark-details">
+                    <span class="price">${{landmark.price}}</span>
+                  </div>
+                  <div class="landmark-description">{{landmark.description}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="total-cost">
+              Total Cost: ${{combination.total_plan_cost}}
+            </div>
+          </div>
+        </div>
         <div *ngIf="message.options" class="message-options">
           <button *ngFor="let option of message.options; let i = index" 
                   (click)="selectOption(option)"

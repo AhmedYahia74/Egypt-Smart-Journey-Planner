@@ -272,3 +272,118 @@ body, html {
   text-align: center;
   padding: 8px 16px !important;
 }
+
+.plan-container {
+  background-color: #1B4353;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+  color: #ffffff;
+}
+
+.plan-combination {
+  background-color: #2a5a6e;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.plan-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #ffffff;
+  border-bottom: 1px solid #3a6a7e;
+  padding-bottom: 8px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 12px 0 8px;
+  color: #ffffff;
+}
+
+.hotel-info {
+  background-color: #3a6a7e;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.hotel-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.hotel-details {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.hotel-location {
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-bottom: 8px;
+}
+
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.amenity-tag {
+  background-color: #4a7a8e;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.activities-list, .landmarks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item, .landmark-item {
+  background-color: #3a6a7e;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.activity-name, .landmark-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.activity-details, .landmark-details {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.activity-description, .landmark-description {
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+.total-cost {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #3a6a7e;
+  font-weight: bold;
+  text-align: right;
+}
+
+.price {
+  color: #4CAF50;
+}
+
+.rating {
+  color: #FFC107;
+}
