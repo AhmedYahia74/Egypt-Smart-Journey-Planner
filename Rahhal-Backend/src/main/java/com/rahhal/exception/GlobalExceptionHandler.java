@@ -5,8 +5,13 @@ import com.rahhal.enums.ErrorCode;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -65,22 +70,6 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, ErrorCode.USER_NOT_FOUND.getStatus());
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> handleGlobalException(
-            Exception ex, HttpServletRequest request) {
-        log.error("Unexpected Error: {}", ex.getMessage(), ex);
-
-        ErrorResponseDTO error = ErrorResponseDTO.builder()
-                .timestamp(LocalDateTime.now())
-                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().value())
-                .error(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().getReasonPhrase())
-                .message("An unexpected error occurred. Please try again later.")
-                .path(request.getRequestURI())
-                .build();
-
-        return new ResponseEntity<>(error, ErrorCode.INTERNAL_SERVER_ERROR.getStatus());
-    }
-
 
 
     @ExceptionHandler(JwtException.class)
@@ -93,6 +82,36 @@ public class GlobalExceptionHandler {
                 .status(ErrorCode.UNAUTHORIZED.getStatus().value()) // 401 Unauthorized
                 .error(ErrorCode.UNAUTHORIZED.getStatus().getReasonPhrase())
                 .message("Invalid or expired token. Please log in again.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.UNAUTHORIZED.getStatus());
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInternalAuthenticationServiceException(
+            InternalAuthenticationServiceException ex, HttpServletRequest request) {
+        log.error("Internal Authentication Service Error: {}", ex.getMessage(), ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.UNAUTHORIZED.getStatus().value()) // 401 Unauthorized
+                .error(ErrorCode.UNAUTHORIZED.getStatus().getReasonPhrase())
+                .message("Invalid email or password.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.UNAUTHORIZED.getStatus());
+    }
+    @ExceptionHandler(AuthenticationException .class)
+    public ResponseEntity<ErrorResponseDTO> handleAuthenticationException(
+            AuthenticationException ex, HttpServletRequest request) {
+        log.error("Username Not Found: {}", ex.getMessage(), ex);
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.UNAUTHORIZED.getStatus().value()) // 401 Unauthorized
+                .error(ErrorCode.UNAUTHORIZED.getStatus().getReasonPhrase())
+                .message("Invalid email or password.")
                 .path(request.getRequestURI())
                 .build();
 
@@ -190,5 +209,20 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGlobalException(
+            Exception ex, HttpServletRequest request) {
+        log.error("Unexpected Error: {}", ex.getMessage(), ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().value())
+                .error(ErrorCode.INTERNAL_SERVER_ERROR.getStatus().getReasonPhrase())
+                .message("An unexpected error occurred. Please try again later.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.INTERNAL_SERVER_ERROR.getStatus());
+    }
 
 }
