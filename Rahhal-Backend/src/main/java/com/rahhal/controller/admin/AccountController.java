@@ -34,16 +34,24 @@ public class AccountController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable int userId)
+    public ResponseEntity<Void> deleteAccount( @Valid @PathVariable int userId)
     {
         adminService.deleteAccount(userId);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/company/{companyId}")
-    public ResponseEntity<String> reactivateCompany(@PathVariable int companyId) {
+    public ResponseEntity<String> reactivateCompany( @Valid @PathVariable int companyId) {
         adminService.reactivateCompanyAccount(companyId);
         return ResponseEntity.ok("Company account reactivated successfully");
     }
+
+    @PutMapping("/{usuerId}/{status}")
+    public ResponseEntity<String> changeStatus( @Valid @PathVariable int usuerId, @PathVariable boolean status) {
+        adminService.changeAccountStatus(usuerId, status);
+        return ResponseEntity.ok("Account status change successfully");
+    }
+
+
 
 }

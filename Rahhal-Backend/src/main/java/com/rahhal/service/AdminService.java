@@ -10,4 +10,6 @@ public interface AdminService {
     void deleteAccount(int id);
     List<UserDto> viewAllAccounts();
     void reactivateCompanyAccount(int companyId);
+    void changeAccountStatus(int userId,boolean status);
+
 }

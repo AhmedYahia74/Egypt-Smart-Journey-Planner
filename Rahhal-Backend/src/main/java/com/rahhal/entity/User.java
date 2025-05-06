@@ -60,9 +60,4 @@ public abstract class User implements UserDetails {
         return password;
     }
 
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return FailedLoginAttempts < 3;
-    }
 }

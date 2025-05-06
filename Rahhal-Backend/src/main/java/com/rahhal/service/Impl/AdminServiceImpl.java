@@ -81,4 +81,13 @@ public class AdminServiceImpl implements AdminService {
             throw new EntityNotFoundException("This account not for company");
     }
 
+    @Override
+    public void changeAccountStatus(int userId,boolean status) {
+        User user=userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("user not found"));
+
+        user.setSuspended(status);
+        userRepository.save(user);
+    }
+
 }
