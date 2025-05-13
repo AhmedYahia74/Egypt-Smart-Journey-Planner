@@ -13,12 +13,13 @@ public class CompanyMapper {
 
     public Company mapToEntity(CompanyDto companyDto)
     {
-        Company company=new Company();
-        company.setEmail(companyDto.getEmail());
-        company.setPassword(passwordEncoder.encode(companyDto.getPassword()));
-        company.setName(companyDto.getName());
-        company.setSubscriptionExpireDate(companyDto.getSubscriptionExpired());
-        return company;
+        return Company.builder()
+                .name(companyDto.getName())
+                .email(companyDto.getEmail())
+                .password(companyDto.getPassword())
+                .subscriptionExpireDate(companyDto.getSubscriptionExpired())
+                .description(companyDto.getDescription())
+                .build();
     }
 
 }

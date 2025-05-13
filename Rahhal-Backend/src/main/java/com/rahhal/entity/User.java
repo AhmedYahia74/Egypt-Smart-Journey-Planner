@@ -3,6 +3,7 @@ package com.rahhal.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public abstract class User implements UserDetails {
@@ -42,8 +44,6 @@ public abstract class User implements UserDetails {
     @Column(name = "suspended_time")
     private LocalDateTime suspendedAt;
 
-    @Column(name = "failed_login_attempts")
-    private int FailedLoginAttempts =0;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,5 +1,6 @@
 package com.rahhal.dto;
 
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,9 @@ import java.time.LocalDateTime;
 @Builder
 public class CompanyDto {
 
+//    int companyId;
+
+
     @Email
     @NotBlank
     private String email;
@@ -25,4 +29,7 @@ public class CompanyDto {
     private String name;
 
     private LocalDateTime subscriptionExpired;
+
+    private String description;
+
 }

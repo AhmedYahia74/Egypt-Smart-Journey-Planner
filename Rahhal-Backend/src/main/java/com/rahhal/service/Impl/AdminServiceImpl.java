@@ -3,11 +3,14 @@ package com.rahhal.service.Impl;
 import com.rahhal.dto.CompanyDto;
 import com.rahhal.dto.UserDto;
 import com.rahhal.entity.Company;
+import com.rahhal.entity.CompanyProfile;
 import com.rahhal.entity.User;
 import com.rahhal.exception.EntityAlreadyExistsException;
 import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.mapper.CompanyMapper;
+import com.rahhal.mapper.CompanyProfileMapper;
 import com.rahhal.mapper.UserMapper;
+import com.rahhal.repository.CompanyProfileRepository;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
@@ -23,13 +26,18 @@ public class AdminServiceImpl implements AdminService {
    private final CompanyMapper companyMapper;
    private final UserRepository userRepository;
    private final UserMapper userMapper;
+    private final CompanyProfileRepository companyProfileRepository;
+    private final CompanyProfileMapper companyProfileMapper;
 
 
-    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper) {
+
+    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper, CompanyProfileRepository companyProfileRepository, CompanyProfileMapper companyProfileMapper) {
         this.companyRepository = companyRepository;
         this.companyMapper = companyMapper;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.companyProfileRepository = companyProfileRepository;
+        this.companyProfileMapper = companyProfileMapper;
     }
 
     @Override
@@ -48,6 +56,10 @@ public class AdminServiceImpl implements AdminService {
                     throw new EntityAlreadyExistsException("User with name " + company.getName() + " already exists");
 
         companyRepository.save(company);
+
+        CompanyProfile companyProfile = companyProfileMapper.mapToEntity(companyDto,company);
+
+        companyProfileRepository.save(companyProfile);
 
     }
 
