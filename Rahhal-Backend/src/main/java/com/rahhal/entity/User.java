@@ -1,13 +1,14 @@
 package com.rahhal.entity;
 
-import com.rahhal.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public abstract class User implements UserDetails {
@@ -35,6 +37,14 @@ public abstract class User implements UserDetails {
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;
 
+
+    @Column(name = "suspended")
+    private boolean suspended;
+
+    @Column(name = "suspended_time")
+    private LocalDateTime suspendedAt;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.getClass().getAnnotation(DiscriminatorValue.class).value()));
@@ -49,4 +59,5 @@ public abstract class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
 }
