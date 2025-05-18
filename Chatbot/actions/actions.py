@@ -10,10 +10,6 @@ import logging
 from requests.exceptions import RequestException, Timeout
 from contextlib import contextmanager
 import time
-
-from sympy.codegen.ast import continue_
-
-from Store_User_Messages import Store_User_Messages
 from word2number import w2n
 from config_helper import get_db_params, get_api_urls
 import psycopg2
@@ -27,11 +23,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 DB_Prams = get_db_params()
-store_msgs = Store_User_Messages()
 
 @contextmanager
 def get_db_connection():
-    """Context manager for database connections"""
     conn = None
     try:
         conn = psycopg2.connect(**DB_Prams)
@@ -523,17 +517,6 @@ class ActionClearChat(Action):
             if conn:
                 conn.close()
         return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]
-
-
-class StoreUserMessages(Action):
-    def name(self) -> Text:
-        return "action_store_user_messages"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        for key in tracker.slots.keys():
-            if tracker.slots[key]:
-                store_msgs.store_user_message(key, tracker.get_slot(key), tracker.latest_message.get('text', ''),
-                                              tracker.sender_id)
 
 
 class ActionHandleCitySelection(Action):
