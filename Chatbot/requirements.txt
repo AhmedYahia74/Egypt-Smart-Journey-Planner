@@ -4,7 +4,7 @@ requests==2.32.3
 word2number==1.1
 rapidfuzz==3.9.7
 
-psycopg2-binary==2.9.10
+psycopg2-binary==2.9.5
 SQLAlchemy==1.4.54
 
 sentence-transformers>=2.2.2
@@ -13,7 +13,6 @@ numpy==1.23.5
 
 fastapi>=0.100.0
 uvicorn>=0.23.0
-python-dotenv>=1.0.0
 websockets==10.4
 aiohttp==3.9.5
 aiofiles==24.1.0
