@@ -12,8 +12,6 @@ nlu:
     - hey there
     - let's go
     - hey dude
-    - good morning
-    - good evening
     - good afternoon
     - hi there
     - greetings
@@ -76,6 +74,16 @@ nlu:
     - you bet
     - right on
     - that's correct
+    - yes,i would like to go to [Luxor](state)
+    - yes, I want to go to [Cairo](state)
+    - yes, I would like to visit [Alexandria](state)
+    - yes, I want to go to [Aswan](state)
+    - yes, I would like to visit [Hurghada](state)
+    - yes, I want to go to [Sharm El Sheikh](state)
+    - yes, I would like to visit [Dahab](state)
+    - yes, I want to go to [Marsa Alam](state)
+    - yes, I would like to visit [El Gouna](state)
+    - yes, I want to go to [Siwa Oasis](state)
 - intent: deny
   examples: |
     - no
@@ -237,6 +245,7 @@ nlu:
     - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)
     - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
     - I want to make a trip
+    - i want to plan a trip
 - intent: share_state
   examples: |
     - [Luxor](state)
@@ -253,7 +262,18 @@ nlu:
     - I'm going to [Marsa Alam](state)
     - I'm visiting [El Gouna](state)
     - I'm planning a trip to [Siwa Oasis](state)
-    - [Luxor](state)
+    - [luxor]{"entity": "state", "value": "Luxor"}
+    - [cairo]{"entity": "state", "value": "Cairo"}
+    - [alexandria]{"entity": "state", "value": "Alexandria"}
+    - [aswan]{"entity": "state", "value": "Aswan"}
+    - [hurghada]{"entity": "state", "value": "Hurghada"}
+    - [sharm el sheikh]{"entity": "state", "value": "Sharm El Sheikh"}
+    - [dahab]{"entity": "state", "value": "Dahab"}
+    - [marsaalam]{"entity": "state", "value": "Marsa Alam"}
+    - [el gouna]{"entity": "state", "value": "El Gouna"}
+    - [siwa oasis]{"entity": "state", "value": "Siwa Oasis"}
+    - [alex]{"entity": "state", "value": "Alexandria"}
+    - [Alex]{"entity": "state", "value": "Alexandria"}
     - [luxor]{"entity": "state", "value": "Luxor"}
 - intent: share_weather_preference
   examples: |
@@ -364,6 +384,7 @@ nlu:
     - Around [forty five hundred dollars](budget)
     - Roughly [fifty thousand USD](budget)
     - [five hundred dollars](budget)
+    - [500](budget)$
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)
@@ -420,6 +441,7 @@ nlu:
     - I’m interested in [rivers](landmarks_activities)
     - I’d like to see [caves](landmarks_activities)
     - I want to visit [islands](landmarks_activities)
+    - i am like to see [musuems](landmarks_activities) and [tempels](landmarks_activities)
 - intent: share_duration
   examples: |
     - I’m planning a [7-day](duration) trip
@@ -464,6 +486,7 @@ nlu:
     - A [four-week](duration) vacation
     - [seven days](duration)
     - [two months](duration)
+    - [3 days](duration)
 - intent: share_arrival_date
   examples: |
     - i plan to have a trip in the [next week] (arrival_date)
@@ -487,7 +510,7 @@ nlu:
     - My trip starts [next quarter](arrival_date)
     - I’m coming in [August](arrival_date)
     - [next month](arrival_date)
-
+    - [next week](arrival_date)
 - intent: describe_city
   examples: |
     - I'm looking for a city with beaches and warm weather
@@ -518,7 +541,6 @@ nlu:
     - A city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
     - I want to visit a historic city full of ancient temples, giant statues, and tombs carved into the mountains. It’s on the Nile River, with hot, dry weather, and is known for its open-air museums, hieroglyphics, and sunset felucca rides. The locals sell handmade souvenirs near the ruins.
     - A coastal city with beautiful beaches, luxury resorts, and a vibrant nightlife. The weather is warm and sunny, perfect for relaxation and water sports. The locals are friendly, and the seafood is fresh and delicious.
-
 - intent: edit_preference
   examples: |
     - I want to change my [budget](modify_field)
@@ -528,7 +550,6 @@ nlu:
     - Let’s change [hotel features](modify_field)
     - I want to modify my [duration](modify_field)
     - Edit [landmarks and activities](modify_field)
-
 - intent: request_activity_suggestions
   examples: |
     - What activities can I do?
@@ -550,7 +571,6 @@ nlu:
     - What activities should I consider?
     - I want to know what to do
     - I need ideas for activities
-
 - intent: add_hotel_features
   examples: |
     - I want to add [pool](hotel_features) for my hotel
@@ -575,8 +595,6 @@ nlu:
     - also add [beach_view](hotel_features) and [city_center](hotel_features)
     - I want [city_center](hotel_features) and [beach_view](hotel_features) too
     - I want [beach_view](hotel_features) and [city_center](hotel_features) too
-    
-
 - intent: add_landmarks_activities
   examples: |
     - I want to add [historical landmarks](landmarks_activities) to my trip
@@ -594,7 +612,41 @@ nlu:
     - include [museums](landmarks_activities) and [beaches](landmarks_activities)
     - include [cruise](landmarks_activities)
     - add [desert safaris](landmarks_activities)
-
+- intent: nlu_fallback
+  examples: |
+    - i am interseted in [pools](hotel_features) and [wifi](hotel_features)
+- synonym: Luxor
+  examples: |
+    - luxor
+- synonym: Cairo
+  examples: |
+    - cairo
+- synonym: Alexandria
+  examples: |
+    - alexandria
+    - alex
+    - Alex
+- synonym: Aswan
+  examples: |
+    - aswan
+- synonym: Hurghada
+  examples: |
+    - hurghada
+- synonym: Sharm El Sheikh
+  examples: |
+    - sharm el sheikh
+- synonym: Dahab
+  examples: |
+    - dahab
+- synonym: Marsa Alam
+  examples: |
+    - marsaalam
+- synonym: El Gouna
+  examples: |
+    - el gouna
+- synonym: Siwa Oasis
+  examples: |
+    - siwa oasis
 - lookup: weather_preference
   examples: |
     - sunny
