@@ -1,38 +1,36 @@
 version: '3.1'
 intents:
-  - affirm
-  - bot_challenge
-  - deny
-  - goodbye
-  - greet
-  - out_of_scope
-  - request_trip
-  - share_arrival_date
-  - share_budget
-  - share_duration
-  - share_family_status
-  - share_hotel_features
-  - share_landmarks_activities
-  - share_state
-  - share_weather_preference
-  - thankyou
-  - describe_city
-  - edit_preference
-  - request_activity_suggestions
-  - add_hotel_features
-  - add_landmarks_activities
-
-
+- add_hotel_features
+- add_landmarks_activities
+- affirm
+- bot_challenge
+- deny
+- describe_city
+- edit_preference
+- goodbye
+- greet
+- nlu_fallback
+- out_of_scope
+- request_activity_suggestions
+- request_trip
+- share_arrival_date
+- share_budget
+- share_duration
+- share_family_status
+- share_hotel_features
+- share_landmarks_activities
+- share_state
+- share_weather_preference
+- thankyou
 entities:
-  - arrival_date
-  - state
-  - budget
-  - duration
-  - hotel_features
-  - weather_preference
-  - landmarks_activities
-  - modify_field
-
+- hotel_features
+- state
+- landmarks_activities
+- budget
+- duration
+- arrival_date
+- weather_preference
+- modify_field
 slots:
   specify_place:
     type: bool
@@ -46,6 +44,12 @@ slots:
       value: false
   state:
     type: text
+    mappings:
+    - type: from_entity
+      entity: state
+  selected_city:
+    type: text
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: state
@@ -74,47 +78,39 @@ slots:
     mappings:
     - type: from_entity
       entity: arrival_date
-
   city_description:
     type: text
     mappings:
-      - type: from_text
-        intent: describe_city
-
+    - type: from_text
+      intent: describe_city
   modify_request:
     type: text
     mappings:
-      - type: from_entity
-        entity: modify_field
-
+    - type: from_entity
+      entity: modify_field
   user_message:
     type: any
     influence_conversation: false
     mappings:
-      - type: custom
-
-
+    - type: custom
   awaiting_city_selection:
     type: bool
     initial_value: false
     influence_conversation: true
     mappings:
-      - type: custom
-
-
+    - type: custom
 forms:
   trip_form:
     required_slots:
     - specify_place
     - state
     - city_description
+    - selected_city
     - budget
     - duration
     - arrival_date
     - hotel_features
     - landmarks_activities
-
-
 responses:
   utter_greet:
   - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
@@ -127,32 +123,31 @@ responses:
   - text: Would you like to specify a city for your trip?
   - text: Do you have a particular city in mind for your trip?
   utter_ask_state:
-  - text: Is there a specific city you want to visit in Egypt?
-  - text: Are you planning to visit a particular city in Egypt?
-  - text: Do you have a preference for a city in Egypt?
-  - text: Are you interested in a specific city in Egypt?
-  - text: Is there a city you have in mind in Egypt?
-  - text: Are you looking to visit a particular city in Egypt?
-  - text: Do you have a city in mind in Egypt?
+  - text: What city are you interested in?
+  - text: Which city do you want to visit?
+  - text: What city are you considering for your trip?
+  - text: Which city are you thinking about?
+  - text: What city do you have in mind?
+  - text: That's great! Which city are you interested in?
   utter_ask_weather_preference:
   - text: What kind of weather do you like?
-  - text: What’s your preferred weather?
-  - text: What’s your favorite climate?
+  - text: What's your preferred weather?
+  - text: What's your favorite climate?
   - text: What kind of weather are you looking for?
-  - text: What’s your ideal weather?
+  - text: What's your ideal weather?
   - text: What kind of weather do you enjoy?
-  - text: What’s your favorite weather condition?
+  - text: What's your favorite weather condition?
   utter_ask_budget:
   - text: How much are you willing to spend?
-  - text: What’s your budget for the trip?
+  - text: What's your budget for the trip?
   - text: How much money do you have for the trip?
-  - text: What’s your spending limit?
+  - text: What's your spending limit?
   - text: How much are you planning to spend?
-  - text: What’s your budget for the vacation?
+  - text: What's your budget for the vacation?
   - text: How much money do you have for the holiday?
-  - text: What’s your spending limit for the trip?
+  - text: What's your spending limit for the trip?
   - text: How much are you planning to spend on the trip?
-  - text: What’s your budget for the getaway?
+  - text: What's your budget for the getaway?
   - text: How much money do you have for the journey?
   utter_ask_hotel_features:
   - text: What kind of hotel are you looking for?
@@ -178,35 +173,35 @@ responses:
   - text: What places do you want to see?
   utter_ask_duration:
   - text: How long are you planning to stay?
-  - text: What’s the duration of your trip?
+  - text: What's the duration of your trip?
   - text: How many days are you planning to stay?
-  - text: What’s the length of your trip?
+  - text: What's the length of your trip?
   - text: How long are you planning to be there?
-  - text: What’s the duration of your vacation?
+  - text: What's the duration of your vacation?
   - text: How many days are you planning to be there?
-  - text: What’s the length of your holiday?
+  - text: What's the length of your holiday?
   - text: How long are you planning to go for?
   utter_ask_arrival_date:
   - text: When are you planning to arrive?
-  - text: What’s your arrival date?
+  - text: What's your arrival date?
   - text: When are you arriving?
-  - text: What’s your arrival time?
+  - text: What's your arrival time?
   - text: When are you planning to get there?
-  - text: What’s your arrival day?
+  - text: What's your arrival day?
   - text: When are you arriving at the destination?
-  - text: What’s your arrival schedule?
+  - text: What's your arrival schedule?
   - text: When are you planning to reach the destination?
   utter_ask_family_status:
   - text: Who are you traveling with?
-  - text: What’s your family status?
+  - text: What's your family status?
   - text: Who are you coming with?
-  - text: What’s your travel companion?
+  - text: What's your travel companion?
   - text: Who are you going with?
-  - text: What’s your family situation?
+  - text: What's your family situation?
   - text: Who are you visiting with?
-  - text: What’s your travel partner?
+  - text: What's your travel partner?
   - text: Who are you traveling alongside?
-  - text: What’s your family arrangement?
+  - text: What's your family arrangement?
   utter_ask_trip_details:
   - text: Can you provide more details about your trip? For example, the duration, budget, and any specific activities or landmarks you want to visit.
   utter_start_suggestions:
@@ -222,12 +217,18 @@ responses:
   - text: I'm sorry, I'm not equipped to help with that.
   - text: Sorry, I can't help with that.
   utter_ask_city_description:
-    - text: Can you describe the city you want to visit?
-    - text: Can you provide more details about the city you want to visit?
-    - text: Can you tell me more about the city you want to visit?
-    - text: Can you describe the city you're interested in?
-    - text: Can you provide more information about the city you want to visit?
+  - text: Can you describe the city you want to visit?
+  - text: Can you provide more details about the city you want to visit?
+  - text: Can you tell me more about the city you want to visit?
+  - text: Can you describe the city you're interested in?
+  - text: Can you provide more information about the city you want to visit?
+  utter_choose_city:
+  - text: Can you please choose a city you like from the options?
+  - text: Please select a city you prefer from the options.
+  - text: Can you pick a city you like from the options?
 actions:
+- validate_trip_form
+- action_suggest_plan
 - utter_start_suggestions
 - utter_greet
 - utter_goodbye
@@ -235,11 +236,9 @@ actions:
 - utter_ask_specify_place
 - utter_ask_state
 - utter_ask_weather_preference
-- validate_trip_form
 - action_clear_chat
 - action_store_user_messages
 - action_suggest_hotels
-- action_suggest_plan
 - action_handle_city_selection
 session_config:
   session_expiration_time: 60

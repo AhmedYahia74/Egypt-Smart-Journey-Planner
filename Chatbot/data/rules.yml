@@ -16,7 +16,6 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
-
 - rule: When the user is out of scope
   steps:
   - intent: out_of_scope
@@ -36,13 +35,6 @@ rules:
 - rule: Activate trip_form
   steps:
   - intent: request_trip
-  - action: action_store_user_messages
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Respond to user's travel plan
-  steps:
-  - intent: share_state
   - action: action_store_user_messages
   - action: trip_form
   - active_loop: trip_form
@@ -67,7 +59,6 @@ rules:
     - action: trip_form
     - active_loop: trip_form
 
-
 - rule: User wants to restart the conversation
   steps:
   - intent: restart
@@ -75,10 +66,46 @@ rules:
 
 - rule: Handle city selection from buttons
   condition:
-    - slot_was_set:
-      - awaiting_city_selection: true
+    - active_loop: trip_form
   steps:
   - intent: inform
-  - action: action_handle_city_selection
+    entities:
+    - state
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle selected city from suggestions
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: inform
+    entities:
+    - state
+  - slot_was_set:
+    - selected_city: state
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle affirm with state
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: affirm
+    entities:
+    - state
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle inform with state
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: inform
+    entities:
+    - state
+  - action: validate_trip_form
   - action: trip_form
   - active_loop: trip_form

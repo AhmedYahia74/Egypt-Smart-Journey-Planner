@@ -1,11 +1,15 @@
 import requests
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet, Restarted
+from rasa_sdk.events import SlotSet, Restarted, FollowupAction
 from typing import Any, Text, Dict, List, Tuple, Optional, Union
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import json
+import logging
+from requests.exceptions import RequestException, Timeout
+from contextlib import contextmanager
+import time
 
 from sympy.codegen.ast import continue_
 
@@ -14,35 +18,41 @@ from word2number import w2n
 from config_helper import get_db_params, get_api_urls
 import psycopg2
 import re
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
-print("✅ Custom Action Server is running...")  # Debugging message
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 DB_Prams = get_db_params()
 store_msgs = Store_User_Messages()
 
-
-def fetch_cities_from_database():
+@contextmanager
+def get_db_connection():
+    """Context manager for database connections"""
     conn = None
-    cur = None
-    cities_names = []
     try:
         conn = psycopg2.connect(**DB_Prams)
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM states")
-        for row in cur:
-            cities_names.append(row[1])
-        return cities_names
-    except Exception as e:
-        print(f"Error: {e}")
+        yield conn
+    except psycopg2.Error as e:
+        logger.error(f"Database error: {str(e)}")
+        raise
     finally:
-        if cur:
-            cur.close()
         if conn:
             conn.close()
-    return cities_names
 
+def fetch_cities_from_database():
+    # Fetch cities from database
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM states")
+                return [row[1] for row in cur.fetchall()]
+    except Exception as e:
+        logger.error(f"Error fetching cities: {str(e)}")
+        return []
 
 CITIES_NAMES = fetch_cities_from_database()
 
@@ -61,17 +71,26 @@ class ValidateTripForm(FormValidationAction):
     ) -> List[Text]:
         required_slots = []
 
-        if tracker.get_slot("awaiting_city_selection"):
-            return ["city_description"]
-        if tracker.get_slot("state") is None and tracker.get_slot("specify_place") is None :
+
+        # If we don't have specify_place yet, ask for it first
+        if tracker.get_slot("specify_place") is None:
             required_slots.append("specify_place")
-        if tracker.get_slot("specify_place"):
+            return required_slots
+
+        # If specify_place is True but no state, ask for state
+        if tracker.get_slot("specify_place") and not tracker.get_slot("state"):
             required_slots.append("state")
-        elif not tracker.get_slot("specify_place"):
+            return required_slots
+
+        # If specify_place is False, ask for city description
+        if not tracker.get_slot("specify_place"):
             required_slots.append("city_description")
+            if tracker.get_slot("city_description") and tracker.get_slot("awaiting_city_selection"):
+                required_slots.append("selected_city")
+            return required_slots
 
+        # If we have all the above, proceed with the rest of the slots
         required_slots.extend(["budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
-
         return required_slots
 
     def validate_specify_place(self,
@@ -79,12 +98,60 @@ class ValidateTripForm(FormValidationAction):
                                dispatcher: CollectingDispatcher,
                                tracker: Tracker,
                                domain: Dict[Text, Any]) -> Dict[Text, Any]:
-
+        print("=== validate_specify_place called ===")  # Debug print
         intent = tracker.latest_message['intent'].get('name')
-        if intent == "deny":
-            return {"specify_place": False}
-        elif intent == "affirm":
-            return {"specify_place": True}
+        text = tracker.latest_message.get('text', '').lower()
+        print(f"Intent: {intent}, Text: {text}")  # Debug print
+        print(f"Entities: {tracker.latest_message.get('entities', [])}")  # Debug print
+        print(f"Current slots: {tracker.slots}")  # Debug print
+
+        # First check if there's a state entity
+        entities = tracker.latest_message.get('entities', [])
+        for entity in entities:
+            if entity.get('entity') == 'state':
+                state_value = entity.get('value')
+                print(f"Found state entity: {state_value}")  # Debug print
+                if state_value.lower() in [city.lower() for city in CITIES_NAMES]:
+                    print(f"State {state_value} is valid")  # Debug print
+                    return {
+                        "specify_place": True,
+                        "state": state_value,
+                        "requested_slot": "budget"
+                    }
+        
+        # Handle other intents
+        if intent == "affirm":
+            print("Handling affirm intent")  # Debug print
+            # Check if there's a city mentioned in the text
+            for city in CITIES_NAMES:
+                if city.lower() in text:
+                    return {
+                        "specify_place": True,
+                        "state": city,
+                        "requested_slot": "budget"
+                    }
+            # If no city was mentioned, just set specify_place to True
+            return {
+                "specify_place": True,
+                "requested_slot": "state"
+            }
+        elif intent == "deny":
+            print("Handling deny intent")  # Debug print
+            return {
+                "specify_place": False,
+                "requested_slot": "city_description"
+            }
+        
+        # If we get here, check if there's a city in the text
+        for city in CITIES_NAMES:
+            if city.lower() in text:
+                return {
+                    "specify_place": True,
+                    "state": city,
+                    "requested_slot": "budget"
+                }
+        
+        print("No valid conditions met, returning None")  # Debug print
         return {"specify_place": None}
 
     def validate_state(self,
@@ -93,7 +160,7 @@ class ValidateTripForm(FormValidationAction):
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
         city = tracker.get_slot("state") or slot_value
-        user_messages = tracker.get_slot("user_message")
+        user_messages = tracker.get_slot("user_message") or {}
         if city.lower() in [city.lower() for city in CITIES_NAMES]:
             user_messages["state"] = tracker.latest_message.get('text', '')
             return {"state": city, "user_message": [user_messages]}
@@ -107,19 +174,29 @@ class ValidateTripForm(FormValidationAction):
             suggest_cities_url = get_api_urls().get("suggest_city")
             if not suggest_cities_url:
                 raise KeyError("'suggest_cities' key not found in API URLs configuration")
+            
             response = requests.post(
                 suggest_cities_url,
                 json={
                     "city_description": slot_value
                 }
             )
+            
             if response.status_code == 200:
-                buttons = [{"title": city['name'], "payload": f"/inform{{\"state\": \"{city['name']}\"}}"} for city in
-                           response.json()["top_cities"]]
-                dispatcher.utter_message(text="Here are some suggested cities that may suit you", buttons=buttons)
-                user_messages = tracker.get_slot("user_message") or {}
-                user_messages["city_description"] = tracker.latest_message.get('text', '')
-                return {"city_description": slot_value, "user_message": user_messages, 'awaiting_city_selection': True, "requested_slot": None}
+                suggested_cities = response.json().get("top_cities", [])
+                if suggested_cities:
+                    buttons = [{"title": city['name'], "payload": f"/share_state{{\"state\": \"{city['name']}\"}}"}
+                             for city in suggested_cities]
+                    dispatcher.utter_message(text="Here are some suggested cities that may suit you:", buttons=buttons)
+                    # Store the city description and set awaiting_city_selection flag
+                    return {
+                        "city_description": slot_value,
+                        "awaiting_city_selection": True,
+                        "requested_slot": "selected_city"
+                    }
+                else:
+                    dispatcher.utter_message("Sorry, I couldn't find any cities matching your description. Please try again.")
+                    return {"city_description": None}
             else:
                 dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again.")
                 return {"city_description": None}
@@ -127,6 +204,24 @@ class ValidateTripForm(FormValidationAction):
             dispatcher.utter_message(
                 f"Something went wrong while processing your city description. Please try again. Error: {str(e)}")
             return {"city_description": None}
+
+    def validate_selected_city(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
+                             domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        selected_city = slot_value
+        if selected_city.lower() in [city.lower() for city in CITIES_NAMES]:
+            user_messages = tracker.get_slot("user_message") or {}
+            user_messages["state"] = tracker.latest_message.get('text', '')
+            # Set specify_place to True when a city is selected
+            return {
+                "state": selected_city,
+                "specify_place": True,
+                "user_message": user_messages,
+                "awaiting_city_selection": False,
+                "requested_slot": "budget"
+            }
+        else:
+            dispatcher.utter_message("Sorry, we don't have Trips in this city. Please choose another destination from the suggestions.")
+            return {"selected_city": None}
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                         domain: Dict[Text, Any]) -> Dict[Text, Any]:
@@ -140,7 +235,8 @@ class ValidateTripForm(FormValidationAction):
 
             if number_part.startswith('$'):
                 number_part = number_part[1:]
-
+            elif number_part.endswith('$'):
+                number_part = number_part[:-1]
             try:
                 budget = int(number_part)
             except ValueError:
@@ -154,6 +250,11 @@ class ValidateTripForm(FormValidationAction):
                 dispatcher.utter_message("Please enter a valid positive budget.")
                 return {"budget": None}
 
+            # Add reasonable budget limits
+            if budget > 1000000:  # Example upper limit
+                dispatcher.utter_message("Please enter a more reasonable budget amount.")
+                return {"budget": None}
+
             if not self.is_trip_available_within_budget(budget):
                 dispatcher.utter_message(
                     "Sorry, we don't have any trips available within your budget. Please try a higher budget.")
@@ -164,7 +265,8 @@ class ValidateTripForm(FormValidationAction):
             return {"budget": budget, "user_message": user_message}
 
         except Exception as e:
-            dispatcher.utter_message("Something went wrong while processing the budget. Please try again.")
+            logger.error(f"Error validating budget: {str(e)}")
+            dispatcher.utter_message("Something went wrong while processing your budget. Please try again.")
             return {"budget": None}
 
     def is_trip_available_within_budget(self, budget: float) -> bool:
@@ -447,8 +549,13 @@ class ActionHandleCitySelection(Action):
 
         if awaiting_selection and state:
             dispatcher.utter_message(f"Great! You've selected {state}.")
-            # Reset the awaiting_city_selection flag
-            return [SlotSet("awaiting_city_selection", False)]
+            # Reset the awaiting_city_selection flag and force form to resume with budget slot
+            return [
+                SlotSet("awaiting_city_selection", False),
+                SlotSet("requested_slot", "budget"),
+                # This is the key - we need to set active_loop to ensure form resumes
+                SlotSet("active_loop", "trip_form")
+            ]
 
         return []
 
@@ -464,116 +571,137 @@ class SuggestPlan(Action):
             duration = tracker.get_slot("duration")
             hotel_features = tracker.get_slot("hotel_features")
             landmarks_activities = tracker.get_slot("landmarks_activities")
+            
+            # Safely get landmarks_activities_msg from user_message
+            user_message = tracker.get_slot("user_message") or {}
+            landmarks_activities_msg = user_message.get('landmarks_activities', '')
+            
             arrival_date = tracker.get_slot("arrival_date")
+
+            # Validate required slots
+            if not all([city_name, budget, duration, arrival_date]):
+                dispatcher.utter_message("Missing required information. Please provide all necessary details.")
+                return []
 
             # Get API URLs
             api_urls = get_api_urls()
+            if not api_urls:
+                logger.error("API URLs configuration not found")
+                dispatcher.utter_message("Configuration error. Please try again later.")
+                return []
 
-            # Get recommended hotels
-            recommended_hotels = []
-            hotel_api_url = api_urls.get("suggest_hotels")
-            if not hotel_api_url:
-                raise KeyError("'suggest_hotels' key not found in API URLs configuration")
+            # Get recommended hotels with timeout and retry
+            recommended_hotels = self._get_recommended_hotels(
+                api_urls.get("suggest_hotels"),
+                city_name, duration, budget, hotel_features, arrival_date
+            )
 
+            # Get recommended landmarks and activities
+            recommended_activities, recommended_landmarks = self._get_recommended_activities_landmarks(
+                api_urls.get("suggest_landmarks_activities"),
+                city_name, landmarks_activities_msg, landmarks_activities
+            )
+
+            # Generate the final plan
+            plan = self._generate_plan(
+                api_urls.get("suggest_plan"),
+                city_name, budget, duration,
+                recommended_hotels, recommended_activities, recommended_landmarks
+            )
+
+            if plan:
+                dispatcher.utter_message(
+                    f"Here is a suggested plan for your trip to {city_name}",
+                    json_message=json.dumps(plan, indent=2)
+                )
+            else:
+                dispatcher.utter_message(
+                    "Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration."
+                )
+
+        except Exception as e:
+            logger.error(f"Error in SuggestPlan: {str(e)}")
+            dispatcher.utter_message("Something went wrong while processing your plan request. Please try again.")
+        return []
+
+    def _get_recommended_hotels(self, api_url, city_name, duration, budget, hotel_features, arrival_date):
+        if not api_url:
+            raise KeyError("'suggest_hotels' key not found in API URLs configuration")
+
+        try:
             response = requests.post(
-                hotel_api_url,
+                api_url,
                 json={
                     "city_name": city_name,
                     "duration": duration,
                     "budget": budget,
                     "user_facilities": hotel_features,
                     "arrival_date": arrival_date
-                }
+                },
+                timeout=10  # Add timeout
             )
+            response.raise_for_status()
+            return response.json().get("hotels", [])
+        except (RequestException, Timeout) as e:
+            logger.error(f"Error fetching hotels: {str(e)}")
+            return []
 
-            if response.status_code == 200:
-                hotels_data = response.json()
-                if hotels_data:
-                    recommended_hotels = hotels_data.get("hotels", [])
-                else:
-                    dispatcher.utter_message("Sorry, we couldn't find any hotels matching your preferences.")
+    def _get_recommended_activities_landmarks(self, api_url, city_name, landmarks_activities_msg, landmarks_activities):
+        if not api_url:
+            raise KeyError("'suggest_landmarks_activities' key not found in API URLs configuration")
 
-            # Get recommended landmarks and activities
-            recommended_activities = []
-            recommended_landmarks = []
-            landmarks_activities_api_url = api_urls.get("suggest_landmarks_activities")
+        try:
+            # Increase timeout to 30 seconds and add retry logic
+            max_retries = 3
+            retry_delay = 2  # seconds
+            
+            for attempt in range(max_retries):
+                try:
+                    response = requests.post(
+                        api_url,
+                        json={
+                            "city_name": city_name,
+                            "user_message": landmarks_activities_msg,
+                            "preferred_activities": landmarks_activities
+                        },
+                        timeout=30  # Increased timeout
+                    )
+                    response.raise_for_status()
+                    data = response.json()
+                    return data.get("activities", []), data.get("landmarks", [])
+                except (RequestException, Timeout) as e:
+                    if attempt == max_retries - 1:  # Last attempt
+                        logger.error(f"Error fetching activities and landmarks after {max_retries} attempts: {str(e)}")
+                        return [], []
+                    logger.warning(f"Attempt {attempt + 1} failed, retrying in {retry_delay} seconds...")
+                    time.sleep(retry_delay)
+                    retry_delay *= 2  # Exponential backoff
+                    
+        except Exception as e:
+            logger.error(f"Unexpected error in _get_recommended_activities_landmarks: {str(e)}")
+            return [], []
 
-            if not landmarks_activities_api_url:
-                raise KeyError("'suggest_landmarks_activities' key not found in API URLs configuration")
+    def _generate_plan(self, api_url, city_name, budget, duration, hotels, activities, landmarks):
+        if not api_url:
+            raise KeyError("'suggest_plan' key not found in API URLs configuration")
 
-            user_messages = tracker.get_slot("user_message")
-            landmarks_message = ""
-
-            if user_messages:
-                # Handle different data structures that might be stored in user_message slot
-                if isinstance(user_messages, dict) and 'landmarks_activities' in user_messages:
-                    landmarks_message = user_messages['landmarks_activities']
-                elif isinstance(user_messages, list) and len(user_messages) > 0:
-                    # If it's a list of dictionaries
-                    for msg in user_messages:
-                        if isinstance(msg, dict) and 'landmarks_activities' in msg:
-                            landmarks_message = msg['landmarks_activities']
-                            break
-
+        try:
             response = requests.post(
-                landmarks_activities_api_url,
-                json={
-                    "city_name": city_name,
-                    "user_message": landmarks_message,
-                    "preferred_activities": landmarks_activities
-                }
-            )
-
-            if response.status_code == 200:
-                data = response.json()
-                recommended_activities = data.get("activities", [])
-                recommended_landmarks = data.get("landmarks", [])
-
-                # Use proper string formatting for logging
-                print(f"Activities: {recommended_activities}")
-
-                if not recommended_activities and not recommended_landmarks:
-                    dispatcher.utter_message(
-                        "Sorry, we couldn't find any activities or landmarks matching your preferences.")
-
-            # Generate the final plan
-            plan_api_url = api_urls.get("suggest_plan")
-            if not plan_api_url:
-                raise KeyError("'suggest_plan' key not found in API URLs configuration")
-
-            response = requests.post(
-                plan_api_url,
+                api_url,
                 json={
                     "city_name": city_name,
                     "budget": budget,
                     "duration": duration,
-                    "suggested_hotels": recommended_hotels,
-                    "suggested_activities": recommended_activities,
-                    "suggested_landmarks": recommended_landmarks
-                }
+                    "suggested_hotels": hotels,
+                    "suggested_activities": activities,
+                    "suggested_landmarks": landmarks
+                },
+                timeout=10
             )
-
-            if response.status_code == 200:
-                plan = response.json()
-                if plan:
-                    json_plan = json.dumps(plan, indent=5)
-                    dispatcher.utter_message(f"Here is a suggested plan for your trip to {city_name}")
-                    dispatcher.utter_message(json_plan)
-
-                else:
-                    dispatcher.utter_message(
-                        "Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration.")
-            else:
-                dispatcher.utter_message(
-                    f"Sorry, I couldn't process your plan request. Status code: {response.status_code}")
-
-        except KeyError as ke:
-            dispatcher.utter_message(f"Configuration error: {str(ke)}")
-            logging.error(f"API URL configuration error: {str(ke)}")
-        except Exception as e:
-            dispatcher.utter_message("Something went wrong while processing your plan request. Please try again.")
-            logging.error(f"Error in SuggestPlan: {str(e)}")
-
-        return []
+            response.raise_for_status()
+            return response.json()
+        except (RequestException, Timeout) as e:
+            logger.error(f"Error generating plan: {str(e)}")
+            return None
 
 

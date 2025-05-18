@@ -18,7 +18,7 @@ ACTIVITY_QUERY = """
     ORDER BY similarity desc limit 50
 """
 LANDMARK_QUERY = """
-    SELECT landmark_id, L.name, L.description, 1 - (L.embedding <=> %s::vector) AS similarity, price_foreign
+    SELECT landmark_id, L.name, L.description, 1 - (L.embedding <=> %s::vector) AS similarity, price_foreign, L.longitude, L.latitude
     FROM landmarks L join states S on L.state_id = S.state_id
     WHERE lower(S.name) LIKE %s
     ORDER BY similarity desc
@@ -46,6 +46,9 @@ def convert_row_to_dict(row: tuple,kind):
     }
     if kind == 'a':
         ret['duration']=row[5]
+    else:
+        ret['longitude']=row[5]
+        ret['latitude']=row[6]
     return ret
 def get_embedding(text: str) -> List[float]:
     response = requests.post(EMBEDDING_API_URL, json={"text": text})

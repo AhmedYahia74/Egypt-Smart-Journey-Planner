@@ -1,1 +1,159 @@
 #stories
+- story: direct city selection path
+  steps:
+  - intent: request_trip
+  - action: trip_form
+  - active_loop: trip_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_start_suggestions
+  - action: action_suggest_plan
+
+- story: affirm with city path
+  steps:
+  - intent: request_trip
+  - action: trip_form
+  - active_loop: trip_form
+  - intent: affirm
+    entities:
+    - state: "Luxor"
+  - action: trip_form
+  - active_loop: trip_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_start_suggestions
+  - action: action_suggest_plan
+
+- story: deny and describe city path
+  steps:
+  - intent: request_trip
+  - action: action_store_user_messages
+  - action: trip_form
+  - active_loop: trip_form
+  - intent: deny
+  - action: trip_form
+  - active_loop: trip_form
+  - intent: describe_city
+  - action: trip_form
+  - active_loop: trip_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_start_suggestions
+  - action: action_suggest_plan
+
+- story: interactive_story_1
+  steps:
+  - intent: request_trip
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: specify_place
+  - intent: affirm
+  - slot_was_set:
+    - specify_place: true
+  - action: trip_form
+  - slot_was_set:
+    - requested_slot: state
+  - intent: share_state
+    entities:
+    - state: Luxor
+  - slot_was_set:
+    - state: Luxor
+  - intent: share_state
+    entities:
+    - state: Luxor
+  - action: trip_form
+  - slot_was_set:
+    - requested_slot: budget
+  - intent: share_budget
+    entities:
+    - budget: '500'
+  - slot_was_set:
+    - budget: '500'
+  - action: trip_form
+  - slot_was_set:
+    - requested_slot: duration
+  - intent: share_duration
+    entities:
+    - duration: 3 days
+  - slot_was_set:
+    - duration: 3 days
+  - action: trip_form
+  - slot_was_set:
+    - duration: 3
+  - slot_was_set:
+    - user_message:
+        budget: 500$
+        duration: 3 days
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: next week
+  - slot_was_set:
+    - arrival_date: next week
+  - action: trip_form
+  - slot_was_set:
+    - arrival_date:
+      - '2025-05-21'
+      - '2025-05-27'
+  - slot_was_set:
+    - user_message:
+        budget: 500$
+        duration: 3 days
+        arrival_date: next week
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: nlu_fallback
+    entities:
+    - hotel_features: pools
+    - hotel_features: wifi
+  - slot_was_set:
+    - hotel_features:
+      - pools
+      - wifi
+  - action: trip_form
+  - slot_was_set:
+    - hotel_features:
+      - pools
+      - wifi
+  - slot_was_set:
+    - user_message:
+        budget: 500$
+        duration: 3 days
+        arrival_date: next week
+        hotel_features: i am interested in pools and wifi
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: museums
+    - landmarks_activities: temples
+  - slot_was_set:
+    - landmarks_activities:
+      - museums
+      - temples
+  - action: trip_form
+  - slot_was_set:
+    - landmarks_activities:
+      - museums
+      - temples
+  - slot_was_set:
+    - user_message:
+        state: Luxor
+
+        budget: 500$
+        duration: 3 days
+        arrival_date: next week
+        hotel_features: i am interested in pools and wifi
+        landmarks_activities: i am like to see museums and temples
+  - slot_was_set:
+    - requested_slot: null
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_start_suggestions
+  - action: action_suggest_plan
