@@ -35,11 +35,10 @@ rules:
 - rule: Activate trip_form
   steps:
   - intent: request_trip
-  - action: action_store_user_messages
   - action: trip_form
   - active_loop: trip_form
 
-- rule: Fetch Suggestions
+- rule: Handle form completion
   condition:
   - active_loop: trip_form
   steps:
@@ -50,7 +49,7 @@ rules:
   - action: utter_start_suggestions
   - action: action_suggest_plan
 
-- rule: Interruption in trip form
+- rule: Handle form interruption with bot challenge
   condition:
     - active_loop: trip_form
   steps:
@@ -59,53 +58,136 @@ rules:
     - action: trip_form
     - active_loop: trip_form
 
+- rule: Handle form interruption with out of scope
+  condition:
+    - active_loop: trip_form
+  steps:
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+    - action: trip_form
+    - active_loop: trip_form
+
+- rule: Handle form interruption with greeting
+  condition:
+    - active_loop: trip_form
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: trip_form
+    - active_loop: trip_form
+
+- rule: Handle form interruption with goodbye
+  condition:
+    - active_loop: trip_form
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+    - action: trip_form
+    - active_loop: trip_form
+
+- rule: Handle form interruption with thank you
+  condition:
+    - active_loop: trip_form
+  steps:
+    - intent: thankyou
+    - action: utter_thankyou
+    - action: trip_form
+    - active_loop: trip_form
+
 - rule: User wants to restart the conversation
   steps:
   - intent: restart
   - action: action_restart
 
-- rule: Handle city selection from buttons
+- rule: Handle city description
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: describe_city
+    entities:
+    - city_description
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle multiple entities in one message
   condition:
     - active_loop: trip_form
   steps:
   - intent: inform
     entities:
     - state
+    - budget
+    - duration
+    - arrival_date
+    - hotel_features
+    - landmarks_activities
   - action: validate_trip_form
   - action: trip_form
   - active_loop: trip_form
 
-- rule: Handle selected city from suggestions
+- rule: Handle state input
   condition:
     - active_loop: trip_form
   steps:
-  - intent: inform
-    entities:
-    - state
-  - slot_was_set:
-    - selected_city: state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle affirm with state
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: affirm
+  - intent: share_state
     entities:
     - state
   - action: validate_trip_form
   - action: trip_form
   - active_loop: trip_form
 
-- rule: Handle inform with state
+- rule: Handle budget input
   condition:
     - active_loop: trip_form
   steps:
-  - intent: inform
+  - intent: share_budget
     entities:
-    - state
+    - budget
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle duration input
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: share_duration
+    entities:
+    - duration
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle arrival date input
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: share_arrival_date
+    entities:
+    - arrival_date
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle hotel features input
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: share_hotel_features
+    entities:
+    - hotel_features
+  - action: validate_trip_form
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle landmarks and activities input
+  condition:
+    - active_loop: trip_form
+  steps:
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities
   - action: validate_trip_form
   - action: trip_form
   - active_loop: trip_form

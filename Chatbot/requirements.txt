@@ -17,3 +17,7 @@ websockets==10.4
 aiohttp==3.9.5
 aiofiles==24.1.0
 python-dateutil==2.8.2
+ipython==7.34.0
+prompt-toolkit==3.0.38
+packaging==20.9
+ipykernel>=6.0.0

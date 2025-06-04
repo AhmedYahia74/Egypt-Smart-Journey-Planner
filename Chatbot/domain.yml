@@ -44,15 +44,23 @@ slots:
       value: false
   state:
     type: text
-    mappings:
-    - type: from_entity
-      entity: state
-  selected_city:
-    type: text
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: state
+  city_description:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      intent: describe_city
+  selected_city:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      intent: share_state
+    - type: custom
   budget:
     type: text
     mappings:
@@ -78,12 +86,12 @@ slots:
     mappings:
     - type: from_entity
       entity: arrival_date
-  city_description:
+  weather_preference:
     type: text
     mappings:
-    - type: from_text
-      intent: describe_city
-  modify_request:
+    - type: from_entity
+      entity: weather_preference
+  modify_field:
     type: text
     mappings:
     - type: from_entity
@@ -99,13 +107,17 @@ slots:
     influence_conversation: true
     mappings:
     - type: custom
+  suggested_cities:
+    type: list
+    influence_conversation: true
+    mappings:
+    - type: custom
 forms:
   trip_form:
     required_slots:
     - specify_place
     - state
     - city_description
-    - selected_city
     - budget
     - duration
     - arrival_date
