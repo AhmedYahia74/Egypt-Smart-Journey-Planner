@@ -69,57 +69,55 @@ class ValidateTripForm(FormValidationAction):
         required_slots = []
 
         # If we don't have specify_place yet, ask for it first
-        if tracker.get_slot("specify_place") is None and not tracker.get_slot("state"):
-            print("specify_place is None, adding to required_slots")  # Debug print
-            required_slots.append("specify_place")
-            return required_slots
+        if not tracker.get_slot("state"):
+            if tracker.get_slot("specify_place") is None:
+                print("specify_place is None, adding to required_slots")  # Debug print
+                required_slots.append("specify_place")
+                return required_slots
 
-        # If specify_place is True but no state, ask for state
-        if tracker.get_slot("specify_place") and not tracker.get_slot("state"):
-            print("specify_place is True but no state, adding state to required_slots")  # Debug print
-            required_slots.append("state")
-            return required_slots
+            # If specify_place is True but no state, ask for state
+            if tracker.get_slot("specify_place"):
+                print("specify_place is True but no state, adding state to required_slots")  # Debug print
+                required_slots.append("state")
+                return required_slots
 
-        # If specify_place is False, ask for city description
-        if not tracker.get_slot("specify_place") and not tracker.get_slot("city_description"):
-            print("specify_place is False and no city_description, adding city_description to required_slots")  # Debug print
-            required_slots.append("city_description")
-            return required_slots
+            # If specify_place is False, ask for city description
+            if not tracker.get_slot("specify_place") and not tracker.get_slot("city_description"):
+                print("specify_place is False and no city_description, adding city_description to required_slots")  # Debug print
+                required_slots.append("city_description")
+                return required_slots
 
-        # If we have city description but no selected city, and we're awaiting city selection
-        if (tracker.get_slot("city_description") and 
-            not tracker.get_slot("selected_city") and
-            not tracker.get_slot("state") and
-            tracker.get_slot("awaiting_city_selection")):
-            print("Have city_description but no selected_city, adding selected_city to required_slots")  # Debug print
-            required_slots.append("selected_city")
-            return required_slots
+            # If we have city description but no selected city, and we're awaiting city selection
+            if (tracker.get_slot("city_description") and
+                not tracker.get_slot("selected_city") and
+                tracker.get_slot("awaiting_city_selection")):
+                print("Have city_description but no selected_city, adding selected_city to required_slots")  # Debug print
+                required_slots.append("selected_city")
+                return required_slots
 
-        # If we have city description but no state, and we're not awaiting city selection
-        if (tracker.get_slot("city_description") and 
-            not tracker.get_slot("state") and 
-            not tracker.get_slot("awaiting_city_selection")):
-            print("Have city_description but no state, validating city_description first")  # Debug print
-            return ["city_description"]
+            # If we have city description but no state, and we're not awaiting city selection
+            if (tracker.get_slot("city_description") and
+                not tracker.get_slot("awaiting_city_selection")):
+                print("Have city_description but no state, validating city_description first")  # Debug print
+                return ["city_description"]
 
         # After we have the state, check for other required slots
-        if tracker.get_slot("state"):
+        else:
             print("State is set, checking other required slots")  # Debug print
-            
             # Check each required slot in order
-            if not tracker.get_slot("budget"):
+            if not tracker.get_slot("budget") or tracker.get_slot("requested_slot") == "budget":
                 print("Adding budget to required_slots")  # Debug print
                 required_slots.append("budget")
-            elif not tracker.get_slot("duration"):
+            if not tracker.get_slot("duration") or tracker.get_slot("requested_slot") == "duration":
                 print("Adding duration to required_slots")  # Debug print
                 required_slots.append("duration")
-            elif not tracker.get_slot("arrival_date"):
+            if not tracker.get_slot("arrival_date") or tracker.get_slot("requested_slot") == "arrival_date":
                 print("Adding arrival_date to required_slots")  # Debug print
                 required_slots.append("arrival_date")
-            elif not tracker.get_slot("hotel_features"):
+            if not tracker.get_slot("hotel_features") or tracker.get_slot("requested_slot") == "hotel_features":
                 print("Adding hotel_features to required_slots")  # Debug print
                 required_slots.append("hotel_features")
-            elif not tracker.get_slot("landmarks_activities"):
+            if not tracker.get_slot("landmarks_activities") or tracker.get_slot("requested_slot") == "landmarks_activities":
                 print("Adding landmarks_activities to required_slots")  # Debug print
                 required_slots.append("landmarks_activities")
 
@@ -336,6 +334,8 @@ class ValidateTripForm(FormValidationAction):
 
     def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                         domain: Dict[Text, Any]) -> Dict[Text, Any]:
+        print("=== validate_budget called ===")
+        print(f"Slot value: {slot_value}")
         try:
             # Convert slot_value to string if it's not already
             if not isinstance(slot_value, str):
@@ -397,40 +397,68 @@ class ValidateTripForm(FormValidationAction):
     def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                           domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            match = re.match(r'(\d+|[\w\s-]+)\s*(day|week|month|days|weeks|months)', slot_value, re.IGNORECASE)
+            # Convert slot_value to string if it's not already
+            if not isinstance(slot_value, str):
+                slot_value = str(slot_value)
+
+            # More flexible regex pattern that handles various formats
+            match = re.match(r'(\d+|[\w\s-]+)\s*(day|week|month|days|weeks|months)?', slot_value.lower())
             if not match:
-                dispatcher.utter_message("Please enter a valid duration (e.g., '7 days', 'two weeks', '1 month').")
+                dispatcher.utter_message("Please enter a valid duration (e.g., '7 days', 'two weeks', '1 month', '3').")
                 return {"duration": None}
 
             number_part, unit = match.groups()
+            number_part = number_part.strip()
 
+            # Try to convert the number part
             try:
+                # First try direct integer conversion
                 number = int(number_part)
             except ValueError:
                 try:
+                    # If that fails, try word to number conversion
                     number = w2n.word_to_num(number_part)
                 except ValueError:
                     dispatcher.utter_message("Please enter a valid number for the duration.")
                     return {"duration": None}
 
-            if unit.lower() in ["day", "days"]:
+            # If no unit is specified, assume days
+            if not unit:
+                unit = "days"
+            else:
+                unit = unit.lower()
+
+            # Convert to days based on unit
+            if unit in ["day", "days"]:
                 duration_days = number
-            elif unit.lower() in ["week", "weeks"]:
+            elif unit in ["week", "weeks"]:
                 duration_days = number * 7
-            elif unit.lower() in ["month", "months"]:
+            elif unit in ["month", "months"]:
                 duration_days = number * 30
             else:
-                dispatcher.utter_message("Please specify a valid unit (e.g., days, weeks, months).")
+                dispatcher.utter_message("Please specify a valid unit (days, weeks, or months).")
                 return {"duration": None}
 
+            # Validate the duration
             if duration_days <= 0:
-                dispatcher.utter_message("Please enter a valid duration,the duration should be greater than zero.")
+                dispatcher.utter_message("Please enter a valid duration greater than zero.")
                 return {"duration": None}
+            
+            if duration_days > 365:  # Add a reasonable upper limit
+                dispatcher.utter_message("Please enter a duration of one year or less.")
+                return {"duration": None}
+
+            # Store the user message
             user_message = tracker.get_slot("user_message") or {}
             user_message["duration"] = tracker.latest_message.get('text', '')
-            return {"duration": duration_days, "user_message": user_message}
+            
+            return {
+                "duration": duration_days,
+                "user_message": user_message
+            }
 
         except Exception as e:
+            logger.error(f"Error validating duration: {str(e)}")
             dispatcher.utter_message("Something went wrong while processing the duration. Please try again.")
             return {"duration": None}
 
