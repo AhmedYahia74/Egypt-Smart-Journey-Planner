@@ -20,7 +20,6 @@ intents:
 - share_hotel_features
 - share_landmarks_activities
 - share_state
-- share_weather_preference
 - thankyou
 entities:
 - hotel_features
@@ -29,7 +28,6 @@ entities:
 - budget
 - duration
 - arrival_date
-- weather_preference
 - modify_field
 slots:
   specify_place:
@@ -141,14 +139,6 @@ responses:
   - text: Which city are you thinking about?
   - text: What city do you have in mind?
   - text: That's great! Which city are you interested in?
-  utter_ask_weather_preference:
-  - text: What kind of weather do you like?
-  - text: What's your preferred weather?
-  - text: What's your favorite climate?
-  - text: What kind of weather are you looking for?
-  - text: What's your ideal weather?
-  - text: What kind of weather do you enjoy?
-  - text: What's your favorite weather condition?
   utter_ask_budget:
   - text: How much are you willing to spend?
   - text: What's your budget for the trip?
