@@ -63,27 +63,21 @@ class ValidateTripForm(FormValidationAction):
             tracker: "Tracker",
             domain: Dict[Text, Any],
     ) -> List[Text]:
-        print("=== required_slots called ===")  # Debug print
-        print(f"Current slots: {tracker.slots}")  # Debug print
-        
         required_slots = []
 
         # If we don't have specify_place yet, ask for it first
         if not tracker.get_slot("state"):
-            if tracker.get_slot("specify_place") is None:
-                print("specify_place is None, adding to required_slots")  # Debug print
+            if tracker.get_slot("specify_place") is None or tracker.get_slot("requested_slot") == "specify_place":
                 required_slots.append("specify_place")
                 return required_slots
 
             # If specify_place is True but no state, ask for state
             if tracker.get_slot("specify_place"):
-                print("specify_place is True but no state, adding state to required_slots")  # Debug print
                 required_slots.append("state")
                 return required_slots
 
             # If specify_place is False, ask for city description
             if not tracker.get_slot("specify_place") and not tracker.get_slot("city_description"):
-                print("specify_place is False and no city_description, adding city_description to required_slots")  # Debug print
                 required_slots.append("city_description")
                 return required_slots
 
@@ -91,37 +85,23 @@ class ValidateTripForm(FormValidationAction):
             if (tracker.get_slot("city_description") and
                 not tracker.get_slot("selected_city") and
                 tracker.get_slot("awaiting_city_selection")):
-                print("Have city_description but no selected_city, adding selected_city to required_slots")  # Debug print
                 required_slots.append("selected_city")
                 return required_slots
 
-            # If we have city description but no state, and we're not awaiting city selection
-            if (tracker.get_slot("city_description") and
-                not tracker.get_slot("awaiting_city_selection")):
-                print("Have city_description but no state, validating city_description first")  # Debug print
-                return ["city_description"]
-
         # After we have the state, check for other required slots
         else:
-            print("State is set, checking other required slots")  # Debug print
             # Check each required slot in order
             if not tracker.get_slot("budget") or tracker.get_slot("requested_slot") == "budget":
-                print("Adding budget to required_slots")  # Debug print
                 required_slots.append("budget")
             if not tracker.get_slot("duration") or tracker.get_slot("requested_slot") == "duration":
-                print("Adding duration to required_slots")  # Debug print
                 required_slots.append("duration")
             if not tracker.get_slot("arrival_date") or tracker.get_slot("requested_slot") == "arrival_date":
-                print("Adding arrival_date to required_slots")  # Debug print
                 required_slots.append("arrival_date")
             if not tracker.get_slot("hotel_features") or tracker.get_slot("requested_slot") == "hotel_features":
-                print("Adding hotel_features to required_slots")  # Debug print
                 required_slots.append("hotel_features")
             if not tracker.get_slot("landmarks_activities") or tracker.get_slot("requested_slot") == "landmarks_activities":
-                print("Adding landmarks_activities to required_slots")  # Debug print
                 required_slots.append("landmarks_activities")
 
-        print(f"Final required_slots: {required_slots}")  # Debug print
         return required_slots
 
     def validate_specify_place(self,
@@ -129,21 +109,15 @@ class ValidateTripForm(FormValidationAction):
                                dispatcher: CollectingDispatcher,
                                tracker: Tracker,
                                domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        print("=== validate_specify_place called ===")  # Debug print
         intent = tracker.latest_message['intent'].get('name')
         text = tracker.latest_message.get('text', '').lower()
-        print(f"Intent: {intent}, Text: {text}")  # Debug print
-        print(f"Entities: {tracker.latest_message.get('entities', [])}")  # Debug print
-        print(f"Current slots: {tracker.slots}")  # Debug print
 
         # First check if there's a state entity
         entities = tracker.latest_message.get('entities', [])
         for entity in entities:
             if entity.get('entity') == 'state':
                 state_value = entity.get('value')
-                print(f"Found state entity: {state_value}")  # Debug print
                 if state_value.lower() in [city.lower() for city in CITIES_NAMES]:
-                    print(f"State {state_value} is valid")  # Debug print
                     return {
                         "specify_place": True,
                         "state": state_value,
@@ -152,7 +126,6 @@ class ValidateTripForm(FormValidationAction):
         
         # Handle other intents
         if intent == "affirm":
-            print("Handling affirm intent")  # Debug print
             # Check if there's a city mentioned in the text
             for city in CITIES_NAMES:
                 if city.lower() in text:
@@ -167,7 +140,6 @@ class ValidateTripForm(FormValidationAction):
                 "requested_slot": "state"
             }
         elif intent == "deny":
-            print("Handling deny intent")  # Debug print
             return {
                 "specify_place": False,
                 "requested_slot": "city_description"
@@ -181,44 +153,30 @@ class ValidateTripForm(FormValidationAction):
                     "state": city,
                     "requested_slot": "budget"
                 }
-        
-        print("No valid conditions met, returning None")  # Debug print
+
         return {"specify_place": None}
 
     def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                                   domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            print("=== validate_city_description called ===")  # Debug print
-            print(f"City description: {slot_value}")  # Debug print
-            print(f"Current slots: {tracker.slots}")  # Debug print
-            
             suggest_cities_url = get_api_urls().get("suggest_city")
-            print(f"API URL: {suggest_cities_url}")  # Debug print
-            
             if not suggest_cities_url:
-                print("No API URL found for suggest_city")  # Debug print
                 raise KeyError("'suggest_cities' key not found in API URLs configuration")
-            
-            print("Making API request...")  # Debug print
+
             response = requests.post(
                 suggest_cities_url,
                 json={
                     "city_description": slot_value
                 }
             )
-            print(f"API Response status: {response.status_code}")  # Debug print
-            print(f"API Response content: {response.text}")  # Debug print
-            
             if response.status_code == 200:
                 suggested_cities = response.json().get("top_cities", [])
-                print(f"Suggested cities: {suggested_cities}")  # Debug print
                 
                 if suggested_cities:
                     # Format the cities for display
                     suggested_cities_msg = "\n".join(
                         [f"{i+1}. {city['name']} - {city['description']}" for i, city in enumerate(suggested_cities)]
                     )
-                    print(f"Formatted message: {suggested_cities_msg}")  # Debug print
                     
                     dispatcher.utter_message(text=f"Here are some suggested cities that may suit you:\n{suggested_cities_msg}")
                     dispatcher.utter_message(text="Please choose one of these cities for your trip.")
@@ -234,15 +192,12 @@ class ValidateTripForm(FormValidationAction):
                         "requested_slot": "selected_city"  # Request the selected_city slot
                     }
                 else:
-                    print("No cities found in response")  # Debug print
                     dispatcher.utter_message("Sorry, I couldn't find any cities matching your description. Please try again.")
                     return {"city_description": None}
             else:
-                print(f"API request failed with status {response.status_code}")  # Debug print
                 dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again.")
                 return {"city_description": None}
         except Exception as e:
-            print(f"Error in validate_city_description: {str(e)}")  # Debug print
             dispatcher.utter_message(
                 f"Something went wrong while processing your city description. Please try again. Error: {str(e)}")
             return {"city_description": None}
@@ -252,22 +207,16 @@ class ValidateTripForm(FormValidationAction):
                        dispatcher: CollectingDispatcher,
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        print("=== validate_selected_city called ===")  # Debug print
-        print(f"Slot value: {slot_value}")  # Debug print
-        print(f"Current slots: {tracker.slots}")  # Debug print
         
         # Get the city from either the slot value or the latest message
         city = slot_value or tracker.latest_message.get('text', '').strip()
-        print(f"Processing city: {city}")  # Debug print
         
         # Get suggested cities
         suggested_cities = tracker.get_slot("suggested_cities") or []
-        print(f"Suggested cities: {suggested_cities}")  # Debug print
         
         # Check if the user's input matches any of the suggested cities
         for suggested_city in suggested_cities:
             if city.lower() == suggested_city.lower():
-                print(f"Valid city found: {city}")  # Debug print
                 user_messages = tracker.get_slot("user_message") or {}
                 user_messages["state"] = tracker.latest_message.get('text', '')
                 return {
@@ -287,23 +236,16 @@ class ValidateTripForm(FormValidationAction):
                        dispatcher: CollectingDispatcher,
                        tracker: Tracker,
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        print("=== validate_state called ===")  # Debug print
-        print(f"Slot value: {slot_value}")  # Debug print
-        print(f"Current slots: {tracker.slots}")  # Debug print
-        
         # Get the city from either the slot value or the latest message
         city = slot_value or tracker.latest_message.get('text', '').strip()
-        print(f"Processing city: {city}")  # Debug print
         
         # Check if we're awaiting city selection
         if tracker.get_slot("awaiting_city_selection"):
             suggested_cities = tracker.get_slot("suggested_cities") or []
-            print(f"Suggested cities: {suggested_cities}")  # Debug print
             
             # Check if the user's input matches any of the suggested cities
             for suggested_city in suggested_cities:
                 if city.lower() == suggested_city.lower():
-                    print(f"Valid city found: {city}")  # Debug print
                     user_messages = tracker.get_slot("user_message") or {}
                     user_messages["state"] = tracker.latest_message.get('text', '')
                     return {
@@ -319,7 +261,6 @@ class ValidateTripForm(FormValidationAction):
         
         # If not awaiting selection, check if the city is in our list of valid cities
         if city.lower() in [city.lower() for city in CITIES_NAMES]:
-            print(f"Valid city found: {city}")  # Debug print
             user_messages = tracker.get_slot("user_message") or {}
             user_messages["state"] = tracker.latest_message.get('text', '')
             return {
@@ -328,7 +269,6 @@ class ValidateTripForm(FormValidationAction):
                 "requested_slot": "budget"
             }
         else:
-            print(f"Invalid city: {city}")  # Debug print
             dispatcher.utter_message("Sorry, we don't have Trips in this city. Can you choose another destination?")
             return {"state": None}
 
