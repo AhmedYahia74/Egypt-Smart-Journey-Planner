@@ -1672,6 +1672,7 @@ nlu:
     - I want a city that's [in the heart of everything and perfect for families](city_feature)
     - I want a city that's [great for couples and ideal for solo travelers](city_feature)
     - I want a city that's [good for groups and safe](city_feature)
+    - no, i want a city with [beaches and quiet places](city_feature)
 - intent: edit_preference
   examples: |
     - I want to change my [budget](modify_field)

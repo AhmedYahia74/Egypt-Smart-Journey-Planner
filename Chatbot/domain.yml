@@ -29,6 +29,7 @@ entities:
 - duration
 - arrival_date
 - modify_field
+- city_feature
 slots:
   specify_place:
     type: bool
@@ -52,6 +53,13 @@ slots:
     mappings:
     - type: from_text
       intent: describe_city
+      entity: city_feature
+  city_features:
+    type: list
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: city_feature
   selected_city:
     type: text
     influence_conversation: true
@@ -84,11 +92,6 @@ slots:
     mappings:
     - type: from_entity
       entity: arrival_date
-  weather_preference:
-    type: text
-    mappings:
-    - type: from_entity
-      entity: weather_preference
   modify_field:
     type: text
     mappings:
@@ -123,111 +126,90 @@ forms:
     - landmarks_activities
 responses:
   utter_greet:
-  - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
+    - text: "Hey there! 👋 I'm Rahhal, your friendly travel companion for exploring the wonders of Egypt! 🇪🇬 I'm super excited to help you plan an unforgettable adventure. What's on your mind today?"
+    - text: "Hi! 🙌 I'm Rahhal, and I'd love to be your travel buddy for your Egyptian journey! I've got tons of insider tips and can't wait to help you discover amazing places. What would you like to explore first?"
+    - text: "Welcome! 🌟 I'm Rahhal, and I'm here to make your Egyptian adventure planning a breeze! Whether you're dreaming of ancient pyramids or beautiful beaches, I'm all ears. What's your travel dream?"
+
   utter_goodbye:
-  - text: Bye
+    - text: "Take care! 👋 I hope your Egyptian adventure is filled with incredible memories and amazing experiences. Don't forget to share your stories when you're back!"
+    - text: "Until next time! 👋 Safe travels, and I hope you fall in love with Egypt just as much as I have. Can't wait to hear about your adventures!"
+    - text: "Goodbye for now! ✨ I'm here whenever you need help planning your next Egyptian adventure. Have an amazing time exploring!"
+    - text: "Until next time! 👋 Safe travels, and I hope you fall in love with Egypt just as much as I have. Can't wait to hear about your adventures!"
+    - text: "Goodbye for now! ✨ I'm here whenever you need help planning your next Egyptian adventure. Have an amazing time exploring!"
+
   utter_iamabot:
-  - text: I am Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
+    - text: "I'm Rahhal, your friendly AI travel companion! 🤖 While I might be digital, I'm passionate about helping you discover the magic of Egypt. Think of me as your local friend who knows all the best spots! 😊"
+    - text: "I'm Rahhal, your virtual travel buddy! 🌍 I may be an AI, but I'm here to chat and help plan your perfect Egyptian adventure, just like a friend would. What can I help you with today?"
+    - text: "Hey! I'm Rahhal, your AI travel assistant with a love for Egypt! 🤖 I might be digital, but I'm here to make your travel planning fun and easy. Let's chat about your dream trip!"
+
   utter_ask_specify_place:
-  - text: Is there a specific city you want to visit in Egypt?
-  - text: Would you like to specify a city for your trip?
-  - text: Do you have a particular city in mind for your trip?
+    - text: "I'm curious - have you been dreaming about any particular city in Egypt? Maybe the pyramids of Giza, the beaches of Sharm El Sheikh, or the ancient temples of Luxor? "
+    - text: "What's your dream destination in Egypt? I'd love to hear what's captured your imagination!"
+    - text: "Have you got your heart set on any specific place in Egypt? I'm here to help make your travel dreams come true! 😊"
+
   utter_ask_state:
-  - text: What city are you interested in?
-  - text: Which city do you want to visit?
-  - text: What city are you considering for your trip?
-  - text: Which city are you thinking about?
-  - text: What city do you have in mind?
-  - text: That's great! Which city are you interested in?
+    - text: "Which city has caught your eye? I'd love to hear what draws you there!"
+    - text: "Tell me about your dream destination! I'm excited to help you explore it!"
+    - text: "What's the city that's calling your name? I can't wait to help you discover its magic! ✨"
+    - text: "Which city are you thinking about? 🏙️"
+    - text: "Where would you love to go? I'm all ears! 👂💬"
+    - text: "If you could be anywhere in Egypt right now, where would it be? ✨"
+
   utter_ask_budget:
-  - text: How much are you willing to spend?
-  - text: What's your budget for the trip?
-  - text: How much money do you have for the trip?
-  - text: What's your spending limit?
-  - text: How much are you planning to spend?
-  - text: What's your budget for the vacation?
-  - text: How much money do you have for the holiday?
-  - text: What's your spending limit for the trip?
-  - text: How much are you planning to spend on the trip?
-  - text: What's your budget for the getaway?
-  - text: How much money do you have for the journey?
+    - text: "Let's talk budget! 💸 I want to make sure we plan something that's perfect for you. What's your comfortable spending range?"
+    - text: "Money matters! 💰 I'd love to help you plan something amazing within your budget. What are you thinking of spending?"
+    - text: "Let's make sure we plan something that works for you! What's your ideal budget for this adventure?"
+    - text: "Let me know your budget — I’ll make sure we stay within it! 💰😊"
+
   utter_ask_hotel_features:
-  - text: What kind of hotel are you looking for?
-  - text: What features do you want in the hotel?
-  - text: What amenities are you interested in?
-  - text: What services do you need in the hotel?
-  - text: What facilities are you looking for in the hotel?
-  - text: What kind of accommodation are you interested in?
-  - text: What type of hotel are you looking for?
-  - text: What features do you need in the hotel?
-  - text: What amenities are you looking for in the hotel?
-  - text: What services do you want in the hotel?
+    - text: "What would make your stay extra special? Maybe a pool with a view, a spa, or perhaps a rooftop restaurant? I'm all ears!👂"
+    - text: "Let's find your perfect home away from home! 🛌 What facilities would make your stay unforgettable in the hotel?"
+    - text: "I want to find you the perfect place to stay! 🌟 What are your must-haves for a comfortable and enjoyable stay?"
+
   utter_ask_landmarks_activities:
-  - text: What activities are you interested in?
-  - text: What landmarks do you want to visit?
-  - text: What attractions are you looking for?
-  - text: What sights do you want to see?
-  - text: What places do you want to explore?
-  - text: What activities are you looking for?
-  - text: What landmarks do you want to explore?
-  - text: What attractions are you interested in?
-  - text: What sights do you want to visit?
-  - text: What places do you want to see?
+    - text: "What gets you excited when you travel? 🎡 Are you into history, adventure, relaxation, or maybe a mix of everything?"
+    - text: "I'd love to know what interests you most! 🏛️ Are you drawn to ancient sites, local culture, or maybe some fun activities?"
+    - text: "Let's plan some amazing experiences! 😍 What kind of activities make your heart skip a beat when you travel?"
+
   utter_ask_duration:
-  - text: How long are you planning to stay?
-  - text: What's the duration of your trip?
-  - text: How many days are you planning to stay?
-  - text: What's the length of your trip?
-  - text: How long are you planning to be there?
-  - text: What's the duration of your vacation?
-  - text: How many days are you planning to be there?
-  - text: What's the length of your holiday?
-  - text: How long are you planning to go for?
+    - text: "How long are you planning to stay? 📅 I want to make sure we plan the perfect amount of activities!"
+    - text: "What's your ideal trip length? ⏳ I'll make sure every day is packed with amazing experiences!"
+    - text: How long would you love to stay? Just give me a number and I’ll do the rest 😊
+
   utter_ask_arrival_date:
-  - text: When are you planning to arrive?
-  - text: What's your arrival date?
-  - text: When are you arriving?
-  - text: What's your arrival time?
-  - text: When are you planning to get there?
-  - text: What's your arrival day?
-  - text: When are you arriving at the destination?
-  - text: What's your arrival schedule?
-  - text: When are you planning to reach the destination?
-  utter_ask_family_status:
-  - text: Who are you traveling with?
-  - text: What's your family status?
-  - text: Who are you coming with?
-  - text: What's your travel companion?
-  - text: Who are you going with?
-  - text: What's your family situation?
-  - text: Who are you visiting with?
-  - text: What's your travel partner?
-  - text: Who are you traveling alongside?
-  - text: What's your family arrangement?
+    - text: "When's the big day? 🗓️ I want to make sure we plan something perfect for the season!"
+    - text: "What dates are you thinking of? 📆 I'll help you plan around any special events or weather considerations!"
+    - text: "When are you planning to arrive? 🚀 I can't wait to help you plan your perfect timing!"
+
   utter_ask_trip_details:
-  - text: Can you provide more details about your trip? For example, the duration, budget, and any specific activities or landmarks you want to visit.
+    - text: "I'd love to know more about your dream trip! 📝 What's most important to you - the sights, the experiences, or maybe the local culture?"
+    - text: "Let's make your trip perfect! 💬 What aspects of your journey are you most excited about?"
+    - text: "I'm all ears! 🎯 What details would make this trip truly special for you?"
+
   utter_start_suggestions:
-  - text: I have all the information I need to suggest your trip. I'll get started on that now.
-  - text: I have gathered all the details required to suggest your trip. I'll begin working on that now.
-  - text: I have collected all the necessary information to suggest your trip. I'll start working on that now.
+    - text: "Perfect! I'm going to craft something amazing just for you! 🍽️ Give me a moment to put together the perfect plan!"
+    - text: "Excellent! I'm excited to create your dream itinerary! 🪄 Let me work my magic!"
+    - text: "Thanks for sharing! 💖 I'm putting together something special that I think you'll love!"
+
   utter_thankyou:
-  - text: You're welcome!
-  - text: You're welcome! I'm here to help you.
-  - text: You're welcome! I'm here to assist you.
-  - text: It's my pleasure to help you!
+    - text: "It's my pleasure! 😊 I love helping people discover the magic of Egypt. Can't wait to hear about your adventures!"
+    - text: "Anytime! 💛 Helping you plan your Egyptian adventure is what I'm here for!"
+    - text: "You're welcome! 🧭 I'm so excited for you to experience all the wonders Egypt has to offer!"
+
   utter_out_of_scope:
-  - text: I'm sorry, I'm not equipped to help with that.
-  - text: Sorry, I can't help with that.
+    - text: "I'm really focused on helping with Egyptian travel plans! 🌍 Maybe I can help you plan an amazing trip instead?"
+    - text: "I'm your go-to for Egyptian adventures! 😉 Let me know if you'd like help planning your perfect trip!"
+
   utter_ask_city_description:
-  - text: Can you describe the city you want to visit?
-  - text: Can you provide more details about the city you want to visit?
-  - text: Can you tell me more about the city you want to visit?
-  - text: Can you describe the city you're interested in?
-  - text: Can you provide more information about the city you want to visit?
+    - text: "What's your ideal city vibe? 🏝️ Are you looking for something peaceful, exciting, historic, or maybe a bit of everything?"
+    - text: "Help me picture your perfect city! 👀 What kind of atmosphere are you dreaming of?"
+    - text: "I'd love to know what you're looking for! 🎨 What kind of city would make your heart sing?"
+
   utter_choose_city:
-  - text: Can you please choose a city you like from the options?
-  - text: Please select a city you prefer from the options.
-  - text: Can you pick a city you like from the options?
+    - text: "I've got some amazing options for you! 😍 Which one speaks to your travel dreams?"
+    - text: "Take a look at these fantastic cities! 🌆 Which one feels like the perfect match for your adventure?"
+    - text: "I've picked some special places just for you! 🧳 Which one feels like it could be your perfect destination?"
+
 actions:
 - validate_trip_form
 - action_suggest_plan
@@ -237,7 +219,7 @@ actions:
 - utter_iamabot
 - utter_ask_specify_place
 - utter_ask_state
-- utter_ask_weather_preference
+- utter_ask_budget
 - action_clear_chat
 - action_store_user_messages
 - action_suggest_hotels
