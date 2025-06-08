@@ -13,6 +13,7 @@ public class CompanyProfileMapper {
                 .name(companyDto.getName())
                 .userId(company.getUserId())
                 .description(companyDto.getDescription())
+                .stripeAccountId(companyDto.getStripeAccountId())
                 .build();
     }
 

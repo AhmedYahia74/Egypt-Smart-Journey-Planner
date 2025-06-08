@@ -3,12 +3,18 @@ package com.rahhal.controller.admin;
 import com.rahhal.dto.CompanyDto;
 import com.rahhal.dto.UserDto;
 import com.rahhal.service.AdminService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.AccountLink;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,36 +26,42 @@ public class AccountController {
 
     public AccountController(AdminService adminServiceService) {this.adminService = adminServiceService;}
 
+    @Tag(name = "Account Management - Admin side")
+    @Operation(summary = "Add a new company",
+            description = "Allows an admin to add a new company.<br><br>" +
+                    "returns a 201 status code if the company is added successfully.")
     @PostMapping("/company")
-    public ResponseEntity<Void> addNewCompany(@Valid @RequestBody CompanyDto company) {
-        adminService.addNewCompany(company);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public void addNewCompany(@Valid @RequestBody CompanyDto company,
+                                              HttpServletResponse response) throws StripeException, IOException {
+        AccountLink accountLink = adminService.addNewCompany(company);
+
+        response.sendRedirect(accountLink.getUrl());
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> viweAllAccounts()
+    public ResponseEntity<List<UserDto>> viewAllAccounts()
     {
         List<UserDto> accounts=adminService.viewAllAccounts();
         return ResponseEntity.ok(accounts);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteAccount( @Valid @PathVariable int userId)
-    {
+    public ResponseEntity<Void> deleteAccount( @Valid @PathVariable int userId) throws StripeException {
         adminService.deleteAccount(userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/company/{companyId}")
-    public ResponseEntity<String> reactivateCompany( @Valid @PathVariable int companyId) {
+    public ResponseEntity<Void> reactivateCompany( @Valid @PathVariable int companyId) {
         adminService.reactivateCompanyAccount(companyId);
-        return ResponseEntity.ok("Company account reactivated successfully");
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{usuerId}/{status}")
-    public ResponseEntity<String> changeStatus( @Valid @PathVariable int usuerId, @PathVariable boolean status) {
-        adminService.changeAccountStatus(usuerId, status);
-        return ResponseEntity.ok("Account status change successfully");
+    @PutMapping("/status")
+    public ResponseEntity<Void> changeStatus( @Valid @RequestParam("userId") int userId,
+                                              @RequestParam("status") boolean status) {
+        adminService.changeAccountStatus(userId, status);
+        return ResponseEntity.ok().build();
     }
 
 

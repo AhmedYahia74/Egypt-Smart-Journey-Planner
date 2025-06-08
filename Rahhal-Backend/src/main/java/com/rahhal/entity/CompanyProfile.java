@@ -24,10 +24,11 @@ public class CompanyProfile {
     private String description;
 
     @Column(name = "user_id")
-      private int userId;
+    private int userId;
+
+    private String stripeAccountId;
 
     @OneToMany(mappedBy = "company")
     List<Review> reviews;
-
 
 }

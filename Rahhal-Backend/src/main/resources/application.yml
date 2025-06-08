@@ -10,3 +10,5 @@ security:
   jwt:
     secret-key: 9SlLvC1uDlj0vN2e5Wh9a692xd4QZuPaoGDHhhvD404OEJI5g/x6iiNaoM/z7PUfoYHwG5pE35426585AWFFXA==
     expiration-time: 9000000
+stripe:
+  secret-key: sk_test_51RWN3RFdCEb8VNeQ384lp3nz9G9e1FCGZywrT1Sn0mP2Wpzp6gVheViGEY6lfZ1SeYNkP6bAoVZFWliMkxD0U9oc00yQ3avsZ8
