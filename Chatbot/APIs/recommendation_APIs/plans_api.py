@@ -91,8 +91,8 @@ def find_best_plan_options(hotels, activities, landmarks, budget, duration):
 
 
 
-@app.post("/suggest_plan")
-def suggest_plan(request: PlanRequest):
+@app.post("/api/plans")
+def create_plan(request: PlanRequest):
     plan_combinations = find_best_plan_options(
         request.suggested_hotels,
         request.suggested_activities,
@@ -101,7 +101,6 @@ def suggest_plan(request: PlanRequest):
         request.duration
     )
     displayed_plan_combinations = []
-    remove_keys = ['id', 'score']
     for plan_combination in plan_combinations:
         temp = {}
         for key, value in plan_combination.items():
@@ -109,16 +108,11 @@ def suggest_plan(request: PlanRequest):
                 continue
 
             if key == 'hotel':
-                # Hotel is a single dictionary
-                cleaned_hotel = {k: v for k, v in value.items() if k not in remove_keys}
-                temp[key] = cleaned_hotel
+                # Keep all hotel fields
+                temp[key] = value
             elif key in ['activities', 'landmarks']:
-                # Activities and landmarks are lists of dictionaries
-                cleaned_items = []
-                for item in value:
-                    cleaned_item = {k: v for k, v in item.items() if k not in remove_keys}
-                    cleaned_items.append(cleaned_item)
-                temp[key] = cleaned_items
+                # Keep all fields for activities and landmarks
+                temp[key] = value
             else:
                 # Handle other keys normally
                 temp[key] = value

@@ -1,19 +1,128 @@
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet
 import requests
 import json
 import time
-from typing import Any, Dict, List, Text
+from typing import Any, Dict, List, Text, Optional
 from requests.exceptions import RequestException, Timeout
 from config_helper import get_api_urls
 import logging
+from pydantic import BaseModel
+from dataclasses import dataclass
+
 logger = logging.getLogger(__name__)
 
+class APIError(Exception):
+    # Base exception for API related errors
+    pass
+
+class APIResponseError(APIError):
+    # Exception for invalid API responses
+    pass
+
+class APITimeoutError(APIError):
+    # Exception for API timeout errors
+    pass
+
+class APIConnectionError(APIError):
+    # Exception for API connection errors
+    pass
+
+class Hotel(BaseModel):
+    hotel_id: Optional[int] = None
+    hotel_name: str
+    longitude: float
+    latitude: float
+    facilities: List[str]
+    score: Optional[float] = None
+    price_per_night: Optional[float] = None
+
+class Activity(BaseModel):
+    id: Optional[int] = None
+    name: str
+    description: str
+    score: Optional[float] = None
+    price: float
+    duration: float
+
+class Landmark(BaseModel):
+    id: Optional[int] = None
+    name: str
+    description: str
+    score: Optional[float] = None
+    price: float
+    longitude: float
+    latitude: float
+
+class Plan(BaseModel):
+    hotel: Hotel
+    activities: List[Activity]
+    landmarks: List[Landmark]
+    total_score: Optional[float] = None
+    total_plan_cost: float
+
+class PlanResponse(BaseModel):
+    plan_combinations: List[Plan]
+    raw_data: Optional[Dict[str, Any]] = None
+
+@dataclass
+class APIConfig:
+    base_url: str
+    timeout: int = 30
+    max_retries: int = 3
+    retry_delay: int = 2
+
+class APIClient:
+    def __init__(self, config: APIConfig):
+        self.config = config
+        self.session = requests.Session()
+
+    def _make_request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
+        url = f"{self.config.base_url}{endpoint}"
+        retry_delay = self.config.retry_delay
+
+        for attempt in range(self.config.max_retries):
+            try:
+                response = self.session.request(
+                    method,
+                    url,
+                    timeout=self.config.timeout,
+                    **kwargs
+                )
+                response.raise_for_status()
+                return response.json()
+            except Timeout:
+                if attempt == self.config.max_retries - 1:
+                    raise APITimeoutError(f"Request timed out after {self.config.max_retries} attempts")
+                logger.warning(f"Attempt {attempt + 1} timed out, retrying in {retry_delay} seconds...")
+            except RequestException as e:
+                if attempt == self.config.max_retries - 1:
+                    raise APIConnectionError(f"Failed to connect to API: {str(e)}")
+                logger.warning(f"Attempt {attempt + 1} failed, retrying in {retry_delay} seconds...")
+            time.sleep(retry_delay)
+            retry_delay *= 2
+
+        raise APIError("Max retries exceeded")
 
 class SuggestPlan(Action):
     def name(self) -> Text:
         return "action_suggest_plan"
+
+    def __init__(self):
+        super().__init__()
+        self.api_configs = self._initialize_api_configs()
+
+    def _initialize_api_configs(self) -> Dict[str, APIConfig]:
+        api_urls = get_api_urls()
+        if not api_urls:
+            raise ValueError("API URLs configuration not found")
+
+        return {
+            "hotels": APIConfig(base_url=api_urls["hotels"]),
+            "activities": APIConfig(base_url=api_urls["activities"]),
+            "landmarks": APIConfig(base_url=api_urls["landmarks"]),
+            "plans": APIConfig(base_url=api_urls["plans"])
+        }
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         try:
@@ -23,204 +132,184 @@ class SuggestPlan(Action):
             duration = tracker.get_slot("duration")
             hotel_features = tracker.get_slot("hotel_features")
             landmarks_activities = tracker.get_slot("landmarks_activities")
-
-            # Safely get landmarks_activities_msg from user_message
             user_message = tracker.get_slot("user_message") or {}
             landmarks_activities_msg = user_message.get('landmarks_activities', '')
 
-            arrival_date = tracker.get_slot("arrival_date")
-
             # Validate required slots
-            if not all([city_name, budget, duration, arrival_date]):
+            if not all([city_name, budget, duration]):
                 dispatcher.utter_message("Missing required information. Please provide all necessary details.")
                 return []
 
-            # Get API URLs
-            api_urls = get_api_urls()
-            if not api_urls:
-                logger.error("API URLs configuration not found")
-                dispatcher.utter_message("Configuration error. Please try again later.")
-                return []
+            # Initialize API clients
+            hotels_client = APIClient(self.api_configs["hotels"])
+            activities_client = APIClient(self.api_configs["activities"])
+            landmarks_client = APIClient(self.api_configs["landmarks"])
+            plans_client = APIClient(self.api_configs["plans"])
 
-            # Get recommended hotels with timeout and retry
-            recommended_hotels = self._get_recommended_hotels(
-                api_urls.get("suggest_hotels"),
-                city_name, duration, budget, hotel_features, arrival_date
-            )
+            # Get recommendations
+            recommended_hotels = self._get_recommended_hotels(hotels_client, city_name, duration, budget, hotel_features)
+            recommended_activities = self._get_recommended_activities(activities_client, city_name, landmarks_activities_msg, landmarks_activities)
+            recommended_landmarks = self._get_recommended_landmarks(landmarks_client, city_name, landmarks_activities_msg, landmarks_activities)
 
-            # Get recommended landmarks and activities
-            recommended_activities, recommended_landmarks = self._get_recommended_activities_landmarks(
-                api_urls.get("suggest_landmarks_activities"),
-                city_name, landmarks_activities_msg, landmarks_activities
-            )
+            # Generate plan
+            plan = self._generate_plan(plans_client, city_name, budget, duration, recommended_hotels, recommended_activities, recommended_landmarks)
 
-            # Generate the final plan
-            plan = self._generate_plan(
-                api_urls.get("suggest_plan"),
-                city_name, budget, duration,
-                recommended_hotels, recommended_activities, recommended_landmarks
-            )
-
-            if plan:
-                dispatcher.utter_message(
-                    f"Here is a suggested plan for your trip to {city_name}",
-                    json_message=json.dumps(plan, indent=2)
-                )
+            if plan and plan.plan_combinations:
+                self._format_and_send_plans(dispatcher, plan.plan_combinations)
             else:
                 dispatcher.utter_message(
                     "Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration."
                 )
 
+        except APIError as e:
+            logger.error(f"API Error: {str(e)}")
+            dispatcher.utter_message("Sorry, there was an error communicating with our services. Please try again later.")
         except Exception as e:
-            logger.error(f"Error in SuggestPlan: {str(e)}")
+            logger.error(f"Unexpected error in SuggestPlan: {str(e)}")
             dispatcher.utter_message("Something went wrong while processing your plan request. Please try again.")
         return []
 
-    def _get_recommended_hotels(self, api_url, city_name, duration, budget, hotel_features, arrival_date):
-        if not api_url:
-            raise KeyError("'suggest_hotels' key not found in API URLs configuration")
-
+    def _get_recommended_hotels(self, client: APIClient, city_name: str, duration: int, budget: float, hotel_features: List[str]) -> List[Hotel]:
         try:
-            response = requests.post(
-                api_url,
+            response = client._make_request(
+                "POST",
+                "/api/hotels/search",
                 json={
                     "city_name": city_name,
                     "duration": duration,
                     "budget": budget,
-                    "user_facilities": hotel_features or [],  # Handle None case
-                    "arrival_date": arrival_date
-                },
-                timeout=10  # Add timeout
+                    "user_facilities": hotel_features or [],
+                }
             )
-            response.raise_for_status()
-            
-            # Validate response data
-            data = response.json()
-            if not isinstance(data, dict):
-                logger.error("Invalid response format: expected dictionary")
-                return []
-                
-            hotels = data.get("hotels", [])
-            if not isinstance(hotels, list):
-                logger.error("Invalid hotels data: expected list")
-                return []
-                
+            hotels = []
+            for hotel_data in response.get("hotels", []):
+                try:
+                    # Convert facilities_ids to facilities list if needed
+                    if "facilities_ids" in hotel_data:
+                        hotel_data["facilities"] = hotel_data.get("facilities", [])
+                    hotels.append(Hotel(**hotel_data))
+                except Exception as e:
+                    logger.error(f"Error parsing hotel data: {str(e)}")
+                    continue
             return hotels
-        except (RequestException, Timeout) as e:
+        except Exception as e:
             logger.error(f"Error fetching hotels: {str(e)}")
             return []
-        except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON response: {str(e)}")
-            return []
-        except Exception as e:
-            logger.error(f"Unexpected error in _get_recommended_hotels: {str(e)}")
-            return []
-        
 
-    def _get_recommended_activities_landmarks(self, api_url, city_name, landmarks_activities_msg, landmarks_activities):
-        if not api_url:
-            raise KeyError("'suggest_landmarks_activities' key not found in API URLs configuration")
-
+    def _get_recommended_activities(self, client: APIClient, city_name: str, user_message: str, preferred_activities: List[str]) -> List[Activity]:
         try:
-            # Increase timeout to 30 seconds and add retry logic
-            max_retries = 3
-            retry_delay = 2  # seconds
-
-            for attempt in range(max_retries):
+            response = client._make_request(
+                "POST",
+                "/api/activities/search",
+                json={
+                    "city_name": city_name,
+                    "user_message": user_message or "",
+                    "preferred_activities": preferred_activities or []
+                }
+            )
+            activities = []
+            for activity_data in response.get("activities", []):
                 try:
-                    response = requests.post(
-                        api_url,
-                        json={
-                            "city_name": city_name,
-                            "user_message": landmarks_activities_msg or "",
-                            "preferred_activities": landmarks_activities or []
-                        },
-                        timeout=30  # Increased timeout
-                    )
-                    response.raise_for_status()
-                    data = response.json()
-                    
-                    # Validate response data
-                    if not isinstance(data, dict):
-                        logger.error("Invalid response format: expected dictionary")
-                        return [], []
-                        
-                    activities = data.get("activities", [])
-                    landmarks = data.get("landmarks", [])
-                    
-                    if not isinstance(activities, list) or not isinstance(landmarks, list):
-                        logger.error("Invalid activities or landmarks data: expected lists")
-                        return [], []
-                        
-                    return activities, landmarks
-                except (RequestException, Timeout) as e:
-                    if attempt == max_retries - 1:  # Last attempt
-                        logger.error(f"Error fetching activities and landmarks after {max_retries} attempts: {str(e)}")
-                        return [], []
-                    logger.warning(f"Attempt {attempt + 1} failed, retrying in {retry_delay} seconds...")
-                    time.sleep(retry_delay)
-                    retry_delay *= 2  # Exponential backoff
-                except json.JSONDecodeError as e:
-                    logger.error(f"Invalid JSON response: {str(e)}")
-                    return [], []
-
+                    activities.append(Activity(**activity_data))
+                except Exception as e:
+                    logger.error(f"Error parsing activity data: {str(e)}")
+                    continue
+            return activities
         except Exception as e:
-            logger.error(f"Unexpected error in _get_recommended_activities_landmarks: {str(e)}")
-            return [], []
+            logger.error(f"Error fetching activities: {str(e)}")
+            return []
 
-    def _generate_plan(self, api_url, city_name, budget, duration, hotels, activities, landmarks):
-        if not api_url:
-            raise KeyError("'suggest_plan' key not found in API URLs configuration")
-
+    def _get_recommended_landmarks(self, client: APIClient, city_name: str, user_message: str, preferred_activities: List[str]) -> List[Landmark]:
         try:
-            # Validate input data
-            if not isinstance(hotels, list) or not isinstance(activities, list) or not isinstance(landmarks, list):
-                logger.error("Invalid input data: hotels, activities, and landmarks must be lists")
-                return None
+            response = client._make_request(
+                "POST",
+                "/api/landmarks/search",
+                json={
+                    "city_name": city_name,
+                    "user_message": user_message or "",
+                    "preferred_landmarks": preferred_activities or []
+                }
+            )
+            landmarks = []
+            for landmark_data in response.get("landmarks", []):
+                try:
+                    landmarks.append(Landmark(**landmark_data))
+                except Exception as e:
+                    logger.error(f"Error parsing landmark data: {str(e)}")
+                    continue
+            return landmarks
+        except Exception as e:
+            logger.error(f"Error fetching landmarks: {str(e)}")
+            return []
 
-            # Log the request payload for debugging
+    def _generate_plan(self, client: APIClient, city_name: str, budget: float, duration: int, 
+                      hotels: List[Hotel], activities: List[Activity], landmarks: List[Landmark]) -> Optional[PlanResponse]:
+        try:
             request_payload = {
                 "city_name": city_name,
                 "budget": budget,
                 "duration": duration,
-                "suggested_hotels": hotels,
-                "suggested_activities": activities,
-                "suggested_landmarks": landmarks
+                "suggested_hotels": [hotel.dict() for hotel in hotels],
+                "suggested_activities": [activity.dict() for activity in activities],
+                "suggested_landmarks": [landmark.dict() for landmark in landmarks]
             }
-            logger.info(f"Sending plan generation request with payload: {json.dumps(request_payload, indent=2)}")
+            
+            response = client._make_request("POST", "/api/plans", json=request_payload)
 
-            response = requests.post(
-                api_url,
-                json=request_payload,
-                timeout=10
-            )
-            response.raise_for_status()
             
-            # Log the response for debugging
-            logger.info(f"Plan generation response status: {response.status_code}")
-            logger.info(f"Plan generation response body: {response.text}")
+            # Log the first plan combination if available
+            if response.get("plan_combinations"):
+                first_plan = response["plan_combinations"][0]
+                logger.info(f"First plan hotel: {json.dumps(first_plan.get('hotel', {}), indent=2)}")
+                logger.info(f"First plan activities: {json.dumps(first_plan.get('activities', []), indent=2)}")
+                logger.info(f"First plan landmarks: {json.dumps(first_plan.get('landmarks', []), indent=2)}")
             
-            # Validate response data
-            data = response.json()
-            if not isinstance(data, dict):
-                logger.error("Invalid response format: expected dictionary")
-                return None
-                
-            # Ensure the plan contains required fields
-            required_fields = ["itinerary", "total_cost", "summary"]
-            if not all(field in data for field in required_fields):
-                logger.error("Missing required fields in plan response")
-                return None
-                
-            return data
-        except (RequestException, Timeout) as e:
+            return PlanResponse(plan_combinations=response.get("plan_combinations", []))
+        except Exception as e:
             logger.error(f"Error generating plan: {str(e)}")
             return None
-        except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON response: {str(e)}")
-            return None
-        except Exception as e:
-            logger.error(f"Unexpected error in _generate_plan: {str(e)}")
-            return None
+
+    def _format_and_send_plans(self, dispatcher: CollectingDispatcher, plans: List[Plan]) -> None:
+        for i, plan in enumerate(plans, 1):
+            message = f"Plan {i}:\n\n"
+            
+            # Hotel information
+            message += f"🏨 Hotel: {plan.hotel.hotel_name}\n"
+            message += f"   Price per night: ${plan.hotel.price_per_night}\n"
+            message += f"   Facilities: {', '.join(plan.hotel.facilities)}\n\n"
+            
+            # Activities
+            if plan.activities:
+                message += "🎯 Activities:\n"
+                for activity in plan.activities:
+                    message += f"   • {activity.name}\n"
+                    message += f"     Duration: {activity.duration} hours\n"
+                    message += f"     Price: ${activity.price}\n"
+                    message += f"     Description: {activity.description}\n"
+            else:
+                message += "No activities included in this plan.\n"
+            
+            # Landmarks
+            if plan.landmarks:
+                message += "\n🏛️ Landmarks:\n"
+                for landmark in plan.landmarks:
+                    message += f"   • {landmark.name}\n"
+                    message += f"     Price: ${landmark.price}\n"
+                    message += f"     Description: {landmark.description}\n"
+            else:
+                message += "\nNo landmarks included in this plan.\n"
+            
+            message += f"\n💰 Total Cost: ${plan.total_plan_cost}\n"
+            message += "─" * 50 + "\n"
+            
+            # Convert a Plan object to dictionary for JSON serialization
+            plan_dict = {
+                "hotel": plan.hotel.dict(),
+                "activities": [activity.dict() for activity in plan.activities],
+                "landmarks": [landmark.dict() for landmark in plan.landmarks],
+                "total_plan_cost": plan.total_plan_cost,
+            }
+            
+            dispatcher.utter_message(message, json_message=json.dumps(plan_dict, indent=2))
 
 

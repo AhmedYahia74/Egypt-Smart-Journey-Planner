@@ -54,14 +54,8 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
                     messages = response.json()
 
                     for msg in messages:
-                        text = msg.get("text", "").strip()
-                        buttons= msg.get("buttons", [])
-                        if text and not buttons:
-                            await websocket.send_text(f'Rahhal: {text}')
-                        elif buttons:
-                            button_labels = [{"title": btn["title"], "payload": btn["payload"]} for btn in buttons]
-                            await websocket.send_text(f'Rahhal: {json.dumps({"text": text, "buttons": button_labels})}')
-
+                        text = msg.get("text", "")
+                        await websocket.send_text(f'Rahhal: {text}')
                 else:
                     await websocket.send_text("Rahhal: Error connecting to the server.")
     except WebSocketDisconnect:
