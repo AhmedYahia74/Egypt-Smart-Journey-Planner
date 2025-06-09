@@ -1,7 +1,6 @@
 package com.rahhal.service.Impl;
 
 import com.rahhal.dto.ReviewDTO;
-import com.rahhal.entity.Company;
 import com.rahhal.entity.CompanyProfile;
 import com.rahhal.entity.Review;
 import com.rahhal.entity.User;
@@ -19,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReviewSerImpl implements ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
@@ -27,8 +26,8 @@ public class ReviewSerImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
     private final CompanyRepository companyRepository;
 
-    public ReviewSerImpl(ReviewRepository reviewRepository, UserRepository userRepository,
-                         CompanyProfileRepository companyProfileRepository, ReviewMapper reviewMapper, CompanyRepository companyRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, UserRepository userRepository,
+                             CompanyProfileRepository companyProfileRepository, ReviewMapper reviewMapper, CompanyRepository companyRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.companyProfileRepository = companyProfileRepository;
@@ -52,7 +51,7 @@ public class ReviewSerImpl implements ReviewService {
        CompanyProfile company =  companyProfileRepository.findByName(reviewDTO.getCompanyName())
                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
 
-        Review review = reviewMapper.toEntity(reviewDTO, tourist, company);
+        Review review = reviewMapper.mapToEntity(reviewDTO, tourist, company);
         reviewRepository.save(review);
     }
 
