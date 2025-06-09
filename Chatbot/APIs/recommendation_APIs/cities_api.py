@@ -57,8 +57,8 @@ def extract_features(text: str) -> list:
             })
     return found_features
 
-@app.post("/suggest_cities")
-async def suggest_cities(request: CityRequest):
+@app.get("/api/cities")
+async def get_cities(request: CityRequest):
     try:
         city_description = request.city_description
         if not city_description:

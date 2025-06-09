@@ -134,8 +134,8 @@ class HotelRequest(BaseModel):
     budget: float
     user_facilities: List[str]
 
-@app.post("/suggest_hotels")
-def suggest_hotels(request: HotelRequest):
+@app.post("/api/hotels/search")
+def get_hotels(request: HotelRequest):
     conn = None
     try:
         logger.info(f"Received request for city: {request.city_name}, facilities: {request.user_facilities}")
@@ -180,7 +180,6 @@ def suggest_hotels(request: HotelRequest):
                 "hotel_name": hotel["hotel_name"],
                 "longitude": hotel["longitude"],
                 "latitude": hotel["latitude"],
-                "facilities_ids": list(hotel["facilities_ids"]),
                 "facilities": list(hotel["facilities"]),
                 "score": hotel["score"]
             }
@@ -194,7 +193,7 @@ def suggest_hotels(request: HotelRequest):
             hotels.append(hotel_data)
         return {"hotels": hotels}
     except Exception as e:
-        logger.error(f"Error in suggest_hotels: {str(e)}")
+        logger.error(f"Error in get_hotels: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
     finally:
         if conn:
