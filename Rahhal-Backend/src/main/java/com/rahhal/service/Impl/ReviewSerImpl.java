@@ -56,4 +56,20 @@ public class ReviewSerImpl implements ReviewService {
         reviewRepository.save(review);
     }
 
+
+    @Override
+    public void deleteReview(int reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("Review not found"));
+
+        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("Tourist not found"))
+                .getUserId();
+
+        if(review.getTourist().getUserId()!=userId)
+        {throw new AccessDeniedException("You are not allowed to delete this review");}
+
+        reviewRepository.delete(review);
+    }
+
 }
