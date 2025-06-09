@@ -1,4 +1,5 @@
 package com.rahhal.entity;
+import com.rahhal.dto.CompanyProfileDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
