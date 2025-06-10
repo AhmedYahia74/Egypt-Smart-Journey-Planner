@@ -122,10 +122,4 @@ def get_landmark_by_user_activities(conn, city_name, user_activities):
             landmarks_list.extend(convert_row_to_dict(row,'l') for row in cursor.fetchall())
         return list({landmark['id']: landmark for landmark in landmarks_list}.values())
 
-if __name__ == "__main__":
-    import uvicorn
-    try:
-        uvicorn.run(router, host="0.0.0.0", port=3000)
-    finally:
-        if connection_pool:
-            connection_pool.closeall()
+

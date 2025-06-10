@@ -120,11 +120,3 @@ def create_plan(request: PlanRequest):
         displayed_plan_combinations.append(temp)
     return {"plan_combinations": displayed_plan_combinations}
 
-if __name__ == "__main__":
-    from fastapi import FastAPI
-    import uvicorn
-    
-    app = FastAPI()
-    app.include_router(router, prefix="/api/plans", tags=["Plans"])
-    
-    uvicorn.run(app, host="0.0.0.0", port=3003)
