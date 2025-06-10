@@ -1,10 +1,9 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.CompanyDto;
 import com.rahhal.dto.UserDto;
 import com.rahhal.entity.Company;
 import com.rahhal.entity.CompanyProfile;
-import com.rahhal.entity.Tourist;
 import com.rahhal.entity.User;
 import com.rahhal.exception.EntityAlreadyExistsException;
 import com.rahhal.exception.EntityNotFoundException;
@@ -20,9 +19,9 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.AccountLink;
 import com.stripe.param.AccountLinkCreateParams;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +35,7 @@ public class AdminServiceImpl implements AdminService {
    private final CompanyProfileRepository companyProfileRepository;
    private final CompanyProfileMapper companyProfileMapper;
    private final StripeService stripeService;
+   private final PasswordEncoder passwordEncoder;
 
     @Override
     public AccountLink addNewCompany(CompanyDto companyDto) throws StripeException {
@@ -52,6 +52,7 @@ public class AdminServiceImpl implements AdminService {
         if (companyRepository.existsByName(company.getName()))
             throw new EntityAlreadyExistsException("Company with name " + company.getName() + " already exists");
 
+        company.setPassword(passwordEncoder.encode(company.getPassword()));
         companyRepository.save(company);
 
         // Create Stripe account for the company

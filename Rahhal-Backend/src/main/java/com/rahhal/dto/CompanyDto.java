@@ -16,6 +16,7 @@ public class CompanyDto {
     @NotBlank
     private String email;
 
+    // TODO: That's not a good idea to store passwords in dto and use it directly.
     @NotBlank
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;

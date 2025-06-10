@@ -1,9 +1,15 @@
 package com.rahhal.controller;
 
+import com.rahhal.entity.Payment;
+import com.rahhal.entity.Tourist;
 import com.rahhal.entity.Trip;
+import com.rahhal.repository.PaymentRepository;
+import com.rahhal.repository.TouristRepository;
 import com.rahhal.repository.TripRepository;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
+import com.stripe.model.PaymentIntent;
+import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/webhooks/stripe")
@@ -22,9 +29,13 @@ public class StripeWebhookController {
     @Value("${stripe.webhook.secret}")
     private String endpointSecret;
     private final TripRepository tripRepository;
+    private final TouristRepository touristRepository;
+    private final PaymentRepository paymentRepository;
 
-    public StripeWebhookController(TripRepository tripRepository) {
+    public StripeWebhookController(TripRepository tripRepository, TouristRepository touristRepository, PaymentRepository paymentRepository) {
         this.tripRepository = tripRepository;
+        this.touristRepository = touristRepository;
+        this.paymentRepository = paymentRepository;
     }
 
     @PostMapping
@@ -39,7 +50,7 @@ public class StripeWebhookController {
                 case "checkout.session.completed":
                     handleCheckoutCompleted(event);
                     break;
-                case "payment_intent.payment_failed", "checkout.session.expired":
+                case "payment_intent.payment_failed":
                     handlePaymentFailure(event);
                     break;
                 default:
@@ -54,26 +65,55 @@ public class StripeWebhookController {
     }
 
     private void handleCheckoutCompleted(Event event) {
-        Session session = (Session) event.getDataObjectDeserializer().getObject().get();
-        Map<String, String> metaData = session.getMetadata();
-        log.info("Checkout session completed for session: {}");
+        Optional<StripeObject> obj = event.getDataObjectDeserializer().getObject();
+        if (obj.isEmpty() || !(obj.get() instanceof Session session)) {
+            log.error("Invalid object for checkout.session.completed");
+            return;
+        }
 
-        // TODO: notify Tourist and company
+        Map<String, String> metadata = session.getMetadata();
 
-    }
+        int tripId = Integer.parseInt(metadata.get("tripId"));
+        int ticketCount = Integer.parseInt(metadata.get("numberOfTickets"));
+        int touristId = Integer.parseInt(metadata.get("touristId"));
 
-    private void handlePaymentFailure(Event event) {
-        Session session = (Session) event.getDataObjectDeserializer().getObject().get();
-        Map<String, String> metaData = session.getMetadata();
-        log.error("Payment failed for session: {}", session.getId());
-
-        Trip trip = tripRepository.findById(Integer.parseInt(metaData.get("tripId")))
+        Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
 
-        trip.setAvailableSeats(trip.getAvailableSeats() + Integer.parseInt(metaData.get("numberOfTickets")));
-        tripRepository.save(trip);
+        Tourist tourist = touristRepository.findById(touristId)
+                .orElseThrow(() -> new RuntimeException("Tourist not found"));
 
-        //TODO: handle isBooked Column as in case of this payment is the first payment to this trip column should return to be false
+        Payment payment = Payment.builder()
+                .tourist(tourist)
+                .trip(trip)
+                .amount(ticketCount)
+                .build();
+
+        paymentRepository.save(payment);
+
+        // TODO: Notify tourist and company
+    }
+
+
+    private void handlePaymentFailure(Event event) {
+        Optional<StripeObject> obj = event.getDataObjectDeserializer().getObject();
+        if (obj.isEmpty() || !(obj.get() instanceof PaymentIntent paymentIntent)) {
+            log.error("Invalid object for payment failure");
+            return;
+        }
+
+        Map<String, String> metadata = paymentIntent.getMetadata();
+
+        String tripId = metadata.get("tripId");
+        String tickets = metadata.get("numberOfTickets");
+
+        log.error("Payment failed for tripId={}, numberOfTickets={}", tripId, tickets);
+
+        Trip trip = tripRepository.findById(Integer.parseInt(tripId))
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+
+        trip.setAvailableSeats(trip.getAvailableSeats() + Integer.parseInt(tickets));
+        tripRepository.save(trip);
     }
 
 }

@@ -9,13 +9,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/admin/accounts")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -33,7 +34,8 @@ public class AccountAdminController {
     public void addNewCompany(@Valid @RequestBody CompanyDto company,
                                               HttpServletResponse response) throws IOException, StripeException {
         AccountLink accountLink = adminService.addNewCompany(company);
-
+        log.info("Redirecting to Stripe account onboarding for company: {}", company.getName());
+        log.info("Account Link URL: {}", accountLink.getUrl());
         response.sendRedirect(accountLink.getUrl());
     }
 

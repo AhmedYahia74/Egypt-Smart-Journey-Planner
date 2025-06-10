@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.BookingRequestDTO;
 import com.rahhal.repository.CompanyProfileRepository;
@@ -12,10 +12,12 @@ import com.stripe.param.AccountCreateParams;
 import com.stripe.param.AccountLinkCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class StripeServiceImpl implements StripeService {
     private final CompanyProfileRepository companyProfileRepository;
     @Value("${stripe.secret-key}")
@@ -36,17 +38,29 @@ public class StripeServiceImpl implements StripeService {
                 .setType(AccountCreateParams.Type.EXPRESS)
                 .setCountry("US")
                 .setEmail(email)
+                .setBusinessType(AccountCreateParams.BusinessType.COMPANY)
+                .setBusinessProfile(AccountCreateParams.BusinessProfile.builder()
+                        .setName("Your Company Name")
+                        .setProductDescription("Tours and travel packages")
+                        .build())
+                .setCapabilities(AccountCreateParams.Capabilities.builder()
+                        .setTransfers(AccountCreateParams.Capabilities.Transfers.builder().setRequested(true).build())
+                        .setCardPayments(AccountCreateParams.Capabilities.CardPayments.builder()
+                                .setRequested(true)
+                                .build())
+                        .build())
                 .build();
 
         Account account = Account.create(accountParams);
 
         return AccountLinkCreateParams.builder()
                 .setAccount(account.getId())
-                .setRefreshUrl("https://Rahhal/refresh")  // TODO: Replace with actual refresh URL
+                .setRefreshUrl("https://Rahhal/refresh")  // TODO: Replace with actual URL
                 .setReturnUrl("https://Rahhal/onboarding/complete")
                 .setType(AccountLinkCreateParams.Type.ACCOUNT_ONBOARDING)
                 .build();
     }
+
 
     @Override
     public void deleteAccount(String accountId) throws StripeException {
@@ -74,7 +88,7 @@ public class StripeServiceImpl implements StripeService {
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                 .setName(bookingRequest.getTrip().getTitle())
-                                                                .setDescription(bookingRequest.getTrip().getDescription())
+                                                                //.addImage() // TODO
                                                                 .build()
                                                 )
                                                 .build()
@@ -87,9 +101,13 @@ public class StripeServiceImpl implements StripeService {
                 .putMetadata("tripDate", bookingRequest.getTrip().getDate().toString())
                 .build();
 
+        log.info("Creating Stripe session for booking request: {}", bookingRequest);
+
         RequestOptions requestOptions = RequestOptions.builder()
                 .setStripeAccount(companyProfileRepository.findStripeAccountIdByCompany(bookingRequest.getTrip().getCompany())) // The connected (company) account ID
                 .build();
+
+        log.info("Using Stripe account ID: {}", requestOptions.getStripeAccount());
 
         Session session = Session.create(params, requestOptions);
         return session.getUrl();
