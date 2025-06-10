@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/company/trips")
 @PreAuthorize("hasRole('ROLE_COMPANY')")
-public class TripController {
+public class TripCompanyController {
     private final TripService tripService;
     private final BookingService bookingService;
 
-    public TripController(TripService tripService, BookingService bookingService) {
+    public TripCompanyController(TripService tripService, BookingService bookingService) {
         this.tripService = tripService;
         this.bookingService = bookingService;
     }
@@ -75,7 +75,7 @@ public class TripController {
     @GetMapping
     public ResponseEntity<List<TripDto>> viewTrip()
     {
-        List<TripDto> trips= tripService.viewTrip();
+        List<TripDto> trips= tripService.viewTripsForCurrentCompany();
         return ResponseEntity.ok(trips);
     }
 

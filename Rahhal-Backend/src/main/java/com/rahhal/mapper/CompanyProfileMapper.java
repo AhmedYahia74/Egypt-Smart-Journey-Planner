@@ -11,7 +11,7 @@ public class CompanyProfileMapper {
     public CompanyProfile mapToEntity(CompanyDto companyDto,Company company) {
         return CompanyProfile.builder()
                 .name(companyDto.getName())
-                .userId(company.getUserId())
+                .company(company)
                 .description(companyDto.getDescription())
                 .stripeAccountId(companyDto.getStripeAccountId())
                 .build();

@@ -12,3 +12,5 @@ security:
     expiration-time: 9000000
 stripe:
   secret-key: sk_test_51RWN3RFdCEb8VNeQ384lp3nz9G9e1FCGZywrT1Sn0mP2Wpzp6gVheViGEY6lfZ1SeYNkP6bAoVZFWliMkxD0U9oc00yQ3avsZ8
+  webhook:
+    secret: whsec_9282f7d39a7d6f59b78d1b75cb5839f527f3123f76fdf08185bd263027033de1

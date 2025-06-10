@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/accounts")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-public class AccountController {
+public class AccountAdminController {
 
     private final AdminService adminService;
 
-    public AccountController(AdminService adminServiceService) {this.adminService = adminServiceService;}
+    public AccountAdminController(AdminService adminServiceService) {this.adminService = adminServiceService;}
 
     @Tag(name = "Account Management - Admin side")
     @Operation(summary = "Add a new company",
@@ -32,7 +31,7 @@ public class AccountController {
                     "returns a 201 status code if the company is added successfully.")
     @PostMapping("/company")
     public void addNewCompany(@Valid @RequestBody CompanyDto company,
-                                              HttpServletResponse response) throws StripeException, IOException {
+                                              HttpServletResponse response) throws IOException, StripeException {
         AccountLink accountLink = adminService.addNewCompany(company);
 
         response.sendRedirect(accountLink.getUrl());

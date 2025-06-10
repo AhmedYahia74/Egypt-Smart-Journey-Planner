@@ -2,6 +2,7 @@ package com.rahhal.exception;
 
 import com.rahhal.dto.ErrorResponseDTO;
 import com.rahhal.enums.ErrorCode;
+import com.stripe.exception.StripeException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +71,21 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, ErrorCode.USER_NOT_FOUND.getStatus());
     }
+    @ExceptionHandler(StripeException.class)
+    public ResponseEntity<ErrorResponseDTO> handleStripeException(
+            StripeException ex, HttpServletRequest request) {
+        log.error("Stripe Error: {}", ex.getMessage(), ex);
 
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value()) // 400 Bad Request
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message("An error occurred while processing the payment. Please try again later.")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<ErrorResponseDTO> handleJwtException(
