@@ -1,6 +1,6 @@
 import requests
 from config_helper import get_db_params, get_api_urls
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from contextlib import contextmanager
 import psycopg2
 from psycopg2 import pool
@@ -9,7 +9,7 @@ from typing import List
 import time
 import logging
 
-app = FastAPI()
+router = APIRouter()
 logger = logging.getLogger(__name__)
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
@@ -34,7 +34,7 @@ class LandmarksRequestByText(BaseModel):
     user_message: str
     preferred_landmarks: List[str]
 
-@app.post("/api/landmarks/search")
+@router.post("/search")
 def get_landmarks(request: LandmarksRequestByText):
     try:
         with get_db_connection() as conn:
@@ -122,10 +122,4 @@ def get_landmark_by_user_activities(conn, city_name, user_activities):
             landmarks_list.extend(convert_row_to_dict(row,'l') for row in cursor.fetchall())
         return list({landmark['id']: landmark for landmark in landmarks_list}.values())
 
-if __name__ == "__main__":
-    import uvicorn
-    try:
-        uvicorn.run(app, host="0.0.0.0", port=3004)
-    finally:
-        if connection_pool:
-            connection_pool.closeall()
+

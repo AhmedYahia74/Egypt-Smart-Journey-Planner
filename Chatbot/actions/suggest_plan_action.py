@@ -68,7 +68,7 @@ class PlanResponse(BaseModel):
 @dataclass
 class APIConfig:
     base_url: str
-    timeout: int = 30
+    timeout: int = 50
     max_retries: int = 3
     retry_delay: int = 2
 
@@ -118,10 +118,10 @@ class SuggestPlan(Action):
             raise ValueError("API URLs configuration not found")
 
         return {
-            "hotels": APIConfig(base_url=api_urls["hotels"]),
-            "activities": APIConfig(base_url=api_urls["activities"]),
-            "landmarks": APIConfig(base_url=api_urls["landmarks"]),
-            "plans": APIConfig(base_url=api_urls["plans"])
+            "hotels": APIConfig(base_url=api_urls["base_url"]),
+            "activities": APIConfig(base_url=api_urls["base_url"]),
+            "landmarks": APIConfig(base_url=api_urls["base_url"]),
+            "plans": APIConfig(base_url=api_urls["base_url"])
         }
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
@@ -173,7 +173,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/api/hotels/search",
+                "/hotels/search",
                 json={
                     "city_name": city_name,
                     "duration": duration,
@@ -184,7 +184,7 @@ class SuggestPlan(Action):
             hotels = []
             for hotel_data in response.get("hotels", []):
                 try:
-                    # Convert facilities_ids to facilities list if needed
+                    # Convert facilities_ids to a facility list if needed
                     if "facilities_ids" in hotel_data:
                         hotel_data["facilities"] = hotel_data.get("facilities", [])
                     hotels.append(Hotel(**hotel_data))
@@ -200,7 +200,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/api/activities/search",
+                "/activities/search",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",
@@ -223,7 +223,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/api/landmarks/search",
+                "/landmarks/search",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",

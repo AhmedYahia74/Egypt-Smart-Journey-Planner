@@ -1033,6 +1033,8 @@ nlu:
     - I'd like to visit [museums](landmarks_activities)
     - I want to explore [markets](landmarks_activities)
     - I'm interested in [beaches](landmarks_activities)
+    - I'd like to see [historical sites](landmarks_activities)
+    - I'd like [diving](landmarks_activities)
     - I'd like to see [temples](landmarks_activities)
     - I want to visit [gardens](landmarks_activities)
     - I'm interested in [parks](landmarks_activities)
@@ -1128,6 +1130,7 @@ nlu:
     - I want to visit [Temple of Kalabsha](landmarks_activities)
     - Show me [Temple of Kom Ombo](landmarks_activities)
     - I want to see [Temple of Edfu](landmarks_activities)
+    - [local culture] (landmarks_activities) and [cuisine](landmarks_activities)
 - intent: share_duration
   examples: |
     - I'm planning a [7-day](duration) trip
@@ -1463,6 +1466,18 @@ nlu:
     - I want a city with architecture
     - I want a city with festivals
     - I'm looking for a city with beaches and warm weather
+    - I'm looking for a city with a rich cultural heritage
+    - I'm looking for a city with a vibrant nightlife
+    - I'm looking for a city with historical landmarks
+    - I'm looking for historical sites and ancient ruins
+    - I'm looking for exciting outdoor places
+    - I'm looking for a city with beautiful parks and gardens
+    - I'm looking for a city with a mix of modern and traditional architecture
+    - I'm looking for a city with a lively arts scene
+    - I'm looking for a city with delicious local cuisine
+    - I'm looking for a city with a rich history and ancient temples
+    - I'm looking for a city with stunning natural landscapes
+    - I'm looking for peaceful places to relax and unwind
     - I want a historical city with old buildings
     - A modern city with good shopping malls and nightlife
     - Somewhere calm and surrounded by nature
@@ -1607,6 +1622,8 @@ nlu:
     - I want a city that's [provincial](city_feature)
     - I want a city that's [international](city_feature)
     - I want a city that's [local](city_feature)
+    - I like warm weather, so I want a city with [sunny beaches](city_feature)
+    - I like [warm places](city_feature)
     - I want a city that's [multicultural](city_feature)
     - I want a city that's [traditional and modern](city_feature)
     - I want a city that's [historic and trendy](city_feature)

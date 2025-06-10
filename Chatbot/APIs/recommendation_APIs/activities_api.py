@@ -1,6 +1,6 @@
 import requests
 from config_helper import get_db_params, get_api_urls
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from contextlib import contextmanager
 import psycopg2
 from psycopg2 import pool
@@ -9,7 +9,7 @@ from typing import List
 import time
 import logging
 
-app = FastAPI()
+router = APIRouter()
 logger = logging.getLogger(__name__)
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
@@ -35,7 +35,7 @@ class ActivityRequestByText(BaseModel):
     user_message: str
     preferred_activities: List[str]
 
-@app.post("/api/activities/search")
+@router.post("/search")
 def get_activities(request: ActivityRequestByText):
     try:
         with get_db_connection() as conn:
@@ -126,11 +126,4 @@ def get_activities_by_user_activities(conn, city_name, user_activities):
         return activities_list
 
 
-if __name__ == "__main__":
-    import uvicorn
-    try:
-        uvicorn.run(app, host="0.0.0.0", port=3002)
-    finally:
-        if connection_pool:
-            connection_pool.closeall()
 

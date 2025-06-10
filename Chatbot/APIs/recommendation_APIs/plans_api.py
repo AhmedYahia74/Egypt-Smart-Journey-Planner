@@ -2,13 +2,13 @@ import heapq
 import requests
 from APIs.test_recommendaaation_model import calculate_similarity
 from config_helper import get_db_params, get_api_urls
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from contextlib import contextmanager
 import psycopg2
 from pydantic import BaseModel
 from typing import List
 
-app = FastAPI()
+router = APIRouter()
 
 class PlanRequest(BaseModel):
     city_name: str
@@ -91,7 +91,7 @@ def find_best_plan_options(hotels, activities, landmarks, budget, duration):
 
 
 
-@app.post("/api/plans")
+@router.post("")
 def create_plan(request: PlanRequest):
     plan_combinations = find_best_plan_options(
         request.suggested_hotels,
@@ -120,6 +120,3 @@ def create_plan(request: PlanRequest):
         displayed_plan_combinations.append(temp)
     return {"plan_combinations": displayed_plan_combinations}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=3003)

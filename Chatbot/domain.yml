@@ -208,15 +208,16 @@ responses:
     - text: "You're welcome! 🧭 I'm so excited for you to experience all the wonders Egypt has to offer!"
 
   utter_out_of_scope:
-    - text: "I'm really focused on helping with Egyptian travel plans! 🌍 Maybe I can help you plan an amazing trip instead?"
-    - text: "I'm your go-to for Egyptian adventures! 😉 Let me know if you'd like help planning your perfect trip!"
+    - text: "Sorry i didn't understand what you said, I'm really focused on helping with Egyptian travel plans! 🌍 Maybe I can help you plan an amazing trip instead?"
+    - text: "Oops! It seems like I got a bit lost there. 😅 I'm here to help with Egyptian travel plans, so if you have any questions about that, I'm all ears! 👂"
+    - text: "I didn't quite catch that. 🤔 I'm here to help you with Egyptian travel plans, so if you have any questions or need assistance, just let me know! 🏜️"
 
   utter_ask_city_description:
     - text: "What's your ideal city vibe? 🏝️ Are you looking for something peaceful, exciting, historic, or maybe a bit of everything?"
     - text: "Help me picture your perfect city! 👀 What kind of atmosphere are you dreaming of?"
     - text: "I'd love to know what you're looking for! 🎨 What kind of city would make your heart sing?"
     - text: "What type of city experience are you looking for? I'll help you find the perfect match! 🌆"
-    - text: "What kind of city atmosphere appeals to you? Let me help you discover the ideal destination! 🏙️"
+    - text: "What kind of city are you dreaming of? I'll help you find the perfect destination! 🏙️"
 
   utter_choose_city:
     - text: "I've got some amazing options for you! 😍 Which one speaks to your travel dreams? For example, we have historic Cairo, coastal Alexandria, or ancient Luxor!"

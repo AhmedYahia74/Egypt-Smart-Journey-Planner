@@ -1,6 +1,6 @@
 from rapidfuzz import fuzz
 from config_helper import get_db_params
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 import psycopg2
 from psycopg2 import pool
 from pydantic import BaseModel
@@ -9,7 +9,7 @@ import math
 import logging
 import time
 
-app = FastAPI()
+router = APIRouter()
 logger = logging.getLogger(__name__)
 
 DB_Prams = get_db_params()
@@ -134,7 +134,7 @@ class HotelRequest(BaseModel):
     budget: float
     user_facilities: List[str]
 
-@app.post("/api/hotels/search")
+@router.post("/search")
 def get_hotels(request: HotelRequest):
     conn = None
     try:
@@ -201,11 +201,3 @@ def get_hotels(request: HotelRequest):
                 connection_pool.putconn(conn)
             except Exception as e:
                 logger.error(f"Error returning connection to pool: {str(e)}")
-
-if __name__ == "__main__":
-    import uvicorn
-    try:
-        uvicorn.run(app, host="0.0.0.0", port=3001)
-    finally:
-        if connection_pool:
-            connection_pool.closeall()
