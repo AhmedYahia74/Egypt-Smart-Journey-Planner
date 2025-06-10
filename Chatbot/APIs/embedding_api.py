@@ -16,7 +16,7 @@ def split_into_chunks(text, chunk_size=200, overlap=50):
 
 class TextRequest(BaseModel):
     text: str
-@app.post("/embedding")
+@app.post("/api/embeddings/text")
 def get_embedding(request: TextRequest):
     chunks = split_into_chunks(request.text)
     chunk_embeddings = model.encode(chunks)

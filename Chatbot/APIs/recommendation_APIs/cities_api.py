@@ -1,15 +1,13 @@
+from typing import List
 import requests
 from pydantic import BaseModel
 from config_helper import get_db_params, get_api_urls
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import APIRouter, HTTPException
 import psycopg2
 import re
 import json
 
-
-
-
-app = FastAPI()
+router = APIRouter()
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
 DB_Prams = get_db_params()
@@ -44,6 +42,7 @@ FEATURES = {
 
 class CityRequest(BaseModel):
     city_description: str
+    city_features: List[str] = []
 
 def extract_features(text: str) -> list:
     """Extract relevant features from the text with their weights."""
@@ -57,7 +56,7 @@ def extract_features(text: str) -> list:
             })
     return found_features
 
-@app.get("/api/cities")
+@router.post("/search")
 async def get_cities(request: CityRequest):
     try:
         city_description = request.city_description
@@ -75,7 +74,6 @@ async def get_cities(request: CityRequest):
             
             # Get the user messages embedding
             embedding_response = requests.post(EMBEDDING_API_URL, json={"text": city_description})
-
             
             if embedding_response.status_code != 200:
                 raise HTTPException(status_code=500, detail="Failed to get embedding from embedding service")
@@ -86,8 +84,6 @@ async def get_cities(request: CityRequest):
                     raise HTTPException(status_code=500, detail="Invalid embedding response format")
             except json.JSONDecodeError:
                 raise HTTPException(status_code=500, detail="Invalid JSON response from embedding service")
-                
-
             
             # Base query with semantic similarity
             base_query = """
@@ -139,8 +135,6 @@ async def get_cities(request: CityRequest):
                     for keyword in keywords:
                         params.extend([f'%{keyword}%', f'%{keyword}%'])
             
-
-            
             # Execute the query
             cur.execute(base_query, params)
             cities = cur.fetchall()
@@ -158,7 +152,6 @@ async def get_cities(request: CityRequest):
             return {"top_cities": cities_list}
 
         except Exception as e:
-
             raise HTTPException(status_code=500, detail=str(e))
         finally:
             if cur:
@@ -170,6 +163,6 @@ async def get_cities(request: CityRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=3000)
+    uvicorn.run(router, host="0.0.0.0", port=3000)
 
 

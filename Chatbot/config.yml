@@ -23,11 +23,7 @@ apis:
   local_host: "http://localhost:8000"
   ngrok: "http://127.0.0.1:8000"
   embedding: "http://localhost:8001/embedding"
-  cities: "http://localhost:3000"
-  hotels: "http://localhost:3001"
-  plans: "http://localhost:3003"
-  landmarks: "http://localhost:3004"
-  activities: "http://localhost:3002"
+  base_url: "http://localhost:8002/api"
   rasa_server: "http://localhost:5005/webhooks/rest/webhook"
   rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
 
