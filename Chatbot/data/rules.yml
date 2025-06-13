@@ -26,7 +26,7 @@ rules:
   - intent: bot_challenge
   - action: utter_iamabot
 
-- rule: When the user say thankyou
+- rule: When the user says thank you
   steps:
   - intent: thankyou
   - action: utter_thankyou
@@ -41,13 +41,27 @@ rules:
 - rule: Handle form completion
   condition:
   - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: null
   steps:
   - action: trip_form
   - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
+
+- rule: Handle preference modification
+  steps:
+  - intent: modify_preference
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle new trip request
+  steps:
+  - intent: request_trip
+  - action: trip_form
+  - active_loop: trip_form
 
 - rule: Handle form interruption with bot challenge
   condition:
@@ -191,3 +205,8 @@ rules:
   - action: validate_trip_form
   - action: trip_form
   - active_loop: trip_form
+
+- rule: Handle user input for trip suggestions
+  steps:
+  - intent: ask_suggest_trip
+  - action: action_suggest_trips

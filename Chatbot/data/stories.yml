@@ -11,13 +11,14 @@ stories:
     - state: "Luxor"
   - slot_was_set:
     - state: "Luxor"
+    - specify_place: true
   - action: trip_form
   - active_loop: trip_form
   - slot_was_set:
     - requested_slot: budget
   - intent: share_budget
     entities:
-    - budget: "500 dollars"
+    - budget: "500"
   - slot_was_set:
     - budget: 500
   - action: trip_form
@@ -62,6 +63,8 @@ stories:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: city description path
   steps:
@@ -79,22 +82,26 @@ stories:
     - city_description: "historical city with ancient temples"
   - slot_was_set:
     - city_description: "historical city with ancient temples"
+    - suggested_cities: ["Luxor", "Aswan", "Cairo"]
+    - awaiting_city_selection: true
   - action: trip_form
   - active_loop: trip_form
   - slot_was_set:
-    - requested_slot: state
+    - requested_slot: selected_city
   - intent: share_state
     entities:
     - state: "Luxor"
   - slot_was_set:
     - state: "Luxor"
+    - selected_city: "Luxor"
+    - awaiting_city_selection: false
   - action: trip_form
   - active_loop: trip_form
   - slot_was_set:
     - requested_slot: budget
   - intent: share_budget
     entities:
-    - budget: "500 dollars"
+    - budget: "500"
   - slot_was_set:
     - budget: 500
   - action: trip_form
@@ -139,6 +146,8 @@ stories:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: handle form interruption
   steps:
@@ -149,11 +158,65 @@ stories:
   - action: utter_iamabot
   - action: trip_form
   - active_loop: trip_form
+  - intent: share_state
+    entities:
+    - state: "Luxor"
+  - slot_was_set:
+    - state: "Luxor"
+    - specify_place: true
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: budget
+  - intent: share_budget
+    entities:
+    - budget: "500"
+  - slot_was_set:
+    - budget: 500
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: duration
+  - intent: share_duration
+    entities:
+    - duration: "3 days"
+  - slot_was_set:
+    - duration: 3
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: "next week"
+  - slot_was_set:
+    - arrival_date: ["2024-03-25", "2024-03-31"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: share_hotel_features
+    entities:
+    - hotel_features: "pool and wifi"
+  - slot_was_set:
+    - hotel_features: ["pool", "wifi"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: "temples and museums"
+  - slot_was_set:
+    - landmarks_activities: ["temples", "museums"]
+  - action: trip_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: handle out of scope during form
   steps:
@@ -164,32 +227,115 @@ stories:
   - action: utter_out_of_scope
   - action: trip_form
   - active_loop: trip_form
+  - intent: share_state
+    entities:
+    - state: "Luxor"
+  - slot_was_set:
+    - state: "Luxor"
+    - specify_place: true
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: budget
+  - intent: share_budget
+    entities:
+    - budget: "500"
+  - slot_was_set:
+    - budget: 500
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: duration
+  - intent: share_duration
+    entities:
+    - duration: "3 days"
+  - slot_was_set:
+    - duration: 3
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: "next week"
+  - slot_was_set:
+    - arrival_date: ["2024-03-25", "2024-03-31"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: share_hotel_features
+    entities:
+    - hotel_features: "pool and wifi"
+  - slot_was_set:
+    - hotel_features: ["pool", "wifi"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: "temples and museums"
+  - slot_was_set:
+    - landmarks_activities: ["temples", "museums"]
+  - action: trip_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: multiple entities in first message
   steps:
   - intent: request_trip
     entities:
     - state: "Luxor"
-    - budget: "500 dollars"
+    - budget: "1500$"
     - duration: "3 days"
   - action: trip_form
   - active_loop: trip_form
   - slot_was_set:
     - state: "Luxor"
-    - budget: 500
+    - specify_place: true
+    - budget: 1500
     - duration: 3
   - action: trip_form
   - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: "next week"
+  - slot_was_set:
+    - arrival_date: ["2024-03-25", "2024-03-31"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: share_hotel_features
+    entities:
+    - hotel_features: "pool and wifi"
+  - slot_was_set:
+    - hotel_features: ["pool", "wifi"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: "temples and museums"
+  - slot_was_set:
+    - landmarks_activities: ["temples", "museums"]
+  - action: trip_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: multiple entities in middle of form
   steps:
@@ -201,6 +347,7 @@ stories:
     - state: "Luxor"
   - slot_was_set:
     - state: "Luxor"
+    - specify_place: true
   - action: trip_form
   - slot_was_set:
     - requested_slot: budget
@@ -213,11 +360,39 @@ stories:
     - duration: 5
   - action: trip_form
   - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: "next week"
+  - slot_was_set:
+    - arrival_date: ["2024-03-25", "2024-03-31"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: share_hotel_features
+    entities:
+    - hotel_features: "pool and wifi"
+  - slot_was_set:
+    - hotel_features: ["pool", "wifi"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: "temples and museums"
+  - slot_was_set:
+    - landmarks_activities: ["temples", "museums"]
+  - action: trip_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - story: out of order information
   steps:
@@ -226,7 +401,7 @@ stories:
   - active_loop: trip_form
   - intent: share_budget
     entities:
-    - budget: "500 dollars"
+    - budget: "$500"
   - slot_was_set:
     - budget: 500
   - action: trip_form
@@ -237,10 +412,48 @@ stories:
     - state: "Luxor"
   - slot_was_set:
     - state: "Luxor"
+    - specify_place: true
   - action: trip_form
   - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: duration
+  - intent: share_duration
+    entities:
+    - duration: "3 days"
+  - slot_was_set:
+    - duration: 3
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: arrival_date
+  - intent: share_arrival_date
+    entities:
+    - arrival_date: "next week"
+  - slot_was_set:
+    - arrival_date: ["2024-03-25", "2024-03-31"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: hotel_features
+  - intent: share_hotel_features
+    entities:
+    - hotel_features: "pool and wifi"
+  - slot_was_set:
+    - hotel_features: ["pool", "wifi"]
+  - action: trip_form
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: landmarks_activities
+  - intent: share_landmarks_activities
+    entities:
+    - landmarks_activities: "temples and museums"
+  - slot_was_set:
+    - landmarks_activities: ["temples", "museums"]
+  - action: trip_form
   - active_loop: null
   - slot_was_set:
     - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
