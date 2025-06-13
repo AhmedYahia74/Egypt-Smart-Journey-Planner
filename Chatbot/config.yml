@@ -22,7 +22,7 @@ database:
 apis:
   local_host: "http://localhost:8000"
   ngrok: "http://127.0.0.1:8000"
-  embedding: "http://localhost:8001/embedding"
+  embedding: "http://localhost:8001/api/embeddings/text"
   base_url: "http://localhost:8002/api"
   rasa_server: "http://localhost:5005/webhooks/rest/webhook"
   rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
