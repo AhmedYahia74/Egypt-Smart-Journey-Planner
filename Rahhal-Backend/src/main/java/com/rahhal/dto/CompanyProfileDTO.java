@@ -10,5 +10,5 @@ import java.util.List;
 public class CompanyProfileDTO {
     private String companyName;
     private String description;
-    private List<ReviewResponseDTO> reviews;
+    private List<ReviewDTO> reviews;
 }

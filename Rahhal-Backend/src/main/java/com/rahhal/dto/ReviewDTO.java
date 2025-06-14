@@ -8,6 +8,7 @@ import lombok.Data;
 public class ReviewDTO {
 
         private String companyName;
+        private String touristName;
         private String comment;
         private int rating;
 

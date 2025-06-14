@@ -1,4 +1,4 @@
-package com.rahhal.controller;
+package com.rahhal.controller.tourist;
 
 import com.rahhal.dto.ReviewDTO;
 import com.rahhal.service.ReviewService;
