@@ -34,19 +34,12 @@ class TripRecommendation(BaseModel):
     date: str
     available_seats: int
     duration: str
+    img: str = None
     match_score: float
 
 @router.post("/recommend", response_model=List[TripRecommendation])
 async def get_recommendations(request: TripRequest):
-    """
-    Get trip recommendations based on user preferences and messages.
-    
-    Args:
-        request: TripRequest containing preferences and user messages
-        
-    Returns:
-        List of trip recommendations matching the criteria
-    """
+    """Get trip recommendations based on user preferences and messages."""
     try:
         # Log input data
         logger.info(f"Received request: {request.dict()}")

@@ -17,7 +17,7 @@ DB_Prams = get_db_params()
 
 ACTIVITY_QUERY = """
     SELECT activity_id, A.name, A.description, 1 - (A.embedding <=> %s::vector) AS similarity, 
-           price, A.duration_in_hours, S.name as state_name
+           price, A.duration_in_hours, A.img,A.category, S.name as state_name
     FROM activities A 
     JOIN states S ON A.state_id = S.state_id
     WHERE lower(S.name) LIKE %s 
@@ -47,7 +47,9 @@ class ActivityResponse(BaseModel):
     score: float 
     price: Optional[float]
     duration: float
-    state: str 
+    state: str
+    img: str = None
+    category: str
 
 @asynccontextmanager
 async def get_db_connection():
@@ -83,7 +85,9 @@ def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
             "score": round(row[3] * 100, 2),  # Convert to percentage
             "price": float(row[4]) if row[4] is not None else None,
             "duration": row[5],
-            "state": row[6]
+            "state": row[6],
+            "img": row[7],
+            "category": row[8]
         }
     except Exception as e:
         logger.error(f"Error converting row to dict: {str(e)}")
@@ -156,15 +160,7 @@ async def get_activities_by_user_activities(conn, city_name: str, user_activitie
 
 @router.post("/recommend", response_model=Dict[str, List[ActivityResponse]])
 async def get_activities(request: ActivityRequestByText):
-    """
-    Search for activities based on user message and preferred activities.
-    
-    Args:
-        request: ActivityRequestByText containing city name, user message, and preferred activities
-        
-    Returns:
-        Dictionary containing list of activities
-    """
+    """Search for activities based on a user message and preferred activities."""
     try:
         async with get_db_connection() as conn:
             # Search for Activities by user message

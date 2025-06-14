@@ -337,6 +337,7 @@ class TripRecommender:
                         'date': trip_dict['date'],
                         'available_seats': int(trip_dict['available_seats']),
                         'duration': str(trip_dict['duration']),
+                        'img': trip_dict.get('img', None),
                         'match_score': float(similarity_score)
                     })
                 

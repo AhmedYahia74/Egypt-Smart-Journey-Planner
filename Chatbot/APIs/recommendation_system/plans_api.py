@@ -22,16 +22,7 @@ class PlanResponse(BaseModel):
     total_plan_cost: float
 
 def search_optimal_items(budget: float, activity_landmark_options: List[Dict[str, Any]]) -> tuple:
-    """
-    Search for optimal combination of activities and landmarks within budget.
-    
-    Args:
-        budget: Available budget
-        activity_landmark_options: List of activities and landmarks with prices and scores
-        
-    Returns:
-        Tuple of (max_value, selected_options)
-    """
+    """Search for optimal combination of activities and landmarks within budget."""
     try:
         scale = 100
         max_b = int(budget * scale) + 1
@@ -60,17 +51,7 @@ def separate_activities_landmarks(
     activities: List[Dict[str, Any]],
     landmarks: List[Dict[str, Any]]
 ) -> tuple:
-    """
-    Separate selected options into activities and landmarks.
-    
-    Args:
-        selected_options: List of selected options
-        activities: List of all activities
-        landmarks: List of all landmarks
-        
-    Returns:
-        Tuple of (activities_options, landmarks_options)
-    """
+    """Separate selected options into activities and landmarks."""
     try:
         activities_options = [item for item in selected_options if item in activities][:5]
         landmarks_options = [item for item in selected_options if item in landmarks][:5]
@@ -80,16 +61,7 @@ def separate_activities_landmarks(
         raise
 
 def calculate_similarity(comb1: Dict[str, Any], comb2: Dict[str, Any]) -> int:
-    """
-    Calculate similarity between two plan combinations.
-    
-    Args:
-        comb1: First plan combination
-        comb2: Second plan combination
-        
-    Returns:
-        Similarity score
-    """
+    """Calculate similarity between two plan combinations."""
     try:
         hotel_overlap = int(comb1['hotel']['hotel_id'] == comb2['hotel']['hotel_id'])
         activity_overlap = len(set(a['id'] for a in comb1['activities']) & set(a['id'] for a in comb2['activities']))
@@ -106,19 +78,7 @@ async def find_best_plan_options(
     budget: float,
     duration: int
 ) -> List[Dict[str, Any]]:
-    """
-    Find best plan options based on budget and duration.
-    
-    Args:
-        hotels: List of hotels
-        activities: List of activities
-        landmarks: List of landmarks
-        budget: Available budget
-        duration: Duration in days
-        
-    Returns:
-        List of best plan combinations
-    """
+    """Find best plan options based on budget and duration."""
     try:
         activity_landmark_options = activities + landmarks
         for item in activity_landmark_options:
@@ -164,15 +124,7 @@ async def find_best_plan_options(
 
 @router.post("/recommend", response_model=Dict[str, List[PlanResponse]])
 async def create_plan(request: PlanRequest):
-    """
-    Create travel plan based on user preferences.
-    
-    Args:
-        request: PlanRequest containing city, budget, duration, and suggestions
-        
-    Returns:
-        Dictionary containing list of plan combinations
-    """
+    """Create travel plan based on user preferences."""
     try:
         # Validate input
         if not request.suggested_hotels:

@@ -109,6 +109,7 @@ class HotelResponse(BaseModel):
     facilities: List[str]
     score: float
     price_per_night: float
+    img: str = None
 
 @router.post("/recommend", response_model=Dict[str, List[HotelResponse]])
 async def get_hotels(request: HotelRequest):
@@ -138,7 +139,8 @@ async def get_hotels(request: HotelRequest):
                         h.longitude,
                         h.latitude,
                         array_agg(DISTINCT hf.name) as facilities,
-                        COUNT(DISTINCT hf.facility_id) as matching_facilities
+                        COUNT(DISTINCT hf.facility_id) as matching_facilities,
+                        h.img
                     FROM hotels h
                     JOIN hotels_facilities_rel hfr ON h.hotel_id = hfr.hotel_id
                     JOIN hotel_facilities hf ON hfr.facility_id = hf.facility_id
@@ -175,7 +177,8 @@ async def get_hotels(request: HotelRequest):
                     'longitude': hotel[3],
                     'latitude': hotel[4],
                     'facilities': hotel[5],
-                    'score': hotel[6] / len(facilities_ids)
+                    'score': hotel[6] / len(facilities_ids),
+                    'img': hotel[7]
                 })
             
             return {"hotels": hotels}

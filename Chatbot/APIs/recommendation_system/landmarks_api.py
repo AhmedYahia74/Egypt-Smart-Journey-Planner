@@ -1,6 +1,7 @@
+import asyncio
 import aiohttp
 from config_helper import get_db_params, get_api_urls
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from contextlib import asynccontextmanager
 import psycopg2
 from psycopg2 import pool
@@ -9,23 +10,29 @@ from typing import List, Dict, Any
 import time
 import logging
 
-router = APIRouter()
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
+
+router = APIRouter()
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
 DB_Prams = get_db_params()
 
 LANDMARK_QUERY = """
-    SELECT landmark_id, L.name, L.description, 1 - (L.embedding <=> %s::vector) AS similarity, price_foreign, L.longitude, L.latitude
+    SELECT *, 1 - (L.embedding <=> %s::vector) AS similarity
     FROM landmarks L join states S on L.state_id = S.state_id
     WHERE lower(S.name) LIKE %s
     ORDER BY similarity desc
    """
 
-# Create a connection pool
+# Create a connection pool with optimized settings
 connection_pool = pool.ThreadedConnectionPool(
-    minconn=1,
-    maxconn=10,
+    minconn=5,  # Increased minimum connections
+    maxconn=20,  # Increased maximum connections
     **DB_Prams
 )
 
@@ -41,7 +48,8 @@ class LandmarkResponse(BaseModel):
     score: float 
     price: float 
     longitude: float 
-    latitude: float 
+    latitude: float
+    img: str or None = None
 
 @asynccontextmanager
 async def get_db_connection():
@@ -73,11 +81,12 @@ def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
         return {
             "id": row[0],
             "name": row[1],
-            "description": row[2],
-            "score": row[3],
-            "price": row[4],
-            "longitude": row[5],
-            "latitude": row[6]
+            "description": row[5],
+            "score": row[10],
+            "price": row[7],
+            "longitude": row[3],
+            "latitude": row[4],
+
         }
     except Exception as e:
         logger.error(f"Error converting row to dict: {str(e)}")
@@ -85,6 +94,7 @@ def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
 
 async def get_embedding(text: str) -> List[float]:
     """Get embedding for text using the embedding API."""
+    start_time = time.time()
     try:
         if not text or not text.strip():
             logger.warning("Empty text provided for embedding")
@@ -101,6 +111,7 @@ async def get_embedding(text: str) -> List[float]:
                     if 'embedding' not in result:
                         logger.error(f"No embedding in response: {result}")
                         return None
+                    logger.info(f"Embedding generated in {time.time() - start_time:.2f}s")
                     return result['embedding']
                 else:
                     logger.error(f"Error getting embedding: {response.status}")
@@ -150,27 +161,26 @@ async def get_landmark_by_user_activities(conn, city_name: str, user_activities:
         return []
 
 @router.post("/recommend", response_model=Dict[str, List[LandmarkResponse]])
-async def get_landmarks(request: LandmarksRequestByText):
-    """
-    Search for landmarks based on user message and preferred activities.
+async def get_landmarks(request: Request, landmarks_request: LandmarksRequestByText):
+    """Search for landmarks based on a user message and preferred activities."""
+    start_time = time.time()
+    logger.info(f"Received landmarks request for city: {landmarks_request.city_name}")
     
-    Args:
-        request: LandmarksRequestByText containing city name, user message, and preferred landmarks
-        
-    Returns:
-        Dictionary containing list of landmarks
-    """
     try:
         async with get_db_connection() as conn:
             # Search for Landmarks by user message
-            landmarks_by_message = await get_landmark_by_text(conn, request.city_name, request.user_message)
+            msg_start_time = time.time()
+            landmarks_by_message = await get_landmark_by_text(conn, landmarks_request.city_name, landmarks_request.user_message)
+            logger.info(f"Message-based search completed in {time.time() - msg_start_time:.2f}s with {len(landmarks_by_message)} results")
 
             # Search for Landmarks by user activities
+            activities_start_time = time.time()
             landmarks_by_user_activities = []
-            if request.preferred_landmarks:
+            if landmarks_request.preferred_landmarks:
                 landmarks_by_user_activities = await get_landmark_by_user_activities(
-                    conn, request.city_name, request.preferred_landmarks
+                    conn, landmarks_request.city_name, landmarks_request.preferred_landmarks
                 )
+                logger.info(f"Activities-based search completed in {time.time() - activities_start_time:.2f}s with {len(landmarks_by_user_activities)} results")
 
             # Combine and deduplicate results
             landmark_list = landmarks_by_message + landmarks_by_user_activities
@@ -180,17 +190,20 @@ async def get_landmarks(request: LandmarksRequestByText):
             landmark_list.sort(key=lambda x: x['score'], reverse=True)
 
             if not landmark_list:
+                logger.warning(f"No landmarks found for city: {landmarks_request.city_name}")
                 raise HTTPException(
                     status_code=404,
-                    detail=f"No landmarks found for city: {request.city_name}"
+                    detail=f"No landmarks found for city: {landmarks_request.city_name}"
                 )
 
+            total_time = time.time() - start_time
+            logger.info(f"Total request processing time: {total_time:.2f}s")
             return {"landmarks": landmark_list}
             
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error in get_landmarks: {str(e)}")
+        logger.error(f"Error in get_landmarks: {str(e)}", exc_info=True)
         raise HTTPException(
             status_code=500,
             detail="An error occurred while searching for landmarks"
