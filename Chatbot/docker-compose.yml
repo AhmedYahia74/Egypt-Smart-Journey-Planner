@@ -1,0 +1,86 @@
+version: '3.9'
+
+services:
+  # === Rasa Core (main model server) ===
+  rasa-core:
+    image: rasa/rasa:3.6.21
+    ports:
+      - "5005:5005"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: >
+      run --enable-api --cors "*" --debug
+
+  # === Rasa Action Server ===
+  rasa-actions:
+    image: rasa/rasa-sdk:3.6.2
+    ports:
+      - "5055:5055"
+    volumes:
+      - .:/app
+    working_dir: /app
+
+  # === Shared API image built from Dockerfile ===
+  api-base:
+    build:
+      context: .
+    image: chatbot-api-base
+    # This service is not run directly
+    entrypoint: ["echo", "Base image built."]
+
+  embedding-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.embedding_api:app --host 0.0.0.0 --port 8001
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+
+  hotels-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.recommendation_APIs.hotels_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "3001:8000"
+    volumes:
+      - .:/app
+
+  cities-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.recommendation_APIs.cities_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "3000:8000"
+    volumes:
+      - .:/app
+
+  activities-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.recommendation_APIs.activities_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "3002:8000"
+    volumes:
+      - .:/app
+
+  plans-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.recommendation_APIs.plans_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "3003:8000"
+    volumes:
+      - .:/app
+
+  landmarks-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.recommendation_APIs.landmarks_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "3004:8000"
+    volumes:
+      - .:/app
+
+  chatbot-api:
+    image: chatbot-api-base
+    command: uvicorn APIs.chatbot_api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
