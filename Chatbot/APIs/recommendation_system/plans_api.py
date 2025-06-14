@@ -51,10 +51,46 @@ def separate_activities_landmarks(
     activities: List[Dict[str, Any]],
     landmarks: List[Dict[str, Any]]
 ) -> tuple:
-    """Separate selected options into activities and landmarks."""
+    """Separate selected options into activities and landmarks, ensuring category diversity."""
     try:
-        activities_options = [item for item in selected_options if item in activities][:5]
+        # Group activities by category
+        activities_by_category = {}
+        for item in selected_options:
+            if item in activities:
+                category = item.get('category', 'Uncategorized')
+                if category not in activities_by_category:
+                    activities_by_category[category] = []
+                activities_by_category[category].append(item)
+        
+        # Sort activities within each category by score
+        for category in activities_by_category:
+            activities_by_category[category].sort(key=lambda x: x.get('score', 0), reverse=True)
+        
+        # Select activities ensuring diversity
+        activities_options = []
+        max_activities_per_category = 2  # Allow up to 2 activities per category
+        
+        # First, take the top activity from each category
+        for category_activities in activities_by_category.values():
+            if category_activities:
+                activities_options.append(category_activities[0])
+        
+        # Then, if we have space, add more activities from each category
+        remaining_slots = 5 - len(activities_options)
+        if remaining_slots > 0:
+            for category_activities in activities_by_category.values():
+                if len(category_activities) > 1:
+                    activities_options.append(category_activities[1])
+                    remaining_slots -= 1
+                    if remaining_slots == 0:
+                        break
+        
+        # Sort final activities by score
+        activities_options.sort(key=lambda x: x.get('score', 0), reverse=True)
+        
+        # Get landmarks
         landmarks_options = [item for item in selected_options if item in landmarks][:5]
+        
         return activities_options, landmarks_options
     except Exception as e:
         logger.error(f"Error in separate_activities_landmarks: {str(e)}")
@@ -84,6 +120,8 @@ async def find_best_plan_options(
         for item in activity_landmark_options:
             if item.get('price') is None:
                 item['price'] = 0.0
+            if 'category' not in item and item in activities:
+                item['category'] = 'Uncategorized'
         
         best_options = []
         activity_landmark_options.sort(key=lambda x: x.get('score', 0), reverse=True)
