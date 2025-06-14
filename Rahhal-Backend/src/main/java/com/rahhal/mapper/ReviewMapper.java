@@ -22,16 +22,10 @@ public class ReviewMapper {
     public ReviewDTO mapToDTO(Review review) {
         return ReviewDTO.builder()
                 .companyName(review.getCompany().getName())
-                .comment(review.getComment())
-                .rating(review.getRating())
-                .build();
-    }
-
-    public ReviewResponseDTO mapToResponseDTO(Review review) {
-        return ReviewResponseDTO.builder()
                 .touristName(review.getTourist().getName())
                 .comment(review.getComment())
                 .rating(review.getRating())
                 .build();
     }
+
 }

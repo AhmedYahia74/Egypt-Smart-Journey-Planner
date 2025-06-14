@@ -29,9 +29,9 @@ public class CompanyProfileMapper {
     }
 
     public CompanyProfileDTO mapToDto(CompanyProfile companyProfile) {
-        List<ReviewResponseDTO> reviewDTOs = companyProfile.getReviews()
+        List<ReviewDTO> reviewDTOs = companyProfile.getReviews()
                 .stream()
-                .map(review -> reviewMapper.mapToResponseDTO(review))  // Inject and use reviewMapper instance
+                .map(review -> reviewMapper.mapToDTO(review))  // Inject and use reviewMapper instance
                 .collect(Collectors.toList());
 
 

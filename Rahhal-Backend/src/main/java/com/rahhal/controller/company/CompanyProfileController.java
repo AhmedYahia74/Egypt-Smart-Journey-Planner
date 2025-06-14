@@ -1,4 +1,4 @@
-package com.rahhal.controller;
+package com.rahhal.controller.company;
 
 import com.rahhal.dto.CompanyProfileDTO;
 import com.rahhal.service.CompanyProfileService;
