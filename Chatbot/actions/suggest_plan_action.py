@@ -68,9 +68,9 @@ class PlanResponse(BaseModel):
 @dataclass
 class APIConfig:
     base_url: str
-    timeout: int = 50
+    timeout: int = 120
     max_retries: int = 3
-    retry_delay: int = 2
+    retry_delay: int = 5
 
 class APIClient:
     def __init__(self, config: APIConfig):
@@ -173,7 +173,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/hotels/search",
+                "/hotels/recommend",
                 json={
                     "city_name": city_name,
                     "duration": duration,
@@ -200,7 +200,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/activities/search",
+                "/activities/recommend",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",
@@ -223,7 +223,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/landmarks/search",
+                "/landmarks/recommend",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",
@@ -254,7 +254,7 @@ class SuggestPlan(Action):
                 "suggested_landmarks": [landmark.dict() for landmark in landmarks]
             }
             
-            response = client._make_request("POST", "/api/plans", json=request_payload)
+            response = client._make_request("POST", "/plans/recommend", json=request_payload)
 
             
             # Log the first plan combination if available
