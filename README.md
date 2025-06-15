@@ -1,55 +1,72 @@
-# 🧠 Running the Chatbot – Rahhal Project
+# Travel Planning Chatbot
 
-This project uses **VS Code tasks** to simplify running the different services that power the chatbot.
+A conversational AI chatbot that helps users plan their trips in Egypt by recommending cities, hotels, activities, and landmarks based on their preferences.
 
-## 🧰 Prerequisites
+## Prerequisites
 
-Make sure you have the following installed:
+- Docker
+- Docker Compose
+- Git
 
-- **Python 3.10-**
-- **Virtual environment** activated at `.venv310`
-- All required dependencies installed (`pip install -r requirements.txt`)
-- **VS Code** with the recommended extensions:
-  - Python
-  - Pylance
-  - Code Runner (optional)
+## Project Structure
 
----
+```
+Chatbot/
+├── actions/                 # Custom action server code
+├── APIs/                   # API services
+│   ├── recommendation_APIs/ # Recommendation APIs
+│   └── embedding_api.py    # Embedding service
+├── data/                   # Training data
+├── models/                 # Trained Rasa models
+└── docker-compose.yml     # Docker configuration
+```
 
-## 🚀 How to Run the Chatbot
+## Running the Chatbot
 
-1. Open the project in **Visual Studio Code**.
-
-2. Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS) to open the **Command Palette**.
-
-3. Type and select:  
-   ```
-   Tasks: Run Task
-   ```
-
-4. Choose:  
-   ```
-   Run All APIs
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Chatbot
    ```
 
-This will automatically open **separate terminals** and launch the following services in order:
+2. **Start the services:**
+   ```bash
+   docker-compose up --build
+   ```
+   This will start:
+   - Rasa Core (main model server) on port 5005
+   - Rasa Action Server on port 5055
+   - API Service on ports 8000, 8001, and 8002
 
-| Terminal | Command |
-|----------|---------|
-| 1 | Embedding API (`uvicorn APIs.embedding_api:app --port 8001`) |
-| 2 | Suggest Hotels API (`uvicorn APIs.suggest_hotels_api:app --port 3001`) |
-| 3 | Suggest Cities API (`uvicorn APIs.suggestion_cities_api:app --port 6001`) |
-| 4 | Rasa Actions Server (`rasa run actions`) |
-| 5 | Rasa Server (`rasa run --enable-api`) |
-| 6 | Chatbot API (`uvicorn APIs.chatbot_api:app --port 8000`) |
+3. **Test the chatbot:**
+   - Use the Rasa shell: `docker-compose run --rm rasa-core rasa shell`
+   - Or connect to the REST API at `http://localhost:5005/webhooks/rest/webhook`
 
-All necessary services will be running in separate terminals for full chatbot functionality.
+## Handling Codebase Changes
 
----
+### When to Retrain the Model
 
-## 🛑 Stopping the Chatbot
+You need to retrain the Rasa model when you make changes to:
+- NLU data (intents, examples, entities)
+- Stories or rules
+- Domain file (slots, responses, actions, forms)
+- Config pipeline (config.yml)
 
-To stop the chatbot:
+To retrain:
+```bash
+docker-compose run --rm rasa-core rasa train
+```
 
-- Use the **trash bin icon** 🗑️ next to each terminal in VS Code.
-- Or run `Tasks: Terminate Task` from the Command Palette.
+### When to Rebuild Containers
+
+You need to rebuild containers when you make changes to:
+- Custom action code (Python files in `actions/`)
+- FastAPI backend code (APIs)
+- Docker or deployment files
+
+To rebuild:
+```bash
+docker-compose down
+docker-compose up --build
+```
+
