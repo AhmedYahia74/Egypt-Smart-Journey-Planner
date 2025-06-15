@@ -9,7 +9,6 @@ from config_helper import get_api_urls
 import logging
 from pydantic import BaseModel
 from dataclasses import dataclass
-from rasa_sdk.events import SlotSet
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +36,6 @@ class Hotel(BaseModel):
     facilities: List[str]
     score: Optional[float] = None
     price_per_night: Optional[float] = None
-    img: Optional[str] = None
 
 class Activity(BaseModel):
     id: Optional[int] = None
@@ -46,8 +44,6 @@ class Activity(BaseModel):
     score: Optional[float] = None
     price: float
     duration: float
-    img: Optional[str] = None
-    category: Optional[str] = None
 
 class Landmark(BaseModel):
     id: Optional[int] = None
@@ -57,16 +53,16 @@ class Landmark(BaseModel):
     price: float
     longitude: float
     latitude: float
-    img: Optional[str] = None
 
-class GeneratedPlan(BaseModel):
+class Plan(BaseModel):
     hotel: Hotel
     activities: List[Activity]
     landmarks: List[Landmark]
+    total_score: Optional[float] = None
     total_plan_cost: float
 
 class PlanResponse(BaseModel):
-    plan: GeneratedPlan
+    plan_combinations: List[Plan]
     raw_data: Optional[Dict[str, Any]] = None
 
 @dataclass
@@ -141,7 +137,7 @@ class SuggestPlan(Action):
 
             # Validate required slots
             if not all([city_name, budget, duration]):
-                dispatcher.utter_message("I need some more information to create your travel plan. Please provide the city name, budget, and duration of your stay.")
+                dispatcher.utter_message("Missing required information. Please provide all necessary details.")
                 return []
 
             # Initialize API clients
@@ -152,58 +148,37 @@ class SuggestPlan(Action):
 
             # Get recommendations
             recommended_hotels = self._get_recommended_hotels(hotels_client, city_name, duration, budget, hotel_features)
-            if not recommended_hotels:
-                dispatcher.utter_message(f"I couldn't find any hotels in {city_name} that match your preferences. Try adjusting your budget or hotel features.")
-                return []
-
             recommended_activities = self._get_recommended_activities(activities_client, city_name, landmarks_activities_msg, landmarks_activities)
             recommended_landmarks = self._get_recommended_landmarks(landmarks_client, city_name, landmarks_activities_msg, landmarks_activities)
-            
-            if not recommended_activities and not recommended_landmarks:
-                dispatcher.utter_message(f"I couldn't find any activities or landmarks in {city_name} that match your preferences. Try adjusting your preferences.")
-                return []
 
             # Generate plan
             plan = self._generate_plan(plans_client, city_name, budget, duration, recommended_hotels, recommended_activities, recommended_landmarks)
 
-            events = []
-            if plan and plan.plan:
-                self._format_and_send_plans(dispatcher, plan.plan)
-                # Set slot to indicate a plan has been suggested
-                events.append(SlotSet("plan_suggested", True))
+            if plan and plan.plan_combinations:
+                self._format_and_send_plans(dispatcher, plan.plan_combinations)
             else:
                 dispatcher.utter_message(
-                    "I'm having trouble creating a plan that matches your preferences. This could be because:\n"
-                    "1. The budget might be too low for the duration\n"
-                    "2. The selected city might not have enough options\n"
-                    "3. The preferences might be too specific\n\n"
-                    "Would you like to try adjusting your preferences?"
+                    "Sorry, we couldn't find any plans matching your preferences. Try to adjust your budget or duration."
                 )
 
         except APIError as e:
             logger.error(f"API Error: {str(e)}")
-            dispatcher.utter_message(
-                "I'm having trouble connecting to our services right now. "
-                "Please try again in a few minutes."
-            )
+            dispatcher.utter_message("Sorry, there was an error communicating with our services. Please try again later.")
         except Exception as e:
             logger.error(f"Unexpected error in SuggestPlan: {str(e)}")
-            dispatcher.utter_message(
-                "I encountered an unexpected error while creating your plan. "
-                "Please try again or contact support if the problem persists."
-            )
-        return events
+            dispatcher.utter_message("Something went wrong while processing your plan request. Please try again.")
+        return []
 
     def _get_recommended_hotels(self, client: APIClient, city_name: str, duration: int, budget: float, hotel_features: List[str]) -> List[Hotel]:
         try:
             response = client._make_request(
                 "POST",
-                "/hotels/recommend",
+                "/hotels/search",
                 json={
                     "city_name": city_name,
                     "duration": duration,
                     "budget": budget,
-                    "facilities": hotel_features or [],
+                    "user_facilities": hotel_features or [],
                 }
             )
             hotels = []
@@ -225,7 +200,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/activities/recommend",
+                "/activities/search",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",
@@ -248,7 +223,7 @@ class SuggestPlan(Action):
         try:
             response = client._make_request(
                 "POST",
-                "/landmarks/recommend",
+                "/landmarks/search",
                 json={
                     "city_name": city_name,
                     "user_message": user_message or "",
@@ -279,82 +254,62 @@ class SuggestPlan(Action):
                 "suggested_landmarks": [landmark.dict() for landmark in landmarks]
             }
             
-            # Log the request payload
-            logger.info(f"Request payload: {json.dumps(request_payload, indent=2)}")
-            
-            response = client._make_request("POST", "/plans/recommend", json=request_payload)
-            
-            # Log the response
-            logger.info(f"Plans API response: {json.dumps(response, indent=2)}")
-            
-            if not response or "plan" not in response:
-                logger.error("Invalid response from plans API")
-                return None
+            response = client._make_request("POST", "/plans/create", json=request_payload)
 
-            plan_data = response["plan"]
             
-            # Log the plan data
-            logger.info(f"Plan data: {json.dumps(plan_data, indent=2)}")
+            # Log the first plan combination if available
+            if response.get("plan_combinations"):
+                first_plan = response["plan_combinations"][0]
+                logger.info(f"First plan hotel: {json.dumps(first_plan.get('hotel', {}), indent=2)}")
+                logger.info(f"First plan activities: {json.dumps(first_plan.get('activities', []), indent=2)}")
+                logger.info(f"First plan landmarks: {json.dumps(first_plan.get('landmarks', []), indent=2)}")
             
-            # Create the plan response
-            plan_response = PlanResponse(
-                plan=GeneratedPlan(
-                    hotel=Hotel(**plan_data["hotel"]),
-                    activities=[Activity(**activity) for activity in plan_data["activities"]],
-                    landmarks=[Landmark(**landmark) for landmark in plan_data["landmarks"]],
-                    total_plan_cost=plan_data["total_plan_cost"]
-                )
-            )
-            
-            # Log the created plan response
-            logger.info(f"Created plan response: {json.dumps(plan_response.dict(), indent=2)}")
-            
-            return plan_response
-            
+            return PlanResponse(plan_combinations=response.get("plan_combinations", []))
         except Exception as e:
             logger.error(f"Error generating plan: {str(e)}")
             return None
 
-    def _format_and_send_plans(self, dispatcher: CollectingDispatcher, plan: GeneratedPlan) -> None:
-        message = f"Plan:\n\n"
-        
-        # Hotel information
-        message += f"🏨 Hotel: {plan.hotel.hotel_name}\n"
-        message += f"   Price per night: ${plan.hotel.price_per_night}\n"
-        message += f"   Facilities: {', '.join(plan.hotel.facilities)}\n\n"
-        
-        # Activities
-        if plan.activities:
-            message += "🎯 Activities:\n"
-            for activity in plan.activities:
-                message += f"   • {activity.name}\n"
-                message += f"     Duration: {activity.duration} hours\n"
-                message += f"     Price: ${activity.price}\n"
-                message += f"     Description: {activity.description}\n"
-        else:
-            message += "No activities included in this plan.\n"
-        
-        # Landmarks
-        if plan.landmarks:
-            message += "\n🏛️ Landmarks:\n"
-            for landmark in plan.landmarks:
-                message += f"   • {landmark.name}\n"
-                message += f"     Price: ${landmark.price}\n"
-                message += f"     Description: {landmark.description}\n"
-        else:
-            message += "\nNo landmarks included in this plan.\n"
-        
-        message += f"\n💰 Total Cost: ${plan.total_plan_cost}\n"
-        message += "─" * 50 + "\n"
-        
-        # Convert a Plan object to dictionary for JSON serialization
-        plan_dict = {
-            "hotel": plan.hotel.dict(),
-            "activities": [activity.dict() for activity in plan.activities],
-            "landmarks": [landmark.dict() for landmark in plan.landmarks],
-            "total_plan_cost": plan.total_plan_cost,
-        }
-        
-        dispatcher.utter_message(message, json_message=json.dumps(plan_dict, indent=2))
+    def _format_and_send_plans(self, dispatcher: CollectingDispatcher, plans: List[Plan]) -> None:
+        for i, plan in enumerate(plans, 1):
+            message = f"Plan {i}:\n\n"
+            
+            # Hotel information
+            message += f"🏨 Hotel: {plan.hotel.hotel_name}\n"
+            message += f"   Price per night: ${plan.hotel.price_per_night}\n"
+            message += f"   Facilities: {', '.join(plan.hotel.facilities)}\n\n"
+            
+            # Activities
+            if plan.activities:
+                message += "🎯 Activities:\n"
+                for activity in plan.activities:
+                    message += f"   • {activity.name}\n"
+                    message += f"     Duration: {activity.duration} hours\n"
+                    message += f"     Price: ${activity.price}\n"
+                    message += f"     Description: {activity.description}\n"
+            else:
+                message += "No activities included in this plan.\n"
+            
+            # Landmarks
+            if plan.landmarks:
+                message += "\n🏛️ Landmarks:\n"
+                for landmark in plan.landmarks:
+                    message += f"   • {landmark.name}\n"
+                    message += f"     Price: ${landmark.price}\n"
+                    message += f"     Description: {landmark.description}\n"
+            else:
+                message += "\nNo landmarks included in this plan.\n"
+            
+            message += f"\n💰 Total Cost: ${plan.total_plan_cost}\n"
+            message += "─" * 50 + "\n"
+            
+            # Convert a Plan object to dictionary for JSON serialization
+            plan_dict = {
+                "hotel": plan.hotel.dict(),
+                "activities": [activity.dict() for activity in plan.activities],
+                "landmarks": [landmark.dict() for landmark in plan.landmarks],
+                "total_plan_cost": plan.total_plan_cost,
+            }
+            
+            dispatcher.utter_message(message, json_message=json.dumps(plan_dict, indent=2))
 
 

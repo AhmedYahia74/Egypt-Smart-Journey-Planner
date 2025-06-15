@@ -9,78 +9,49 @@ services:
     volumes:
       - .:/app
     working_dir: /app
-    command: >
-      run --enable-api --cors "*" --debug
+    command: run --enable-api --cors "*" --debug
+    networks:
+      - chatbot-network
 
   # === Rasa Action Server ===
   rasa-actions:
-    image: rasa/rasa-sdk:3.6.2
+    build:
+      context: .
+      dockerfile: Dockerfile.actions
     ports:
       - "5055:5055"
     volumes:
       - .:/app
     working_dir: /app
+    command: rasa run actions
+    networks:
+      - chatbot-network
 
-  # === Shared API image built from Dockerfile ===
-  api-base:
+  # === Main API Service (Combined) ===
+  api-service:
     build:
       context: .
-    image: chatbot-api-base
-    # This service is not run directly
-    entrypoint: ["echo", "Base image built."]
-
-  embedding-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.embedding_api:app --host 0.0.0.0 --port 8001
+      dockerfile: Dockerfile
     ports:
-      - "8001:8001"
+      - "8000:8000"  # Main chatbot API
+      - "8001:8001"  # Embedding API
+      - "8002:8002"  # Combined recommendation API
     volumes:
       - .:/app
+    environment:
+      - PYTHONPATH=/app
+    command: >
+      bash -c "
+        uvicorn APIs.embedding_api:app --host 0.0.0.0 --port 8001 &
+        uvicorn APIs.recommendation_APIs.combined_api:app --host 0.0.0.0 --port 8002 &
+        uvicorn APIs.chatbot_api:app --host 0.0.0.0 --port 8000
+      "
+    depends_on:
+      - rasa-core
+      - rasa-actions
+    networks:
+      - chatbot-network
 
-  hotels-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.recommendation_APIs.hotels_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "3001:8000"
-    volumes:
-      - .:/app
-
-  cities-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.recommendation_APIs.cities_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "3000:8000"
-    volumes:
-      - .:/app
-
-  activities-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.recommendation_APIs.activities_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "3002:8000"
-    volumes:
-      - .:/app
-
-  plans-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.recommendation_APIs.plans_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "3003:8000"
-    volumes:
-      - .:/app
-
-  landmarks-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.recommendation_APIs.landmarks_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "3004:8000"
-    volumes:
-      - .:/app
-
-  chatbot-api:
-    image: chatbot-api-base
-    command: uvicorn APIs.chatbot_api:app --host 0.0.0.0 --port 8000
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
+networks:
+  chatbot-network:
+    driver: bridge
