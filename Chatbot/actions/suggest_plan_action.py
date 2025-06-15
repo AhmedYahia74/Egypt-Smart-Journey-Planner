@@ -254,7 +254,7 @@ class SuggestPlan(Action):
                 "suggested_landmarks": [landmark.dict() for landmark in landmarks]
             }
             
-            response = client._make_request("POST", "/api/plans", json=request_payload)
+            response = client._make_request("POST", "/plans/create", json=request_payload)
 
             
             # Log the first plan combination if available

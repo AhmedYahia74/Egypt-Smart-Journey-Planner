@@ -18,8 +18,10 @@ RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 # Copy all project files into the container
 COPY . .
 
-# Default port (optional, each service sets its own)
-EXPOSE 8000
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
 
-# Default command (can be overridden in docker-compose)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose ports
+EXPOSE 8000 8001 8002 5005 5055
+

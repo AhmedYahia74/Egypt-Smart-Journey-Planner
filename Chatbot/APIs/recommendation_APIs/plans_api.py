@@ -1,6 +1,6 @@
 import heapq
 import requests
-from APIs.test_recommendaaation_model import calculate_similarity
+# from APIs.test_recommendaaation_model import calculate_similarity
 from config_helper import get_db_params, get_api_urls
 from fastapi import APIRouter, HTTPException
 from contextlib import contextmanager
@@ -91,7 +91,7 @@ def find_best_plan_options(hotels, activities, landmarks, budget, duration):
 
 
 
-@router.post("")
+@router.post("/create")
 def create_plan(request: PlanRequest):
     plan_combinations = find_best_plan_options(
         request.suggested_hotels,

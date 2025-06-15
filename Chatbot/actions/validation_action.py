@@ -154,7 +154,6 @@ class ValidateTripForm(FormValidationAction):
 
         return {"specify_place": None}
 
-    @staticmethod
     def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                                   domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:

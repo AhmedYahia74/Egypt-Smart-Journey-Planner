@@ -1,0 +1,15 @@
+FROM rasa/rasa-sdk:3.6.2
+
+# Install system dependencies
+USER root
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN /opt/venv/bin/pip install --no-cache-dir psycopg2-binary pyyaml requests pydantic python-dateutil word2number
+
+# Switch back to non-root user
+USER 1001 
