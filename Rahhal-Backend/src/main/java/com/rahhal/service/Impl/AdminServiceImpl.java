@@ -14,6 +14,7 @@ import com.rahhal.repository.CompanyProfileRepository;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,18 +27,19 @@ public class AdminServiceImpl implements AdminService {
    private final CompanyMapper companyMapper;
    private final UserRepository userRepository;
    private final UserMapper userMapper;
-    private final CompanyProfileRepository companyProfileRepository;
-    private final CompanyProfileMapper companyProfileMapper;
+   private final CompanyProfileRepository companyProfileRepository;
+   private final CompanyProfileMapper companyProfileMapper;
+   private final PasswordEncoder passwordEncoder;
 
 
-
-    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper, CompanyProfileRepository companyProfileRepository, CompanyProfileMapper companyProfileMapper) {
+    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper, CompanyProfileRepository companyProfileRepository, CompanyProfileMapper companyProfileMapper, PasswordEncoder passwordEncoder) {
         this.companyRepository = companyRepository;
         this.companyMapper = companyMapper;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.companyProfileRepository = companyProfileRepository;
         this.companyProfileMapper = companyProfileMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -55,6 +57,8 @@ public class AdminServiceImpl implements AdminService {
         if(companyRepository.existsByName(company.getName()))
                     throw new EntityAlreadyExistsException("User with name " + company.getName() + " already exists");
 
+
+        company.setPassword(passwordEncoder.encode(company.getPassword()));
         companyRepository.save(company);
 
         CompanyProfile companyProfile = companyProfileMapper.mapToEntity(companyDto,company);
