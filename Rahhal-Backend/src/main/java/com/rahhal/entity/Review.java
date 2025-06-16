@@ -1,16 +1,15 @@
 package com.rahhal.entity;
+import com.rahhal.dto.CompanyProfileDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "reviews")
 @NoArgsConstructor @AllArgsConstructor
 @Setter @Getter
+@Builder
 public class Review {
 
     @Id
