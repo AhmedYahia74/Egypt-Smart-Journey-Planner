@@ -4,6 +4,7 @@ intents:
 - add_landmarks_activities
 - affirm
 - bot_challenge
+- clear_chat
 - deny
 - describe_city
 - edit_preference
@@ -16,10 +17,11 @@ intents:
 - share_arrival_date
 - share_budget
 - share_duration
-- share_family_status
 - share_hotel_features
 - share_landmarks_activities
 - share_state
+- ask_suggest_trip
+- modify_preference
 - thankyou
 entities:
 - hotel_features
@@ -68,7 +70,7 @@ slots:
       intent: share_state
     - type: custom
   budget:
-    type: text
+    type: float
     mappings:
     - type: from_entity
       entity: budget
@@ -113,6 +115,16 @@ slots:
     influence_conversation: true
     mappings:
     - type: custom
+  edit_preference_or_suggest_trip:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: from_intent
+      intent: modify_preference
+      value: true
+    - type: from_intent
+      intent: request_trip
+      value: false
 forms:
   trip_form:
     required_slots:
@@ -226,6 +238,18 @@ responses:
     - text: "Here are some wonderful cities to explore! Which one catches your eye? 🌟"
     - text: "I've selected some amazing destinations for you! Which one would you like to discover? 🏜️"
 
+  utter_ask_edit_preference_or_suggest_trip:
+    - text: "Would you like to edit any part of your trip plan, or should I suggest some exciting prepared trips for you? 🗺️"
+    - text: "Do you want to make any changes to your trip plan, or shall I suggest some fun trip suits you from our trips? 🎉"
+    - text: "Is there anything you'd like to adjust in your trip plan, or would you like me to suggest some prepared trips? 🏖️"
+    - text: "Would you like to modify any details of your trip, or should I suggest some exciting trips that match your preferences? 🌍"
+
+  utter_edit_preference_or_suggest_trip:
+    - text: "Would you like to edit any part of your trip plan, or should I suggest some exciting prepared trips for you? 🗺️"
+    - text: "Do you want to make any changes to your trip plan, or shall I suggest some fun trip suits you from our trips? 🎉"
+    - text: "Is there anything you'd like to adjust in your trip plan, or would you like me to suggest some prepared trips? 🏖️"
+    - text: "Would you like to modify any details of your trip, or should I suggest some exciting trips that match your preferences? 🌍"
+
 actions:
 - validate_trip_form
 - action_suggest_plan
@@ -233,13 +257,9 @@ actions:
 - utter_greet
 - utter_goodbye
 - utter_iamabot
-- utter_ask_specify_place
-- utter_ask_state
-- utter_ask_budget
+- utter_edit_preference_or_suggest_trip
 - action_clear_chat
-- action_store_user_messages
-- action_suggest_hotels
-- action_handle_city_selection
+- action_suggest_trips
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

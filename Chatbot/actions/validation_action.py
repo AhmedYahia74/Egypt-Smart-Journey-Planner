@@ -59,48 +59,53 @@ class ValidateTripForm(FormValidationAction):
             tracker: "Tracker",
             domain: Dict[Text, Any],
     ) -> List[Text]:
-        required_slots = []
+        try:
+            required_slots = []
 
-        # If we don't have specify_place yet, ask for it first
-        if not tracker.get_slot("state"):
-            if tracker.get_slot("specify_place") is None or tracker.get_slot("requested_slot") == "specify_place":
-                required_slots.append("specify_place")
-                return required_slots
+            # If we don't have specify_place yet, ask for it first
+            if not tracker.get_slot("state"):
+                if tracker.get_slot("specify_place") is None or tracker.get_slot("requested_slot") == "specify_place":
+                    required_slots.append("specify_place")
+                    return required_slots
 
-            # If specify_place is True but no state, ask for state
-            if tracker.get_slot("specify_place"):
-                required_slots.append("state")
-                return required_slots
+                # If specify_place is True but no state, ask for state
+                if tracker.get_slot("specify_place"):
+                    required_slots.append("state")
+                    return required_slots
 
-            # If specify_place is False, ask for city description
-            if not tracker.get_slot("specify_place") and not tracker.get_slot("city_description"):
-                required_slots.append("city_description")
-                return required_slots
+                # If specify_place is False, ask for city description
+                if not tracker.get_slot("specify_place") and not tracker.get_slot("city_description"):
+                    required_slots.append("city_description")
+                    return required_slots
 
-            # If we have city description but no selected city, and we're awaiting city selection
-            if (tracker.get_slot("city_description") and
-                not tracker.get_slot("selected_city") and
-                tracker.get_slot("awaiting_city_selection")):
-                required_slots.append("selected_city")
-                return required_slots
-            if (tracker.get_slot("city_description") and
-                    not tracker.get_slot("awaiting_city_selection")):
-                return ["city_description"]
-        # After we have the state, check for other required slots
-        else:
-            # Check each required slot in order
-            if not tracker.get_slot("budget") or tracker.get_slot("requested_slot") == "budget":
-                required_slots.append("budget")
-            if not tracker.get_slot("duration") or tracker.get_slot("requested_slot") == "duration":
-                required_slots.append("duration")
-            if not tracker.get_slot("arrival_date") or tracker.get_slot("requested_slot") == "arrival_date":
-                required_slots.append("arrival_date")
-            if not tracker.get_slot("hotel_features") or tracker.get_slot("requested_slot") == "hotel_features":
-                required_slots.append("hotel_features")
-            if not tracker.get_slot("landmarks_activities") or tracker.get_slot("requested_slot") == "landmarks_activities":
-                required_slots.append("landmarks_activities")
+                # If we have city description but no selected city, and we're awaiting city selection
+                if (tracker.get_slot("city_description") and
+                    not tracker.get_slot("selected_city") and
+                    tracker.get_slot("awaiting_city_selection")):
+                    required_slots.append("selected_city")
+                    return required_slots
+                if (tracker.get_slot("city_description") and
+                        not tracker.get_slot("awaiting_city_selection")):
+                    return ["city_description"]
+            # After we have the state, check for other required slots
+            else:
+                # Check each required slot in order
+                if not tracker.get_slot("budget") or tracker.get_slot("requested_slot") == "budget":
+                    required_slots.append("budget")
+                if not tracker.get_slot("duration") or tracker.get_slot("requested_slot") == "duration":
+                    required_slots.append("duration")
+                if not tracker.get_slot("arrival_date") or tracker.get_slot("requested_slot") == "arrival_date":
+                    required_slots.append("arrival_date")
+                if not tracker.get_slot("hotel_features") or tracker.get_slot("requested_slot") == "hotel_features":
+                    required_slots.append("hotel_features")
+                if not tracker.get_slot("landmarks_activities") or tracker.get_slot("requested_slot") == "landmarks_activities":
+                    required_slots.append("landmarks_activities")
 
-        return required_slots
+            return required_slots
+        except Exception as e:
+            logger.error(f"Error in required_slots: {str(e)}")
+            dispatcher.utter_message("I'm having trouble processing your request. Please try again.")
+            return []
 
     @staticmethod
     def validate_specify_place(slot_value: Any,
@@ -154,18 +159,25 @@ class ValidateTripForm(FormValidationAction):
 
         return {"specify_place": None}
 
-    def validate_city_description(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
-                                  domain: Dict[Text, Any]) -> Dict[Text, Any]:
+    def validate_city_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]
+    ) -> Dict[Text, Any]:
         try:
             api_url = get_api_urls()
             if not api_url:
                 raise KeyError("'suggest_cities' key not found in API URLs configuration")
 
-            # Extract city features from the description
-            city_features = []
             if isinstance(slot_value, str):
                 # Common non-Egyptian features to check for
                 non_egyptian_features = {
+                    'eiffel tower': 'Egypt doesn\'t have the Eiffel Tower, but we have the Great Pyramid of Giza',
+                    'great wall': 'Egypt doesn\'t have the Great Wall, but we have the Sphinx and Pyramids',
+                    'niagara falls': 'Egypt doesn\'t have Niagara Falls, but we have the Nile River',
+                    'grand canyon': 'Egypt doesn\'t have the Grand Canyon, but we have the White Desert',
                     'ski slopes': 'Egypt doesn\'t have ski slopes, but we have beautiful desert landscapes',
                     'volcanoes': 'Egypt doesn\'t have volcanoes, but we have ancient pyramids and temples',
                     'rainforests': 'Egypt doesn\'t have rainforests, but we have the Nile Valley and oases',
@@ -195,24 +207,28 @@ class ValidateTripForm(FormValidationAction):
                 for feature, alternative in non_egyptian_features.items():
                     if feature.lower() in slot_value.lower():
                         dispatcher.utter_message(f"Note: {alternative}")
-            cities_url=f"{api_url['base_url']}/cities/search"
+            
+            cities_url = f"{api_url['base_url']}/cities/recommend"
             response = requests.post(
                 cities_url,
-                json={
-                    "city_description": slot_value,
-                    "city_features": city_features
-                }
+                json={"city_description": slot_value}
             )
+            
             if response.status_code == 200:
-                suggested_cities = response.json().get("top_cities", [])
+                data = response.json()
+                suggested_cities = data.get("top_cities", [])
                 
                 if suggested_cities:
-                    # Format the cities for display
-                    suggested_cities_msg = "\n".join(
-                        [f"{i+1}. {city['name']} - {city['description']}" for i, city in enumerate(suggested_cities)]
-                    )
+                    # Format the cities for display with their matched features
+                    suggested_cities_msg = []
+                    for i, city in enumerate(suggested_cities):
+                        features_msg = ", ".join([f"{f['name']}" for f in city.get('matched_features', [])])
+                        city_msg = f"{i+1}. {city['name']} - {city['description']}"
+                        if features_msg:
+                            city_msg += f"\n   Matches your interests in: {features_msg}"
+                        suggested_cities_msg.append(city_msg)
                     
-                    dispatcher.utter_message(text=f"Here are some suggested cities that may suit you:\n{suggested_cities_msg}")
+                    dispatcher.utter_message(text=f"Here are some suggested cities that may suit you:\n" + "\n\n".join(suggested_cities_msg))
                     dispatcher.utter_message(text="Please choose one of these cities for your trip.")
                     
                     # Store just the city names in the suggested_cities slot
@@ -221,7 +237,6 @@ class ValidateTripForm(FormValidationAction):
                     # Store the city description and set awaiting_city_selection to true
                     return {
                         "city_description": slot_value,
-                        "city_features": city_features,
                         "suggested_cities": city_names,
                         "awaiting_city_selection": True,
                         "requested_slot": "selected_city"
@@ -232,9 +247,10 @@ class ValidateTripForm(FormValidationAction):
             else:
                 dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again with a different description.")
                 return {"city_description": None}
+            
         except Exception as e:
-            dispatcher.utter_message(
-                f"Something went wrong while processing your city description. Please try again. Error: {str(e)}")
+            logger.error(f"Error in validate_city_description: {str(e)}")
+            dispatcher.utter_message("I'm having trouble processing your city description. Could you please try again?")
             return {"city_description": None}
 
     def validate_selected_city(self,
@@ -624,6 +640,34 @@ class ValidateTripForm(FormValidationAction):
         user_message = tracker.get_slot("user_message") or {}
         user_message["landmarks_activities"] = tracker.latest_message.get('text', '')
         return {"landmarks_activities": slot_value, "user_message": user_message}
+
+    async def validate(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        try:
+            events = await super().validate(dispatcher, tracker, domain)
+            return events
+        except Exception as e:
+            logger.error(f"Error in validate: {str(e)}")
+            dispatcher.utter_message("I'm having trouble processing your request. Please try again.")
+            return []
+
+    async def validate_slots(
+            self,
+            slot_dict: Dict[Text, Any],
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> Dict[Text, Any]:
+        try:
+            return await super().validate_slots(slot_dict, dispatcher, tracker, domain)
+        except Exception as e:
+            logger.error(f"Error in validate_slots: {str(e)}")
+            dispatcher.utter_message("I'm having trouble processing your request. Please try again.")
+            return {}
 
 
 

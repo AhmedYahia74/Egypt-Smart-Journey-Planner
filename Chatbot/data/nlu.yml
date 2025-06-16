@@ -1025,6 +1025,8 @@ nlu:
     - I want a hotel with [poolside activities](hotel_features)
 - intent: share_landmarks_activities
   examples: |
+    - I want to visit [Wadi El Hitan](landmarks_activities)
+    - Show me [Saint Simon Monastery](landmarks_activities)
     - I want to explore [historical landmarks](landmarks_activities)
     - I want to see [Eiffel Tower](landmarks_activities)
     - I'm interested in [Alexandria library](landmarks_activities)
@@ -1761,13 +1763,31 @@ nlu:
     - include [museums](landmarks_activities) and [beaches](landmarks_activities)
     - include [cruise](landmarks_activities)
     - add [desert safaris](landmarks_activities)
-    
-- synonym: Luxor
+
+- intent:   ask_suggest_trip
   examples: |
-    - luxor
-- synonym: Cairo
-  examples: |
-    - cairo
+      - OK I want to suggest a trip
+      - OK suggest a trip for me
+      - OK can you suggest a trip?
+      - Cool, suggest a trip for me
+      - that's great, I want to plan a trip
+      - I want to suggest a trip
+      - Suggest a trip for me
+      - Can you suggest a trip?
+      - I need a trip suggestion
+      - Help me plan a trip
+      - I want to plan a trip
+      - Suggest a travel itinerary
+      - I need help with my travel plans
+      - Can you help me plan my trip?
+      - I want to create a travel plan
+      - Help me with my travel itinerary
+      - I need suggestions for my trip
+      - Can you suggest a travel plan?
+      - I want to organize a trip
+      - Help me organize my travel plans
+
+
 - synonym: Alexandria
   examples: |
     - alexandria
@@ -1776,34 +1796,71 @@ nlu:
 - synonym: Aswan
   examples: |
     - aswan
-- synonym: Hurghada
+- synonym: Cairo
   examples: |
-    - hurghada
-- synonym: Sharm El Sheikh
-  examples: |
-    - sharm el sheikh
+    - cairo  
+
 - synonym: Dahab
   examples: |
     - dahab
-- synonym: Marsa Alam
-  examples: |
-    - marsaalam
 - synonym: El Gouna
   examples: |
     - el gouna
+    - gouna
+    - al gouna
+    - elgouna
+    - Gouna
+    - algouna
+- synonym: Giza
+  examples: |
+    - giza
+    - Giza
+    - el giza
+    - El Giza
+    - El giza
+- synonym: Hurghada
+  examples: |
+    - hurghada
+- synonym: Luxor
+  examples: |
+    - luxor
+- synonym: Marsa Alam
+  examples: |
+    - marsaalam
+    - marsa alam
+    - marsa
+    - Marsa Alam
+- synonym: Marsa Matrouh
+  examples: |
+    - marsa matrouh
+    - marsamatrouh
+    - matrouh
+    - Marsa Matrouh
+
+- synonym: Sharm El Sheikh
+  examples: |
+    - sharm el sheikh
+    - sharmelsheikh
+    - sharm
+    - Sharm
 - synonym: Siwa Oasis
   examples: |
     - siwa oasis
+    - siwa
+    - Siwa
+
 
 - lookup: state
   examples: |
-    - luxor
-    - cairo
-    - alexandria
-    - aswan
-    - hurghada
-    - sharm el sheikh
-    - dahab
-    - marsa Alam
-    - el gouna
-    - siwa oasis
+    - Alexandria
+    - Aswan
+    - Cairo
+    - Dahab
+    - El Gouna
+    - Giza
+    - Hurghada
+    - Luxor
+    - Marsa Alam
+    - Marsa Matruh
+    - Sharm El Sheikh
+    - Siwa Oasis
