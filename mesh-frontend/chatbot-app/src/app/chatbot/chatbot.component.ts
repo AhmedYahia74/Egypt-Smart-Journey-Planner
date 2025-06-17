@@ -91,7 +91,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   }
 
   private addSystemMessage(text: string) {
-      console.log(text);
+    console.log(text);
   }
 
   private connectWebSocket() {
@@ -111,60 +111,42 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       };
 
       this.socket.onmessage = (event) => {
-        let messageData;
-        const messageText = event.data;
-        console.log('Received message:', messageText);
+        try {
+          const messageData = JSON.parse(event.data);
+          console.log('Received JSON:', messageData);
 
-        // Skip if it's a user message echo from server
-        if (messageText.startsWith('You:')) {
-          return;
-        }
-
-        // First check if the message starts with "Rahhal: " and contains JSON
-        if (messageText.startsWith('Rahhal: {')) {
-          try {
-            // Extract the JSON part after "Rahhal: "
-            const jsonStr = messageText.substring('Rahhal: '.length);
-            messageData = JSON.parse(jsonStr);
-            
-            const message: Message = {
-              text: messageData.text || '',
-              sender: 'bot',
-              timestamp: new Date()
-            };
-
-            if (messageData.buttons) {
-              message.buttons = messageData.buttons;
-              message.options = messageData.buttons.map((button: { title: string; }) => button.title);
-            }
-
-            if (messageData.plan) {
-              message.plan = messageData.plan;
-            }
-            
-            this.messages.push(message);
-            this.isTyping = false;
+          if (messageData.type === 'user_message') {
+            // Optional: Ignore echo
             return;
-          } catch (e) {
-            console.error('Error parsing JSON message:', e);
           }
-        }
 
-        // Handle regular bot messages
-        if (messageText.startsWith('Rahhal:')) {
-          const content = messageText.substring('Rahhal:'.length).trim();
-          if (content) {
-            const message: Message = {
-              text: content,
-              sender: 'bot',
-              timestamp: new Date()
-            };
-            
-            this.messages.push(message);
-            this.isTyping = false;
+          const message: Message = {
+            text: messageData.text || '',
+            sender: 'bot',
+            timestamp: new Date()
+          };
+
+          // Handle buttons
+          if (messageData.buttons) {
+            message.buttons = messageData.buttons;
+            message.options = messageData.buttons.map((button: { title: string }) => button.title);
           }
+
+          // Handle plan
+          if (messageData.plan_combinations) {
+            message.plan = {
+              plan_combinations: messageData.plan_combinations
+            };
+          }
+
+          this.messages.push(message);
+          this.isTyping = false;
+
+        } catch (error) {
+          console.error('Error parsing WebSocket JSON message:', error);
         }
       };
+
 
       this.socket.onerror = (error) => {
         console.error('WebSocket error:', error);
@@ -202,7 +184,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
   public sendMessage(): void {
     if (!this.newMessage.trim() || this.connectionStatus !== 'connected') return;
-    
+
     const messageToSend = this.newMessage.trim();
     console.log('Sending message:', messageToSend);
 
