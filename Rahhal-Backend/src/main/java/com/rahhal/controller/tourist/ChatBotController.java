@@ -28,12 +28,17 @@ public class ChatBotController {
         String connectionKey = userId + ":" + conversationId;
         
         try {
+            log.info("Received message from user: {} in conversation: {}: {}", userId, conversationId, message);
+            
             // 1. Echo user message to frontend
+            String destination = "/queue/conversation/" + conversationId;
+            log.info("Sending message to destination: {}", destination);
             messagingTemplate.convertAndSendToUser(
                     userId,
-                    "/queue/conversation/" + conversationId,
-                    message + "back-end"
+                    destination,
+                    message
             );
+            log.info("Echoed message back to user: {} in conversation: {}", userId, conversationId);
 
             // 2. Get or create connection for this user/conversation
             FastAPIWebSocketClient client = clientMap.computeIfAbsent(connectionKey, key -> {
