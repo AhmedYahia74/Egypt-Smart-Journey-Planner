@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "trips")
@@ -51,6 +52,9 @@ public class Trip {
 
     @Column(name = "is_booked",nullable = false)
     private boolean booked;
+
+    @Column(name = "embedding", columnDefinition = "vector(384)")
+    private List<Float> embedding;
 
     @PrePersist
     public void prePersist() {
