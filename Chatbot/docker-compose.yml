@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  # === Rasa Core (main model server) ===
+  rasa-core:
+    image: rasa/rasa:3.6.21
+    ports:
+      - "5005:5005"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: run --enable-api --cors "*" --debug
+    networks:
+      - chatbot-network
+
+  # === Rasa Action Server ===
+  rasa-actions:
+    build:
+      context: .
+      dockerfile: Dockerfile.actions
+    ports:
+      - "5055:5055"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: rasa run actions
+    networks:
+      - chatbot-network
+
+  # === Main API Service (Combined) ===
+  api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  # Main chatbot API
+      - "8001:8001"  # Embedding API
+      - "8002:8002"  # Combined recommendation API
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONPATH=/app
+    command: >
+      bash -c "
+        uvicorn APIs.embedding_api:app --host 0.0.0.0 --port 8001 &
+        uvicorn APIs.recommendation_APIs.combined_api:app --host 0.0.0.0 --port 8002 &
+        uvicorn APIs.chatbot_api:app --host 0.0.0.0 --port 8000
+      "
+    depends_on:
+      - rasa-core
+      - rasa-actions
+    networks:
+      - chatbot-network
+
+networks:
+  chatbot-network:
+    driver: bridge
