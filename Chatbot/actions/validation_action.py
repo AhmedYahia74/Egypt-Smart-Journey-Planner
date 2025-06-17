@@ -458,34 +458,44 @@ class ValidateTripForm(FormValidationAction):
                               domain: Dict[Text, Any]) -> Dict[Text, Any]:
 
         try:
-            date_or_range = self.parse_flexible_date(slot_value)
+            # If slot_value is already a list, it means it's already been processed
+            if isinstance(slot_value, list):
+                return {"arrival_date": slot_value}
 
-            if not date_or_range:
-                dispatcher.utter_message(
-                    "Please enter a valid date or time frame (e.g., 'next week', '15th October', 'summer').")
-                return {"arrival_date": None}
+            # If slot_value is a string, process it
+            if isinstance(slot_value, str):
+                date_or_range = self.parse_flexible_date(slot_value)
 
-            if isinstance(date_or_range, datetime):
-                if date_or_range < datetime.now():
+                if not date_or_range:
                     dispatcher.utter_message(
-                        "The arrival date cannot be in the past. Please enter a future date or time frame.")
+                        "Please enter a valid date or time frame (e.g., 'next week', '15th October', 'summer').")
                     return {"arrival_date": None}
-                unified_date = date_or_range.strftime("%Y-%m-%d")
-            else:
-                start_date, end_date = date_or_range
-                if start_date < datetime.now():
-                    dispatcher.utter_message(
-                        "The arrival date cannot be in the past. Please enter a future date or time frame.")
-                    return {"arrival_date": None}
-                unified_date = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
 
-            # Store the user message in the slot
-            user_messages = tracker.get_slot("user_message") or {}
-            user_messages["arrival_date"] = tracker.latest_message.get('text', '')
-            return {"arrival_date": unified_date, "user_message": user_messages}
+                if isinstance(date_or_range, datetime):
+                    if date_or_range < datetime.now():
+                        dispatcher.utter_message(
+                            "The arrival date cannot be in the past. Please enter a future date or time frame.")
+                        return {"arrival_date": None}
+                    # Convert single date to a list with one date
+                    unified_date = [date_or_range.strftime("%Y-%m-%d")]
+                else:
+                    start_date, end_date = date_or_range
+                    if start_date < datetime.now():
+                        dispatcher.utter_message(
+                            "The arrival date cannot be in the past. Please enter a future date or time frame.")
+                        return {"arrival_date": None}
+                    unified_date = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
+
+                # Store the user message in the slot
+                user_messages = tracker.get_slot("user_message") or {}
+                user_messages["arrival_date"] = tracker.latest_message.get('text', '')
+                return {"arrival_date": unified_date, "user_message": user_messages}
+
+            dispatcher.utter_message("Please enter a valid date or time frame.")
+            return {"arrival_date": None}
 
         except Exception as e:
-
+            logger.error(f"Error validating arrival date: {str(e)}")
             dispatcher.utter_message("Something went wrong while processing the date. Please try again.")
             return {"arrival_date": None}
 
