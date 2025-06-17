@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        #log {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #msg {
+            width: 70%;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Chatbot Client</h2>
+    <div id="status">Connecting...</div>
+    <textarea id="log" rows="10" cols="80" readonly></textarea><br>
+    <input type="text" id="msg" placeholder="Message..." />
+    <button onclick="send()">Send</button>
+
+    <!-- Required libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+    <script>
+        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b3VyaXN0QGdtYWlsLmNvbSIsImlhdCI6MTc1MDE2MDI1NSwiZXhwIjoxNzUwMTY5MjU1fQ.u9RQOrd6gUSA14hfUooFJQz62_nAlX3Pzsc83YEZ8bbPhE8gJfM38wCmXEFxDqwiuiKl4AIfjDcVkW92E4L-Lg";
+        const userId = "21";
+        const convId = "123";
+        let stompClient = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        const reconnectDelay = 5000; // 5 seconds
+
+        function log(message) {
+            const logArea = document.getElementById("log");
+            logArea.value += message + "\n";
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function updateStatus(message) {
+            document.getElementById("status").textContent = message;
+        }
+
+        function connect() {
+            const socket = new SockJS(`http://localhost:8088/ws/chatbot?token=${token}`);
+            stompClient = Stomp.over(socket);
+            
+            // Disable debug logging
+            stompClient.debug = null;
+
+            stompClient.connect({}, 
+                function(frame) {
+                    console.log('Connected: ' + frame);
+                    updateStatus('Connected');
+                    log('Connected to server');
+                    reconnectAttempts = 0;
+
+                    // Subscribe to user-specific queue
+                    stompClient.subscribe('/user/queue/conversation/' + convId, function(message) {
+                        console.log('Received message:', message);
+                        log("Chatbot: " + message.body);
+                    });
+                },
+                function(error) {
+                    console.error('WebSocket connection error:', error);
+                    updateStatus('Connection lost. Reconnecting...');
+                    log('Connection lost. Attempting to reconnect...');
+                    
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        reconnectAttempts++;
+                        setTimeout(connect, reconnectDelay);
+                    } else {
+                        updateStatus('Failed to connect after ' + maxReconnectAttempts + ' attempts');
+                        log('Failed to connect after ' + maxReconnectAttempts + ' attempts');
+                    }
+                }
+            );
+        }
+
+        window.onload = function() {
+            connect();
+        };
+
+        function send() {
+            const text = document.getElementById("msg").value;
+            if (!text.trim()) return; // Don't send empty messages
+
+            if (stompClient && stompClient.connected) {
+                stompClient.send(`/app/chatbot/send/${userId}/${convId}`, {}, text);
+                log("You: " + text);
+                document.getElementById("msg").value = "";
+            } else {
+                log("Not connected to server. Attempting to reconnect...");
+                connect();
+            }
+        }
+
+        // Add enter key support
+        document.getElementById("msg").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                send();
+            }
+        });
+
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && (!stompClient || !stompClient.connected)) {
+                connect();
+            }
+        });
+    </script>
+</body>
+</html>
