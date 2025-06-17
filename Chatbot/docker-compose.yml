@@ -43,7 +43,7 @@ services:
     command: >
       bash -c "
         uvicorn APIs.embedding_api:app --host 0.0.0.0 --port 8001 &
-        uvicorn APIs.recommendation_APIs.combined_api:app --host 0.0.0.0 --port 8002 &
+        uvicorn APIs.recommendation_system.combined_api:app --host 0.0.0.0 --port 8002 &
         uvicorn APIs.chatbot_api:app --host 0.0.0.0 --port 8000
       "
     depends_on:
