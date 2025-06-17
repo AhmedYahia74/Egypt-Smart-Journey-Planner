@@ -1,44 +1,93 @@
 version: "3.1"
 
 rules:
-- rule: Clear chat session
+- rule: Handle clear chat
   steps:
   - intent: clear_chat
   - action: action_clear_chat
+  - action: action_listen
 
-- rule: Greet the user anytime the user says hello
+- rule: Handle greet
   steps:
   - intent: greet
   - action: utter_greet
+  - action: action_listen
 
-- rule: Say goodbye anytime the user says goodbye
+- rule: Handle goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
+  - action: action_listen
 
-- rule: When the user is out of scope
+- rule: Handle out of scope
   steps:
   - intent: out_of_scope
   - action: utter_out_of_scope
+  - action: action_listen
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: Handle bot challenge
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+  - action: action_listen
 
-- rule: When the user says thank you
+- rule: Handle thank you
   steps:
   - intent: thankyou
   - action: utter_thankyou
+  - action: action_listen
 
-#rule for describing the trip form
 - rule: Activate trip_form
   steps:
   - intent: request_trip
   - action: trip_form
   - active_loop: trip_form
 
-- rule: Handle form completion
+- rule: Handle form interruption
+  condition:
+  - active_loop: trip_form
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle ask for trip suggestions after form
+  condition:
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - slot_was_set:
+    - update_list_slots: null
+  - slot_was_set:
+    - modify_field: null
+  steps:
+  - intent: ask_suggest_trip
+  - action: action_suggest_trips
+  - action: action_listen
+
+- rule: Handle modify preference
+  condition:
+  - active_loop: null
+  steps:
+  - intent: modify_preference
+  - action: action_modify_preference
+  - action: utter_ask_suggest_after_modify
+  - action: action_listen
+
+- rule: Suggest plan if user says yes after modify
+  steps:
+  - action: utter_ask_suggest_after_modify
+  - intent: affirm
+  - action: action_suggest_plan
+
+- rule: Ask if user wants anything else if user says no after modify
+  steps:
+  - action: utter_ask_suggest_after_modify
+  - intent: deny
+  - action: utter_anything_else
+
+- rule: Handle form completion and suggest plan
   condition:
   - active_loop: trip_form
   - slot_was_set:
@@ -49,164 +98,10 @@ rules:
   - action: utter_start_suggestions
   - action: action_suggest_plan
   - action: utter_edit_preference_or_suggest_trip
-  - action: action_listen
 
-- rule: Handle preference modification
-  steps:
-  - intent: modify_preference
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle new trip request
-  steps:
-  - intent: request_trip
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle form interruption with bot challenge
+- rule: Reset plan_suggested slot
   condition:
-    - active_loop: trip_form
+  - slot_was_set:
+    - plan_suggested
   steps:
-    - intent: bot_challenge
-    - action: utter_iamabot
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: Handle form interruption with out of scope
-  condition:
-    - active_loop: trip_form
-  steps:
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: Handle form interruption with greeting
-  condition:
-    - active_loop: trip_form
-  steps:
-    - intent: greet
-    - action: utter_greet
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: Handle form interruption with goodbye
-  condition:
-    - active_loop: trip_form
-  steps:
-    - intent: goodbye
-    - action: utter_goodbye
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: Handle form interruption with thank you
-  condition:
-    - active_loop: trip_form
-  steps:
-    - intent: thankyou
-    - action: utter_thankyou
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: User wants to restart the conversation
-  steps:
-  - intent: restart
-  - action: action_restart
-
-- rule: Handle city description
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: describe_city
-    entities:
-    - city_description
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle multiple entities in one message
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: inform
-    entities:
-    - state
-    - budget
-    - duration
-    - arrival_date
-    - hotel_features
-    - landmarks_activities
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle state input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_state
-    entities:
-    - state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle budget input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_budget
-    entities:
-    - budget
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle duration input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_duration
-    entities:
-    - duration
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle arrival date input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_arrival_date
-    entities:
-    - arrival_date
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle hotel features input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_hotel_features
-    entities:
-    - hotel_features
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle landmarks and activities input
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: share_landmarks_activities
-    entities:
-    - landmarks_activities
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle user input for trip suggestions
-  steps:
-  - intent: ask_suggest_trip
-  - action: action_suggest_trips
+  - action: action_clear_plan_suggested_slot
