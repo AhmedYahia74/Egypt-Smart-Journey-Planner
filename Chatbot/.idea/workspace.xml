@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9fd66e6a-0dda-47c4-a0b3-17a97f385614" name="Changes" comment="Create edit intent and handle the flow">
+      <change beforePath="$PROJECT_DIR$/data/rules.yml" beforeDir="false" afterPath="$PROJECT_DIR$/data/rules.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/.." source="83-manage-api-urls-with-configyml" />
+                <branch-info repo="$PROJECT_DIR$/.." source="suggest_trips" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Camellia-Mohamed&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AhmedYahia74/Egypt-Smart-Journey-Planner.git&quot;,
+    &quot;accountId&quot;: &quot;9d0f6725-fad6-4805-b135-4f0ce286b836&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;AhmedYahia74&quot;,
+    &quot;repository&quot;: &quot;Egypt-Smart-Journey-Planner&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2sSaqBMYKMV3I71P4VQmbMZ7tzm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Batch.run_all_apis (1).executor&quot;: &quot;Run&quot;,
+    &quot;Batch.run_all_apis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ChatApi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DB_connection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Store_User_Messages.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Suggest Hotels.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.action_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.actions.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.activities_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.chatbot_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.embedding_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fastapi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.get_convert_data_to_csv.executor&quot;: &quot;Run&quot;,
+    &quot;Python.get_embedding.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hf.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hotels_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.landmarks.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sugesstion_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggest_activities_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggest_cities_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggest_hotels_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggest_landmarks_activities_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggest_plan_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.suggestion_api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testtt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;63-create-edit-intent&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Rahhal/Egypt-Smart-Journey-Planner/Chatbot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ],
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;PostgreSQL&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Python&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Rahhal\Egypt-Smart-Journey-Planner\Chatbot\APIs\recommendation_system" />
+      <recent name="E:\Rahhal\Egypt-Smart-Journey-Planner\Chatbot" />
+      <recent name="E:\Rahhal\Egypt-Smart-Journey-Planner\Chatbot\Fine-tuning-SBERT\data" />
+      <recent name="E:\Rahhal\Egypt-Smart-Journey-Planner\Chatbot\Fine-tuning SBERT\data" />
+      <recent name="E:\Rahhal\Egypt-Smart-Journey-Planner\Chatbot\Fine-tuning SBERT" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Batch.run_all_apis (1)">
+    <configuration name="run_all_apis (1)" type="BatchConfigurationType" factoryName="Batch" temporary="true">
+      <module name="Chatbot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="run_all_apis.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_all_apis" type="BatchConfigurationType" factoryName="Batch" temporary="true">
+      <module name="Chatbot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="./APIs" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="run_all_apis.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Suggest Hotels" type="PythonConfigurationType" factoryName="Python">
+      <module name="Chatbot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.8 (venv)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="suggest_hotels" />
+      <option name="PARAMETERS" value="APIs.embedding_api:app --port 8001" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="Chatbot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.8 (venv)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Batch.run_all_apis (1)" />
+        <item itemvalue="Batch.run_all_apis" />
+        <item itemvalue="Batch.run_all_apis (1)" />
+        <item itemvalue="Batch.run_all_apis" />
+        <item itemvalue="Batch.run_all_apis (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9fd66e6a-0dda-47c4-a0b3-17a97f385614" name="Changes" comment="" />
+      <created>1738451619204</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738451619204</updated>
+      <workItem from="1741641635950" duration="2387000" />
+      <workItem from="1741904162961" duration="1916000" />
+      <workItem from="1741910588374" duration="1148000" />
+      <workItem from="1741911770010" duration="1346000" />
+      <workItem from="1741913411575" duration="2009000" />
+      <workItem from="1741915654359" duration="2377000" />
+      <workItem from="1741919717839" duration="766000" />
+      <workItem from="1741923152115" duration="2328000" />
+      <workItem from="1742062949605" duration="2178000" />
+      <workItem from="1742069857028" duration="3470000" />
+      <workItem from="1742236435768" duration="822000" />
+      <workItem from="1742237292547" duration="394000" />
+      <workItem from="1742237703719" duration="1726000" />
+      <workItem from="1742239498406" duration="9110000" />
+      <workItem from="1742249759560" duration="7304000" />
+      <workItem from="1742257197293" duration="193000" />
+      <workItem from="1742258106506" duration="8205000" />
+      <workItem from="1742320130404" duration="16949000" />
+      <workItem from="1742343667852" duration="212000" />
+      <workItem from="1742343944221" duration="2885000" />
+      <workItem from="1742346883429" duration="17719000" />
+      <workItem from="1742415889319" duration="11810000" />
+      <workItem from="1742430165127" duration="822000" />
+      <workItem from="1742472452822" duration="25674000" />
+      <workItem from="1742540635241" duration="2480000" />
+      <workItem from="1742543154630" duration="4513000" />
+      <workItem from="1742547796679" duration="851000" />
+      <workItem from="1742678226791" duration="8646000" />
+      <workItem from="1742691918918" duration="8367000" />
+      <workItem from="1742710515288" duration="5642000" />
+      <workItem from="1742798778849" duration="1178000" />
+      <workItem from="1742878759687" duration="615000" />
+      <workItem from="1742938573391" duration="3905000" />
+      <workItem from="1743118461512" duration="30000" />
+      <workItem from="1743123258253" duration="30000" />
+      <workItem from="1744532542566" duration="10422000" />
+      <workItem from="1744887793694" duration="9445000" />
+      <workItem from="1744997517994" duration="379000" />
+      <workItem from="1744997962007" duration="1257000" />
+      <workItem from="1745003304266" duration="2756000" />
+      <workItem from="1745008547206" duration="9610000" />
+      <workItem from="1745068721247" duration="31846000" />
+      <workItem from="1745183468438" duration="16701000" />
+      <workItem from="1745202553841" duration="10060000" />
+      <workItem from="1745247346502" duration="7636000" />
+      <workItem from="1745261499963" duration="1234000" />
+      <workItem from="1745262893628" duration="192000" />
+      <workItem from="1745265033035" duration="9847000" />
+      <workItem from="1745336969840" duration="6780000" />
+      <workItem from="1745377571859" duration="14000" />
+      <workItem from="1745377609142" duration="6012000" />
+      <workItem from="1745420809324" duration="8878000" />
+      <workItem from="1745496607648" duration="22549000" />
+      <workItem from="1745573183593" duration="3477000" />
+      <workItem from="1745576958361" duration="15241000" />
+      <workItem from="1745593609734" duration="11767000" />
+      <workItem from="1745623305716" duration="8044000" />
+      <workItem from="1745653433126" duration="8458000" />
+      <workItem from="1746036543154" duration="6787000" />
+      <workItem from="1746217050474" duration="5986000" />
+      <workItem from="1746393610227" duration="2283000" />
+      <workItem from="1746600920026" duration="975000" />
+      <workItem from="1746608703883" duration="871000" />
+      <workItem from="1747070640939" duration="7738000" />
+      <workItem from="1747088129279" duration="1376000" />
+      <workItem from="1747150145748" duration="4950000" />
+      <workItem from="1747177743992" duration="3004000" />
+      <workItem from="1747233495159" duration="13211000" />
+      <workItem from="1747422512393" duration="444000" />
+      <workItem from="1747551337765" duration="2048000" />
+      <workItem from="1747580432453" duration="2205000" />
+      <workItem from="1747646316250" duration="595000" />
+      <workItem from="1747668133857" duration="593000" />
+      <workItem from="1747669519674" duration="192000" />
+      <workItem from="1747669884356" duration="199000" />
+      <workItem from="1747937818479" duration="3337000" />
+      <workItem from="1748033522500" duration="887000" />
+      <workItem from="1748087468888" duration="2096000" />
+      <workItem from="1748089605260" duration="12640000" />
+      <workItem from="1748628592255" duration="1451000" />
+      <workItem from="1748990809204" duration="2702000" />
+      <workItem from="1748997919169" duration="795000" />
+      <workItem from="1748998731236" duration="5199000" />
+      <workItem from="1749048695415" duration="6742000" />
+      <workItem from="1749060872683" duration="14073000" />
+      <workItem from="1749404194941" duration="657000" />
+      <workItem from="1749404926279" duration="16000" />
+      <workItem from="1749404975194" duration="26000" />
+      <workItem from="1749405002223" duration="28011000" />
+      <workItem from="1749503717924" duration="6821000" />
+      <workItem from="1749586711777" duration="14886000" />
+      <workItem from="1749783304840" duration="8816000" />
+      <workItem from="1749792607395" duration="5392000" />
+      <workItem from="1749827745893" duration="4936000" />
+      <workItem from="1749850877656" duration="9849000" />
+      <workItem from="1749911788758" duration="24436000" />
+      <workItem from="1749999810675" duration="31114000" />
+      <workItem from="1750040226217" duration="5565000" />
+      <workItem from="1750079334798" duration="2240000" />
+      <workItem from="1750093753231" duration="10861000" />
+      <workItem from="1750108107558" duration="35095000" />
+    </task>
+    <task id="LOCAL-00021" summary="Refactor user message storage to include slot keys and values in actions">
+      <option name="closed" value="true" />
+      <created>1742537274315</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1742537274315</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Refactor required slots in trip form and remove family status; update user message storage handling">
+      <option name="closed" value="true" />
+      <created>1742541830785</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1742541830785</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Refactor suggesting cities logic">
+      <option name="closed" value="true" />
+      <created>1742541926526</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1742541926526</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Add suggesting trips endpoint">
+      <option name="closed" value="true" />
+      <created>1742678344697</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1742678344697</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Fix case sensitivity in trip state">
+      <option name="closed" value="true" />
+      <created>1742679966340</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1742679966340</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Enhance suggestion API to handle the duration and multivalues in state column">
+      <option name="closed" value="true" />
+      <created>1742716490857</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1742716490857</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Enhance API URL retrieval">
+      <option name="closed" value="true" />
+      <created>1744894026719</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1744894026719</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Add city_description responses and adjusting the form to handle suggesting city case">
+      <option name="closed" value="true" />
+      <created>1745012606307</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1745012606307</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Add database configuration and API endpoints to config.yml">
+      <option name="closed" value="true" />
+      <created>1745012631437</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1745012631437</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Refactor city suggestion API to accept user messages directly">
+      <option name="closed" value="true" />
+      <created>1745021107025</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1745021107025</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fix suggest_city API endpoint URL in config.yml">
+      <option name="closed" value="true" />
+      <created>1745021130939</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1745021130939</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Add city description validation and API integration for city suggestions">
+      <option name="closed" value="true" />
+      <created>1745021139983</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1745021139983</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Edit config loading to use the absolute path for the config file">
+      <option name="closed" value="true" />
+      <created>1745148924854</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1745148924854</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Add hotel suggestion API and update config for hotel endpoint">
+      <option name="closed" value="true" />
+      <created>1745161334679</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1745161334679</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Separate suggest cities api logic and refactor suggestion API to improve database connection handling">
+      <option name="closed" value="true" />
+      <created>1745161614568</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1745161614568</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Refactor hotel feature validation and integrate hotel suggestion API">
+      <option name="closed" value="true" />
+      <created>1745174392446</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1745174392446</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Implement suggest activities API">
+      <option name="closed" value="true" />
+      <created>1745245585616</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1745245585616</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Enhance suggest activities API to include landmark suggestions">
+      <option name="closed" value="true" />
+      <created>1745246524264</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1745246524264</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Connect Rasa to suggest landmarks activities">
+      <option name="closed" value="true" />
+      <created>1745262099289</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1745262099289</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Add price limit filtering to hotel suggestions API">
+      <option name="closed" value="true" />
+      <created>1745277900149</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1745277900149</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Add city suggestion functionality with API integration and update related components">
+      <option name="closed" value="true" />
+      <created>1745380929815</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1745380929815</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Add suggest plan functionality with hotel and activity recommendations">
+      <option name="closed" value="true" />
+      <created>1745590929687</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1745590929687</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Update embedding model path">
+      <option name="closed" value="true" />
+      <created>1745598600133</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1745598600133</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Refactor suggest plan API to clean up response data and include activity duration">
+      <option name="closed" value="true" />
+      <created>1745654387707</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1745654387707</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Limit activity and landmark options to a maximum of 5 in the suggest plan API">
+      <option name="closed" value="true" />
+      <created>1745656479104</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1745656479104</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Limit activity and landmark options to a maximum of 5 in the suggest plan API">
+      <option name="closed" value="true" />
+      <created>1745657059686</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1745657059686</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Add duration parameter to find_best_plan_options and update related models">
+      <option name="closed" value="true" />
+      <created>1745658206108</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1745658206108</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Refactor action_store_user_messages and remove unused HTML template from chatbot API">
+      <option name="closed" value="true" />
+      <created>1747553199978</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1747553199978</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Add requirements file">
+      <option name="closed" value="true" />
+      <created>1747553376642</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1747553376642</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Separate ClearChat and SuggestPlan actions from action file to enhance code, Change choosing cities' logic from choosing from buttons to type the selected city">
+      <option name="closed" value="true" />
+      <created>1749051558030</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1749051558030</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Fix validations slots">
+      <option name="closed" value="true" />
+      <created>1749054455760</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1749054455760</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Add batch script to run all APIs for the chatbot">
+      <option name="closed" value="true" />
+      <created>1749054472910</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1749054472910</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Refactor required_slots logic to streamline city selection process and remove debug prints">
+      <option name="closed" value="true" />
+      <created>1749055371437</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1749055371437</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Fix suggesting cities' bug">
+      <option name="closed" value="true" />
+      <created>1749065926723</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1749065926723</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Improve nlu data with corner cases">
+      <option name="closed" value="true" />
+      <created>1749073654342</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1749073654342</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Improve nlu data with corner cases">
+      <option name="closed" value="true" />
+      <created>1749411885741</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1749411885741</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Enhance hotel and activity suggestion APIs with connection pooling and error handling and fix suggesting plan bug">
+      <option name="closed" value="true" />
+      <created>1749411957741</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1749411957741</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Enhance endpoints and suggest plan code logic to improve readability and maintainability">
+      <option name="closed" value="true" />
+      <created>1749434662813</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1749434662813</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Enhance responses to improving clarity and understandability">
+      <option name="closed" value="true" />
+      <created>1749435971527</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1749435971527</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Refactor APIs to use routers for better organization and update endpoint paths for consistency">
+      <option name="closed" value="true" />
+      <created>1749590757244</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1749590757244</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Enhance chatbot responses">
+      <option name="closed" value="true" />
+      <created>1749590790891</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1749590790891</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Refactor APIs to use APIRouter for improved organization and update endpoint paths for consistency">
+      <option name="closed" value="true" />
+      <created>1749591235212</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1749591235212</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Implement trip recommendation system with API integration and user context extraction">
+      <option name="closed" value="true" />
+      <created>1749796979275</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1749796979275</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Refactor recommendation APIs,">
+      <option name="closed" value="true" />
+      <created>1749833391102</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1749833391102</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Add trip suggestion intent and enhance landmark examples in NLU configuration">
+      <option name="closed" value="true" />
+      <created>1749833406029</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1749833406029</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Add image to the response">
+      <option name="closed" value="true" />
+      <created>1749859656809</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1749859656809</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Refactor activities logic to ensure diversity">
+      <option name="closed" value="true" />
+      <created>1749913591374</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1749913591374</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Refactor database connection handling by introducing a DatabaseManager singleton for improved connection management and retry logic">
+      <option name="closed" value="true" />
+      <created>1750120150507</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1750120150507</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Create edit intent and handle the flow">
+      <option name="closed" value="true" />
+      <created>1750149003063</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1750149003063</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="python:confluent-kafka" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/chatbot_model" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update embedding model path" />
+    <MESSAGE value="Refactor suggest plan API to clean up response data and include activity duration" />
+    <MESSAGE value="Limit activity and landmark options to a maximum of 5 in the suggest plan API" />
+    <MESSAGE value="Add duration parameter to find_best_plan_options and update related models" />
+    <MESSAGE value="Refactor action_store_user_messages and remove unused HTML template from chatbot API" />
+    <MESSAGE value="Add requirements file" />
+    <MESSAGE value="Separate ClearChat and SuggestPlan actions from action file to enhance code, Change choosing cities' logic from choosing from buttons to type the selected city" />
+    <MESSAGE value="Fix validations slots" />
+    <MESSAGE value="Add batch script to run all APIs for the chatbot" />
+    <MESSAGE value="Refactor required_slots logic to streamline city selection process and remove debug prints" />
+    <MESSAGE value="Fix suggesting cities' bug" />
+    <MESSAGE value="Improve nlu data with corner cases" />
+    <MESSAGE value="Enhance hotel and activity suggestion APIs with connection pooling and error handling and fix suggesting plan bug" />
+    <MESSAGE value="Enhance endpoints and suggest plan code logic to improve readability and maintainability" />
+    <MESSAGE value="Enhance responses to improving clarity and understandability" />
+    <MESSAGE value="Refactor APIs to use routers for better organization and update endpoint paths for consistency" />
+    <MESSAGE value="Enhance chatbot responses" />
+    <MESSAGE value="Refactor APIs to use APIRouter for improved organization and update endpoint paths for consistency" />
+    <MESSAGE value="Implement trip recommendation system with API integration and user context extraction" />
+    <MESSAGE value="Refactor recommendation APIs," />
+    <MESSAGE value="Add trip suggestion intent and enhance landmark examples in NLU configuration" />
+    <MESSAGE value="Add image to the response" />
+    <MESSAGE value="Refactor activities logic to ensure diversity" />
+    <MESSAGE value="Refactor database connection handling by introducing a DatabaseManager singleton for improved connection management and retry logic" />
+    <MESSAGE value="Create edit intent and handle the flow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create edit intent and handle the flow" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Chatbot$testtt.coverage" NAME="testtt Coverage Results" MODIFIED="1745202576474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$landmarks.coverage" NAME="landmarks Coverage Results" MODIFIED="1749413200809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs/recommendation_system" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$activities_api.coverage" NAME="activities_api Coverage Results" MODIFIED="1749415114256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs/recommendation_apis" />
+    <SUITE FILE_PATH="coverage/Chatbot$actions.coverage" NAME="actions Coverage Results" MODIFIED="1744893457004" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/actions" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggest_hotels_api.coverage" NAME="suggest_hotels_api Coverage Results" MODIFIED="1747250855582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$get_embedding.coverage" NAME="get_embedding Coverage Results" MODIFIED="1745528207108" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggest_landmarks_activities_api.coverage" NAME="suggest_landmarks_activities_api Coverage Results" MODIFIED="1747250865926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1741913136459" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
+    <SUITE FILE_PATH="coverage/Chatbot$hf.coverage" NAME="hf Coverage Results" MODIFIED="1745656419119" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$test.coverage" NAME="test Coverage Results" MODIFIED="1742545107172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$Test.coverage" NAME="Test Coverage Results" MODIFIED="1742248799084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$action_test.coverage" NAME="action_test Coverage Results" MODIFIED="1745016276666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$suggest_landmarks_activities_api.coverage" NAME="suggest_landmarks_activities_api Coverage Results" MODIFIED="1749407910924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$Suggest_Hotels.coverage" NAME="Suggest Hotels Coverage Results" MODIFIED="1749407916725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Chatbot$Store_User_Messages.coverage" NAME="Store_User_Messages Coverage Results" MODIFIED="1744893563842" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$chatbot_api.coverage" NAME="chatbot_api Coverage Results" MODIFIED="1749064888903" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$embedding_api.coverage" NAME="embedding_api Coverage Results" MODIFIED="1748090054129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$suggest_plan_api.coverage" NAME="suggest_plan_api Coverage Results" MODIFIED="1748090043452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$sugesstion_api.coverage" NAME="sugesstion_api Coverage Results" MODIFIED="1742420014867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggestion_api.coverage" NAME="suggestion_api Coverage Results" MODIFIED="1745155796902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggest_plan_api.coverage" NAME="suggest_plan_api Coverage Results" MODIFIED="1747250886033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$hotels_api.coverage" NAME="hotels_api Coverage Results" MODIFIED="1749425977491" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs/recommendation_APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$embedding_api.coverage" NAME="embedding_api Coverage Results" MODIFIED="1747250857736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$suggest_cities_api.coverage" NAME="suggest_cities_api Coverage Results" MODIFIED="1748090050484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/cluster_activity_py$suggest_hotels_api.coverage" NAME="suggest_hotels_api Coverage Results" MODIFIED="1749408804837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$get_convert_data_to_csv.coverage" NAME="get_convert_data_to_csv Coverage Results" MODIFIED="1745197914199" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggest_cities_api.coverage" NAME="suggest_cities_api Coverage Results" MODIFIED="1747239909217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$suggest_activities_api.coverage" NAME="suggest_activities_api Coverage Results" MODIFIED="1745244575595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$chatbot_api.coverage" NAME="chatbot_api Coverage Results" MODIFIED="1747239857344" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/APIs" />
+    <SUITE FILE_PATH="coverage/Chatbot$ChatApi.coverage" NAME="ChatApi Coverage Results" MODIFIED="1741913472430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chatbot$DB_connection.coverage" NAME="DB_connection Coverage Results" MODIFIED="1741917226376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

@@ -1,0 +1,3741 @@
+Index: data/nlu.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3.1\"\nnlu:\n- intent: greet\n  examples: |\n    - hey\n    - hello\n    - hi\n    - hello there\n    - good morning\n    - good evening\n    - moin\n    - hey there\n    - let's go\n    - hey dude\n    - good morning\n    - good evening\n    - good afternoon\n    - hi there\n    - greetings\n    - howdy\n    - what's up\n    - hey!\n    - hiya\n- intent: goodbye\n  examples: |\n    - cu\n    - good by\n    - cee you later\n    - good night\n    - bye\n    - goodbye\n    - have a nice day\n    - see you around\n    - bye bye\n    - see you later\n    - take care\n    - see you soon\n    - later\n    - farewell\n    - see ya\n    - I'm off\n    - catch you later\n    - peace out\n    - I'm out\n    - see you next time\n    - until next time\n    - take it easy\n    - bye for now\n    - see you\n    - later alligator\n- intent: affirm\n  examples: |\n    - yes\n    - y\n    - indeed\n    - of course\n    - that sounds good\n    - correct\n    - absolutely\n    - sure\n    - definitely\n    - yup\n    - yeah\n    - right\n    - exactly\n    - you got it\n    - that's right\n    - affirmative\n    - agreed\n    - sure thing\n    - sounds good\n    - I agree\n    - totally\n    - for sure\n    - yes please\n    - you bet\n    - right on\n    - that's correct\n- intent: deny\n  examples: |\n    - no\n    - No\n    - n\n    - never\n    - I don't think so\n    - don't like that\n    - no way\n    - not really\n    - nope\n    - no thanks\n    - not at all\n    - absolutely not\n    - not interested\n    - I disagree\n    - I don't agree\n    - negative\n    - not happening\n    - no chance\n    - not possible\n    - I refuse\n    - I decline\n    - I don't know\n    - I'm not sure\n- intent: bot_challenge\n  examples: |\n    - are you a bot?\n    - are you a human?\n    - am I talking to a bot?\n    - am I talking to a human?\n    - are you real?\n    - are you a machine?\n    - are you automated?\n    - are you a chatbot?\n    - are you an AI?\n    - is this a bot?\n    - is this a real person?\n    - am I chatting with a bot?\n    - are you a computer?\n    - are you a program?\n    - are you a robot?\n    - are you an algorithm?\n    - are you a virtual assistant?\n    - are you a digital assistant?\n    - are you a software?\n    - are you a script?\n    - are you a real person?\n- intent: thankyou\n  examples: |\n    - thanks\n    - thank you\n    - thank you very much\n    - thanks a lot\n    - thank you so much\n    - much appreciated\n    - thanks a bunch\n    - thanks a million\n    - thanks a ton\n    - thanks so much\n    - I appreciate it\n    - I’m grateful\n    - many thanks\n    - thank you kindly\n    - I can't thank you enough\n    - I owe you one\n    - you're the best\n    - thanks for your help\n    - thanks for your time\n- intent: out_of_scope\n  examples: |\n    - That's not what I asked\n    - Stop talking\n    - You are no help\n    - You are useless\n    - This is not helpful\n    - how old are you\n    - I want to order a pizza\n    - tell me the weather\n    - this isn't working\n    - I already told you that\n    - I don't want to tell you that\n    - none of your business\n    - that's not right\n    - stop asking\n    - never mind\n    - I want to do something else\n    - I changed my mind\n    - I don't need this\n    - this is irrelevant\n    - this doesn't help\n    - you're not helping\n    - this is off-topic\n    - this isn't what I wanted\n    - this is not what I was expecting\n    - this is not what I was hoping for\n    - this is not what I was thinking\n    - this is not what I was planning\n    - this is not what I was considering\n    - this is not what I was imagining\n    - this is not what I was dreaming of\n    - this is not what I was wishing for\n    - this is not what I was desiring\n- intent: request_trip\n  examples: |\n    - I want to plan a trip\n    - I need help planning a trip\n    - I want to go on a trip\n    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).\n    - I want a [10-day](duration) trip to Egypt with a budget of [$5000](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [5 days](duration) arriving on [20th December](arrival_date). I like [warm](weather_preference) weather and have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m planning a [2-week](duration) trip to Egypt arriving on [1st November](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [warm](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [10 days](duration) arriving on [5th January](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [3-week](duration) trip to Egypt arriving on [10th February](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I want a [1-week](duration) trip to Egypt with a budget of [$1000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m planning a [4-day](duration) trip to Egypt arriving on [25th March](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I want a [2-week](duration) trip to Egypt with a budget of [$3000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [7 days](duration) arriving on [10th April](arrival_date). I like [hot](weather_preference) weather and have a budget of [$2500](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [10-day](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3500](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I want a [3-week](duration) trip to Egypt with a budget of [$4000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m planning a [5-day](duration) trip to Egypt arriving on [20th June](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I want a [1-week](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [10 days](duration) arriving on [5th July](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [2-week](duration) trip to Egypt arriving on [10th August](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I’m planning a trip to Egypt arriving on [20th October](arrival_date) for [7 days](duration). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).\n    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [2 weeks](duration) arriving on [5th November](arrival_date). I like [warm](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m planning a [5-day](duration) trip to Egypt arriving on [10th December](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$2500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I’m planning a [7-day](duration) trip to [Cairo](state) arriving on [15th October](arrival_date). I have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).\n    - I want a [10-day](duration) trip to [Luxor](state) with a budget of [$5000](budget). I want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to [Alexandria](state) for [5 days](duration) arriving on [20th December](arrival_date). I have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m planning a [2-week](duration) trip to [Aswan](state) arriving on [1st November](arrival_date). I have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I want a [5-day](duration) trip to [Hurghada](state) with a budget of [$2000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to [Sharm El Sheikh](state) for [10 days](duration) arriving on [5th January](arrival_date). I have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [3-week](duration) trip to [Dahab](state) arriving on [10th February](arrival_date). I have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I want a [1-week](duration) trip to [Marsa Alam](state) with a budget of [$1000](budget). I want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m planning a [4-day](duration) trip to [El Gouna](state) arriving on [25th March](arrival_date). I have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I want a [2-week](duration) trip to [Siwa Oasis](state) with a budget of [$3000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m planning a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I want a [10-day](duration) trip to Egypt arriving on [15th January](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m coming to Egypt for [5 days](duration) arriving on [20th February](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th March](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I’m coming to Egypt for [4 days](duration) arriving on [10th April](arrival_date). I prefer [hot](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m coming to Egypt for [10 days](duration) arriving on [20th June](arrival_date). I like [hot](weather_preference) weather and have a budget of [$3000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th July](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).\n    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [5 days](duration) arriving on [10th August](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).\n    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).\n    - I want a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).\n    - I’m coming to Egypt for [10 days](duration) arriving on [20th October](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).\n    - I’m planning a [5-day](duration) trip to Egypt arriving on [25th November](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).\n    - I’m planning a [2-week](duration) trip to Egypt arriving on [30th December](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).\n    - i wanna go in trip\n    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).\n    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)\n    - - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)\n- intent: share_state\n  examples: |\n    - [Luxor](state)\n    - [Cairo](state)\n    - [Alexandria](state)\n    - [Aswan](state)\n    - I'm traveling to [Luxor](state)\n    - I'm going to [Cairo](state)\n    - I'm visiting [Alexandria](state)\n    - I'm planning a trip to [Aswan](state)\n    - I'm going to [Hurghada](state)\n    - I'm visiting [Sharm El Sheikh](state)\n    - I'm planning a trip to [Dahab](state)\n    - I'm going to [Marsa Alam](state)\n    - I'm visiting [El Gouna](state)\n    - I'm planning a trip to [Siwa Oasis](state)\n- intent: share_weather_preference\n  examples: |\n    - cold\n    - hot\n    - mild\n    - warm\n    - I prefer [sunny](weather_preference) weather\n    - I like [cool](weather_preference) climates\n    - I want [warm](weather_preference) weather\n    - I don’t like [hot](weather_preference) weather\n    - I prefer [mild](weather_preference) weather\n    - I like [cold](weather_preference) climates\n    - I want [hot](weather_preference) weather\n    - I don’t like [rainy](weather_preference) weather\n    - I enjoy [snowy](weather_preference) weather\n    - I prefer [dry](weather_preference) weather\n    - I like [humid](weather_preference) climates\n    - I want [windy](weather_preference) weather\n    - I don’t like [stormy](weather_preference) weather\n    - I enjoy [foggy](weather_preference) weather\n    - I prefer [clear](weather_preference) weather\n    - I like [cloudy](weather_preference) climates\n    - I want [chilly](weather_preference) weather\n    - I don’t like [muggy](weather_preference) weather\n    - I enjoy [breezy](weather_preference) weather\n    - I prefer [temperate](weather_preference) weather\n    - I like [tropical](weather_preference) climates\n- intent: share_budget\n  examples: |\n    - My budget is [$1000](budget)\n    - I have [$5000](budget) for the trip\n    - I can spend up to [$2000](budget)\n    - My budget is around [$3000](budget)\n    - My budget is [$2000](budget)\n    - I have [$1000](budget) for the trip\n    - I can spend up to [$5000](budget)\n    - My budget is around [$4000](budget)\n    - I’m willing to spend [$3000](budget)\n    - I have a budget of [$1500](budget)\n    - My budget is [$2500](budget)\n    - I can afford up to [$3500](budget)\n    - I’m planning to spend [$4500](budget)\n    - My budget is [$6000](budget)\n    - I have a budget of [$7000](budget)\n    - I can spend up to [$8000](budget)\n    - My budget is around [$9000](budget)\n    - I’m willing to spend [$1000](budget)\n    - My budget is [1000$](budget)\n    - I have [5000$](budget) for the trip\n    - I can spend up to [2000$](budget)\n    - My budget is around [3000$](budget)\n    - My budget is [2000$](budget)\n    - I have [1000$](budget) for the trip\n    - I can spend up to [5000$](budget)\n    - My budget is around [4000$](budget)\n    - I’m willing to spend [3000$](budget)\n    - I have a budget of [1500$](budget)\n    - My budget is [2500$](budget)\n    - I can afford up to [43500$](budget)\n    - I’m planning to spend [4500$](budget)\n    - My budget is [6000$](budget)\n    - I have a budget of [7000$](budget)\n    - I can spend up to [8000$](budget)\n    - My budget is around [9000$](budget)\n    - I’m willing to spend [10000$](budget)\n    - My budget is [1100](budget)\n    - I have a budget of [1200](budget)\n    - I can spend up to [1300](budget)\n    - I’m willing to spend [3000](budget)\n    - I have a budget of [1500](budget)\n    - My budget is [2500](budget)\n    - I can afford up to [3500](budget)\n    - I’m planning to spend [4500](budget)\n    - My budget is [600](budget)\n    - I have a budget of [700](budget)\n    - I can spend up to [800](budget)\n    - My budget is around [900](budget)\n    - I’m willing to spend [1000](budget)\n    - [150$](budget)\n    - [$250](budget)\n    - [200$](budget)\n    - [300$](budget)\n    - [500$](budget)\n    - [1000$](budget)\n    - [$1500](budget)\n    - [$2000](budget)\n    - [1000](budget)\n    - [5000](budget)\n    - [2000](budget)\n    - [3000](budget)\n    - [250](budget)\n    - [100](budget)\n- intent: share_hotel_features\n  examples: |\n    - I want a hotel with a [pool](hotel_features)\n    - I’d like a [spa](hotel_features) in the hotel\n    - I prefer a [beachfront](hotel_features) hotel\n    - I need a [family-friendly](hotel_features) hotel\n    - I want a hotel with a [gym](hotel_features)\n    - I’d like a [restaurant](hotel_features) in the hotel\n    - I prefer a [luxury](hotel_features) hotel\n    - I need a [pet-friendly](hotel_features) hotel\n    - I want a hotel with [wifi](hotel_features)\n    - I’d like a [bar](hotel_features) in the hotel\n    - I prefer a [budget](hotel_features) hotel\n    - I need a [boutique](hotel_features) hotel\n    - I want a hotel with a [garden](hotel_features)\n    - I’d like a [rooftop](hotel_features) in the hotel\n    - I prefer a [business](hotel_features) hotel\n    - I need a [resort](hotel_features) hotel\n    - I want a hotel with a [view](hotel_features)\n    - I’d like a [suite](hotel_features) in the hotel\n    - I prefer a [historic](hotel_features) hotel\n    - I need a [modern](hotel_features) hotel\n    - I want a hotel with a [balcony](hotel_features)\n    - I’d like a [beach_view](hotel_features) hotel\n    - I prefer a [city_center](hotel_features) hotel\n    - I’d like a [beach view](hotel_features) hotel\n    - I prefer a [city center](hotel_features) hotel\n    - I need a [beach_view](hotel_features) hotel\n    - I want a hotel with a [city_center](hotel_features)\n    - i want a [sea view](hotel_features) hotel\n    - i want a [sea_view](hotel_features) hotel\n    - i want the hotel to have a [sea view](hotel_features)\n    - i want the hotel to be in the [city center](hotel_features)\n- intent: share_landmarks_activities\n  examples: |\n    - I want to explore [historical landmarks](landmarks_activities)\n    - I’m interested in [\"Alexandria library\"](landmarks_activities)\n    - I’d like to take a [cruise](landmarks_activities)\n    - I’m interested in [desert safaris](landmarks_activities)\n    - I’d like to visit [museums](landmarks_activities)\n    - I want to explore [markets](landmarks_activities)\n    - I’m interested in [beaches](landmarks_activities)\n    - I’d like to see [temples](landmarks_activities)\n    - I want to visit [gardens](landmarks_activities)\n    - I’m interested in [parks](landmarks_activities)\n    - I’d like to take a [hiking trip](landmarks_activities)\n    - I want to explore [cultural sites](landmarks_activities)\n    - I’m interested in [wildlife reserves](landmarks_activities)\n    - I’d like to see [waterfalls](landmarks_activities)\n    - I want to visit [mountains](landmarks_activities)\n    - I’m interested in [lakes](landmarks_activities)\n    - I’d like to take a [boat ride](landmarks_activities)\n    - I want to explore [forests](landmarks_activities)\n    - I’m interested in [rivers](landmarks_activities)\n    - I’d like to see [caves](landmarks_activities)\n    - I want to visit [islands](landmarks_activities)\n- intent: share_duration\n  examples: |\n    - I’m planning a [7-day](duration) trip\n    - My trip will be [2 weeks](duration) long\n    - I’ll stay for [10 days](duration)\n    - It’s a [5-day](duration) trip\n    - I’m planning a [2-week](duration) trip\n    - My trip will be [3 weeks](duration) long\n    - I’ll stay for [1 month](duration)\n    - It’s a [10-day](duration) trip\n    - I’m planning a [4-day](duration) trip\n    - My trip will be [1 week](duration) long\n    - I’ll stay for [2 months](duration)\n    - It’s a [6-day](duration) trip\n    - I’m planning a [5-week](duration) trip\n    - My trip will be [2 days](duration) long\n    - I’ll stay for [3 months](duration)\n    - It’s a [7-day](duration) trip\n    - I’m planning a [8-day](duration) trip\n    - My trip will be [9 days](duration) long\n    - I’ll stay for [10 weeks](duration)\n    - i will spend [1 week](duration)\n    - i plan to stay for [2 weeks](duration)\n    - i plan to spend [3 days](duration) \n    - [10 days](duration)\n    - [2 weeks](duration)\n    - [1 week](duration)\n    - [1 month](duration)\n    - [3 months](duration)\n    -\n- intent: share_arrival_date\n  examples: |\n    - i plan to have a trip in the [next week] (arrival_date)\n    - I’ll arrive on [15th October](arrival_date)\n    - My trip starts [next month](arrival_date)\n    - I’m coming in [December](arrival_date)\n    - I’ll be there in [summer](arrival_date)\n    - I’ll arrive on [1st January](arrival_date)\n    - My trip starts [next week](arrival_date)\n    - I’m coming in [March](arrival_date)\n    - I’ll be there in [spring](arrival_date)\n    - I’ll arrive on [20th February](arrival_date)\n    - My trip starts [next year](arrival_date)\n    - I’m coming in [April](arrival_date)\n    - I’ll be there in [autumn](arrival_date)\n    - I’ll arrive on [5th May](arrival_date)\n    - My trip starts [next season](arrival_date)\n    - I’m coming in [June](arrival_date)\n    - I’ll be there in [winter](arrival_date)\n    - I’ll arrive on [10th July](arrival_date)\n    - My trip starts [next quarter](arrival_date)\n    - I’m coming in [August](arrival_date)\n- intent: share_family_status\n  examples: |\n    - I’m traveling with my [family](family_status)\n    - I’m a [solo traveler](family_status)\n    - I’m coming with my [spouse](family_status)\n    - It’s a [family trip](family_status)\n    - I’m traveling with [kids](family_status)\n    - I’m coming with my [friends](family_status)\n    - I’m traveling with my [parents](family_status)\n    - I’m traveling with my [siblings](family_status)\n    - I’m a [couple](family_status)\n    - I’m coming with my [partner](family_status)\n    - It’s a [group trip](family_status)\n    - I’m traveling with my [colleagues](family_status)\n    - I’m coming with my [relatives](family_status)\n    - I’m traveling with my [pets](family_status)\n    - I’m a [single traveler](family_status)\n    - I’m coming with my [neighbors](family_status)\n    - It’s a [honeymoon](family_status)\n    - I’m traveling with my [classmates](family_status)\n    - I’m coming with my [team](family_status)\n    - It’s a [business trip](family_status)\n    - I’m traveling with my [boss](family_status)\n    - I’m coming with my [employees](family_status)\n    - alone\n- lookup: weather_preference\n  examples: |\n    - sunny\n    - cool\n    - warm\n    - hot\n    - mild\n    - cold\n    - rainy\n    - snowy\n    - dry\n    - humid\n    - windy\n    - stormy\n    - foggy\n    - clear\n    - cloudy\n    - chilly\n    - muggy\n    - breezy\n    - temperate\n    - tropical\n- lookup: state\n  examples: |\n    - luxor\n    - cairo\n    - alexandria\n    - aswan\n    - hurghada\n    - sharm el sheikh\n    - dahab\n    - marsa Alam\n    - el gouna\n    - siwa oasis\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/data/nlu.yml b/data/nlu.yml
+--- a/data/nlu.yml	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/data/nlu.yml	(date 1742343103082)
+@@ -477,6 +477,8 @@
+     - I’m traveling with my [boss](family_status)
+     - I’m coming with my [employees](family_status)
+     - alone
++
++-intent:
+ - lookup: weather_preference
+   examples: |
+     - sunny
+Index: data/stories.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3.1\"\nstories:\n- story: User specifies a trip destination\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - slot_was_set:\n      - specify_place: true\n  - action: utter_ask_state\n  - intent: share_state\n    entities:\n      - state: \"Alexandria\"\n  - slot_was_set:\n      - state: \"Alexandria\"\n  - action: trip_form\n  - slot_was_set:\n      - budget: \"200$\"\n  - slot_was_set:\n      - duration: \"4\"\n  - slot_was_set:\n      - arrival_date: \"June\"\n  - slot_was_set:\n      - hotel_features: [ \"wifi\", \"pool\" ]\n  - slot_was_set:\n      - landmarks_activities: [\"Alexandria library\", \"beach\"]\n  - slot_was_set:\n      - family_status: \"single\"\n  - active_loop: null\n#  - action: action_suggest_trip\n  - action: utter_start_suggestions\n\n- story: User does not specify a destination\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - slot_was_set:\n      - specify_place: false\n  - action: utter_ask_weather_preference\n  - intent: share_weather_preference\n    entities:\n      - weather_preference: \"sunny\"\n  - slot_was_set:\n      - weather_preference: \"sunny\"\n  - action: trip_form\n  - slot_was_set:\n      - budget: \"$1500\"\n  - slot_was_set:\n      - duration: \"7 days\"\n  - slot_was_set:\n      - arrival_date: \"January\"\n  - slot_was_set:\n      - hotel_features: [ \"wifi\", \"pool\" ]\n  - slot_was_set:\n      - landmarks_activities: [\"museum\", \"beach\"]\n  - slot_was_set:\n      - family_status: \"family\"\n  - active_loop: null\n#  - action: action_suggest_trip\n  - action: utter_start_suggestions\n\n- story: User changes their mind mid-conversation\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - intent: request_trip\n  - action: trip_form\n\n#\n##  - action: action_suggest_trip\n#\n##- story: User cancels trip planning\n##  steps:\n##  - intent: ask_trip_plan\n##  - action: trip_form\n##  - active_loop: trip_form\n##  - intent: stop\n##  - action: utter_cancel_trip\n##  - active_loop: null\n#- story: interactive_story_1\n#  steps:\n#  - intent: request_trip\n#    entities:\n#    - duration: 7-day\n#    - arrival_date: 15th October\n#    - weather_preference: sunny\n#    - budget: $2000\n#    - hotel_features: pool\n#    - hotel_features: spa\n#    - landmarks_activities: Nile cruise\n#    - family_status: family\n#  - slot_was_set:\n#    - weather_preference: sunny\n#  - slot_was_set:\n#    - budget: $2000\n#  - slot_was_set:\n#    - hotel_features:\n#      - pool\n#      - spa\n#  - slot_was_set:\n#    - landmarks_activities:\n#      - Nile cruise\n#  - slot_was_set:\n#    - duration: 7-day\n#  - slot_was_set:\n#    - arrival_date: 15th October\n#  - slot_was_set:\n#    - family_status: family\n#  - action: trip_form\n#  - active_loop: trip_form\n#  - slot_was_set:\n#    - weather_preference: null\n#  - slot_was_set:\n#    - budget: $2000\n#  - slot_was_set:\n#    - duration: 7\n#  - slot_was_set:\n#    - arrival_date: 15th October\n#  - slot_was_set:\n#    - hotel_features:\n#      - pool\n#      - spa\n#  - slot_was_set:\n#    - landmarks_activities:\n#      - Nile cruise\n#  - slot_was_set:\n#    - family_status: family\n#  - slot_was_set:\n#    - requested_slot: state\n#  - intent: share_state\n#    entities:\n#    - state: Luxor\n#  - slot_was_set:\n#    - state: Luxor\n#  - action: utter_start_suggestions\n#  - action: action_deactivate_loop\n#  - active_loop: null\n#  - slot_was_set:\n#    - requested_slot: null\n#\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/data/stories.yml b/data/stories.yml
+--- a/data/stories.yml	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/data/stories.yml	(date 1742343103082)
+@@ -24,8 +24,6 @@
+       - hotel_features: [ "wifi", "pool" ]
+   - slot_was_set:
+       - landmarks_activities: ["Alexandria library", "beach"]
+-  - slot_was_set:
+-      - family_status: "single"
+   - active_loop: null
+ #  - action: action_suggest_trip
+   - action: utter_start_suggestions
+@@ -54,8 +52,6 @@
+       - hotel_features: [ "wifi", "pool" ]
+   - slot_was_set:
+       - landmarks_activities: ["museum", "beach"]
+-  - slot_was_set:
+-      - family_status: "family"
+   - active_loop: null
+ #  - action: action_suggest_trip
+   - action: utter_start_suggestions
+@@ -139,4 +135,4 @@
+ #  - active_loop: null
+ #  - slot_was_set:
+ #    - requested_slot: null
+-#
++#
+\ No newline at end of file
+Index: actions/actions.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from rasa_sdk import Tracker, FormValidationAction, Action\nfrom rasa_sdk.executor import CollectingDispatcher\nfrom rasa_sdk.events import SlotSet, Restarted\nfrom typing import Any, Text, Dict, List\nfrom datetime import datetime\nimport re\n\nprint(\"✅ Custom Action Server is running...\")  # Debugging message\n\ndef fetch_cities_from_database() -> List[Text]:\n    # Replace with database fetching logic\n    return [\n        \"luxor\",\n        \"cairo\",\n        \"alexandria\",\n        \"aswan\",\n        \"hurghada\",\n        \"sharm el eheikh\",\n        \"dahab\",\n        \"marsa alam\",\n        \"el gouna\",\n        \"siwa oasis\"\n    ]\n\n\nCITIES_NAMES = fetch_cities_from_database()\nFAMILY_STATUS = {\n    'solo': [\"solo traveler\", \"single traveler\"],\n    'romantic': [\"couple\", \"honeymoon\", \"partner\"],\n    'family': [\"family\", \"kids\", \"parents\", \"siblings\", \"relatives\"],\n    'group trip': [\"group\", \"friends\", \"colleagues\"],\n    'business': [\"business\", \"work\", \"conference\"],\n    'pet-friendly trip': [\"pet\", \"dog\", \"cat\", \"animal\"]\n}\n\nclass ValidateTripForm(FormValidationAction):\n\n    def name(self) -> Text:\n        return \"validate_trip_form\"\n\n    async def required_slots(\n        self,\n        domain_slots: List[Text],\n        dispatcher: \"CollectingDispatcher\",\n        tracker: \"Tracker\",\n        domain: \"DomainDict\",\n    ) -> List[Text]:\n        required_slots=[]\n\n\n        if tracker.get_slot(\"state\") is None:\n            required_slots.append(\"specify_place\")\n        elif tracker.get_slot(\"specify_place\") is True:\n            required_slots.append(\"state\")\n        elif tracker.get_slot(\"specify_place\") is False:\n            required_slots.append(\"weather_preference\")\n\n        required_slots.extend([ \"budget\", \"duration\", \"arrival_date\", \"hotel_features\", \"landmarks_activities\",\n                          \"family_status\"])\n\n        return required_slots\n\n\n\n\n    def validate_specify_place(self,\n                            slot_value: Any,\n                            dispatcher: CollectingDispatcher,\n                            tracker: Tracker,\n                            domain: Dict[Text, Any]) -> Dict[Text, Any]:\n\n        intent=tracker.latest_message['intent'].get('name')\n        if intent == \"deny\":\n            return {\"specify_place\": False}\n        elif intent == \"affirm\":\n            return {\"specify_place\": True}\n        return {\"specify_place\": None}\n\n    def validate_state(self,\n                       slot_value: Any,\n                       dispatcher: CollectingDispatcher,\n                       tracker: Tracker,\n                       domain: Dict[Text, Any]) -> Dict[Text, Any]:\n        country = tracker.get_slot(\"state\")\n        if country.lower() in [city.lower() for city in CITIES_NAMES]:\n            return {\"state\": country}\n        else:\n            dispatcher.utter_message(\"Sorry, we don't have Trips in this city, Can you choose another destination?\")\n            return {\"state\": None}\n\n\n    def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:\n        pass\n\n    def validate_duration(self,\n                          slot_value: Any,\n                          dispatcher: CollectingDispatcher,\n                          tracker: Tracker,\n                          domain: Dict[Text, Any]) -> Dict[Text, Any]:\n        if not isinstance(slot_value, str):\n            dispatcher.utter_message(text=\"Please enter a valid duration like '5 days' or '1 week'.\")\n            return {\"duration\": None}\n\n        duration = re.findall(r'(\\d+)[\\s|\\-]([a-z]+)', slot_value.lower())\n        if not duration:\n            dispatcher.utter_message(\"Please specify your trip duration in a format like '7 days' or '2 weeks'.\")\n            return {\"duration\": None}\n\n        duration = duration[0]\n        print(f\"Parsed duration: {duration}\")\n\n        # Convert to days\n        try:\n            amount = int(duration[0])\n            unit = duration[1]\n\n            if unit in [\"day\", \"days\", \"night\", \"nights\", 'd']:\n                days = amount\n            elif unit in [\"week\", \"weeks\", \"w\"]:\n                days = amount * 7\n            elif unit in [\"month\", \"months\", \"m\"]:\n                days = amount * 30\n            else:\n                dispatcher.utter_message(\"Please use days, weeks, or months for your trip duration.\")\n                return {\"duration\": None}\n\n            # Some basic validation\n            if days < 1:\n                dispatcher.utter_message(\"Trip duration must be at least 1 day.\")\n                return {\"duration\": None}\n            elif days > 365:  # Arbitrary upper limit\n                dispatcher.utter_message(\"That's quite a long trip! Please confirm your duration.\")\n\n            return {\"duration\": days}\n        except (ValueError, IndexError):\n            dispatcher.utter_message(\"I couldn't understand the duration. Please try again.\")\n            return {\"duration\": None}\n\n    # Validate the arrival date\n    def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:\n        pass\n\n\n    def validate_family_status(self,\n                                slot_value: Any,\n                                dispatcher: CollectingDispatcher,\n                                tracker: Tracker,\n                                domain: Dict[Text, Any]) -> Dict[Text, Any]:\n        for key, value in FAMILY_STATUS.items():\n            if slot_value.lower() in value:\n                return {\"family_status\": key}\n        return {\"family_status\": None}\n\nclass ActionClearChat(Action):\n    def name(self) -> Text:\n        return \"action_clear_chat\"\n\n    async def run(self, dispatcher, tracker: Tracker, domain):\n        return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/actions/actions.py b/actions/actions.py
+--- a/actions/actions.py	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/actions/actions.py	(date 1742343103082)
+@@ -1,37 +1,30 @@
++import json
++
+ from rasa_sdk import Tracker, FormValidationAction, Action
+ from rasa_sdk.executor import CollectingDispatcher
+ from rasa_sdk.events import SlotSet, Restarted
+ from typing import Any, Text, Dict, List
++import psycopg2
++from DB_Config import DB_prams
+ from datetime import datetime
+ import re
+ 
+-print("✅ Custom Action Server is running...")  # Debugging message
++
+ 
+ def fetch_cities_from_database() -> List[Text]:
+-    # Replace with database fetching logic
+-    return [
+-        "luxor",
+-        "cairo",
+-        "alexandria",
+-        "aswan",
+-        "hurghada",
+-        "sharm el eheikh",
+-        "dahab",
+-        "marsa alam",
+-        "el gouna",
+-        "siwa oasis"
+-    ]
++    conn=psycopg2.connect(**DB_prams)
++    cur=conn.cursor()
++    cur.execute("SELECT * FROM states")
++    cities_names=[]
++    for row in cur:
++        cities_names.append(row[1])
++    return cities_names
++
++
+ 
+ 
+ CITIES_NAMES = fetch_cities_from_database()
+-FAMILY_STATUS = {
+-    'solo': ["solo traveler", "single traveler"],
+-    'romantic': ["couple", "honeymoon", "partner"],
+-    'family': ["family", "kids", "parents", "siblings", "relatives"],
+-    'group trip': ["group", "friends", "colleagues"],
+-    'business': ["business", "work", "conference"],
+-    'pet-friendly trip': ["pet", "dog", "cat", "animal"]
+-}
++
+ 
+ class ValidateTripForm(FormValidationAction):
+ 
+@@ -39,15 +32,14 @@
+         return "validate_trip_form"
+ 
+     async def required_slots(
+-        self,
+-        domain_slots: List[Text],
+-        dispatcher: "CollectingDispatcher",
+-        tracker: "Tracker",
+-        domain: "DomainDict",
++            self,
++            domain_slots: List[Text],
++            dispatcher: "CollectingDispatcher",
++            tracker: "Tracker",
++            domain: "DomainDict",
+     ) -> List[Text]:
+-        required_slots=[]
++        required_slots = []
+ 
+-
+         if tracker.get_slot("state") is None:
+             required_slots.append("specify_place")
+         elif tracker.get_slot("specify_place") is True:
+@@ -55,21 +47,17 @@
+         elif tracker.get_slot("specify_place") is False:
+             required_slots.append("weather_preference")
+ 
+-        required_slots.extend([ "budget", "duration", "arrival_date", "hotel_features", "landmarks_activities",
+-                          "family_status"])
++        required_slots.extend(["budget", "duration", "arrival_date", "hotel_features", "landmarks_activities"])
+ 
+         return required_slots
+ 
+-
+-
+-
+     def validate_specify_place(self,
+-                            slot_value: Any,
+-                            dispatcher: CollectingDispatcher,
+-                            tracker: Tracker,
+-                            domain: Dict[Text, Any]) -> Dict[Text, Any]:
++                               slot_value: Any,
++                               dispatcher: CollectingDispatcher,
++                               tracker: Tracker,
++                               domain: Dict[Text, Any]) -> Dict[Text, Any]:
+ 
+-        intent=tracker.latest_message['intent'].get('name')
++        intent = tracker.latest_message['intent'].get('name')
+         if intent == "deny":
+             return {"specify_place": False}
+         elif intent == "affirm":
+@@ -81,15 +69,18 @@
+                        dispatcher: CollectingDispatcher,
+                        tracker: Tracker,
+                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
++        dispatcher.utter_message("Validating state...")
++        self.store_user_message(tracker)
+         country = tracker.get_slot("state")
++
+         if country.lower() in [city.lower() for city in CITIES_NAMES]:
+             return {"state": country}
+         else:
+             dispatcher.utter_message("Sorry, we don't have Trips in this city, Can you choose another destination?")
+             return {"state": None}
+ 
+-
+-    def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
++    def validate_budget(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
++                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
+         pass
+ 
+     def validate_duration(self,
+@@ -97,6 +88,10 @@
+                           dispatcher: CollectingDispatcher,
+                           tracker: Tracker,
+                           domain: Dict[Text, Any]) -> Dict[Text, Any]:
++        dispatcher.utter_message("Validating duration...")
++        print('Validating duration...')
++
++        self.store_user_message(tracker)
+         if not isinstance(slot_value, str):
+             dispatcher.utter_message(text="Please enter a valid duration like '5 days' or '1 week'.")
+             return {"duration": None}
+@@ -124,11 +119,11 @@
+                 dispatcher.utter_message("Please use days, weeks, or months for your trip duration.")
+                 return {"duration": None}
+ 
+-            # Some basic validation
+-            if days < 1:
++
++            if days < 1: # lower limit
+                 dispatcher.utter_message("Trip duration must be at least 1 day.")
+                 return {"duration": None}
+-            elif days > 365:  # Arbitrary upper limit
++            elif days > 365:  # upper limit
+                 dispatcher.utter_message("That's quite a long trip! Please confirm your duration.")
+ 
+             return {"duration": days}
+@@ -137,19 +132,88 @@
+             return {"duration": None}
+ 
+     # Validate the arrival date
+-    def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> Dict[Text, Any]:
+-        pass
+-
+-
+-    def validate_family_status(self,
+-                                slot_value: Any,
+-                                dispatcher: CollectingDispatcher,
+-                                tracker: Tracker,
+-                                domain: Dict[Text, Any]) -> Dict[Text, Any]:
+-        for key, value in FAMILY_STATUS.items():
+-            if slot_value.lower() in value:
+-                return {"family_status": key}
+-        return {"family_status": None}
++    def validate_arrival_date(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
++                              domain: Dict[Text, Any]) -> Dict[Text, Any]:
++        pass
++
++    def store_user_message(self, tracker: Tracker):
++        print("Storing user message...")
++
++        user_id = tracker.sender_id
++        conversation_id = user_id + '_1'  # need to be changed in future
++
++        slot_values = {}
++        for slot in tracker.slots:
++            value = tracker.slots[slot]
++            if value:
++                # check if slot value is list or not
++                if isinstance(value, list):
++                    slot_values[slot] = value
++                else:
++                    slot_values[slot] = str(value)
++
++        if not slot_values:
++            return
++        # get the latest user message if any slot value is not predicted
++        user_msgs = tracker.latest_message.get('text', '')
++
++        conn = None
++        cur = None
++        try:
++            conn = psycopg2.connect(**DB_prams)
++            cur = conn.cursor()
++
++            select_script = 'SELECT user_msgs, slot_values FROM conversation_data where user_id=%s and conversation_id=%s'
++            select_values = (user_id, conversation_id)
++            cur.execute(select_script, select_values)
++            data = cur.fetchone()
++            # if data is not empty then append the user message to the existing user messages
++            if data:
++                saved_msgs = data[0] if data[0] else []
++                saved_msgs.append(user_msgs)
++                saved_slots = json.loads(data[1]) if data[1] else {}
++
++                # update the slot values
++                for slot, value in saved_slots.items():
++                    if isinstance(value, list):
++                        # user_intent= tracker.latest_message['intent'].get('name','')
++                        # if user_intent == 'add_item':
++                        #     saved_slots[slot]= list(set(saved_slots.get(slot,[])+value))
++                        # else:
++                        saved_slots[slot] = '{'+','.join(map(str,value))+'}'
++                    else:
++                        saved_slots[slot] = str(value)
++
++                print(f"User ID: {user_id}, Conversation ID: {conversation_id}")
++                print(f"User Messages: {user_msgs}")
++                print(f"Slot Values: {slot_values}")
++
++                # update the slot values with the new slot values
++                print(f"Update Slot Values: {saved_slots}")
++                update_script = 'UPDATE conversation_data SET user_msgs=%s, slot_values=%s  WHERE user_id=%s and conversation_id=%s'
++                update_values = (saved_msgs, json.dumps(saved_slots), user_id, conversation_id)
++
++                cur.execute(update_script, update_values)
++
++            else:
++                print(f"Inserting new user message {user_id}")
++                insert_script = 'INSERT INTO conversation_data (user_id, conversation_id, user_msgs, slot_values, timestamp ) VALUES (%s,%s,%s,%s,%s)'
++                insert_values = (user_id, conversation_id, user_msgs, json.dumps(slot_values), datetime.now())
++                cur.execute(insert_script, insert_values)
++
++            conn.commit()
++
++
++
++        except Exception as e:
++            print(f"Error in storing user message: {e}")
++        finally:
++            if cur is not None:
++                cur.close()
++            if conn is not None:
++                conn.close()
++        return
++
+ 
+ class ActionClearChat(Action):
+     def name(self) -> Text:
+@@ -157,3 +221,14 @@
+ 
+     async def run(self, dispatcher, tracker: Tracker, domain):
+         return [SlotSet(slot, None) for slot in tracker.slots.keys()] + [Restarted()]
++
++# class StoreUserMessage(Action):
++#     def __init__(self):
++#         print("🟢 action_store_user_messages is being initialized")
++#
++#     def name(self) -> Text:
++#         return "action_store_user_messages"
++#
++#     async def run(self, dispatcher, tracker, domain):
++
++
+Index: domain.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: '3.1'\nintents:\n- affirm\n- bot_challenge\n- deny\n- goodbye\n- greet\n- out_of_scope\n- request_trip\n- share_arrival_date\n- share_budget\n- share_duration\n- share_family_status\n- share_hotel_features\n- share_landmarks_activities\n- share_state\n- share_weather_preference\n- thankyou\nentities:\n- arrival_date\n- budget\n- hotel_features\n- state\n- weather_preference\n- family_status\n- landmarks_activities\n- duration\nslots:\n  specify_place:\n    type: bool\n    influence_conversation: true\n    mappings:\n    - type: from_intent\n      intent: affirm\n      value: true\n    - type: from_intent\n      intent: deny\n      value: false\n  state:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: state\n    influence_conversation: true\n  weather_preference:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: weather_preference\n  budget:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: budget\n  hotel_features:\n    type: list\n    mappings:\n    - type: from_entity\n      entity: hotel_features\n  landmarks_activities:\n    type: list\n    mappings:\n    - type: from_entity\n      entity: landmarks_activities\n  duration:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: duration\n  arrival_date:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: arrival_date\n  family_status:\n    type: text\n    mappings:\n    - type: from_entity\n      entity: family_status\nforms:\n  trip_form:\n    required_slots:\n    - specify_place\n    - state\n    - weather_preference\n    - budget\n    - duration\n    - arrival_date\n    - hotel_features\n    - landmarks_activities\n    - family_status\nresponses:\n  utter_greet:\n  - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?\n  utter_goodbye:\n  - text: Bye\n  utter_iamabot:\n  - text: I am Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?\n  utter_ask_specify_place:\n  - text: Is there a specific city you want to visit in Egypt?\n  - text: Would you like to specify a city for your trip?\n  - text: Do you have a particular city in mind for your trip?\n  utter_ask_state:\n  - text: Is there a specific city you want to visit in Egypt?\n  - text: Are you planning to visit a particular city in Egypt?\n  - text: Do you have a preference for a city in Egypt?\n  - text: Are you interested in a specific city in Egypt?\n  - text: Is there a city you have in mind in Egypt?\n  - text: Are you looking to visit a particular city in Egypt?\n  - text: Do you have a city in mind in Egypt?\n  utter_ask_weather_preference:\n  - text: What kind of weather do you like?\n  - text: What’s your preferred weather?\n  - text: What’s your favorite climate?\n  - text: What kind of weather are you looking for?\n  - text: What’s your ideal weather?\n  - text: What kind of weather do you enjoy?\n  - text: What’s your favorite weather condition?\n  utter_ask_budget:\n  - text: How much are you willing to spend?\n  - text: What’s your budget for the trip?\n  - text: How much money do you have for the trip?\n  - text: What’s your spending limit?\n  - text: How much are you planning to spend?\n  - text: What’s your budget for the vacation?\n  - text: How much money do you have for the holiday?\n  - text: What’s your spending limit for the trip?\n  - text: How much are you planning to spend on the trip?\n  - text: What’s your budget for the getaway?\n  - text: How much money do you have for the journey?\n  utter_ask_hotel_features:\n  - text: What kind of hotel are you looking for?\n  - text: What features do you want in the hotel?\n  - text: What amenities are you interested in?\n  - text: What services do you need in the hotel?\n  - text: What facilities are you looking for in the hotel?\n  - text: What kind of accommodation are you interested in?\n  - text: What type of hotel are you looking for?\n  - text: What features do you need in the hotel?\n  - text: What amenities are you looking for in the hotel?\n  - text: What services do you want in the hotel?\n  utter_ask_landmarks_activities:\n  - text: What activities are you interested in?\n  - text: What landmarks do you want to visit?\n  - text: What attractions are you looking for?\n  - text: What sights do you want to see?\n  - text: What places do you want to explore?\n  - text: What activities are you looking for?\n  - text: What landmarks do you want to explore?\n  - text: What attractions are you interested in?\n  - text: What sights do you want to visit?\n  - text: What places do you want to see?\n  utter_ask_duration:\n  - text: How long are you planning to stay?\n  - text: What’s the duration of your trip?\n  - text: How many days are you planning to stay?\n  - text: What’s the length of your trip?\n  - text: How long are you planning to be there?\n  - text: What’s the duration of your vacation?\n  - text: How many days are you planning to be there?\n  - text: What’s the length of your holiday?\n  - text: How long are you planning to go for?\n  utter_ask_arrival_date:\n  - text: When are you planning to arrive?\n  - text: What’s your arrival date?\n  - text: When are you arriving?\n  - text: What’s your arrival time?\n  - text: When are you planning to get there?\n  - text: What’s your arrival day?\n  - text: When are you arriving at the destination?\n  - text: What’s your arrival schedule?\n  - text: When are you planning to reach the destination?\n  utter_ask_family_status:\n  - text: Who are you traveling with?\n  - text: What’s your family status?\n  - text: Who are you coming with?\n  - text: What’s your travel companion?\n  - text: Who are you going with?\n  - text: What’s your family situation?\n  - text: Who are you visiting with?\n  - text: What’s your travel partner?\n  - text: Who are you traveling alongside?\n  - text: What’s your family arrangement?\n  utter_ask_trip_details:\n  - text: Can you provide more details about your trip? For example, the duration, budget, and any specific activities or landmarks you want to visit.\n  utter_start_suggestions:\n  - text: I have all the information I need to suggest your trip. I'll get started on that now.\n  - text: I have gathered all the details required to suggest your trip. I'll begin working on that now.\n  - text: I have collected all the necessary information to suggest your trip. I'll start working on that now.\n  utter_thankyou:\n  - text: You're welcome!\n  - text: You're welcome! I'm here to help you.\n  - text: You're welcome! I'm here to assist you.\n  - text: It's my pleasure to help you!\n  utter_out_of_scope:\n  - text: I'm sorry, I'm not equipped to help with that.\n  - text: Sorry, I can't help with that.\nactions:\n- utter_start_suggestions\n- utter_greet\n- utter_goodbye\n- utter_iamabot\n- utter_ask_specify_place\n- utter_ask_state\n- utter_ask_weather_preference\n- validate_trip_form\n- action_clear_chat\nsession_config:\n  session_expiration_time: 60\n  carry_over_slots_to_new_session: true\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/domain.yml b/domain.yml
+--- a/domain.yml	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/domain.yml	(date 1742343103082)
+@@ -16,6 +16,7 @@
+ - share_state
+ - share_weather_preference
+ - thankyou
++- clear_chat
+ entities:
+ - arrival_date
+ - budget
+@@ -41,7 +42,7 @@
+     mappings:
+     - type: from_entity
+       entity: state
+-    influence_conversation: true
++
+   weather_preference:
+     type: text
+     mappings:
+@@ -72,11 +73,7 @@
+     mappings:
+     - type: from_entity
+       entity: arrival_date
+-  family_status:
+-    type: text
+-    mappings:
+-    - type: from_entity
+-      entity: family_status
++
+ forms:
+   trip_form:
+     required_slots:
+@@ -88,7 +85,8 @@
+     - arrival_date
+     - hotel_features
+     - landmarks_activities
+-    - family_status
++
++
+ responses:
+   utter_greet:
+   - text: Hey! I'm Rahhal, your travel assistant for planning your trip in Egypt. How can I assist you today?
+@@ -195,6 +193,9 @@
+   utter_out_of_scope:
+   - text: I'm sorry, I'm not equipped to help with that.
+   - text: Sorry, I can't help with that.
++  utter_restart:
++    - text: I Will Clear the chat history and start over
++
+ actions:
+ - utter_start_suggestions
+ - utter_greet
+@@ -205,6 +206,7 @@
+ - utter_ask_weather_preference
+ - validate_trip_form
+ - action_clear_chat
++
+ session_config:
+   session_expiration_time: 60
+   carry_over_slots_to_new_session: true
+Index: .rasa/cache/tmp2o9jl0wa/vocabularies.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp2o9jl0wa/vocabularies.json b/.rasa/cache/tmp2o9jl0wa/vocabularies.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp2o9jl0wa/vocabularies.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,703 +0,0 @@
+-{
+-  "text": {
+-    " ": 0,
+-    "h": 333,
+-    "e": 246,
+-    "y": 684,
+-    " h": 49,
+-    "he": 341,
+-    "ey": 304,
+-    "y ": 685,
+-    " he": 52,
+-    "hey": 347,
+-    "ey ": 305,
+-    " hey": 54,
+-    "hey ": 348,
+-    "l": 397,
+-    "o": 481,
+-    "el": 265,
+-    "ll": 416,
+-    "lo": 422,
+-    "o ": 482,
+-    "hel": 343,
+-    "ell": 269,
+-    "llo": 418,
+-    "lo ": 423,
+-    " hel": 53,
+-    "hell": 344,
+-    "ello": 271,
+-    "llo ": 419,
+-    "i": 361,
+-    "hi": 349,
+-    "i ": 362,
+-    " hi": 55,
+-    "hi ": 350,
+-    " hi ": 56,
+-    "t": 610,
+-    "r": 544,
+-    " t": 116,
+-    "th": 621,
+-    "er": 282,
+-    "re": 546,
+-    "e ": 247,
+-    " th": 120,
+-    "the": 624,
+-    "her": 345,
+-    "ere": 284,
+-    "re ": 547,
+-    " the": 122,
+-    "ther": 626,
+-    "here": 346,
+-    "ere ": 285,
+-    "g": 319,
+-    "d": 216,
+-    " g": 42,
+-    "go": 324,
+-    "oo": 505,
+-    "od": 483,
+-    "d ": 217,
+-    " go": 43,
+-    "goo": 328,
+-    "ood": 506,
+-    "od ": 484,
+-    " goo": 46,
+-    "good": 329,
+-    "ood ": 507,
+-    "m": 426,
+-    "n": 446,
+-    " m": 75,
+-    "mo": 439,
+-    "or": 513,
+-    "rn": 567,
+-    "ni": 463,
+-    "in": 375,
+-    "ng": 458,
+-    "g ": 320,
+-    " mo": 77,
+-    "mor": 442,
+-    "orn": 516,
+-    "rni": 568,
+-    "nin": 468,
+-    "ing": 379,
+-    "ng ": 459,
+-    " mor": 79,
+-    "morn": 443,
+-    "orni": 517,
+-    "rnin": 569,
+-    "ning": 469,
+-    "ing ": 380,
+-    "v": 658,
+-    " e": 34,
+-    "ev": 297,
+-    "ve": 659,
+-    "en": 279,
+-    " ev": 35,
+-    "eve": 298,
+-    "ven": 661,
+-    "eni": 280,
+-    " eve": 36,
+-    "even": 299,
+-    "veni": 662,
+-    "enin": 281,
+-    "oi": 493,
+-    "n ": 447,
+-    "moi": 440,
+-    "oin": 494,
+-    "in ": 376,
+-    " moi": 78,
+-    "moin": 441,
+-    "oin ": 495,
+-    " l": 68,
+-    "le": 404,
+-    "et": 295,
+-    "t ": 611,
+-    " le": 71,
+-    "let": 406,
+-    "et ": 296,
+-    " let": 72,
+-    "let ": 407,
+-    "s": 585,
+-    " s": 101,
+-    "s ": 586,
+-    " s ": 102,
+-    "go ": 325,
+-    " go ": 44,
+-    "u": 636,
+-    " d": 25,
+-    "du": 243,
+-    "ud": 638,
+-    "de": 224,
+-    " du": 32,
+-    "dud": 244,
+-    "ude": 639,
+-    "de ": 225,
+-    " dud": 33,
+-    "dude": 245,
+-    "ude ": 640,
+-    "dm": 235,
+-    "odm": 489,
+-    "dmo": 236,
+-    "oodm": 510,
+-    "odmo": 490,
+-    "dmor": 237,
+-    "ode": 487,
+-    "dev": 230,
+-    "oode": 509,
+-    "odev": 488,
+-    "deve": 231,
+-    "a": 147,
+-    "f": 306,
+-    " a": 1,
+-    "af": 154,
+-    "ft": 313,
+-    "te": 615,
+-    "no": 472,
+-    "on": 501,
+-    " af": 3,
+-    "aft": 155,
+-    "fte": 314,
+-    "ter": 618,
+-    "ern": 289,
+-    "rno": 570,
+-    "noo": 474,
+-    "oon": 511,
+-    "on ": 502,
+-    " aft": 4,
+-    "afte": 156,
+-    "fter": 315,
+-    "tern": 620,
+-    "erno": 290,
+-    "rnoo": 571,
+-    "noon": 475,
+-    "oon ": 512,
+-    "c": 202,
+-    " c": 17,
+-    "cu": 214,
+-    "u ": 637,
+-    " cu": 23,
+-    "cu ": 215,
+-    " cu ": 24,
+-    "b": 191,
+-    " b": 11,
+-    "by": 198,
+-    " by": 14,
+-    "by ": 199,
+-    " by ": 15,
+-    "ce": 203,
+-    "ee": 258,
+-    " ce": 18,
+-    "cee": 205,
+-    "ee ": 259,
+-    " cee": 19,
+-    "cee ": 206,
+-    " y": 141,
+-    "yo": 690,
+-    "ou": 523,
+-    " yo": 145,
+-    "you": 691,
+-    "ou ": 524,
+-    " you": 146,
+-    "you ": 692,
+-    "la": 399,
+-    "at": 179,
+-    "r ": 545,
+-    " la": 69,
+-    "lat": 400,
+-    "ate": 181,
+-    "er ": 283,
+-    " lat": 70,
+-    "late": 401,
+-    "ater": 182,
+-    "ter ": 619,
+-    " n": 82,
+-    "ig": 369,
+-    "gh": 321,
+-    "ht": 356,
+-    " ni": 86,
+-    "nig": 466,
+-    "igh": 370,
+-    "ght": 322,
+-    "ht ": 357,
+-    " nig": 88,
+-    "nigh": 467,
+-    "ight": 371,
+-    "ght ": 323,
+-    "ye": 686,
+-    "bye": 200,
+-    "ye ": 687,
+-    " bye": 16,
+-    "bye ": 201,
+-    "db": 221,
+-    "odb": 485,
+-    "dby": 222,
+-    "oodb": 508,
+-    "odby": 486,
+-    "dbye": 223,
+-    "ha": 334,
+-    "av": 183,
+-    " ha": 50,
+-    "hav": 339,
+-    "ave": 184,
+-    "ve ": 660,
+-    " hav": 51,
+-    "have": 340,
+-    "ave ": 185,
+-    "a ": 148,
+-    " a ": 2,
+-    "ic": 366,
+-    "nic": 464,
+-    "ice": 367,
+-    "ce ": 204,
+-    " nic": 87,
+-    "nice": 465,
+-    "ice ": 368,
+-    "da": 218,
+-    "ay": 186,
+-    " da": 26,
+-    "day": 219,
+-    "ay ": 187,
+-    " day": 27,
+-    "day ": 220,
+-    "se": 596,
+-    " se": 107,
+-    "see": 598,
+-    " see": 108,
+-    "see ": 599,
+-    "ar": 172,
+-    "ro": 572,
+-    "un": 646,
+-    "nd": 448,
+-    " ar": 8,
+-    "aro": 175,
+-    "rou": 573,
+-    "oun": 525,
+-    "und": 647,
+-    "nd ": 449,
+-    " aro": 10,
+-    "arou": 176,
+-    "roun": 574,
+-    "ound": 526,
+-    "und ": 648,
+-    "es": 293,
+-    " ye": 143,
+-    "yes": 688,
+-    "es ": 294,
+-    " yes": 144,
+-    "yes ": 689,
+-    " y ": 142,
+-    " i": 61,
+-    "ed": 256,
+-    " in": 63,
+-    "ind": 377,
+-    "nde": 450,
+-    "dee": 226,
+-    "eed": 260,
+-    "ed ": 257,
+-    " ind": 64,
+-    "inde": 378,
+-    "ndee": 451,
+-    "deed": 227,
+-    "eed ": 261,
+-    " o": 92,
+-    "of": 491,
+-    "f ": 307,
+-    " of": 93,
+-    "of ": 492,
+-    " of ": 94,
+-    "co": 207,
+-    "ur": 655,
+-    "rs": 580,
+-    " co": 20,
+-    "cou": 210,
+-    "our": 527,
+-    "urs": 656,
+-    "rse": 581,
+-    "se ": 597,
+-    " cou": 22,
+-    "cour": 211,
+-    "ours": 528,
+-    "urse": 657,
+-    "rse ": 582,
+-    "tha": 622,
+-    "hat": 337,
+-    "at ": 180,
+-    " tha": 121,
+-    "that": 623,
+-    "hat ": 338,
+-    "so": 600,
+-    "ds": 241,
+-    " so": 109,
+-    "sou": 602,
+-    "nds": 453,
+-    "ds ": 242,
+-    " sou": 111,
+-    "soun": 603,
+-    "unds": 649,
+-    "nds ": 454,
+-    "rr": 575,
+-    "ec": 253,
+-    "ct": 212,
+-    "cor": 208,
+-    "orr": 518,
+-    "rre": 576,
+-    "rec": 551,
+-    "ect": 254,
+-    "ct ": 213,
+-    " cor": 21,
+-    "corr": 209,
+-    "orre": 519,
+-    "rrec": 577,
+-    "rect": 552,
+-    "ect ": 255,
+-    " no": 89,
+-    "no ": 473,
+-    " no ": 90,
+-    " n ": 83,
+-    "ne": 455,
+-    " ne": 84,
+-    "nev": 456,
+-    "ver": 663,
+-    " nev": 85,
+-    "neve": 457,
+-    "ever": 300,
+-    "ver ": 664,
+-    " i ": 62,
+-    "do": 238,
+-    " do": 30,
+-    "don": 239,
+-    " don": 31,
+-    "don ": 240,
+-    " t ": 117,
+-    "k": 388,
+-    "nk": 470,
+-    "k ": 389,
+-    "thi": 627,
+-    "hin": 351,
+-    "ink": 381,
+-    "nk ": 471,
+-    " thi": 123,
+-    "thin": 628,
+-    "hink": 352,
+-    "ink ": 382,
+-    "so ": 601,
+-    " so ": 110,
+-    "li": 408,
+-    "ik": 372,
+-    "ke": 390,
+-    " li": 73,
+-    "lik": 409,
+-    "ike": 373,
+-    "ke ": 391,
+-    " lik": 74,
+-    "like": 410,
+-    "ike ": 374,
+-    "w": 666,
+-    " w": 132,
+-    "wa": 667,
+-    " wa": 133,
+-    "way": 670,
+-    " way": 135,
+-    "way ": 671,
+-    "ot": 521,
+-    "not": 476,
+-    "ot ": 522,
+-    " not": 91,
+-    "not ": 477,
+-    " r": 98,
+-    "ea": 248,
+-    "al": 157,
+-    "ly": 424,
+-    " re": 99,
+-    "rea": 548,
+-    "eal": 249,
+-    "all": 160,
+-    "lly": 420,
+-    "ly ": 425,
+-    " rea": 100,
+-    "real": 549,
+-    "eall": 250,
+-    "ally": 161,
+-    "lly ": 421,
+-    "p": 529,
+-    " p": 95,
+-    "pe": 530,
+-    "rf": 556,
+-    "fe": 308,
+-    " pe": 96,
+-    "per": 531,
+-    "erf": 286,
+-    "rfe": 557,
+-    "fec": 309,
+-    " per": 97,
+-    "perf": 533,
+-    "erfe": 287,
+-    "rfec": 558,
+-    "fect": 310,
+-    "gr": 330,
+-    " gr": 47,
+-    "gre": 331,
+-    "eat": 251,
+-    " gre": 48,
+-    "grea": 332,
+-    "reat": 550,
+-    "eat ": 252,
+-    "z": 693,
+-    "am": 162,
+-    "ma": 428,
+-    "az": 188,
+-    "zi": 694,
+-    " am": 5,
+-    "ama": 164,
+-    "maz": 431,
+-    "azi": 189,
+-    "zin": 695,
+-    " ama": 7,
+-    "amaz": 165,
+-    "mazi": 432,
+-    "azin": 190,
+-    "zing": 696,
+-    " f": 39,
+-    " fe": 40,
+-    "fee": 311,
+-    "eel": 262,
+-    "eli": 267,
+-    "lin": 411,
+-    " fee": 41,
+-    "feel": 312,
+-    "eeli": 264,
+-    "elin": 268,
+-    "ling": 412,
+-    " k": 65,
+-    "ki": 394,
+-    " ki": 66,
+-    "kin": 395,
+-    " kin": 67,
+-    "king": 396,
+-    "wo": 675,
+-    "fu": 316,
+-    "ul": 641,
+-    "l ": 398,
+-    " wo": 138,
+-    "won": 676,
+-    "ond": 503,
+-    "der": 228,
+-    "rfu": 559,
+-    "ful": 317,
+-    "ul ": 642,
+-    " won": 139,
+-    "wond": 677,
+-    "onde": 504,
+-    "nder": 452,
+-    "derf": 229,
+-    "erfu": 288,
+-    "rful": 560,
+-    "ful ": 318,
+-    "m ": 427,
+-    "am ": 163,
+-    " am ": 6,
+-    " v": 129,
+-    "ry": 583,
+-    " ve": 130,
+-    "ery": 291,
+-    "ry ": 584,
+-    " ver": 131,
+-    "very": 665,
+-    "ery ": 292,
+-    "goi": 326,
+-    " goi": 45,
+-    "goin": 327,
+-    "oing": 496,
+-    "to": 629,
+-    " to": 124,
+-    "to ": 630,
+-    " to ": 125,
+-    "sa": 587,
+-    " sa": 103,
+-    "sav": 594,
+-    " sav": 106,
+-    "save": 595,
+-    "he ": 342,
+-    "the ": 625,
+-    "rl": 564,
+-    "ld": 402,
+-    "wor": 678,
+-    "orl": 514,
+-    "rld": 565,
+-    "ld ": 403,
+-    " wor": 140,
+-    "worl": 679,
+-    "orld": 515,
+-    "rld ": 566,
+-    "su": 607,
+-    "up": 652,
+-    " su": 114,
+-    "sup": 608,
+-    "upe": 653,
+-    " sup": 115,
+-    "supe": 609,
+-    "uper": 654,
+-    "per ": 532,
+-    "st": 604,
+-    "ok": 498,
+-    " st": 112,
+-    "sto": 605,
+-    "tok": 631,
+-    "oke": 499,
+-    "ked": 392,
+-    " sto": 113,
+-    "stok": 606,
+-    "toke": 632,
+-    "oked": 500,
+-    "ked ": 393,
+-    "x": 680,
+-    "ex": 301,
+-    "xt": 681,
+-    "tr": 633,
+-    "em": 274,
+-    "me": 433,
+-    " ex": 37,
+-    "ext": 302,
+-    "xtr": 682,
+-    "tre": 634,
+-    "rem": 553,
+-    "eme": 275,
+-    "mel": 434,
+-    "ely": 272,
+-    " ext": 38,
+-    "extr": 303,
+-    "xtre": 683,
+-    "trem": 635,
+-    "reme": 554,
+-    "emel": 276,
+-    "mely": 435,
+-    "ely ": 273,
+-    "my": 444,
+-    " my": 80,
+-    "my ": 445,
+-    " my ": 81,
+-    "as": 177,
+-    "was": 668,
+-    "as ": 178,
+-    " was": 134,
+-    "was ": 669,
+-    "ho": 353,
+-    "ri": 561,
+-    "ib": 363,
+-    "bl": 192,
+-    " ho": 57,
+-    "hor": 354,
+-    "rri": 578,
+-    "rib": 562,
+-    "ibl": 364,
+-    "ble": 193,
+-    "le ": 405,
+-    " hor": 58,
+-    "horr": 355,
+-    "orri": 520,
+-    "rrib": 579,
+-    "ribl": 563,
+-    "ible": 365,
+-    "ble ": 194,
+-    "ad": 152,
+-    "sad": 590,
+-    "ad ": 153,
+-    " sad": 105,
+-    "sad ": 591,
+-    "el ": 266,
+-    "eel ": 263,
+-    "we": 672,
+-    " we": 136,
+-    "wel": 673,
+-    "ll ": 417,
+-    " wel": 137,
+-    "well": 674,
+-    "ell ": 270,
+-    "di": 232,
+-    "is": 385,
+-    "ap": 168,
+-    "pp": 537,
+-    "po": 534,
+-    "nt": 478,
+-    " di": 28,
+-    "dis": 233,
+-    "isa": 386,
+-    "sap": 592,
+-    "app": 169,
+-    "ppo": 538,
+-    "poi": 535,
+-    "int": 383,
+-    "nte": 479,
+-    "ted": 616,
+-    " dis": 29,
+-    "disa": 234,
+-    "isap": 387,
+-    "sapp": 593,
+-    "appo": 170,
+-    "ppoi": 539,
+-    "poin": 536,
+-    "oint": 497,
+-    "inte": 384,
+-    "nted": 480,
+-    "ted ": 617,
+-    " m ": 76,
+-    " u": 126,
+-    "nh": 460,
+-    "py": 542,
+-    " un": 127,
+-    "unh": 650,
+-    "nha": 461,
+-    "hap": 335,
+-    "ppy": 540,
+-    "py ": 543,
+-    " unh": 128,
+-    "unha": 651,
+-    "nhap": 462,
+-    "happ": 336,
+-    "appy": 171,
+-    "ppy ": 541,
+-    "ml": 436,
+-    "eml": 277,
+-    "mly": 437,
+-    "reml": 555,
+-    "emly": 278,
+-    "mly ": 438,
+-    "aa": 149,
+-    "saa": 588,
+-    "aad": 150,
+-    " saa": 104,
+-    "saad": 589,
+-    "aad ": 151,
+-    "are": 173,
+-    " are": 9,
+-    "are ": 174,
+-    "bo": 195,
+-    " bo": 12,
+-    "bot": 196,
+-    " bot": 13,
+-    "bot ": 197,
+-    "hu": 358,
+-    "um": 643,
+-    "an": 166,
+-    " hu": 59,
+-    "hum": 359,
+-    "uma": 644,
+-    "man": 429,
+-    "an ": 167,
+-    " hum": 60,
+-    "huma": 360,
+-    "uman": 645,
+-    "man ": 430,
+-    "ta": 612,
+-    "lk": 413,
+-    " ta": 118,
+-    "tal": 613,
+-    "alk": 158,
+-    "lki": 414,
+-    " tal": 119,
+-    "talk": 614,
+-    "alki": 159,
+-    "lkin": 415
+-  },
+-  "response": null,
+-  "action_text": null
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,9 +0,0 @@
+-{
+-  "0": "affirm",
+-  "1": "bot_challenge",
+-  "2": "deny",
+-  "3": "goodbye",
+-  "4": "greet",
+-  "5": "mood_great",
+-  "6": "mood_unhappy"
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,138 +0,0 @@
+-[
+-  {
+-    "key": "action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_action_name_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_action_name_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      19
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "dialogue",
+-    "components": [
+-      {
+-        "key": "length",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_dialogue_length_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_intent_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_intent_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      12
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,369 +0,0 @@
+-[
+-  {
+-    "key": "label_intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_0_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_1_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_2_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_3_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_4_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_5_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_6_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_7_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_8_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_9_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_10_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_11_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_0_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_1_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_2_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_3_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_4_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_5_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_6_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_7_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_8_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_9_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_10_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_11_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_7_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_8_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_9_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_10_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_11_list"
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmpfjaapijn/feature_to_idx_dict.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json b/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,49 +0,0 @@
+-{
+-  "0###low": {
+-    "False": 0,
+-    "True": 1
+-  },
+-  "0###title": {
+-    "False": 2,
+-    "True": 3
+-  },
+-  "0###upper": {
+-    "False": 4,
+-    "True": 5
+-  },
+-  "1###BOS": {
+-    "False": 6,
+-    "True": 7
+-  },
+-  "1###EOS": {
+-    "False": 8,
+-    "True": 9
+-  },
+-  "1###digit": {
+-    "False": 10
+-  },
+-  "1###low": {
+-    "False": 11,
+-    "True": 12
+-  },
+-  "1###title": {
+-    "False": 13,
+-    "True": 14
+-  },
+-  "1###upper": {
+-    "False": 15,
+-    "True": 16
+-  },
+-  "2###low": {
+-    "False": 17,
+-    "True": 18
+-  },
+-  "2###title": {
+-    "False": 19,
+-    "True": 20
+-  },
+-  "2###upper": {
+-    "False": 21,
+-    "True": 22
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmpqc65i5kj/vocabularies.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpqc65i5kj/vocabularies.json b/.rasa/cache/tmpqc65i5kj/vocabularies.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpqc65i5kj/vocabularies.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,116 +0,0 @@
+-{
+-  "text": {
+-    "hey": 31,
+-    "hello": 30,
+-    "hi": 32,
+-    "there": 67,
+-    "good": 24,
+-    "morning": 43,
+-    "evening": 17,
+-    "moin": 42,
+-    "let": 39,
+-    "s": 54,
+-    "go": 22,
+-    "dude": 16,
+-    "goodmorning": 27,
+-    "goodevening": 26,
+-    "afternoon": 1,
+-    "cu": 12,
+-    "by": 7,
+-    "cee": 9,
+-    "you": 79,
+-    "later": 38,
+-    "night": 48,
+-    "bye": 8,
+-    "goodbye": 25,
+-    "have": 29,
+-    "a": 0,
+-    "nice": 47,
+-    "day": 13,
+-    "see": 58,
+-    "around": 5,
+-    "yes": 78,
+-    "y": 77,
+-    "indeed": 36,
+-    "of": 51,
+-    "course": 11,
+-    "that": 65,
+-    "sounds": 60,
+-    "correct": 10,
+-    "no": 49,
+-    "n": 45,
+-    "never": 46,
+-    "i": 35,
+-    "don": 15,
+-    "t": 63,
+-    "think": 68,
+-    "so": 59,
+-    "like": 40,
+-    "way": 73,
+-    "not": 50,
+-    "really": 53,
+-    "perfect": 52,
+-    "great": 28,
+-    "amazing": 3,
+-    "feeling": 21,
+-    "king": 37,
+-    "wonderful": 75,
+-    "am": 2,
+-    "very": 71,
+-    "going": 23,
+-    "to": 69,
+-    "save": 57,
+-    "the": 66,
+-    "world": 76,
+-    "super": 62,
+-    "stoked": 61,
+-    "extremely": 18,
+-    "my": 44,
+-    "was": 72,
+-    "horrible": 33,
+-    "sad": 56,
+-    "feel": 20,
+-    "well": 74,
+-    "disappointed": 14,
+-    "m": 41,
+-    "unhappy": 70,
+-    "extremly": 19,
+-    "saad": 55,
+-    "are": 4,
+-    "bot": 6,
+-    "human": 34,
+-    "talking": 64
+-  },
+-  "intent": {
+-    "greet": 4,
+-    "goodbye": 3,
+-    "affirm": 0,
+-    "deny": 2,
+-    "mood_great": 5,
+-    "mood_unhappy": 6,
+-    "bot_challenge": 1
+-  },
+-  "response": null,
+-  "action_name": {
+-    "action_listen": 6,
+-    "action_restart": 7,
+-    "action_session_start": 9,
+-    "action_default_fallback": 4,
+-    "action_deactivate_loop": 1,
+-    "action_revert_fallback_events": 8,
+-    "action_default_ask_affirmation": 2,
+-    "action_default_ask_rephrase": 3,
+-    "action_two_stage_fallback": 10,
+-    "action_unlikely_intent": 11,
+-    "action_back": 0,
+-    "action_extract_slots": 5,
+-    "utter_cheer_up": 12,
+-    "utter_did_that_help": 13,
+-    "utter_goodbye": 14,
+-    "utter_greet": 15,
+-    "utter_happy": 16,
+-    "utter_iamabot": 17
+-  },
+-  "action_text": null,
+-  "intent_response_key": null
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,558 +0,0 @@
+-[
+-  {
+-    "key": "label_action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_0_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_1_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_2_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_3_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_4_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_5_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_6_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_7_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_8_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_9_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_10_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_11_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_12_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_13_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_14_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_15_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_16_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_17_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_18_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_0_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_1_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_2_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_3_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_4_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_5_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_6_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_7_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_8_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_9_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_10_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_11_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_12_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_13_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_14_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_15_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_16_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_17_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_18_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_7_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_8_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_9_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_10_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_11_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_12_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_13_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_14_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_15_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_16_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_17_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_18_list"
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/featurizer.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/featurizer.json b/.rasa/cache/tmp_xojoghr/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/featurizer.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,49 +0,0 @@
+-{
+-  "type": "IntentMaxHistoryTrackerFeaturizer",
+-  "state_featurizer": {
+-    "action_texts": [],
+-    "entity_tag_specs": [],
+-    "feature_states": {
+-      "intent": {
+-        "affirm": 0,
+-        "back": 1,
+-        "bot_challenge": 2,
+-        "deny": 3,
+-        "goodbye": 4,
+-        "greet": 5,
+-        "mood_great": 6,
+-        "mood_unhappy": 7,
+-        "nlu_fallback": 8,
+-        "out_of_scope": 9,
+-        "restart": 10,
+-        "session_start": 11
+-      },
+-      "action_name": {
+-        "action_listen": 0,
+-        "action_restart": 1,
+-        "action_session_start": 2,
+-        "action_default_fallback": 3,
+-        "action_deactivate_loop": 4,
+-        "action_revert_fallback_events": 5,
+-        "action_default_ask_affirmation": 6,
+-        "action_default_ask_rephrase": 7,
+-        "action_two_stage_fallback": 8,
+-        "action_unlikely_intent": 9,
+-        "action_back": 10,
+-        "...": 11,
+-        "action_extract_slots": 12,
+-        "utter_cheer_up": 13,
+-        "utter_did_that_help": 14,
+-        "utter_goodbye": 15,
+-        "utter_greet": 16,
+-        "utter_happy": 17,
+-        "utter_iamabot": 18
+-      },
+-      "entities": {},
+-      "slots": {},
+-      "active_loop": {}
+-    }
+-  },
+-  "remove_duplicates": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,28 +0,0 @@
+-{
+-  "intent": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "intent",
+-      "origin": "SingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        12
+-      ],
+-      "safetensors_key": "intent_0"
+-    }
+-  ],
+-  "action_name": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "action_name",
+-      "origin": "SingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        19
+-      ],
+-      "safetensors_key": "action_name_0"
+-    }
+-  ]
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,13 +0,0 @@
+-{
+-  "text": {
+-    "sequence": [
+-      23,
+-      80,
+-      697
+-    ],
+-    "sentence": [
+-      80,
+-      697
+-    ]
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,142 +0,0 @@
+-[
+-  {
+-    "key": "action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_action_name_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_action_name_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      19
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "dialogue",
+-    "components": [
+-      {
+-        "key": "length",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_dialogue_length_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_intent_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_intent_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      12
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_0_list"
+-                  },
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_1_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp2o9jl0wa/oov_words.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp2o9jl0wa/oov_words.json b/.rasa/cache/tmp2o9jl0wa/oov_words.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp2o9jl0wa/oov_words.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmpqc65i5kj/oov_words.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpqc65i5kj/oov_words.json b/.rasa/cache/tmpqc65i5kj/oov_words.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpqc65i5kj/oov_words.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,68 +0,0 @@
+-{
+-  "hidden_layers_sizes": {
+-    "text": []
+-  },
+-  "dense_dimension": {
+-    "text": 128,
+-    "intent": 20,
+-    "action_name": 20,
+-    "entities": 20,
+-    "slots": 20,
+-    "active_loop": 20,
+-    "label_intent": 20
+-  },
+-  "concat_dimension": {
+-    "text": 128
+-  },
+-  "encoding_dimension": 50,
+-  "transformer_size": {
+-    "text": 128,
+-    "dialogue": 128
+-  },
+-  "number_of_transformer_layers": {
+-    "text": 1,
+-    "dialogue": 1
+-  },
+-  "number_of_attention_heads": 4,
+-  "use_key_relative_attention": false,
+-  "use_value_relative_attention": false,
+-  "max_relative_position": 5,
+-  "unidirectional_encoder": false,
+-  "batch_size": [
+-    64,
+-    256
+-  ],
+-  "batch_strategy": "balanced",
+-  "epochs": 100,
+-  "random_seed": null,
+-  "learning_rate": 0.001,
+-  "embedding_dimension": 20,
+-  "number_of_negative_examples": 20,
+-  "ranking_length": 10,
+-  "scale_loss": true,
+-  "regularization_constant": 0.001,
+-  "drop_rate_dialogue": 0.1,
+-  "drop_rate": 0.0,
+-  "drop_rate_label": 0.0,
+-  "drop_rate_attention": 0.0,
+-  "connection_density": 0.2,
+-  "use_sparse_input_dropout": true,
+-  "use_dense_input_dropout": true,
+-  "use_masked_language_model": false,
+-  "evaluate_every_number_of_epochs": 20,
+-  "evaluate_on_number_of_examples": 0,
+-  "tensorboard_log_directory": null,
+-  "tensorboard_log_level": "epoch",
+-  "checkpoint_model": false,
+-  "featurizers": [],
+-  "ignore_intents_list": [],
+-  "tolerance": 0.0,
+-  "split_entities_by_comma": true,
+-  "similarity_type": "inner",
+-  "entity_recognition": false,
+-  "BILOU_flag": false,
+-  "loss_type": "cross_entropy",
+-  "priority": 2,
+-  "use_gpu": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpk7lmo9bh/patterns.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpk7lmo9bh/patterns.json b/.rasa/cache/tmpk7lmo9bh/patterns.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpk7lmo9bh/patterns.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/featurizer.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/featurizer.json b/.rasa/cache/tmp8vv3di9k/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/featurizer.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,6 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": null,
+-  "remove_duplicates": true,
+-  "max_history": null
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,144 +0,0 @@
+-[
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_mask_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_label_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "text",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_text_mask_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_text_sentence_0_0",
+-                "shape": [
+-                  1,
+-                  777
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_text_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  800
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_text_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-2
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/rule_policy.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/rule_policy.json b/.rasa/cache/tmp8vv3di9k/rule_policy.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/rule_policy.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,22 +0,0 @@
+-{
+-  "lookup": {
+-    "rules": {
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]": "utter_goodbye",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]": "action_listen",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "utter_iamabot",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}, {\"prev_action\": {\"action_name\": \"utter_iamabot\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "action_listen"
+-    },
+-    "rule_only_slots": [],
+-    "rule_only_loops": [],
+-    "rules_for_loop_unhappy_path": {},
+-    "rules_not_in_stories": [
+-      "predicting default action with intent session_start",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+-      "predicting default action with intent restart",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}]",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}, {\"prev_action\": {\"action_name\": \"utter_iamabot\"}, \"user\": {\"intent\": \"bot_challenge\"}}]",
+-      "predicting default action with intent back"
+-    ]
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.priority.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-1
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,123 +0,0 @@
+-[
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_1",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_2",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_3",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_4",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_5",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_6",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_label_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.meta.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,84 +0,0 @@
+-{
+-  "hidden_layers_sizes": {
+-    "text": [],
+-    "action_text": [],
+-    "label_action_text": []
+-  },
+-  "dense_dimension": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128,
+-    "intent": 20,
+-    "action_name": 20,
+-    "label_action_name": 20,
+-    "entities": 20,
+-    "slots": 20,
+-    "active_loop": 20
+-  },
+-  "concat_dimension": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128
+-  },
+-  "encoding_dimension": 50,
+-  "transformer_size": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128,
+-    "dialogue": 128
+-  },
+-  "number_of_transformer_layers": {
+-    "text": 1,
+-    "action_text": 1,
+-    "label_action_text": 1,
+-    "dialogue": 1
+-  },
+-  "number_of_attention_heads": 4,
+-  "use_key_relative_attention": false,
+-  "use_value_relative_attention": false,
+-  "max_relative_position": 5,
+-  "unidirectional_encoder": false,
+-  "batch_size": [
+-    64,
+-    256
+-  ],
+-  "batch_strategy": "balanced",
+-  "epochs": 100,
+-  "random_seed": null,
+-  "learning_rate": 0.001,
+-  "embedding_dimension": 20,
+-  "number_of_negative_examples": 20,
+-  "similarity_type": "inner",
+-  "loss_type": "cross_entropy",
+-  "ranking_length": 0,
+-  "renormalize_confidences": false,
+-  "maximum_positive_similarity": 0.8,
+-  "maximum_negative_similarity": -0.2,
+-  "use_maximum_negative_similarity": true,
+-  "scale_loss": true,
+-  "regularization_constant": 0.001,
+-  "negative_margin_scale": 0.8,
+-  "drop_rate_dialogue": 0.1,
+-  "drop_rate": 0.0,
+-  "drop_rate_label": 0.0,
+-  "drop_rate_attention": 0.0,
+-  "connection_density": 0.2,
+-  "use_sparse_input_dropout": true,
+-  "use_dense_input_dropout": true,
+-  "use_masked_language_model": false,
+-  "evaluate_every_number_of_epochs": 20,
+-  "evaluate_on_number_of_examples": 0,
+-  "tensorboard_log_directory": null,
+-  "tensorboard_log_level": "epoch",
+-  "checkpoint_model": false,
+-  "e2e_confidence_threshold": 0.5,
+-  "featurizers": [],
+-  "entity_recognition": false,
+-  "constrain_similarities": true,
+-  "model_confidence": "softmax",
+-  "BILOU_flag": true,
+-  "split_entities_by_comma": true,
+-  "max_history": 5,
+-  "priority": 1,
+-  "use_gpu": true
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpb1w2f3rx/featurizer.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpb1w2f3rx/featurizer.json b/.rasa/cache/tmpb1w2f3rx/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpb1w2f3rx/featurizer.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,6 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": null,
+-  "remove_duplicates": true,
+-  "max_history": null
+-}
+\ No newline at end of file
+Index: ChatApi.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ChatApi.py b/ChatApi.py
+deleted file mode 100644
+--- a/ChatApi.py	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,232 +0,0 @@
+-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+-from fastapi.responses import HTMLResponse
+-import requests
+-from fastapi.middleware.cors import CORSMiddleware
+-
+-app = FastAPI()
+-
+-NGROK_URL = "https://4dfa-156-203-119-173.ngrok-free.app"
+-
+-app.add_middleware(
+-    CORSMiddleware,
+-    allow_origins=[
+-        "http://127.0.0.1:8000",
+-        NGROK_URL
+-    ],
+-    allow_credentials=True,
+-    allow_methods=["*"],
+-    allow_headers=["*"],
+-)
+-
+-RASA_SERVER_URL = "http://localhost:5005/webhooks/rest/webhook"
+-RASA_RESET_URL = "http://localhost:5005/conversations/{user_id}/tracker/events"
+-
+-connections = {}
+-
+-html = f"""
+-<!DOCTYPE html>
+-<html>
+-<head>
+-    <title>Chatbot</title>
+-    <style>
+-        body {{
+-            display: flex;
+-            justify-content: center;
+-            align-items: center;
+-            height: 100vh;
+-            margin: 0;
+-            background-color: #f4f4f4;
+-        }}
+-
+-        #chat-container {{
+-            border: 1px solid black;
+-            padding: 10px;
+-            width: 350px;
+-            height: 400px;
+-            overflow: auto;
+-            display: flex;
+-            flex-direction: column;
+-            background: white;
+-            border-radius: 10px;
+-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+-        }}
+-
+-        .message {{
+-            padding: 8px 12px;
+-            margin: 5px;
+-            border-radius: 15px;
+-            max-width: 70%;
+-            word-wrap: break-word;
+-        }}
+-
+-        .user-message {{
+-            background-color: #d1e7dd;
+-            align-self: flex-end;
+-        }}
+-
+-        .bot-message {{
+-            background-color: #f8d7da;
+-            align-self: flex-start;
+-        }}
+-
+-        #input-container {{
+-            display: flex;
+-            justify-content: center;
+-            gap: 10px;
+-            margin-top: 10px;
+-        }}
+-
+-        #messageInput {{
+-            width: 250px;
+-            padding: 5px;
+-            border-radius: 5px;
+-            border: 1px solid #ccc;
+-        }}
+-
+-        button {{
+-            padding: 6px 12px;
+-            border: none;
+-            border-radius: 5px;
+-            cursor: pointer;
+-            background-color: #007bff;
+-            color: white;
+-        }}
+-
+-        button:hover {{
+-            background-color: #0056b3;
+-        }}
+-    </style>
+-</head>
+-<body>
+-    <div>
+-        <h2 style="text-align: center;">Rahhal</h2>
+-        <div id="chat-container"></div>
+-        <div id="input-container">
+-            <input type="text" id="messageInput" autocomplete="on"/>
+-            <button id="sendBtn">Send</button>
+-            <button id="clearBtn" style="background-color: red;">Clear</button>
+-        </div>
+-    </div>
+-
+-    <script>
+-        let userId = localStorage.getItem("user_id") || "user_" + Math.floor(Math.random() * 100000);
+-        localStorage.setItem("user_id", userId);
+-
+-        let wsUrl = "{NGROK_URL}".replace("https://", "wss://") + "/ws/" + userId;
+-
+-        let ws = new WebSocket(wsUrl);
+-
+-        ws.onopen = function() {{
+-            console.log("Connected to WebSocket!");
+-        }};
+-
+-        ws.onmessage = function(event) {{
+-            let messages = document.getElementById('chat-container');
+-            let message = document.createElement('div');
+-            message.textContent = event.data;
+-            message.classList.add("message");
+-
+-            if (event.data.startsWith("You:")) {{
+-                message.classList.add("user-message");
+-            }} else {{
+-                message.classList.add("bot-message");
+-            }}
+-
+-            messages.appendChild(message);
+-            messages.scrollTop = messages.scrollHeight;
+-        }};
+-
+-        ws.onerror = function(error) {{
+-            console.error("WebSocket Error:", error);
+-        }};
+-
+-        ws.onclose = function() {{
+-            console.log("WebSocket disconnected. Reconnecting...");
+-            setTimeout(() => {{
+-                ws = new WebSocket(wsUrl);
+-            }}, 3000);
+-        }};
+-
+-        function sendMessage() {{
+-            let input = document.getElementById("messageInput");
+-            if (input.value.trim() !== "") {{
+-                ws.send(input.value);
+-                input.value = "";
+-            }}
+-        }}
+-
+-        async function clearChat() {{
+-            let messages = document.getElementById('chat-container');
+-            messages.innerHTML = "";
+-
+-            try {{
+-                let response = await fetch("{NGROK_URL}/reset_chat/" + userId, {{
+-                    method: "POST",
+-                    headers: {{ "Content-Type": "application/json" }}
+-                }});
+-
+-                if (response.ok) {{
+-                    console.log("Chat reset successfully!");
+-                }} else {{
+-                    console.error("Failed to reset chat.");
+-                }}
+-            }} catch (error) {{
+-                console.error("Error resetting chat:", error);
+-            }}
+-        }}
+-
+-        document.getElementById("sendBtn").addEventListener("click", sendMessage);
+-        document.getElementById("clearBtn").addEventListener("click", clearChat);
+-
+-    </script>
+-</body>
+-</html>
+-"""
+-
+-
+-@app.get("/")
+-async def get():
+-    return HTMLResponse(html)
+-
+-
+-@app.websocket("/ws/{user_id}")
+-async def websocket_endpoint(websocket: WebSocket, user_id: str):
+-    await websocket.accept()
+-    connections[user_id] = websocket
+-
+-    try:
+-        while True:
+-            data = await websocket.receive_text()
+-            if data.strip():
+-                await websocket.send_text(f"You: {data}")
+-
+-                response = requests.post(RASA_SERVER_URL, json={"sender": user_id, "message": data})
+-
+-                if response.status_code == 200:
+-                    messages = response.json()
+-                    for msg in messages:
+-                        text = msg.get("text", "").strip()
+-                        if text:
+-                            await websocket.send_text(f'Rahhal: {text}')
+-                else:
+-                    await websocket.send_text("Rahhal: Error connecting to the server.")
+-    except WebSocketDisconnect:
+-        print(f"User {user_id} disconnected.")
+-        connections.pop(user_id, None)
+-    except Exception as e:
+-        await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
+-        await websocket.close()
+-
+-
+-@app.post("/reset_chat/{user_id}")
+-async def reset_chat(user_id: str):
+-    try:
+-        reset_payload = {"event": "restart", "timestamp": None}
+-        response = requests.post(RASA_RESET_URL.format(user_id=user_id), json=reset_payload)
+-
+-        if response.status_code == 200:
+-            return {"status": "success", "message": f"Chat reset for {user_id}."}
+-        else:
+-            raise HTTPException(status_code=500, detail="Failed to reset chat in Rasa.")
+-    except Exception as e:
+-        raise HTTPException(status_code=500, detail=str(e))
+Index: .rasa/cache/tmpb1w2f3rx/memorized_turns.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpb1w2f3rx/memorized_turns.json b/.rasa/cache/tmpb1w2f3rx/memorized_turns.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpb1w2f3rx/memorized_turns.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,16 +0,0 @@
+-{
+-  "lookup": {
+-    "eJyLrq6NBQAEOAGx": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taS2NhYA6dwbhQ==": "utter_greet",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpbhMiAUAQvc0lw==": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KSDzE4EGxQIAPEFQdQ==": "utter_happy",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KSDzE4l0SkZiQUElfmNiAVKZa5w=": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KfGleRmJBQWVtbWxAN75UWc=": "utter_cheer_up",
+-    "eJydjlEKgCAQRK/iATqBV4lYxJYUchVdgxDv3oL9G/0MM/B4zNr6olrKeIGx7CNp1UYBMgG1esfpCyMJWwtmYTzJZK2OjMh94qjMmGGg/wyTFyHGHSo5k9L97Yx1KFnTzLU9XiFuqQ==": "utter_did_that_help",
+-    "eJytjlEKgCAQRK/iATqBV4lYRIcUahVbg5DunlD/RvQzzMDjMWM9B1VTxk7GSoisVb0LsVmh1TOWsAm4sWVDbkzgNkWrOQNydhxFBJlu9Juh82KN0VFhb1I63p2xHi1L+sPlgiPxRshj6QqnC1EGjek=": "action_listen",
+-    "eJytj9EJwzAMRFfxAJ3Aq4QgRKzUglg2ilwoxrvXkP67tP0Rd/B4nJbWb64VpQfgZpzFu3YFEEzk3bscfBrJYOtJOhiWUc27uxJZnziqGSlc6HeGyYqUc4AqEUt5fjZmizRuLf9wBQ5gEQ0iHT8KJ3/ivrOm3tcXH2yoGw==": "utter_happy",
+-    "eJytj0EKAyEMRa/iAXoCr1JKCGOmBsYomVgoMnevYLfFoe0m5MPn5eXajotrRekBuBhn8a6NBQQTefcOG+9G0rt1J+0dlh7Nu7sS2TFhVDNSGNXvCBOLlHOAKhFLeZ6TWSL1Wcs/WIEDWESDSNuPwMmfuK6s6ZzVuPcRcXsBe37Blg==": "action_listen",
+-    "eJytj1EKwyAQRK/iAXoCr1LCInGIQrKKWQNFvHsX7L+h7c8yA4/H7LP1h2m54CK3SkxsTRuB2B2w5lP2eApY2XqiKBNZq1izFUD6xFFFUGig3xkmK46UPFUOLufXvTFrgN6a/+Hy0ZMEJxSw/yic/OnBqlje0A2nVg==": "utter_goodbye",
+-    "eJytj9EJwzAMRFfxAJ3Aq4Qg3PiIDYlsHLkQTHavIP0NDm1/hA6Op6ehHQ/TcsGL3CQxsTXtXIjdCms+YYmbgLVbNxTtRNYo1swFkKPDqCIodFa/I3Qs1pQ8VQ4u5/2ezBSgs+Z/sHz0JMEJBSw/Ajt/evBNp1mPPndcIcY3+fTA0w==": "action_listen"
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/featurizer.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/featurizer.json b/.rasa/cache/tmpl9_mhxjf/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/featurizer.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,49 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": {
+-    "action_texts": [],
+-    "entity_tag_specs": [],
+-    "feature_states": {
+-      "intent": {
+-        "affirm": 0,
+-        "back": 1,
+-        "bot_challenge": 2,
+-        "deny": 3,
+-        "goodbye": 4,
+-        "greet": 5,
+-        "mood_great": 6,
+-        "mood_unhappy": 7,
+-        "nlu_fallback": 8,
+-        "out_of_scope": 9,
+-        "restart": 10,
+-        "session_start": 11
+-      },
+-      "action_name": {
+-        "action_listen": 0,
+-        "action_restart": 1,
+-        "action_session_start": 2,
+-        "action_default_fallback": 3,
+-        "action_deactivate_loop": 4,
+-        "action_revert_fallback_events": 5,
+-        "action_default_ask_affirmation": 6,
+-        "action_default_ask_rephrase": 7,
+-        "action_two_stage_fallback": 8,
+-        "action_unlikely_intent": 9,
+-        "action_back": 10,
+-        "...": 11,
+-        "action_extract_slots": 12,
+-        "utter_cheer_up": 13,
+-        "utter_did_that_help": 14,
+-        "utter_goodbye": 15,
+-        "utter_greet": 16,
+-        "utter_happy": 17,
+-        "utter_iamabot": 18
+-      },
+-      "entities": {},
+-      "slots": {},
+-      "active_loop": {}
+-    }
+-  },
+-  "remove_duplicates": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/rule_only_data.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/rule_only_data.json b/.rasa/cache/tmp8vv3di9k/rule_only_data.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/rule_only_data.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,4 +0,0 @@
+-{
+-  "rule_only_slots": [],
+-  "rule_only_loops": []
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ /dev/null	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
+@@ -1,28 +0,0 @@
+-{
+-  "intent": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "intent",
+-      "origin": "IntentTokenizerSingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        12
+-      ],
+-      "safetensors_key": "intent_0"
+-    }
+-  ],
+-  "action_name": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "action_name",
+-      "origin": "IntentTokenizerSingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        19
+-      ],
+-      "safetensors_key": "action_name_0"
+-    }
+-  ]
+-}
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"Black\">\n    <option name=\"sdkName\" value=\"Python 3.13 virtualenv at E:\\AI_track\\Practise_Rasa_Project\\venv\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.13 virtualenv at E:\\AI_track\\Practise_Rasa_Project\\venv (2)\" project-jdk-type=\"Python SDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/.idea/misc.xml	(date 1742343102907)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.13 virtualenv at E:\AI_track\Practise_Rasa_Project\venv" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 virtualenv at E:\AI_track\Practise_Rasa_Project\venv (2)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (venv)" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/Chatbot.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"PYTHON_MODULE\" version=\"4\">\n  <component name=\"NewModuleRootManager\">\n    <content url=\"file://$MODULE_DIR$\" />\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.13 virtualenv at E:\\AI_track\\Practise_Rasa_Project\\venv (2)\" jdkType=\"Python SDK\" />\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n  </component>\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/Chatbot.iml b/.idea/Chatbot.iml
+--- a/.idea/Chatbot.iml	(revision fd4419b4f1044cf29eb1eb8bd0d4db3c0d9606c9)
++++ b/.idea/Chatbot.iml	(date 1742343102907)
+@@ -2,7 +2,7 @@
+ <module type="PYTHON_MODULE" version="4">
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="jdk" jdkName="Python 3.13 virtualenv at E:\AI_track\Practise_Rasa_Project\venv (2)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.8 (venv)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file

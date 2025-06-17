@@ -1,0 +1,97 @@
+Index: APIs/suggestion_api.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import requests\n\nfrom DB_config import DB_Prams\nfrom fastapi import FastAPI\nimport psycopg2\n\napp = FastAPI()\n\nEMBEDDING_API_URL=\"http://localhost:8000/empadding\"\n\ndef concatenate_user_messages(user_msgs_json):\n    user_msgs_str = ''\n    for key, value in user_msgs_json.items():\n        if value not in user_msgs_str:\n            user_msgs_str += value + ' '\n    return user_msgs_str\n\n@app.get(\"/suggest_cities\")\ndef suggest_cities(conversation_id:int):\n    conn=None\n    cur=None\n    print(\"Conversation ID: \",conversation_id)\n    try:\n        conn=psycopg2.connect(**DB_Prams)\n        cur=conn.cursor()\n        cur.execute(\"SELECT user_msgs,slot_values FROM conversation_data WHERE conversation_id=%s\",(conversation_id,))\n        user_data=cur.fetchone()\n        if not user_data:\n            return {\"error\":\"No conversation found with this conversation id\"}\n\n\n        user_msgs,user_values=concatenate_user_messages(user_data[0]),user_data[1]\n        user_msgs_embedding = requests.post(EMBEDDING_API_URL, json={\"text\": user_msgs}).json()\n\n        # get the cities the top 3 matched cities from the database\n        select_query=\"SELECT name, description, embedding <-> %s::vector AS similarity FROM states ORDER BY similarity LIMIT 3\"\n\n        cur.execute(select_query,(str(user_msgs_embedding[\"empadding\"]),))\n        cities=cur.fetchall()\n        return {\"cities\":cities}\n    except Exception as e:\n        print(f\"Error in founding conversation: {e}\")\n    finally:\n        if cur:\n            cur.close()\n        if conn:\n            conn.close()\n\n
+===================================================================
+diff --git a/APIs/suggestion_api.py b/APIs/suggestion_api.py
+--- a/APIs/suggestion_api.py	(revision 5d9a6fc5acc6139f67a32dc10f0f823a46bec080)
++++ b/APIs/suggestion_api.py	(date 1742544979737)
+@@ -6,7 +6,7 @@
+ 
+ app = FastAPI()
+ 
+-EMBEDDING_API_URL="http://localhost:8000/empadding"
++EMBEDDING_API_URL="http://localhost:8000/embedding"
+ 
+ def concatenate_user_messages(user_msgs_json):
+     user_msgs_str = ''
+@@ -19,25 +19,60 @@
+ def suggest_cities(conversation_id:int):
+     conn=None
+     cur=None
+-    print("Conversation ID: ",conversation_id)
+     try:
+         conn=psycopg2.connect(**DB_Prams)
+         cur=conn.cursor()
++        user_msgs_embedding,user_values = get_user_msgs_embedding(conversation_id,cur,conn)
++
++        # get the cities the top 3 matched cities from the database
++        select_query="SELECT name, description, embedding <-> %s::vector AS similarity FROM states ORDER BY similarity LIMIT 3"
++
++        cur.execute(select_query,(str(user_msgs_embedding["empadding"]),))
++        cities=cur.fetchall()
++        return {"cities":cities}
++    except Exception as e:
++        print(f"Error in founding conversation: {e}")
++    finally:
++        if cur:
++            cur.close()
++        if conn:
++            conn.close()
++
++
++@app.get("/suggest_trips")
++def suggest_trips(conversation_id:int,city_name:str):
++    conn=None
++    cur=None
++
++    try:
++        conn=psycopg2.connect(**DB_Prams)
++        cur=conn.cursor()
++        user_msgs_embedding,user_values = get_user_msgs_embedding(conversation_id,cur,conn)
++
++        # get the best 3 matched trips from the database considering the city name and trip date
++        select_query="SELECT *, embedding <-> %s::vector AS similarity FROM trips ORDER BY similarity LIMIT 3"
++
++        cur.execute(select_query,(str(user_msgs_embedding["empadding"]),))
++        trips=cur.fetchall()
++        return {"trips":trips}
++    except Exception as e:
++        print(f"Error in founding conversation: {e}")
++    finally:
++        if cur:
++            cur.close()
++        if conn:
++            conn.close()
++
++
++def get_user_msgs_embedding(conversation_id,cur=None,conn=None):
++    try:
+         cur.execute("SELECT user_msgs,slot_values FROM conversation_data WHERE conversation_id=%s",(conversation_id,))
+         user_data=cur.fetchone()
+         if not user_data:
+-            return {"error":"No conversation found with this conversation id"}
+-
+-
+-        user_msgs,user_values=concatenate_user_messages(user_data[0]),user_data[1]
++            return {"error": "No conversation found with this conversation id"}
++        user_msgs, user_values = concatenate_user_messages(user_data[0]), user_data[1]
+         user_msgs_embedding = requests.post(EMBEDDING_API_URL, json={"text": user_msgs}).json()
+-
+-        # get the cities the top 3 matched cities from the database
+-        select_query="SELECT name, description, embedding <-> %s::vector AS similarity FROM states ORDER BY similarity LIMIT 3"
+-
+-        cur.execute(select_query,(str(user_msgs_embedding["empadding"]),))
+-        cities=cur.fetchall()
+-        return {"cities":cities}
++        return user_msgs_embedding, user_values
+     except Exception as e:
+         print(f"Error in founding conversation: {e}")
+     finally:
+@@ -45,4 +80,4 @@
+             cur.close()
+         if conn:
+             conn.close()
+-
++    return None,None
+\ No newline at end of file

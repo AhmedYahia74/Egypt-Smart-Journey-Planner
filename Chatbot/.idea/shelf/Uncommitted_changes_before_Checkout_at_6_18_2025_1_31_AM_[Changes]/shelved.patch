@@ -1,0 +1,236 @@
+Index: APIs/chatbot_api.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException\nimport requests\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom config_helper import  get_api_urls\n\napp = FastAPI()\n\nNGROK_URL = get_api_urls().get('ngrok')\nLOCAL_HOST_URL = get_api_urls().get('local')\nRASA_SERVER_URL = get_api_urls().get('rasa_server')\nRASA_RESET_URL = get_api_urls().get('rasa_reset')\nSUGGEST_PLAN_URL = get_api_urls().get('suggest_plan')\nSUGGEST_HOTELS_URL = get_api_urls().get('suggest_hotels')\nSUGGEST_LANDMARKS_ACTIVITIES_URL = get_api_urls().get('suggest_landmarks_activities')\n\n\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\n        LOCAL_HOST_URL,\n        NGROK_URL\n    ],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\n\nconnections = {}\n\n\nSUGGEST_MSG=\"suggest your trip\"\n\n# after finishing testing, set the conversation_id to int and replace every id with conversation_id\n@app.websocket(\"/ws/{conversation_id}\")\nasync def manage_chat_session(websocket: WebSocket, conversation_id: str):\n    await websocket.accept()\n    connections[conversation_id] = websocket\n\n    try:\n        while True:\n            data = await websocket.receive_text()\n            if data.strip():\n                await websocket.send_text(f\"You: {data}\")\n                print(f\"User {conversation_id} sent: {data}\")\n\n                response = requests.post(RASA_SERVER_URL, json={\"sender\": conversation_id, \"message\": data})\n\n                if response.status_code == 200:\n                    messages = response.json()\n\n                    for msg in messages:\n                        text = msg.get(\"text\", \"\")\n                        await websocket.send_text(f'Rahhal: {text}')\n                else:\n                    await websocket.send_text(\"Rahhal: Error connecting to the server.\")\n    except WebSocketDisconnect:\n        print(f\"User {conversation_id} disconnected.\")\n        connections.pop(conversation_id, None)\n    except Exception as e:\n        await websocket.send_text(f\"Rahhal: An error occurred - {str(e)}\")\n        await websocket.close()\n\n# don't forget to change the user_id to int and replace id with conversation_id\n# Reset chat\n\n@app.post(\"/reset_chat/{conversation_id}\")\nasync def reset_chat(conversation_id: str):\n    try:\n        reset_payload = {\"event\": \"restart\", \"timestamp\": None}\n        response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)\n\n        if response.status_code == 200:\n            return {\"status\": \"success\", \"message\": f\"Chat reset for {conversation_id}.\"}\n        else:\n            raise HTTPException(status_code=500, detail=\"Failed to reset chat in Rasa.\")\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n\nif __name__ == \"__main__\":\n    import  uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/APIs/chatbot_api.py b/APIs/chatbot_api.py
+--- a/APIs/chatbot_api.py	(revision 3f6a7a016caf6233cada061d2e230fb53d537025)
++++ b/APIs/chatbot_api.py	(date 1750198297153)
+@@ -1,5 +1,6 @@
+ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+ import requests
++import json
+ from fastapi.middleware.cors import CORSMiddleware
+ from config_helper import  get_api_urls
+ 
+@@ -42,24 +43,44 @@
+         while True:
+             data = await websocket.receive_text()
+             if data.strip():
+-                await websocket.send_text(f"You: {data}")
++                await websocket.send_json({
++                    "type": "user_message",
++                    "content": json.dumps({"sender": conversation_id, "message": data})
++                })
+                 print(f"User {conversation_id} sent: {data}")
+ 
+                 response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
+ 
+                 if response.status_code == 200:
+                     messages = response.json()
+-
++                    
+                     for msg in messages:
+-                        text = msg.get("text", "")
+-                        await websocket.send_text(f'Rahhal: {text}')
++                        if "text" in msg:
++                            await websocket.send_json({
++                                "type": "bot_message",
++                                "content": msg["text"]
++                            })
++                        
++                        # for json 
++                        if "custom" in msg:
++                            custom_data = msg["custom"]
++                            await websocket.send_json({
++                                "type": "bot_data",
++                                "content": custom_data
++                            })
+                 else:
+-                    await websocket.send_text("Rahhal: Error connecting to the server.")
++                    await websocket.send_json({
++                        "type": "error",
++                        "content": "Error connecting to the server."
++                    })
+     except WebSocketDisconnect:
+         print(f"User {conversation_id} disconnected.")
+         connections.pop(conversation_id, None)
+     except Exception as e:
+-        await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
++        await websocket.send_json({
++            "type": "error",
++            "content": f"An error occurred - {str(e)}"
++        })
+         await websocket.close()
+ 
+ # don't forget to change the user_id to int and replace id with conversation_id
+Index: data/rules.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3.1\"\n\nrules:\n- rule: Handle clear chat\n  steps:\n  - intent: clear_chat\n  - action: action_clear_chat\n  - action: action_listen\n\n- rule: Handle greet\n  steps:\n  - intent: greet\n  - action: utter_greet\n  - action: action_listen\n\n- rule: Handle goodbye\n  steps:\n  - intent: goodbye\n  - action: utter_goodbye\n  - action: action_listen\n\n- rule: Handle out of scope\n  steps:\n  - intent: out_of_scope\n  - action: utter_out_of_scope\n  - action: action_listen\n\n- rule: Handle bot challenge\n  steps:\n  - intent: bot_challenge\n  - action: utter_iamabot\n  - action: action_listen\n\n- rule: Handle thank you\n  steps:\n  - intent: thankyou\n  - action: utter_thankyou\n  - action: action_listen\n\n- rule: Activate trip_form\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n\n- rule: Handle form interruption\n  condition:\n  - active_loop: trip_form\n  steps:\n  - intent: out_of_scope\n  - action: utter_out_of_scope\n  - action: trip_form\n  - active_loop: trip_form\n\n- rule: Handle ask for trip suggestions after form\n  condition:\n  - slot_was_set:\n    - requested_slot: null\n  - active_loop: null\n  - slot_was_set:\n    - update_list_slots: null\n  - slot_was_set:\n    - modify_field: null\n  steps:\n  - intent: ask_suggest_trip\n  - action: action_suggest_trips\n  - action: action_listen\n\n- rule: Handle modify preference\n  condition:\n  - active_loop: null\n  steps:\n  - intent: modify_preference\n  - action: action_modify_preference\n  - action: utter_ask_suggest_after_modify\n  - action: action_listen\n\n- rule: Suggest plan if user says yes after modify\n  steps:\n  - action: utter_ask_suggest_after_modify\n  - intent: affirm\n  - action: action_suggest_plan\n\n- rule: Ask if user wants anything else if user says no after modify\n  steps:\n  - action: utter_ask_suggest_after_modify\n  - intent: deny\n  - action: utter_anything_else\n\n- rule: Handle form completion and suggest plan\n  condition:\n  - active_loop: trip_form\n  - slot_was_set:\n    - requested_slot: null\n  steps:\n  - action: trip_form\n  - active_loop: null\n  - action: utter_start_suggestions\n  - action: action_suggest_plan\n  - action: utter_edit_preference_or_suggest_trip\n\n- rule: Reset plan_suggested slot\n  condition:\n  - slot_was_set:\n    - plan_suggested\n  steps:\n  - action: action_clear_plan_suggested_slot
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/data/rules.yml b/data/rules.yml
+--- a/data/rules.yml	(revision 3f6a7a016caf6233cada061d2e230fb53d537025)
++++ b/data/rules.yml	(date 1750153937388)
+@@ -104,4 +104,17 @@
+   - slot_was_set:
+     - plan_suggested
+   steps:
+-  - action: action_clear_plan_suggested_slot
+\ No newline at end of file
++  - action: action_clear_plan_suggested_slot
++
++# testing
++- rule: after gerenating plan, ask if user wants to modify preferences
++  condition:
++  - slot_was_set:
++    - plan_suggested
++  steps:
++  - action: utter_ask_modify_preference
++  - intent: affirm
++  - action: action_modify_preference
++  - action: utter_ask_suggest_after_modify
++
++
+Index: ../Rahhal-Backend/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n\t\t xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n\t<modelVersion>4.0.0</modelVersion>\n\n\t<parent>\n\t\t<groupId>org.springframework.boot</groupId>\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\n\t\t<version>3.4.3</version>\n\t\t<relativePath/> <!-- lookup parent from repository -->\n\t</parent>\n\n\t<groupId>com.rahhal</groupId>\n\t<artifactId>demo</artifactId>\n\t<version>0.0.1-SNAPSHOT</version>\n\t<name>demo</name>\n\t<description>Demo project for Spring Boot</description>\n\n\t<properties>\n\t\t<java.version>21</java.version>  <!-- Ensure consistency -->\n\t\t<maven.compiler.source>21</maven.compiler.source>\n\t\t<maven.compiler.target>21</maven.compiler.target>\n\t</properties>\n\n\t<dependencies>\n\t\t<!-- Spring Data JPA -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-data-jpa</artifactId>\n\t\t</dependency>\n\n\t\t<!-- Lombok -->\n\t\t<dependency>\n\t\t\t<groupId>org.projectlombok</groupId>\n\t\t\t<artifactId>lombok</artifactId>\n\t\t\t<scope>provided</scope>\n\t\t</dependency>\n\n\t\t<!-- Jakarta Validation -->\n\t\t<dependency>\n\t\t\t<groupId>jakarta.validation</groupId>\n\t\t\t<artifactId>jakarta.validation-api</artifactId>\n\t\t\t<version>3.0.2</version>\n\t\t</dependency>\n\n\t\t<!-- PostgreSQL Driver -->\n\t\t<dependency>\n\t\t\t<groupId>org.postgresql</groupId>\n\t\t\t<artifactId>postgresql</artifactId>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\n\t\t<!-- Spring Boot Security -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-security</artifactId>\n\t\t</dependency>\n\n\t\t<!-- JWT (JSON Web Token) Dependencies -->\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-api</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t</dependency>\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-impl</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-jackson</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\n\t\t<!-- Spring Boot Web -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\n\t\t</dependency>\n\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-devtools</artifactId>\n\t\t\t<scope>runtime</scope>\n\t\t\t<optional>true</optional>\n\t\t</dependency>\n\t\t<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->\n\t\t<dependency>\n\t\t\t<groupId>org.springdoc</groupId>\n\t\t\t<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>\n\t\t\t<version>2.8.6</version>\n\t\t</dependency>\n\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-mail</artifactId>\n\t\t</dependency>\n\n\t</dependencies>\n\n\t<build>\n\t\t<plugins>\n\t\t\t<plugin>\n\t\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\n\t\t\t</plugin>\n\t\t</plugins>\n\t</build>\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/pom.xml b/../Rahhal-Backend/pom.xml
+--- a/../Rahhal-Backend/pom.xml	(revision 3f6a7a016caf6233cada061d2e230fb53d537025)
++++ b/../Rahhal-Backend/pom.xml	(date 1750199359725)
+@@ -17,7 +17,7 @@
+ 	<description>Demo project for Spring Boot</description>
+ 
+ 	<properties>
+-		<java.version>21</java.version>  <!-- Ensure consistency -->
++		<java.version>17</java.version>  <!-- Ensure consistency -->
+ 		<maven.compiler.source>21</maven.compiler.source>
+ 		<maven.compiler.target>21</maven.compiler.target>
+ 	</properties>
+Index: ../mesh-frontend/chatbot-app/src/app/chatbot/chatbot.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Component, OnInit, OnDestroy } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { FormsModule } from '@angular/forms';\nimport { log } from 'console';\n\ninterface Message {\n  text: string;\n  sender: 'user' | 'bot';\n  timestamp: Date;\n  options?: string[];\n  buttons?: Array<{\n    title: string;\n    payload: string;\n  }>;\n  plan?: {\n    plan_combinations: Array<{\n      hotel: {\n        name: string;\n        price_per_night: number;\n        location: string;\n        rating: number;\n        amenities: string[];\n      };\n      activities: Array<{\n        name: string;\n        price: number;\n        duration: string;\n        description: string;\n      }>;\n      landmarks: Array<{\n        name: string;\n        price: number;\n        description: string;\n      }>;\n      total_plan_cost: number;\n    }>;\n  };\n}\n\ninterface User {\n  id: number;\n  name: string;\n  avatarUrl: string;\n}\n\n@Component({\n  selector: 'app-chatbot',\n  standalone: true,\n  imports: [CommonModule, FormsModule],\n  templateUrl: './chatbot.component.html',\n  styleUrls: ['./chatbot.component.css']\n})\nexport class ChatbotComponent implements OnInit, OnDestroy {\n  private socket: WebSocket | null = null;\n  private reconnectAttempts = 0;\n  private maxReconnectAttempts = 5;\n  private reconnectTimeout: any = null;\n\n  public bot: User = {\n    id: 0,\n    name: 'Rahhal',\n    avatarUrl: 'https://img.freepik.com/premium-vector/chat-bot-logo-virtual-assistant-bot-icon-logo-robot-head-with-headphones_843540-99.jpg',\n  };\n\n  public user: User = {\n    id: 1,\n    name: 'John',\n    avatarUrl: 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg',\n  };\n\n  public messages: Message[] = [];\n  public newMessage: string = '';\n  public isTyping: boolean = false;\n  public connectionStatus: 'connected' | 'disconnected' | 'connecting' = 'disconnected';\n\n  ngOnInit() {\n    this.connectWebSocket();\n  }\n\n  ngOnDestroy() {\n    this.cleanup();\n  }\n\n  private cleanup() {\n    if (this.reconnectTimeout) {\n      clearTimeout(this.reconnectTimeout);\n    }\n    if (this.socket) {\n      this.socket.close();\n    }\n  }\n\n  private addSystemMessage(text: string) {\n      console.log(text);\n  }\n\n  private connectWebSocket() {\n    if (this.socket?.readyState === WebSocket.OPEN) {\n      return;\n    }\n\n    this.connectionStatus = 'connecting';\n    try {\n      this.socket = new WebSocket('ws://localhost:8000/ws/123');\n\n      this.socket.onopen = () => {\n        console.log('WebSocket connection established');\n        this.connectionStatus = 'connected';\n        this.reconnectAttempts = 0;\n        this.addSystemMessage('Connected to chat server');\n      };\n\n      this.socket.onmessage = (event) => {\n        let messageData;\n        const messageText = event.data;\n        console.log('Received message:', messageText);\n\n        // Skip if it's a user message echo from server\n        if (messageText.startsWith('You:')) {\n          return;\n        }\n\n        // First check if the message starts with \"Rahhal: \" and contains JSON\n        if (messageText.startsWith('Rahhal: {')) {\n          try {\n            // Extract the JSON part after \"Rahhal: \"\n            const jsonStr = messageText.substring('Rahhal: '.length);\n            messageData = JSON.parse(jsonStr);\n            \n            const message: Message = {\n              text: messageData.text || '',\n              sender: 'bot',\n              timestamp: new Date()\n            };\n\n            if (messageData.buttons) {\n              message.buttons = messageData.buttons;\n              message.options = messageData.buttons.map((button: { title: string; }) => button.title);\n            }\n\n            if (messageData.plan) {\n              message.plan = messageData.plan;\n            }\n            \n            this.messages.push(message);\n            this.isTyping = false;\n            return;\n          } catch (e) {\n            console.error('Error parsing JSON message:', e);\n          }\n        }\n\n        // Handle regular bot messages\n        if (messageText.startsWith('Rahhal:')) {\n          const content = messageText.substring('Rahhal:'.length).trim();\n          if (content) {\n            const message: Message = {\n              text: content,\n              sender: 'bot',\n              timestamp: new Date()\n            };\n            \n            this.messages.push(message);\n            this.isTyping = false;\n          }\n        }\n      };\n\n      this.socket.onerror = (error) => {\n        console.error('WebSocket error:', error);\n        this.connectionStatus = 'disconnected';\n        this.addSystemMessage('Connection error occurred');\n      };\n\n      this.socket.onclose = () => {\n        console.log('WebSocket connection closed');\n        this.connectionStatus = 'disconnected';\n        this.attemptReconnect();\n      };\n\n    } catch (error) {\n      console.error('Failed to create WebSocket connection:', error);\n      this.connectionStatus = 'disconnected';\n      this.attemptReconnect();\n    }\n  }\n\n  private attemptReconnect() {\n    if (this.reconnectAttempts < this.maxReconnectAttempts) {\n      this.reconnectAttempts++;\n      console.log(`Attempting to reconnect... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);\n      this.addSystemMessage(`Attempting to reconnect... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);\n\n      this.reconnectTimeout = setTimeout(() => {\n        this.connectWebSocket();\n      }, 5000);\n    } else {\n      console.log('Max reconnection attempts reached');\n      this.addSystemMessage('Failed to connect to chat server. Please refresh the page to try again.');\n    }\n  }\n\n  public sendMessage(): void {\n    if (!this.newMessage.trim() || this.connectionStatus !== 'connected') return;\n    \n    const messageToSend = this.newMessage.trim();\n    console.log('Sending message:', messageToSend);\n\n    const userMsg: Message = {\n      text: messageToSend,\n      sender: 'user',\n      timestamp: new Date()\n    };\n\n    if (this.socket?.readyState === WebSocket.OPEN) {\n      this.messages.push(userMsg);  // Add user message to chat\n      this.isTyping = true;         // Start typing animation\n      this.newMessage = '';         // Clear input\n      this.socket.send(messageToSend);  // Send message to server\n    } else {\n      this.addSystemMessage('Message could not be sent. Connection lost.');\n    }\n  }\n\n  public selectOption(option: string): void {\n    if (this.connectionStatus !== 'connected') return;\n\n    // Find the corresponding button payload\n    const lastBotMessage = this.messages[this.messages.length - 1];\n    const selectedButton = lastBotMessage.buttons?.find(button => button.title === option);\n    const payload = selectedButton?.payload || option;\n\n    const userMsg: Message = {\n      text: option,\n      sender: 'user',\n      timestamp: new Date()\n    };\n\n    if (this.socket?.readyState === WebSocket.OPEN) {\n      this.messages.push(userMsg);\n      this.isTyping = true;\n      this.socket.send(payload);\n    } else {\n      this.addSystemMessage('Option could not be sent. Connection lost.');\n    }\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../mesh-frontend/chatbot-app/src/app/chatbot/chatbot.component.ts b/../mesh-frontend/chatbot-app/src/app/chatbot/chatbot.component.ts
+--- a/../mesh-frontend/chatbot-app/src/app/chatbot/chatbot.component.ts	(revision 3f6a7a016caf6233cada061d2e230fb53d537025)
++++ b/../mesh-frontend/chatbot-app/src/app/chatbot/chatbot.component.ts	(date 1750198954107)
+@@ -91,7 +91,7 @@
+   }
+ 
+   private addSystemMessage(text: string) {
+-      console.log(text);
++    console.log(text);
+   }
+ 
+   private connectWebSocket() {
+@@ -111,60 +111,42 @@
+       };
+ 
+       this.socket.onmessage = (event) => {
+-        let messageData;
+-        const messageText = event.data;
+-        console.log('Received message:', messageText);
+-
+-        // Skip if it's a user message echo from server
+-        if (messageText.startsWith('You:')) {
+-          return;
+-        }
+-
+-        // First check if the message starts with "Rahhal: " and contains JSON
+-        if (messageText.startsWith('Rahhal: {')) {
+-          try {
+-            // Extract the JSON part after "Rahhal: "
+-            const jsonStr = messageText.substring('Rahhal: '.length);
+-            messageData = JSON.parse(jsonStr);
+-            
+-            const message: Message = {
+-              text: messageData.text || '',
+-              sender: 'bot',
+-              timestamp: new Date()
+-            };
++        try {
++          const messageData = JSON.parse(event.data);
++          console.log('Received JSON:', messageData);
++
++          if (messageData.type === 'user_message') {
++            // Optional: Ignore echo
++            return;
++          }
++
++          const message: Message = {
++            text: messageData.text || '',
++            sender: 'bot',
++            timestamp: new Date()
++          };
+ 
+-            if (messageData.buttons) {
+-              message.buttons = messageData.buttons;
+-              message.options = messageData.buttons.map((button: { title: string; }) => button.title);
+-            }
+-
+-            if (messageData.plan) {
+-              message.plan = messageData.plan;
+-            }
+-            
+-            this.messages.push(message);
+-            this.isTyping = false;
+-            return;
+-          } catch (e) {
+-            console.error('Error parsing JSON message:', e);
++          // Handle buttons
++          if (messageData.buttons) {
++            message.buttons = messageData.buttons;
++            message.options = messageData.buttons.map((button: { title: string }) => button.title);
+           }
+-        }
+ 
+-        // Handle regular bot messages
+-        if (messageText.startsWith('Rahhal:')) {
+-          const content = messageText.substring('Rahhal:'.length).trim();
+-          if (content) {
+-            const message: Message = {
+-              text: content,
+-              sender: 'bot',
+-              timestamp: new Date()
++          // Handle plan
++          if (messageData.plan_combinations) {
++            message.plan = {
++              plan_combinations: messageData.plan_combinations
+             };
+-            
+-            this.messages.push(message);
+-            this.isTyping = false;
+-          }
++          }
++
++          this.messages.push(message);
++          this.isTyping = false;
++
++        } catch (error) {
++          console.error('Error parsing WebSocket JSON message:', error);
+         }
+       };
++
+ 
+       this.socket.onerror = (error) => {
+         console.error('WebSocket error:', error);
+@@ -202,7 +184,7 @@
+ 
+   public sendMessage(): void {
+     if (!this.newMessage.trim() || this.connectionStatus !== 'connected') return;
+-    
++
+     const messageToSend = this.newMessage.trim();
+     console.log('Sending message:', messageToSend);
+ 

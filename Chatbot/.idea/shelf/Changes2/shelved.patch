@@ -1,0 +1,68 @@
+Index: APIs/chatbot_api.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException\nimport requests\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom config_helper import  get_api_urls\n\napp = FastAPI()\n\nNGROK_URL = get_api_urls().get('ngrok')\nLOCAL_HOST_URL = get_api_urls().get('local')\nRASA_SERVER_URL = get_api_urls().get('rasa_server')\nRASA_RESET_URL = get_api_urls().get('rasa_reset')\nSUGGEST_PLAN_URL = get_api_urls().get('suggest_plan')\nSUGGEST_HOTELS_URL = get_api_urls().get('suggest_hotels')\nSUGGEST_LANDMARKS_ACTIVITIES_URL = get_api_urls().get('suggest_landmarks_activities')\n\n\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\n        LOCAL_HOST_URL,\n        NGROK_URL\n    ],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n\n\nconnections = {}\n\n\nSUGGEST_MSG=\"suggest your trip\"\n\n# after finishing testing, set the conversation_id to int and replace every id with conversation_id\n@app.websocket(\"/ws/{conversation_id}\")\nasync def manage_chat_session(websocket: WebSocket, conversation_id: str):\n    await websocket.accept()\n    connections[conversation_id] = websocket\n\n    try:\n        while True:\n            data = await websocket.receive_text()\n            if data.strip():\n                await websocket.send_text(f\"You: {data}\")\n                print(f\"User {conversation_id} sent: {data}\")\n\n                response = requests.post(RASA_SERVER_URL, json={\"sender\": conversation_id, \"message\": data})\n\n                if response.status_code == 200:\n                    messages = response.json()\n\n                    for msg in messages:\n                        text = msg.get(\"text\", \"\")\n                        await websocket.send_text(f'Rahhal: {text}')\n                else:\n                    await websocket.send_text(\"Rahhal: Error connecting to the server.\")\n    except WebSocketDisconnect:\n        print(f\"User {conversation_id} disconnected.\")\n        connections.pop(conversation_id, None)\n    except Exception as e:\n        await websocket.send_text(f\"Rahhal: An error occurred - {str(e)}\")\n        await websocket.close()\n\n# don't forget to change the user_id to int and replace id with conversation_id\n# Reset chat\n\n@app.post(\"/reset_chat/{conversation_id}\")\nasync def reset_chat(conversation_id: str):\n    try:\n        reset_payload = {\"event\": \"restart\", \"timestamp\": None}\n        response = requests.post(RASA_RESET_URL.format(conversation_id=conversation_id), json=reset_payload)\n\n        if response.status_code == 200:\n            return {\"status\": \"success\", \"message\": f\"Chat reset for {conversation_id}.\"}\n        else:\n            raise HTTPException(status_code=500, detail=\"Failed to reset chat in Rasa.\")\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n\nif __name__ == \"__main__\":\n    import  uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/APIs/chatbot_api.py b/APIs/chatbot_api.py
+--- a/APIs/chatbot_api.py	(revision bf26c9d5d4637f53b13bd0cef1e5dd9051e98f7d)
++++ b/APIs/chatbot_api.py	(date 1750199488490)
+@@ -1,5 +1,6 @@
+ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+ import requests
++import json
+ from fastapi.middleware.cors import CORSMiddleware
+ from config_helper import  get_api_urls
+ 
+@@ -42,24 +43,44 @@
+         while True:
+             data = await websocket.receive_text()
+             if data.strip():
+-                await websocket.send_text(f"You: {data}")
++                await websocket.send_json({
++                    "type": "user_message",
++                    "content": json.dumps({"sender": conversation_id, "message": data})
++                })
+                 print(f"User {conversation_id} sent: {data}")
+ 
+                 response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
+ 
+                 if response.status_code == 200:
+                     messages = response.json()
+-
++                    
+                     for msg in messages:
+-                        text = msg.get("text", "")
+-                        await websocket.send_text(f'Rahhal: {text}')
++                        if "text" in msg:
++                            await websocket.send_json({
++                                "type": "bot_message",
++                                "content": msg["text"]
++                            })
++                        
++                        # for json 
++                        if "custom" in msg:
++                            custom_data = msg["custom"]
++                            await websocket.send_json({
++                                "type": "bot_data",
++                                "content": custom_data
++                            })
+                 else:
+-                    await websocket.send_text("Rahhal: Error connecting to the server.")
++                    await websocket.send_json({
++                        "type": "error",
++                        "content": "Error connecting to the server."
++                    })
+     except WebSocketDisconnect:
+         print(f"User {conversation_id} disconnected.")
+         connections.pop(conversation_id, None)
+     except Exception as e:
+-        await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
++        await websocket.send_json({
++            "type": "error",
++            "content": f"An error occurred - {str(e)}"
++        })
+         await websocket.close()
+ 
+ # don't forget to change the user_id to int and replace id with conversation_id

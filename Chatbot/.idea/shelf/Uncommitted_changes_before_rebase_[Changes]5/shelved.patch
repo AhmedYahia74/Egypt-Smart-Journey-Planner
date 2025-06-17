@@ -1,0 +1,153 @@
+Index: data/stories.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3.1\"\nstories:\n- story: User specifies a trip destination\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - slot_was_set:\n      - specify_place: true\n  - action: utter_ask_state\n  - intent: share_state\n    entities:\n      - state: \"Alexandria\"\n  - slot_was_set:\n      - state: \"Alexandria\"\n  - action: trip_form\n  - slot_was_set:\n      - budget: \"200$\"\n  - slot_was_set:\n      - duration: \"4\"\n  - slot_was_set:\n      - arrival_date: \"June\"\n  - slot_was_set:\n      - hotel_features: [ \"wifi\", \"pool\" ]\n  - slot_was_set:\n      - landmarks_activities: [\"Alexandria library\", \"beach\"]\n  - slot_was_set:\n      - family_status: \"single\"\n  - active_loop: null\n#  - action: action_suggest_trip\n  - action: utter_start_suggestions\n\n- story: User does not specify a destination\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - slot_was_set:\n      - specify_place: false\n  - action: utter_ask_weather_preference\n  - intent: share_weather_preference\n    entities:\n      - weather_preference: \"sunny\"\n  - slot_was_set:\n      - weather_preference: \"sunny\"\n  - action: trip_form\n  - slot_was_set:\n      - budget: \"$1500\"\n  - slot_was_set:\n      - duration: \"7 days\"\n  - slot_was_set:\n      - arrival_date: \"January\"\n  - slot_was_set:\n      - hotel_features: [ \"wifi\", \"pool\" ]\n  - slot_was_set:\n      - landmarks_activities: [\"museum\", \"beach\"]\n  - slot_was_set:\n      - family_status: \"family\"\n  - active_loop: null\n#  - action: action_suggest_trip\n  - action: utter_start_suggestions\n\n- story: User changes their mind mid-conversation\n  steps:\n  - intent: request_trip\n  - action: trip_form\n  - active_loop: trip_form\n  - intent: request_trip\n  - action: trip_form\n\n#\n##  - action: action_suggest_trip\n#\n##- story: User cancels trip planning\n##  steps:\n##  - intent: ask_trip_plan\n##  - action: trip_form\n##  - active_loop: trip_form\n##  - intent: stop\n##  - action: utter_cancel_trip\n##  - active_loop: null\n#- story: interactive_story_1\n#  steps:\n#  - intent: request_trip\n#    entities:\n#    - duration: 7-day\n#    - arrival_date: 15th October\n#    - weather_preference: sunny\n#    - budget: $2000\n#    - hotel_features: pool\n#    - hotel_features: spa\n#    - landmarks_activities: Nile cruise\n#    - family_status: family\n#  - slot_was_set:\n#    - weather_preference: sunny\n#  - slot_was_set:\n#    - budget: $2000\n#  - slot_was_set:\n#    - hotel_features:\n#      - pool\n#      - spa\n#  - slot_was_set:\n#    - landmarks_activities:\n#      - Nile cruise\n#  - slot_was_set:\n#    - duration: 7-day\n#  - slot_was_set:\n#    - arrival_date: 15th October\n#  - slot_was_set:\n#    - family_status: family\n#  - action: trip_form\n#  - active_loop: trip_form\n#  - slot_was_set:\n#    - weather_preference: null\n#  - slot_was_set:\n#    - budget: $2000\n#  - slot_was_set:\n#    - duration: 7\n#  - slot_was_set:\n#    - arrival_date: 15th October\n#  - slot_was_set:\n#    - hotel_features:\n#      - pool\n#      - spa\n#  - slot_was_set:\n#    - landmarks_activities:\n#      - Nile cruise\n#  - slot_was_set:\n#    - family_status: family\n#  - slot_was_set:\n#    - requested_slot: state\n#  - intent: share_state\n#    entities:\n#    - state: Luxor\n#  - slot_was_set:\n#    - state: Luxor\n#  - action: utter_start_suggestions\n#  - action: action_deactivate_loop\n#  - active_loop: null\n#  - slot_was_set:\n#    - requested_slot: null\n#\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/data/stories.yml b/data/stories.yml
+--- a/data/stories.yml	(revision 6a75a46f1daaf27c1d466a2828a784262a8fa132)
++++ b/data/stories.yml	(date 1745147128931)
+@@ -1,142 +1,0 @@
+-version: "3.1"
+-stories:
+-- story: User specifies a trip destination
+-  steps:
+-  - intent: request_trip
+-  - action: trip_form
+-  - active_loop: trip_form
+-  - slot_was_set:
+-      - specify_place: true
+-  - action: utter_ask_state
+-  - intent: share_state
+-    entities:
+-      - state: "Alexandria"
+-  - slot_was_set:
+-      - state: "Alexandria"
+-  - action: trip_form
+-  - slot_was_set:
+-      - budget: "200$"
+-  - slot_was_set:
+-      - duration: "4"
+-  - slot_was_set:
+-      - arrival_date: "June"
+-  - slot_was_set:
+-      - hotel_features: [ "wifi", "pool" ]
+-  - slot_was_set:
+-      - landmarks_activities: ["Alexandria library", "beach"]
+-  - slot_was_set:
+-      - family_status: "single"
+-  - active_loop: null
+-#  - action: action_suggest_trip
+-  - action: utter_start_suggestions
+-
+-- story: User does not specify a destination
+-  steps:
+-  - intent: request_trip
+-  - action: trip_form
+-  - active_loop: trip_form
+-  - slot_was_set:
+-      - specify_place: false
+-  - action: utter_ask_weather_preference
+-  - intent: share_weather_preference
+-    entities:
+-      - weather_preference: "sunny"
+-  - slot_was_set:
+-      - weather_preference: "sunny"
+-  - action: trip_form
+-  - slot_was_set:
+-      - budget: "$1500"
+-  - slot_was_set:
+-      - duration: "7 days"
+-  - slot_was_set:
+-      - arrival_date: "January"
+-  - slot_was_set:
+-      - hotel_features: [ "wifi", "pool" ]
+-  - slot_was_set:
+-      - landmarks_activities: ["museum", "beach"]
+-  - slot_was_set:
+-      - family_status: "family"
+-  - active_loop: null
+-#  - action: action_suggest_trip
+-  - action: utter_start_suggestions
+-
+-- story: User changes their mind mid-conversation
+-  steps:
+-  - intent: request_trip
+-  - action: trip_form
+-  - active_loop: trip_form
+-  - intent: request_trip
+-  - action: trip_form
+-
+-#
+-##  - action: action_suggest_trip
+-#
+-##- story: User cancels trip planning
+-##  steps:
+-##  - intent: ask_trip_plan
+-##  - action: trip_form
+-##  - active_loop: trip_form
+-##  - intent: stop
+-##  - action: utter_cancel_trip
+-##  - active_loop: null
+-#- story: interactive_story_1
+-#  steps:
+-#  - intent: request_trip
+-#    entities:
+-#    - duration: 7-day
+-#    - arrival_date: 15th October
+-#    - weather_preference: sunny
+-#    - budget: $2000
+-#    - hotel_features: pool
+-#    - hotel_features: spa
+-#    - landmarks_activities: Nile cruise
+-#    - family_status: family
+-#  - slot_was_set:
+-#    - weather_preference: sunny
+-#  - slot_was_set:
+-#    - budget: $2000
+-#  - slot_was_set:
+-#    - hotel_features:
+-#      - pool
+-#      - spa
+-#  - slot_was_set:
+-#    - landmarks_activities:
+-#      - Nile cruise
+-#  - slot_was_set:
+-#    - duration: 7-day
+-#  - slot_was_set:
+-#    - arrival_date: 15th October
+-#  - slot_was_set:
+-#    - family_status: family
+-#  - action: trip_form
+-#  - active_loop: trip_form
+-#  - slot_was_set:
+-#    - weather_preference: null
+-#  - slot_was_set:
+-#    - budget: $2000
+-#  - slot_was_set:
+-#    - duration: 7
+-#  - slot_was_set:
+-#    - arrival_date: 15th October
+-#  - slot_was_set:
+-#    - hotel_features:
+-#      - pool
+-#      - spa
+-#  - slot_was_set:
+-#    - landmarks_activities:
+-#      - Nile cruise
+-#  - slot_was_set:
+-#    - family_status: family
+-#  - slot_was_set:
+-#    - requested_slot: state
+-#  - intent: share_state
+-#    entities:
+-#    - state: Luxor
+-#  - slot_was_set:
+-#    - state: Luxor
+-#  - action: utter_start_suggestions
+-#  - action: action_deactivate_loop
+-#  - active_loop: null
+-#  - slot_was_set:
+-#    - requested_slot: null
+-#

@@ -1,0 +1,36 @@
+Index: config.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># The config recipe.\n# https://rasa.com/docs/rasa/model-configuration/\nrecipe: default.v1\n\n# The assistant project unique identifier\n# This default value must be replaced with a unique assistant name within your deployment\nassistant_id: 20250202-175814-recent-compass\n\n# Configuration for Rasa NLU.\n# https://rasa.com/docs/rasa/nlu/components/\nlanguage: en\n\npipeline: null\n# # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.\n# # If you'd like to customize it, uncomment and adjust the pipeline.\n# # See https://rasa.com/docs/rasa/tuning-your-model for more information.\n#   - name: WhitespaceTokenizer\n#   - name: RegexFeaturizer\n#   - name: LexicalSyntacticFeaturizer\n#   - name: CountVectorsFeaturizer\n#   - name: CountVectorsFeaturizer\n#     analyzer: char_wb\n#     min_ngram: 1\n#     max_ngram: 4\n#   - name: DIETClassifier\n#     epochs: 100\n#     constrain_similarities: true\n#   - name: EntitySynonymMapper\n#   - name: ResponseSelector\n#     epochs: 100\n#     constrain_similarities: true\n#   - name: FallbackClassifier\n#     threshold: 0.3\n#     ambiguity_threshold: 0.1\n\n# Configuration for Rasa Core.\n# https://rasa.com/docs/rasa/core/policies/\npolicies: null\n# # No configuration for policies was provided. The following default policies were used to train your model.\n# # If you'd like to customize them, uncomment and adjust the policies.\n# # See https://rasa.com/docs/rasa/policies for more information.\n#   - name: MemoizationPolicy\n#   - name: RulePolicy\n#   - name: UnexpecTEDIntentPolicy\n#     max_history: 5\n#     epochs: 100\n#   - name: TEDPolicy\n#     max_history: 5\n#     epochs: 100\n#     constrain_similarities: true\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config.yml b/config.yml
+--- a/config.yml	(revision c817046b420a6245b8697ffae34df71c2958e29e)
++++ b/config.yml	(date 1744998227726)
+@@ -10,6 +10,25 @@
+ # https://rasa.com/docs/rasa/nlu/components/
+ language: en
+ 
++database:
++  dbname: "rahhal"
++  user: "neondb_owner"
++  password: "npg_sKBXgl5CxTd6"
++  host: "ep-long-band-a8dyarph-pooler.eastus2.azure.neon.tech"
++  port: "5432"
++  sslmode: "require"
++
++apis:
++  local_host: "http://localhost:8000"
++  ngrok: "http://127.0.0.1:8000"
++  embedding: "http://localhost:8001/embedding"
++  suggestion: "http://localhost:8002/suggestion"
++  rasa_server: "http://localhost:5005/webhooks/rest/webhook"
++  rasa_reset: "http://localhost:5005/conversations/{conversation_id}/tracker/events"
++
++
++
++
+ pipeline: null
+ # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
+ # # If you'd like to customize it, uncomment and adjust the pipeline.

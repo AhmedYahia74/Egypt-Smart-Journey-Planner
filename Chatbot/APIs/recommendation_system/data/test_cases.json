@@ -1,0 +1,104 @@
+{
+    "test_cases": [
+        {
+            "name": "Historical Cairo Trip",
+            "preferences": {
+                "budget": 5000,
+                "duration": 3,
+                "state": "Cairo",
+                "arrival_date": "2024-04-01"
+            },
+            "user_messages": {
+                "request_trip": "I want to visit historical sites",
+                "state": "Cairo",
+                "budget": "5000",
+                "duration": "3 days",
+                "arrival_date": "2024-04-01",
+                "landmarks_activities": "I'm interested in pyramids and museums",
+                "hotel_features": "I need a hotel with wifi and breakfast",
+                "city_description": "I want to explore the ancient history of Egypt"
+            },
+            "top_n": 3
+        },
+        {
+            "name": "Luxor Cultural Trip",
+            "preferences": {
+                "budget": 8000,
+                "duration": 4,
+                "state": "Luxor",
+                "arrival_date": "2024-05-15"
+            },
+            "user_messages": {
+                "request_trip": "I want to explore ancient temples and tombs",
+                "state": "Luxor",
+                "budget": "8000",
+                "duration": "4 days",
+                "arrival_date": "2024-05-15",
+                "landmarks_activities": "I want to visit Valley of the Kings and Karnak Temple",
+                "hotel_features": "I need a hotel with a pool and river view",
+                "city_description": "I'm interested in the rich cultural heritage of Luxor"
+            },
+            "top_n": 3
+        },
+        {
+            "name": "Red Sea Beach Vacation",
+            "preferences": {
+                "budget": 10000,
+                "duration": 5,
+                "state": "Hurghada",
+                "arrival_date": "2024-06-20"
+            },
+            "user_messages": {
+                "request_trip": "I want a beach vacation with water activities",
+                "state": "Hurghada",
+                "budget": "10000",
+                "duration": "5 days",
+                "arrival_date": "2024-06-20",
+                "landmarks_activities": "I want to go snorkeling and diving",
+                "hotel_features": "I need a beachfront hotel with water sports facilities",
+                "city_description": "I want to enjoy the beautiful Red Sea beaches"
+            },
+            "top_n": 3
+        },
+        {
+            "name": "Alexandria Cultural Tour",
+            "preferences": {
+                "budget": 6000,
+                "duration": 3,
+                "state": "Alexandria",
+                "arrival_date": "2024-07-10"
+            },
+            "user_messages": {
+                "request_trip": "I want to explore the Mediterranean city",
+                "state": "Alexandria",
+                "budget": "6000",
+                "duration": "3 days",
+                "arrival_date": "2024-07-10",
+                "landmarks_activities": "I want to visit the Library of Alexandria and Qaitbay Citadel",
+                "hotel_features": "I need a hotel near the corniche",
+                "city_description": "I want to experience the Mediterranean culture of Alexandria"
+            },
+            "top_n": 3
+        },
+        {
+            "name": "Aswan Nile Cruise",
+            "preferences": {
+                "budget": 12000,
+                "duration": 7,
+                "state": "Aswan",
+                "arrival_date": "2024-08-01"
+            },
+            "user_messages": {
+                "request_trip": "I want to experience a Nile cruise",
+                "state": "Aswan",
+                "budget": "12000",
+                "duration": "7 days",
+                "arrival_date": "2024-08-01",
+                "landmarks_activities": "I want to visit Abu Simbel and Philae Temple",
+                "hotel_features": "I need a hotel with Nile view",
+                "city_description": "I want to enjoy the peaceful Nile River and ancient temples"
+            },
+            "top_n": 3
+        }
+    ]
+}

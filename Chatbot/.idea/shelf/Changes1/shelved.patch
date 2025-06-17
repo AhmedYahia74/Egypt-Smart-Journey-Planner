@@ -1,0 +1,3035 @@
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.data_example_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,144 +0,0 @@
+-[
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_mask_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_label_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "text",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_text_mask_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_text_sentence_0_0",
+-                "shape": [
+-                  1,
+-                  777
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_text_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  800
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_text_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.entity_tag_specs.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.index_label_id_mapping.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,9 +0,0 @@
+-{
+-  "0": "affirm",
+-  "1": "bot_challenge",
+-  "2": "deny",
+-  "3": "goodbye",
+-  "4": "greet",
+-  "5": "mood_great",
+-  "6": "mood_unhappy"
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.label_data_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,123 +0,0 @@
+-[
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "sequence",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_0",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_1",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_2",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_3",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_4",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_5",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              },
+-              {
+-                "type": "sparse",
+-                "key": "component_label_sequence_0_6",
+-                "shape": [
+-                  1,
+-                  7
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sequence_lengths",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_label_sequence_lengths_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json
+===================================================================
+diff --git a/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json b/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp3lhxus8k/DIETClassifier.sparse_feature_sizes.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,13 +0,0 @@
+-{
+-  "text": {
+-    "sequence": [
+-      23,
+-      80,
+-      697
+-    ],
+-    "sentence": [
+-      80,
+-      697
+-    ]
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpfjaapijn/feature_to_idx_dict.json
+===================================================================
+diff --git a/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json b/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpfjaapijn/feature_to_idx_dict.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,49 +0,0 @@
+-{
+-  "0###low": {
+-    "False": 0,
+-    "True": 1
+-  },
+-  "0###title": {
+-    "False": 2,
+-    "True": 3
+-  },
+-  "0###upper": {
+-    "False": 4,
+-    "True": 5
+-  },
+-  "1###BOS": {
+-    "False": 6,
+-    "True": 7
+-  },
+-  "1###EOS": {
+-    "False": 8,
+-    "True": 9
+-  },
+-  "1###digit": {
+-    "False": 10
+-  },
+-  "1###low": {
+-    "False": 11,
+-    "True": 12
+-  },
+-  "1###title": {
+-    "False": 13,
+-    "True": 14
+-  },
+-  "1###upper": {
+-    "False": 15,
+-    "True": 16
+-  },
+-  "2###low": {
+-    "False": 17,
+-    "True": 18
+-  },
+-  "2###title": {
+-    "False": 19,
+-    "True": 20
+-  },
+-  "2###upper": {
+-    "False": 21,
+-    "True": 22
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/featurizer.json
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/featurizer.json b/.rasa/cache/tmp8vv3di9k/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/featurizer.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,6 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": null,
+-  "remove_duplicates": true,
+-  "max_history": null
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/featurizer.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/featurizer.json b/.rasa/cache/tmp_xojoghr/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/featurizer.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,49 +0,0 @@
+-{
+-  "type": "IntentMaxHistoryTrackerFeaturizer",
+-  "state_featurizer": {
+-    "action_texts": [],
+-    "entity_tag_specs": [],
+-    "feature_states": {
+-      "intent": {
+-        "affirm": 0,
+-        "back": 1,
+-        "bot_challenge": 2,
+-        "deny": 3,
+-        "goodbye": 4,
+-        "greet": 5,
+-        "mood_great": 6,
+-        "mood_unhappy": 7,
+-        "nlu_fallback": 8,
+-        "out_of_scope": 9,
+-        "restart": 10,
+-        "session_start": 11
+-      },
+-      "action_name": {
+-        "action_listen": 0,
+-        "action_restart": 1,
+-        "action_session_start": 2,
+-        "action_default_fallback": 3,
+-        "action_deactivate_loop": 4,
+-        "action_revert_fallback_events": 5,
+-        "action_default_ask_affirmation": 6,
+-        "action_default_ask_rephrase": 7,
+-        "action_two_stage_fallback": 8,
+-        "action_unlikely_intent": 9,
+-        "action_back": 10,
+-        "...": 11,
+-        "action_extract_slots": 12,
+-        "utter_cheer_up": 13,
+-        "utter_did_that_help": 14,
+-        "utter_goodbye": 15,
+-        "utter_greet": 16,
+-        "utter_happy": 17,
+-        "utter_iamabot": 18
+-      },
+-      "entities": {},
+-      "slots": {},
+-      "active_loop": {}
+-    }
+-  },
+-  "remove_duplicates": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpb1w2f3rx/featurizer.json
+===================================================================
+diff --git a/.rasa/cache/tmpb1w2f3rx/featurizer.json b/.rasa/cache/tmpb1w2f3rx/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpb1w2f3rx/featurizer.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,6 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": null,
+-  "remove_duplicates": true,
+-  "max_history": null
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/featurizer.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/featurizer.json b/.rasa/cache/tmpl9_mhxjf/featurizer.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/featurizer.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,49 +0,0 @@
+-{
+-  "type": "MaxHistoryTrackerFeaturizer",
+-  "state_featurizer": {
+-    "action_texts": [],
+-    "entity_tag_specs": [],
+-    "feature_states": {
+-      "intent": {
+-        "affirm": 0,
+-        "back": 1,
+-        "bot_challenge": 2,
+-        "deny": 3,
+-        "goodbye": 4,
+-        "greet": 5,
+-        "mood_great": 6,
+-        "mood_unhappy": 7,
+-        "nlu_fallback": 8,
+-        "out_of_scope": 9,
+-        "restart": 10,
+-        "session_start": 11
+-      },
+-      "action_name": {
+-        "action_listen": 0,
+-        "action_restart": 1,
+-        "action_session_start": 2,
+-        "action_default_fallback": 3,
+-        "action_deactivate_loop": 4,
+-        "action_revert_fallback_events": 5,
+-        "action_default_ask_affirmation": 6,
+-        "action_default_ask_rephrase": 7,
+-        "action_two_stage_fallback": 8,
+-        "action_unlikely_intent": 9,
+-        "action_back": 10,
+-        "...": 11,
+-        "action_extract_slots": 12,
+-        "utter_cheer_up": 13,
+-        "utter_did_that_help": 14,
+-        "utter_goodbye": 15,
+-        "utter_greet": 16,
+-        "utter_happy": 17,
+-        "utter_iamabot": 18
+-      },
+-      "entities": {},
+-      "slots": {},
+-      "active_loop": {}
+-    }
+-  },
+-  "remove_duplicates": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpb1w2f3rx/memorized_turns.json
+===================================================================
+diff --git a/.rasa/cache/tmpb1w2f3rx/memorized_turns.json b/.rasa/cache/tmpb1w2f3rx/memorized_turns.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpb1w2f3rx/memorized_turns.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,16 +0,0 @@
+-{
+-  "lookup": {
+-    "eJyLrq6NBQAEOAGx": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taS2NhYA6dwbhQ==": "utter_greet",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpbhMiAUAQvc0lw==": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KSDzE4EGxQIAPEFQdQ==": "utter_happy",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KSDzE4l0SkZiQUElfmNiAVKZa5w=": "action_listen",
+-    "eJyLrq7VUaguKEoti09MLsnMz7NSqIYw4vMSc1OtFKCcnMziktQ8oNrS4tQioJrMPCC3xEohvSg1taSWgBmlJSWpRfEQpeSZQMAVufn5KfGleRmJBQWVtbWxAN75UWc=": "utter_cheer_up",
+-    "eJydjlEKgCAQRK/iATqBV4lYxJYUchVdgxDv3oL9G/0MM/B4zNr6olrKeIGx7CNp1UYBMgG1esfpCyMJWwtmYTzJZK2OjMh94qjMmGGg/wyTFyHGHSo5k9L97Yx1KFnTzLU9XiFuqQ==": "utter_did_that_help",
+-    "eJytjlEKgCAQRK/iATqBV4lYRIcUahVbg5DunlD/RvQzzMDjMWM9B1VTxk7GSoisVb0LsVmh1TOWsAm4sWVDbkzgNkWrOQNydhxFBJlu9Juh82KN0VFhb1I63p2xHi1L+sPlgiPxRshj6QqnC1EGjek=": "action_listen",
+-    "eJytj9EJwzAMRFfxAJ3Aq4QgRKzUglg2ilwoxrvXkP67tP0Rd/B4nJbWb64VpQfgZpzFu3YFEEzk3bscfBrJYOtJOhiWUc27uxJZnziqGSlc6HeGyYqUc4AqEUt5fjZmizRuLf9wBQ5gEQ0iHT8KJ3/ivrOm3tcXH2yoGw==": "utter_happy",
+-    "eJytj0EKAyEMRa/iAXoCr1JKCGOmBsYomVgoMnevYLfFoe0m5MPn5eXajotrRekBuBhn8a6NBQQTefcOG+9G0rt1J+0dlh7Nu7sS2TFhVDNSGNXvCBOLlHOAKhFLeZ6TWSL1Wcs/WIEDWESDSNuPwMmfuK6s6ZzVuPcRcXsBe37Blg==": "action_listen",
+-    "eJytj1EKwyAQRK/iAXoCr1LCInGIQrKKWQNFvHsX7L+h7c8yA4/H7LP1h2m54CK3SkxsTRuB2B2w5lP2eApY2XqiKBNZq1izFUD6xFFFUGig3xkmK46UPFUOLufXvTFrgN6a/+Hy0ZMEJxSw/yic/OnBqlje0A2nVg==": "utter_goodbye",
+-    "eJytj9EJwzAMRFfxAJ3Aq4Qg3PiIDYlsHLkQTHavIP0NDm1/hA6Op6ehHQ/TcsGL3CQxsTXtXIjdCms+YYmbgLVbNxTtRNYo1swFkKPDqCIodFa/I3Qs1pQ8VQ4u5/2ezBSgs+Z/sHz0JMEJBSw/Ajt/evBNp1mPPndcIcY3+fTA0w==": "action_listen"
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp2o9jl0wa/oov_words.json
+===================================================================
+diff --git a/.rasa/cache/tmp2o9jl0wa/oov_words.json b/.rasa/cache/tmp2o9jl0wa/oov_words.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp2o9jl0wa/oov_words.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmpqc65i5kj/oov_words.json
+===================================================================
+diff --git a/.rasa/cache/tmpqc65i5kj/oov_words.json b/.rasa/cache/tmpqc65i5kj/oov_words.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpqc65i5kj/oov_words.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmpk7lmo9bh/patterns.json
+===================================================================
+diff --git a/.rasa/cache/tmpk7lmo9bh/patterns.json b/.rasa/cache/tmpk7lmo9bh/patterns.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpk7lmo9bh/patterns.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/rule_only_data.json
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/rule_only_data.json b/.rasa/cache/tmp8vv3di9k/rule_only_data.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/rule_only_data.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,4 +0,0 @@
+-{
+-  "rule_only_slots": [],
+-  "rule_only_loops": []
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp8vv3di9k/rule_policy.json
+===================================================================
+diff --git a/.rasa/cache/tmp8vv3di9k/rule_policy.json b/.rasa/cache/tmp8vv3di9k/rule_policy.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp8vv3di9k/rule_policy.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,22 +0,0 @@
+-{
+-  "lookup": {
+-    "rules": {
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]": "utter_goodbye",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]": "action_listen",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "utter_iamabot",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}, {\"prev_action\": {\"action_name\": \"utter_iamabot\"}, \"user\": {\"intent\": \"bot_challenge\"}}]": "action_listen"
+-    },
+-    "rule_only_slots": [],
+-    "rule_only_loops": [],
+-    "rules_for_loop_unhappy_path": {},
+-    "rules_not_in_stories": [
+-      "predicting default action with intent session_start",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+-      "predicting default action with intent restart",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}]",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"goodbye\"}}, {\"prev_action\": {\"action_name\": \"utter_goodbye\"}, \"user\": {\"intent\": \"goodbye\"}}]",
+-      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"bot_challenge\"}}, {\"prev_action\": {\"action_name\": \"utter_iamabot\"}, \"user\": {\"intent\": \"bot_challenge\"}}]",
+-      "predicting default action with intent back"
+-    ]
+-  }
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.data_example_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,138 +0,0 @@
+-[
+-  {
+-    "key": "action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_action_name_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_action_name_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      19
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "dialogue",
+-    "components": [
+-      {
+-        "key": "length",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_dialogue_length_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_intent_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_intent_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      12
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.entity_tag_specs.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.fake_features_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,28 +0,0 @@
+-{
+-  "intent": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "intent",
+-      "origin": "SingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        12
+-      ],
+-      "safetensors_key": "intent_0"
+-    }
+-  ],
+-  "action_name": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "action_name",
+-      "origin": "SingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        19
+-      ],
+-      "safetensors_key": "action_name_0"
+-    }
+-  ]
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.label_data_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,558 +0,0 @@
+-[
+-  {
+-    "key": "label_action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_0_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_1_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_2_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_3_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_4_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_5_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_6_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_7_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_8_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_9_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_10_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_11_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_12_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_13_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_14_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_15_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_16_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_17_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_action_name_mask_0_18_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_0_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_1_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_2_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_3_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_4_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_5_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_6_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_7_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_8_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_9_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_10_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_11_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_12_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_13_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_14_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_15_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_16_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_17_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_action_name_sentence_0_18_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_7_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_8_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_9_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_10_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_11_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_12_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_13_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_14_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_15_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_16_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_17_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_18_list"
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.meta.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.meta.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,84 +0,0 @@
+-{
+-  "hidden_layers_sizes": {
+-    "text": [],
+-    "action_text": [],
+-    "label_action_text": []
+-  },
+-  "dense_dimension": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128,
+-    "intent": 20,
+-    "action_name": 20,
+-    "label_action_name": 20,
+-    "entities": 20,
+-    "slots": 20,
+-    "active_loop": 20
+-  },
+-  "concat_dimension": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128
+-  },
+-  "encoding_dimension": 50,
+-  "transformer_size": {
+-    "text": 128,
+-    "action_text": 128,
+-    "label_action_text": 128,
+-    "dialogue": 128
+-  },
+-  "number_of_transformer_layers": {
+-    "text": 1,
+-    "action_text": 1,
+-    "label_action_text": 1,
+-    "dialogue": 1
+-  },
+-  "number_of_attention_heads": 4,
+-  "use_key_relative_attention": false,
+-  "use_value_relative_attention": false,
+-  "max_relative_position": 5,
+-  "unidirectional_encoder": false,
+-  "batch_size": [
+-    64,
+-    256
+-  ],
+-  "batch_strategy": "balanced",
+-  "epochs": 100,
+-  "random_seed": null,
+-  "learning_rate": 0.001,
+-  "embedding_dimension": 20,
+-  "number_of_negative_examples": 20,
+-  "similarity_type": "inner",
+-  "loss_type": "cross_entropy",
+-  "ranking_length": 0,
+-  "renormalize_confidences": false,
+-  "maximum_positive_similarity": 0.8,
+-  "maximum_negative_similarity": -0.2,
+-  "use_maximum_negative_similarity": true,
+-  "scale_loss": true,
+-  "regularization_constant": 0.001,
+-  "negative_margin_scale": 0.8,
+-  "drop_rate_dialogue": 0.1,
+-  "drop_rate": 0.0,
+-  "drop_rate_label": 0.0,
+-  "drop_rate_attention": 0.0,
+-  "connection_density": 0.2,
+-  "use_sparse_input_dropout": true,
+-  "use_dense_input_dropout": true,
+-  "use_masked_language_model": false,
+-  "evaluate_every_number_of_epochs": 20,
+-  "evaluate_on_number_of_examples": 0,
+-  "tensorboard_log_directory": null,
+-  "tensorboard_log_level": "epoch",
+-  "checkpoint_model": false,
+-  "e2e_confidence_threshold": 0.5,
+-  "featurizers": [],
+-  "entity_recognition": false,
+-  "constrain_similarities": true,
+-  "model_confidence": "softmax",
+-  "BILOU_flag": true,
+-  "split_entities_by_comma": true,
+-  "max_history": 5,
+-  "priority": 1,
+-  "use_gpu": true
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmpl9_mhxjf/ted_policy.priority.json
+===================================================================
+diff --git a/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json b/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json
+deleted file mode 100644
+--- a/.rasa/cache/tmpl9_mhxjf/ted_policy.priority.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-1
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.data_example_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,142 +0,0 @@
+-[
+-  {
+-    "key": "action_name",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_action_name_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_action_name_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      19
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "dialogue",
+-    "components": [
+-      {
+-        "key": "length",
+-        "number_of_dimensions": 1,
+-        "features": [
+-          {
+-            "type": "list",
+-            "key": "component_dialogue_length_0_list"
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "dense",
+-                "key": "component_intent_mask_0_0_array",
+-                "shape": [
+-                  1,
+-                  1
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "sparse",
+-                    "key": "component_intent_sentence_0_0_0",
+-                    "shape": [
+-                      0,
+-                      12
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_0_list"
+-                  },
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_ids_0_0_1_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.entity_tag_specs.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-[]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.fake_features_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,28 +0,0 @@
+-{
+-  "intent": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "intent",
+-      "origin": "IntentTokenizerSingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        12
+-      ],
+-      "safetensors_key": "intent_0"
+-    }
+-  ],
+-  "action_name": [
+-    {
+-      "data_type": "sentence",
+-      "attribute": "action_name",
+-      "origin": "IntentTokenizerSingleStateFeaturizer",
+-      "is_sparse": true,
+-      "shape": [
+-        0,
+-        19
+-      ],
+-      "safetensors_key": "action_name_0"
+-    }
+-  ]
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.label_data_metadata.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,369 +0,0 @@
+-[
+-  {
+-    "key": "label_intent",
+-    "components": [
+-      {
+-        "key": "mask",
+-        "number_of_dimensions": 3,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_0_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_1_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_2_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_3_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_4_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_5_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_6_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_7_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_8_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_9_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_10_0_list"
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "list",
+-                    "key": "component_label_intent_mask_0_11_0_list"
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-      {
+-        "key": "sentence",
+-        "number_of_dimensions": 4,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_0_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_1_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_2_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_3_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_4_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_5_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_6_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_7_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_8_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_9_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_10_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              },
+-              {
+-                "type": "group",
+-                "subcomponents": [
+-                  {
+-                    "type": "group",
+-                    "subcomponents": [
+-                      {
+-                        "type": "list",
+-                        "key": "component_label_intent_sentence_0_11_0_0_list"
+-                      }
+-                    ]
+-                  }
+-                ]
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  },
+-  {
+-    "key": "label",
+-    "components": [
+-      {
+-        "key": "ids",
+-        "number_of_dimensions": 2,
+-        "features": [
+-          {
+-            "type": "group",
+-            "subcomponents": [
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_0_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_1_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_2_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_3_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_4_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_5_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_6_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_7_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_8_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_9_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_10_list"
+-              },
+-              {
+-                "type": "list",
+-                "key": "component_label_ids_0_11_list"
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.meta.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,68 +0,0 @@
+-{
+-  "hidden_layers_sizes": {
+-    "text": []
+-  },
+-  "dense_dimension": {
+-    "text": 128,
+-    "intent": 20,
+-    "action_name": 20,
+-    "entities": 20,
+-    "slots": 20,
+-    "active_loop": 20,
+-    "label_intent": 20
+-  },
+-  "concat_dimension": {
+-    "text": 128
+-  },
+-  "encoding_dimension": 50,
+-  "transformer_size": {
+-    "text": 128,
+-    "dialogue": 128
+-  },
+-  "number_of_transformer_layers": {
+-    "text": 1,
+-    "dialogue": 1
+-  },
+-  "number_of_attention_heads": 4,
+-  "use_key_relative_attention": false,
+-  "use_value_relative_attention": false,
+-  "max_relative_position": 5,
+-  "unidirectional_encoder": false,
+-  "batch_size": [
+-    64,
+-    256
+-  ],
+-  "batch_strategy": "balanced",
+-  "epochs": 100,
+-  "random_seed": null,
+-  "learning_rate": 0.001,
+-  "embedding_dimension": 20,
+-  "number_of_negative_examples": 20,
+-  "ranking_length": 10,
+-  "scale_loss": true,
+-  "regularization_constant": 0.001,
+-  "drop_rate_dialogue": 0.1,
+-  "drop_rate": 0.0,
+-  "drop_rate_label": 0.0,
+-  "drop_rate_attention": 0.0,
+-  "connection_density": 0.2,
+-  "use_sparse_input_dropout": true,
+-  "use_dense_input_dropout": true,
+-  "use_masked_language_model": false,
+-  "evaluate_every_number_of_epochs": 20,
+-  "evaluate_on_number_of_examples": 0,
+-  "tensorboard_log_directory": null,
+-  "tensorboard_log_level": "epoch",
+-  "checkpoint_model": false,
+-  "featurizers": [],
+-  "ignore_intents_list": [],
+-  "tolerance": 0.0,
+-  "split_entities_by_comma": true,
+-  "similarity_type": "inner",
+-  "entity_recognition": false,
+-  "BILOU_flag": false,
+-  "loss_type": "cross_entropy",
+-  "priority": 2,
+-  "use_gpu": true,
+-  "max_history": 5
+-}
+\ No newline at end of file
+Index: .rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json
+===================================================================
+diff --git a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json b/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp_xojoghr/unexpected_intent_policy.priority.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,1 +0,0 @@
+-2
+\ No newline at end of file
+Index: .rasa/cache/tmp2o9jl0wa/vocabularies.json
+===================================================================
+diff --git a/.rasa/cache/tmp2o9jl0wa/vocabularies.json b/.rasa/cache/tmp2o9jl0wa/vocabularies.json
+deleted file mode 100644
+--- a/.rasa/cache/tmp2o9jl0wa/vocabularies.json	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ /dev/null	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
+@@ -1,703 +0,0 @@
+-{
+-  "text": {
+-    " ": 0,
+-    "h": 333,
+-    "e": 246,
+-    "y": 684,
+-    " h": 49,
+-    "he": 341,
+-    "ey": 304,
+-    "y ": 685,
+-    " he": 52,
+-    "hey": 347,
+-    "ey ": 305,
+-    " hey": 54,
+-    "hey ": 348,
+-    "l": 397,
+-    "o": 481,
+-    "el": 265,
+-    "ll": 416,
+-    "lo": 422,
+-    "o ": 482,
+-    "hel": 343,
+-    "ell": 269,
+-    "llo": 418,
+-    "lo ": 423,
+-    " hel": 53,
+-    "hell": 344,
+-    "ello": 271,
+-    "llo ": 419,
+-    "i": 361,
+-    "hi": 349,
+-    "i ": 362,
+-    " hi": 55,
+-    "hi ": 350,
+-    " hi ": 56,
+-    "t": 610,
+-    "r": 544,
+-    " t": 116,
+-    "th": 621,
+-    "er": 282,
+-    "re": 546,
+-    "e ": 247,
+-    " th": 120,
+-    "the": 624,
+-    "her": 345,
+-    "ere": 284,
+-    "re ": 547,
+-    " the": 122,
+-    "ther": 626,
+-    "here": 346,
+-    "ere ": 285,
+-    "g": 319,
+-    "d": 216,
+-    " g": 42,
+-    "go": 324,
+-    "oo": 505,
+-    "od": 483,
+-    "d ": 217,
+-    " go": 43,
+-    "goo": 328,
+-    "ood": 506,
+-    "od ": 484,
+-    " goo": 46,
+-    "good": 329,
+-    "ood ": 507,
+-    "m": 426,
+-    "n": 446,
+-    " m": 75,
+-    "mo": 439,
+-    "or": 513,
+-    "rn": 567,
+-    "ni": 463,
+-    "in": 375,
+-    "ng": 458,
+-    "g ": 320,
+-    " mo": 77,
+-    "mor": 442,
+-    "orn": 516,
+-    "rni": 568,
+-    "nin": 468,
+-    "ing": 379,
+-    "ng ": 459,
+-    " mor": 79,
+-    "morn": 443,
+-    "orni": 517,
+-    "rnin": 569,
+-    "ning": 469,
+-    "ing ": 380,
+-    "v": 658,
+-    " e": 34,
+-    "ev": 297,
+-    "ve": 659,
+-    "en": 279,
+-    " ev": 35,
+-    "eve": 298,
+-    "ven": 661,
+-    "eni": 280,
+-    " eve": 36,
+-    "even": 299,
+-    "veni": 662,
+-    "enin": 281,
+-    "oi": 493,
+-    "n ": 447,
+-    "moi": 440,
+-    "oin": 494,
+-    "in ": 376,
+-    " moi": 78,
+-    "moin": 441,
+-    "oin ": 495,
+-    " l": 68,
+-    "le": 404,
+-    "et": 295,
+-    "t ": 611,
+-    " le": 71,
+-    "let": 406,
+-    "et ": 296,
+-    " let": 72,
+-    "let ": 407,
+-    "s": 585,
+-    " s": 101,
+-    "s ": 586,
+-    " s ": 102,
+-    "go ": 325,
+-    " go ": 44,
+-    "u": 636,
+-    " d": 25,
+-    "du": 243,
+-    "ud": 638,
+-    "de": 224,
+-    " du": 32,
+-    "dud": 244,
+-    "ude": 639,
+-    "de ": 225,
+-    " dud": 33,
+-    "dude": 245,
+-    "ude ": 640,
+-    "dm": 235,
+-    "odm": 489,
+-    "dmo": 236,
+-    "oodm": 510,
+-    "odmo": 490,
+-    "dmor": 237,
+-    "ode": 487,
+-    "dev": 230,
+-    "oode": 509,
+-    "odev": 488,
+-    "deve": 231,
+-    "a": 147,
+-    "f": 306,
+-    " a": 1,
+-    "af": 154,
+-    "ft": 313,
+-    "te": 615,
+-    "no": 472,
+-    "on": 501,
+-    " af": 3,
+-    "aft": 155,
+-    "fte": 314,
+-    "ter": 618,
+-    "ern": 289,
+-    "rno": 570,
+-    "noo": 474,
+-    "oon": 511,
+-    "on ": 502,
+-    " aft": 4,
+-    "afte": 156,
+-    "fter": 315,
+-    "tern": 620,
+-    "erno": 290,
+-    "rnoo": 571,
+-    "noon": 475,
+-    "oon ": 512,
+-    "c": 202,
+-    " c": 17,
+-    "cu": 214,
+-    "u ": 637,
+-    " cu": 23,
+-    "cu ": 215,
+-    " cu ": 24,
+-    "b": 191,
+-    " b": 11,
+-    "by": 198,
+-    " by": 14,
+-    "by ": 199,
+-    " by ": 15,
+-    "ce": 203,
+-    "ee": 258,
+-    " ce": 18,
+-    "cee": 205,
+-    "ee ": 259,
+-    " cee": 19,
+-    "cee ": 206,
+-    " y": 141,
+-    "yo": 690,
+-    "ou": 523,
+-    " yo": 145,
+-    "you": 691,
+-    "ou ": 524,
+-    " you": 146,
+-    "you ": 692,
+-    "la": 399,
+-    "at": 179,
+-    "r ": 545,
+-    " la": 69,
+-    "lat": 400,
+-    "ate": 181,
+-    "er ": 283,
+-    " lat": 70,
+-    "late": 401,
+-    "ater": 182,
+-    "ter ": 619,
+-    " n": 82,
+-    "ig": 369,
+-    "gh": 321,
+-    "ht": 356,
+-    " ni": 86,
+-    "nig": 466,
+-    "igh": 370,
+-    "ght": 322,
+-    "ht ": 357,
+-    " nig": 88,
+-    "nigh": 467,
+-    "ight": 371,
+-    "ght ": 323,
+-    "ye": 686,
+-    "bye": 200,
+-    "ye ": 687,
+-    " bye": 16,
+-    "bye ": 201,
+-    "db": 221,
+-    "odb": 485,
+-    "dby": 222,
+-    "oodb": 508,
+-    "odby": 486,
+-    "dbye": 223,
+-    "ha": 334,
+-    "av": 183,
+-    " ha": 50,
+-    "hav": 339,
+-    "ave": 184,
+-    "ve ": 660,
+-    " hav": 51,
+-    "have": 340,
+-    "ave ": 185,
+-    "a ": 148,
+-    " a ": 2,
+-    "ic": 366,
+-    "nic": 464,
+-    "ice": 367,
+-    "ce ": 204,
+-    " nic": 87,
+-    "nice": 465,
+-    "ice ": 368,
+-    "da": 218,
+-    "ay": 186,
+-    " da": 26,
+-    "day": 219,
+-    "ay ": 187,
+-    " day": 27,
+-    "day ": 220,
+-    "se": 596,
+-    " se": 107,
+-    "see": 598,
+-    " see": 108,
+-    "see ": 599,
+-    "ar": 172,
+-    "ro": 572,
+-    "un": 646,
+-    "nd": 448,
+-    " ar": 8,
+-    "aro": 175,
+-    "rou": 573,
+-    "oun": 525,
+-    "und": 647,
+-    "nd ": 449,
+-    " aro": 10,
+-    "arou": 176,
+-    "roun": 574,
+-    "ound": 526,
+-    "und ": 648,
+-    "es": 293,
+-    " ye": 143,
+-    "yes": 688,
+-    "es ": 294,
+-    " yes": 144,
+-    "yes ": 689,
+-    " y ": 142,
+-    " i": 61,
+-    "ed": 256,
+-    " in": 63,
+-    "ind": 377,
+-    "nde": 450,
+-    "dee": 226,
+-    "eed": 260,
+-    "ed ": 257,
+-    " ind": 64,
+-    "inde": 378,
+-    "ndee": 451,
+-    "deed": 227,
+-    "eed ": 261,
+-    " o": 92,
+-    "of": 491,
+-    "f ": 307,
+-    " of": 93,
+-    "of ": 492,
+-    " of ": 94,
+-    "co": 207,
+-    "ur": 655,
+-    "rs": 580,
+-    " co": 20,
+-    "cou": 210,
+-    "our": 527,
+-    "urs": 656,
+-    "rse": 581,
+-    "se ": 597,
+-    " cou": 22,
+-    "cour": 211,
+-    "ours": 528,
+-    "urse": 657,
+-    "rse ": 582,
+-    "tha": 622,
+-    "hat": 337,
+-    "at ": 180,
+-    " tha": 121,
+-    "that": 623,
+-    "hat ": 338,
+-    "so": 600,
+-    "ds": 241,
+-    " so": 109,
+-    "sou": 602,
+-    "nds": 453,
+-    "ds ": 242,
+-    " sou": 111,
+-    "soun": 603,
+-    "unds": 649,
+-    "nds ": 454,
+-    "rr": 575,
+-    "ec": 253,
+-    "ct": 212,
+-    "cor": 208,
+-    "orr": 518,
+-    "rre": 576,
+-    "rec": 551,
+-    "ect": 254,
+-    "ct ": 213,
+-    " cor": 21,
+-    "corr": 209,
+-    "orre": 519,
+-    "rrec": 577,
+-    "rect": 552,
+-    "ect ": 255,
+-    " no": 89,
+-    "no ": 473,
+-    " no ": 90,
+-    " n ": 83,
+-    "ne": 455,
+-    " ne": 84,
+-    "nev": 456,
+-    "ver": 663,
+-    " nev": 85,
+-    "neve": 457,
+-    "ever": 300,
+-    "ver ": 664,
+-    " i ": 62,
+-    "do": 238,
+-    " do": 30,
+-    "don": 239,
+-    " don": 31,
+-    "don ": 240,
+-    " t ": 117,
+-    "k": 388,
+-    "nk": 470,
+-    "k ": 389,
+-    "thi": 627,
+-    "hin": 351,
+-    "ink": 381,
+-    "nk ": 471,
+-    " thi": 123,
+-    "thin": 628,
+-    "hink": 352,
+-    "ink ": 382,
+-    "so ": 601,
+-    " so ": 110,
+-    "li": 408,
+-    "ik": 372,
+-    "ke": 390,
+-    " li": 73,
+-    "lik": 409,
+-    "ike": 373,
+-    "ke ": 391,
+-    " lik": 74,
+-    "like": 410,
+-    "ike ": 374,
+-    "w": 666,
+-    " w": 132,
+-    "wa": 667,
+-    " wa": 133,
+-    "way": 670,
+-    " way": 135,
+-    "way ": 671,
+-    "ot": 521,
+-    "not": 476,
+-    "ot ": 522,
+-    " not": 91,
+-    "not ": 477,
+-    " r": 98,
+-    "ea": 248,
+-    "al": 157,
+-    "ly": 424,
+-    " re": 99,
+-    "rea": 548,
+-    "eal": 249,
+-    "all": 160,
+-    "lly": 420,
+-    "ly ": 425,
+-    " rea": 100,
+-    "real": 549,
+-    "eall": 250,
+-    "ally": 161,
+-    "lly ": 421,
+-    "p": 529,
+-    " p": 95,
+-    "pe": 530,
+-    "rf": 556,
+-    "fe": 308,
+-    " pe": 96,
+-    "per": 531,
+-    "erf": 286,
+-    "rfe": 557,
+-    "fec": 309,
+-    " per": 97,
+-    "perf": 533,
+-    "erfe": 287,
+-    "rfec": 558,
+-    "fect": 310,
+-    "gr": 330,
+-    " gr": 47,
+-    "gre": 331,
+-    "eat": 251,
+-    " gre": 48,
+-    "grea": 332,
+-    "reat": 550,
+-    "eat ": 252,
+-    "z": 693,
+-    "am": 162,
+-    "ma": 428,
+-    "az": 188,
+-    "zi": 694,
+-    " am": 5,
+-    "ama": 164,
+-    "maz": 431,
+-    "azi": 189,
+-    "zin": 695,
+-    " ama": 7,
+-    "amaz": 165,
+-    "mazi": 432,
+-    "azin": 190,
+-    "zing": 696,
+-    " f": 39,
+-    " fe": 40,
+-    "fee": 311,
+-    "eel": 262,
+-    "eli": 267,
+-    "lin": 411,
+-    " fee": 41,
+-    "feel": 312,
+-    "eeli": 264,
+-    "elin": 268,
+-    "ling": 412,
+-    " k": 65,
+-    "ki": 394,
+-    " ki": 66,
+-    "kin": 395,
+-    " kin": 67,
+-    "king": 396,
+-    "wo": 675,
+-    "fu": 316,
+-    "ul": 641,
+-    "l ": 398,
+-    " wo": 138,
+-    "won": 676,
+-    "ond": 503,
+-    "der": 228,
+-    "rfu": 559,
+-    "ful": 317,
+-    "ul ": 642,
+-    " won": 139,
+-    "wond": 677,
+-    "onde": 504,
+-    "nder": 452,
+-    "derf": 229,
+-    "erfu": 288,
+-    "rful": 560,
+-    "ful ": 318,
+-    "m ": 427,
+-    "am ": 163,
+-    " am ": 6,
+-    " v": 129,
+-    "ry": 583,
+-    " ve": 130,
+-    "ery": 291,
+-    "ry ": 584,
+-    " ver": 131,
+-    "very": 665,
+-    "ery ": 292,
+-    "goi": 326,
+-    " goi": 45,
+-    "goin": 327,
+-    "oing": 496,
+-    "to": 629,
+-    " to": 124,
+-    "to ": 630,
+-    " to ": 125,
+-    "sa": 587,
+-    " sa": 103,
+-    "sav": 594,
+-    " sav": 106,
+-    "save": 595,
+-    "he ": 342,
+-    "the ": 625,
+-    "rl": 564,
+-    "ld": 402,
+-    "wor": 678,
+-    "orl": 514,
+-    "rld": 565,
+-    "ld ": 403,
+-    " wor": 140,
+-    "worl": 679,
+-    "orld": 515,
+-    "rld ": 566,
+-    "su": 607,
+-    "up": 652,
+-    " su": 114,
+-    "sup": 608,
+-    "upe": 653,
+-    " sup": 115,
+-    "supe": 609,
+-    "uper": 654,
+-    "per ": 532,
+-    "st": 604,
+-    "ok": 498,
+-    " st": 112,
+-    "sto": 605,
+-    "tok": 631,
+-    "oke": 499,
+-    "ked": 392,
+-    " sto": 113,
+-    "stok": 606,
+-    "toke": 632,
+-    "oked": 500,
+-    "ked ": 393,
+-    "x": 680,
+-    "ex": 301,
+-    "xt": 681,
+-    "tr": 633,
+-    "em": 274,
+-    "me": 433,
+-    " ex": 37,
+-    "ext": 302,
+-    "xtr": 682,
+-    "tre": 634,
+-    "rem": 553,
+-    "eme": 275,
+-    "mel": 434,
+-    "ely": 272,
+-    " ext": 38,
+-    "extr": 303,
+-    "xtre": 683,
+-    "trem": 635,
+-    "reme": 554,
+-    "emel": 276,
+-    "mely": 435,
+-    "ely ": 273,
+-    "my": 444,
+-    " my": 80,
+-    "my ": 445,
+-    " my ": 81,
+-    "as": 177,
+-    "was": 668,
+-    "as ": 178,
+-    " was": 134,
+-    "was ": 669,
+-    "ho": 353,
+-    "ri": 561,
+-    "ib": 363,
+-    "bl": 192,
+-    " ho": 57,
+-    "hor": 354,
+-    "rri": 578,
+-    "rib": 562,
+-    "ibl": 364,
+-    "ble": 193,
+-    "le ": 405,
+-    " hor": 58,
+-    "horr": 355,
+-    "orri": 520,
+-    "rrib": 579,
+-    "ribl": 563,
+-    "ible": 365,
+-    "ble ": 194,
+-    "ad": 152,
+-    "sad": 590,
+-    "ad ": 153,
+-    " sad": 105,
+-    "sad ": 591,
+-    "el ": 266,
+-    "eel ": 263,
+-    "we": 672,
+-    " we": 136,
+-    "wel": 673,
+-    "ll ": 417,
+-    " wel": 137,
+-    "well": 674,
+-    "ell ": 270,
+-    "di": 232,
+-    "is": 385,
+-    "ap": 168,
+-    "pp": 537,
+-    "po": 534,
+-    "nt": 478,
+-    " di": 28,
+-    "dis": 233,
+-    "isa": 386,
+-    "sap": 592,
+-    "app": 169,
+-    "ppo": 538,
+-    "poi": 535,
+-    "int": 383,
+-    "nte": 479,
+-    "ted": 616,
+-    " dis": 29,
+-    "disa": 234,
+-    "isap": 387,
+-    "sapp": 593,
+-    "appo": 170,
+-    "ppoi": 539,
+-    "poin": 536,
+-    "oint": 497,
+-    "inte": 384,
+-    "nted": 480,
+-    "ted ": 617,
+-    " m ": 76,
+-    " u": 126,
+-    "nh": 460,
+-    "py": 542,
+-    " un": 127,
+-    "unh": 650,
+-    "nha": 461,
+-    "hap": 335,
+-    "ppy": 540,
+-    "py ": 543,
+-    " unh": 128,
+-    "unha": 651,
+-    "nhap": 462,
+-    "happ": 336,
+-    "appy": 171,
+-    "ppy ": 541,
+-    "ml": 436,
+-    "eml": 277,
+-    "mly": 437,
+-    "reml": 555,
+-    "emly": 278,
+-    "mly ": 438,
+-    "aa": 149,
+-    "saa": 588,
+-    "aad": 150,
+-    " saa": 104,
+-    "saad": 589,
+-    "aad ": 151,
+-    "are": 173,
+-    " are": 9,
+-    "are ": 174,
+-    "bo": 195,
+-    " bo": 12,
+-    "bot": 196,
+-    " bot": 13,
+-    "bot ": 197,
+-    "hu": 358,
+-    "um": 643,
+-    "an": 166,
+-    " hu": 59,
+-    "hum": 359,
+-    "uma": 644,
+-    "man": 429,
+-    "an ": 167,
+-    " hum": 60,
+-    "huma": 360,
+-    "uman": 645,
+-    "man ": 430,
+-    "ta": 612,
+-    "lk": 413,
+-    " ta": 118,
+-    "tal": 613,
+-    "alk": 158,
+-    "lki": 414,
+-    " tal": 119,
+-    "talk": 614,
+-    "alki": 159,
+-    "lkin": 415
+-  },
+-  "response": null,
+-  "action_text": null
+-}
+\ No newline at end of file
+Index: ../Rahhal-Backend/src/main/java/com/rahhal/service/Impl/TripServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.rahhal.service.Impl;\n\nimport com.rahhal.dto.TripDto;\nimport com.rahhal.entity.Company;\nimport com.rahhal.entity.Trip;\nimport com.rahhal.entity.User;\nimport com.rahhal.exception.CompanyHasNoInactiveTripsExeption;\nimport com.rahhal.exception.EntityNotFoundException;\nimport com.rahhal.exception.TripAlreadyActivatedException;\nimport com.rahhal.exception.TripModificationNotAllowedException;\nimport com.rahhal.mapper.TripMapper;\nimport com.rahhal.repository.CompanyRepository;\nimport com.rahhal.repository.TripRepository;\nimport com.rahhal.repository.UserRepository;\nimport com.rahhal.service.TripService;\nimport org.springframework.security.core.Authentication;\nimport org.springframework.security.core.context.SecurityContextHolder;\nimport org.springframework.security.core.userdetails.UserDetails;\nimport org.springframework.stereotype.Service;\nimport org.springframework.security.access.AccessDeniedException;\n\nimport java.util.List;\n\n\n@Service\npublic class TripServiceImpl implements TripService {\n    private final TripRepository tripRepository;\n    private final UserRepository userRepository;\n    private final CompanyRepository companyRepository;\n    private final TripMapper tripMapper;\n\n    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper) {\n        this.tripRepository = tripRepository;\n        this.userRepository = userRepository;\n        this.companyRepository = companyRepository;\n        this.tripMapper = tripMapper;\n    }\n    public UserDetails getCurrentUserDetails() {\n        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();\n        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {\n            return (UserDetails) authentication.getPrincipal();\n        }\n        throw new AccessDeniedException(\"Unauthorized access\");\n    }\n\n\n    @Override\n    public void createTrip(TripDto tripDto ) {\n        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())\n                .orElseThrow(() -> new EntityNotFoundException(\"Company not found\"))\n                .getUserId();\n\n        Company company = companyRepository\n                .findById(userId).orElseThrow(() -> new EntityNotFoundException(\"Company not found\"));\n\n        Trip trip = tripMapper.mapToEntity(tripDto, company);\n\n        tripRepository.save(trip);\n    }\n\n\n    @Override\n    public TripDto updateTrip(int tripId, TripDto tripDto) {\n        int userId = userRepository.findByEmail(getCurrentUserDetails().getUsername())\n                .orElseThrow(() -> new EntityNotFoundException(\"User not found\"))\n                .getUserId();\n\n        Trip trip = tripRepository.findById(tripId)\n                .orElseThrow(() -> new EntityNotFoundException(\"Trip not found\"));\n\n\n        if (trip.getCompany().getUserId() != userId) {\n            throw new AccessDeniedException(\"Unauthorized to update this trip\");\n        }\n\n        if(trip.isBooked())\n        {\n            throw new TripModificationNotAllowedException(\"Can't update the trip is booked\");\n        }\n\n        tripMapper.updateEntity(tripDto, trip);\n\n        tripRepository.save(trip);\n        return tripMapper.mapToDto(trip);\n    }\n\n    @Override\n    public void deleteTrip(int tripId) {\n        Trip trip=tripRepository.findById(tripId)\n                .orElseThrow(() -> new EntityNotFoundException(\"Trip not found\"));\n\n        int userId = companyRepository.findByEmail(getCurrentUserDetails().getUsername())\n                .orElseThrow(() -> new EntityNotFoundException(\"Company not found\"))\n                .getUserId();\n\n        if (trip.getCompany().getUserId() != userId) {\n            throw new AccessDeniedException(\"Unauthorized to update this trip\");\n        }\n\n        if(trip.isBooked())\n        {\n            throw new TripModificationNotAllowedException(\"Can't delete the trip is booked\");\n        }\n\n        tripRepository.delete(trip);\n\n    }\n\n    @Override\n    public List<TripDto> viewTrip() {\n        int userId=userRepository.findByEmail(getCurrentUserDetails().getUsername())\n                .orElseThrow(() -> new EntityNotFoundException(\"User not found\"))\n                .getUserId();\n\n\n        Company company = companyRepository.findById(userId)\n                .orElseThrow(() -> new EntityNotFoundException(\"User not found\"));\n\n\n        List<TripDto> trips=tripRepository.findTripByCompany(company);\n        return trips;\n    }\n\n    @Override\n    public List<TripDto> viewAllInactiveTrips() {\n        List<TripDto>trips = tripRepository.findByActiveFalse();\n        return trips;\n    }\n\n    @Override\n    public List<TripDto> viewInactiveTripsForCompany(int companyId) {\n        List<TripDto> trips=tripRepository.findByActiveFalseAndCompany_UserId(companyId);\n        if(trips.size()==0)\n        {\n            throw new CompanyHasNoInactiveTripsExeption(\"Company Has No Inactive Trips\");\n        }\n        return trips;\n    }\n\n    @Override\n    public void activeTrip(int tripId) {\n\n        Trip trip=tripRepository.findById(tripId)\n                .orElseThrow(() -> new EntityNotFoundException(\"Trip not found\"));\n\n        if(trip.getActive())\n        {\n            throw new TripAlreadyActivatedException(\"Trip is already activated\");\n        }\n\n        trip.setActive(true);\n        tripRepository.save(trip);\n\n\n    }\n\n    @Override\n    public void deleteInactiveTrip(int tripId) {\n        Trip trip=tripRepository.findById(tripId)\n                .orElseThrow(()->new EntityNotFoundException(\"Trip not found\"));\n\n        if (trip.getActive())\n            throw new TripModificationNotAllowedException(\"Can't delete this trip is activated\");\n\n        tripRepository.delete(trip);\n\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/src/main/java/com/rahhal/service/Impl/TripServiceImpl.java b/../Rahhal-Backend/src/main/java/com/rahhal/service/Impl/TripServiceImpl.java
+--- a/../Rahhal-Backend/src/main/java/com/rahhal/service/Impl/TripServiceImpl.java	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ b/../Rahhal-Backend/src/main/java/com/rahhal/service/Impl/TripServiceImpl.java	(date 1750096750907)
+@@ -1,5 +1,6 @@
+ package com.rahhal.service.Impl;
+ 
++import com.rahhal.dto.EmbeddingDTO;
+ import com.rahhal.dto.TripDto;
+ import com.rahhal.entity.Company;
+ import com.rahhal.entity.Trip;
+@@ -13,13 +14,18 @@
+ import com.rahhal.repository.TripRepository;
+ import com.rahhal.repository.UserRepository;
+ import com.rahhal.service.TripService;
++import org.springframework.http.HttpHeaders;
++import org.springframework.http.MediaType;
+ import org.springframework.security.core.Authentication;
+ import org.springframework.security.core.context.SecurityContextHolder;
+ import org.springframework.security.core.userdetails.UserDetails;
+ import org.springframework.stereotype.Service;
+ import org.springframework.security.access.AccessDeniedException;
++import org.springframework.web.reactive.function.client.WebClient;
+ 
+ import java.util.List;
++import java.util.Map;
++import java.util.stream.Collectors;
+ 
+ 
+ @Service
+@@ -28,12 +34,14 @@
+     private final UserRepository userRepository;
+     private final CompanyRepository companyRepository;
+     private final TripMapper tripMapper;
++//    private final EmbeddingDTO embeddingDTO;
+ 
+     TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper) {
+         this.tripRepository = tripRepository;
+         this.userRepository = userRepository;
+         this.companyRepository = companyRepository;
+         this.tripMapper = tripMapper;
++//        this.embeddingDTO = embeddingDTO;
+     }
+     public UserDetails getCurrentUserDetails() {
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+@@ -55,6 +63,28 @@
+ 
+         Trip trip = tripMapper.mapToEntity(tripDto, company);
+ 
++        WebClient webClient = WebClient.builder()
++                        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
++                        .build();
++
++        EmbeddingDTO embeddingDTO = EmbeddingDTO.builder()
++                .text(tripDto.getDescription())
++                .build();
++
++        var response=webClient.post()
++                        .uri("http://localhost:8001/api/embeddings/text")
++                        .bodyValue(embeddingDTO)
++                        .retrieve()
++                        .bodyToMono(Map.class)
++                        .block();
++
++        List<Double> embeddingRaw = (List<Double>) response.get("embedding");
++
++        List<Float> embedding = embeddingRaw.stream()
++                .map(Double::floatValue)
++                .collect(Collectors.toList());
++
++        trip.setEmbedding(embedding);
+         tripRepository.save(trip);
+     }
+ 
+Index: ../Rahhal-Backend/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n\t\t xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n\t<modelVersion>4.0.0</modelVersion>\n\n\t<parent>\n\t\t<groupId>org.springframework.boot</groupId>\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\n\t\t<version>3.4.3</version>\n\t\t<relativePath/> <!-- lookup parent from repository -->\n\t</parent>\n\n\t<groupId>com.rahhal</groupId>\n\t<artifactId>demo</artifactId>\n\t<version>0.0.1-SNAPSHOT</version>\n\t<name>demo</name>\n\t<description>Demo project for Spring Boot</description>\n\n\t<properties>\n\t\t<java.version>21</java.version>  <!-- Ensure consistency -->\n\t\t<maven.compiler.source>21</maven.compiler.source>\n\t\t<maven.compiler.target>21</maven.compiler.target>\n\t</properties>\n\n\t<dependencies>\n\t\t<!-- Spring Data JPA -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-data-jpa</artifactId>\n\t\t</dependency>\n\n\t\t<!-- Lombok -->\n\t\t<dependency>\n\t\t\t<groupId>org.projectlombok</groupId>\n\t\t\t<artifactId>lombok</artifactId>\n\t\t\t<scope>provided</scope>\n\t\t</dependency>\n\n\t\t<!-- Jakarta Validation -->\n\t\t<dependency>\n\t\t\t<groupId>jakarta.validation</groupId>\n\t\t\t<artifactId>jakarta.validation-api</artifactId>\n\t\t\t<version>3.0.2</version>\n\t\t</dependency>\n\n\t\t<!-- PostgreSQL Driver -->\n\t\t<dependency>\n\t\t\t<groupId>org.postgresql</groupId>\n\t\t\t<artifactId>postgresql</artifactId>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\n\t\t<!-- Spring Boot Security -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-security</artifactId>\n\t\t</dependency>\n\n\t\t<!-- JWT (JSON Web Token) Dependencies -->\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-api</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t</dependency>\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-impl</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\t\t<dependency>\n\t\t\t<groupId>io.jsonwebtoken</groupId>\n\t\t\t<artifactId>jjwt-jackson</artifactId>\n\t\t\t<version>0.12.3</version>\n\t\t\t<scope>runtime</scope>\n\t\t</dependency>\n\n\t\t<!-- Spring Boot Web -->\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\n\t\t</dependency>\n\n\t\t<dependency>\n\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t<artifactId>spring-boot-devtools</artifactId>\n\t\t\t<scope>runtime</scope>\n\t\t\t<optional>true</optional>\n\t\t</dependency>\n\t</dependencies>\n\n\t<build>\n\t\t<plugins>\n\t\t\t<plugin>\n\t\t\t\t<groupId>org.springframework.boot</groupId>\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\n\t\t\t</plugin>\n\t\t</plugins>\n\t</build>\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/pom.xml b/../Rahhal-Backend/pom.xml
+--- a/../Rahhal-Backend/pom.xml	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ b/../Rahhal-Backend/pom.xml	(date 1750094966866)
+@@ -17,7 +17,7 @@
+ 	<description>Demo project for Spring Boot</description>
+ 
+ 	<properties>
+-		<java.version>21</java.version>  <!-- Ensure consistency -->
++		<java.version>17</java.version>  <!-- Ensure consistency -->
+ 		<maven.compiler.source>21</maven.compiler.source>
+ 		<maven.compiler.target>21</maven.compiler.target>
+ 	</properties>
+@@ -28,7 +28,11 @@
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+ 		</dependency>
+-
++		<!--Embedding-->
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-webflux</artifactId>
++        </dependency>
+ 		<!-- Lombok -->
+ 		<dependency>
+ 			<groupId>org.projectlombok</groupId>
+Index: ../Rahhal-Backend/src/main/java/com/rahhal/entity/Trip.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.rahhal.entity;\n\nimport jakarta.persistence.*;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.Positive;\nimport lombok.*;\n\nimport java.time.LocalDateTime;\n\n@Entity\n@Table(name = \"trips\")\n@Data\n@NoArgsConstructor @AllArgsConstructor\n@Builder\npublic class Trip {\n    @Id\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private int tripId;\n\n    @ManyToOne\n    @JoinColumn(name = \"company_id\", referencedColumnName = \"userId\", nullable = false)\n    private Company company;\n\n    @NotBlank\n    @Column(nullable = false)\n    private String title;\n\n    @NotBlank\n    @Column(nullable = false)\n    private String description;\n\n    @NotBlank\n    @Column(nullable = false)\n    private String state;\n\n    @Positive\n    @Column(nullable = false)\n    private double price;\n\n    @NotBlank\n    private String duration;\n\n    @Column(nullable = false)\n    private LocalDateTime date;\n\n    @Column(name = \"available_seats\", nullable = false)\n    private int availableSeats;\n\n    @Column(name = \"is_active\", nullable = false)\n    private Boolean active;\n\n    @Column(name = \"is_booked\",nullable = false)\n    private boolean booked;\n\n    @PrePersist\n    public void prePersist() {\n        this.active = false;\n        this.booked = false;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/src/main/java/com/rahhal/entity/Trip.java b/../Rahhal-Backend/src/main/java/com/rahhal/entity/Trip.java
+--- a/../Rahhal-Backend/src/main/java/com/rahhal/entity/Trip.java	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ b/../Rahhal-Backend/src/main/java/com/rahhal/entity/Trip.java	(date 1750096343804)
+@@ -6,6 +6,7 @@
+ import lombok.*;
+ 
+ import java.time.LocalDateTime;
++import java.util.List;
+ 
+ @Entity
+ @Table(name = "trips")
+@@ -52,6 +53,12 @@
+     @Column(name = "is_booked",nullable = false)
+     private boolean booked;
+ 
++    @Column(name = "embedding", columnDefinition = "vector(384)")
++    private List<Float> embedding;
++
++//     @Column(name = "img")
++//     private String image;
++
+     @PrePersist
+     public void prePersist() {
+         this.active = false;
+Index: ../Rahhal-Backend/src/main/java/com/rahhal/mapper/TripMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.rahhal.mapper;\n\nimport com.rahhal.dto.TripDto;\nimport com.rahhal.entity.Company;\nimport com.rahhal.entity.Trip;\nimport com.rahhal.entity.User;\nimport org.springframework.stereotype.Component;\n\nimport java.time.LocalDateTime;\n\n@Component\npublic class TripMapper {\n    public Trip mapToEntity(TripDto tripDto, Company company) {\n        return Trip.builder()\n                .title(tripDto.getTitle())\n                .description(tripDto.getDescription())\n                .state(tripDto.getState())\n                .price(tripDto.getPrice())\n                .date(tripDto.getDate())\n                .availableSeats(tripDto.getAvailableSeats())\n                .duration(tripDto.getDuration())\n                .company(company)\n                .active(false)\n                .build();\n    }\n\n    public void updateEntity(TripDto tripDto, Trip existingTrip) {\n        existingTrip.setTitle(tripDto.getTitle());\n        existingTrip.setDescription(tripDto.getDescription());\n        existingTrip.setState(tripDto.getState());\n        existingTrip.setPrice(tripDto.getPrice());\n        existingTrip.setDate(tripDto.getDate());\n        existingTrip.setAvailableSeats(tripDto.getAvailableSeats());\n        existingTrip.setDuration(tripDto.getDuration());\n    }\n    public TripDto mapToDto(Trip trip) {\n        return TripDto.builder()\n                .tripId(trip.getTripId())\n                .title(trip.getTitle())\n                .description(trip.getDescription())\n                .state(trip.getState())\n                .price(trip.getPrice())\n                .date(trip.getDate())\n                .availableSeats(trip.getAvailableSeats())\n                .duration(trip.getDuration())\n                .build();\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/src/main/java/com/rahhal/mapper/TripMapper.java b/../Rahhal-Backend/src/main/java/com/rahhal/mapper/TripMapper.java
+--- a/../Rahhal-Backend/src/main/java/com/rahhal/mapper/TripMapper.java	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ b/../Rahhal-Backend/src/main/java/com/rahhal/mapper/TripMapper.java	(date 1750096343774)
+@@ -21,6 +21,7 @@
+                 .duration(tripDto.getDuration())
+                 .company(company)
+                 .active(false)
++//                 .image(tripDto.getImage())
+                 .build();
+     }
+ 
+@@ -43,6 +44,7 @@
+                 .date(trip.getDate())
+                 .availableSeats(trip.getAvailableSeats())
+                 .duration(trip.getDuration())
++//                 .image(trip.getImage())
+                 .build();
+     }
+ 
+Index: ../Rahhal-Backend/src/main/java/com/rahhal/dto/TripDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.rahhal.dto;\n\nimport jakarta.validation.constraints.*;\nimport lombok.Builder;\nimport lombok.Data;\n\nimport java.time.LocalDateTime;\n\n@Data\n@Builder\npublic class TripDto {\n\n    int tripId;\n\n    @NotBlank\n    private String title;\n\n    @NotBlank\n    private String description;\n\n    @NotBlank\n    private String state;\n\n    @NotNull\n    @Min(value = 0, message = \"Price cannot be negative\")\n    private double price;\n\n    @NotBlank\n    private String duration;\n\n    @NotNull\n    private LocalDateTime date;\n\n    @NotNull\n    @Positive\n    private int availableSeats;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../Rahhal-Backend/src/main/java/com/rahhal/dto/TripDto.java b/../Rahhal-Backend/src/main/java/com/rahhal/dto/TripDto.java
+--- a/../Rahhal-Backend/src/main/java/com/rahhal/dto/TripDto.java	(revision f20988a42fc1ff446564cd96819c319c288cc0cd)
++++ b/../Rahhal-Backend/src/main/java/com/rahhal/dto/TripDto.java	(date 1750096343789)
+@@ -34,4 +34,7 @@
+     @NotNull
+     @Positive
+     private int availableSeats;
++
++
++//     private String image;
+ }
