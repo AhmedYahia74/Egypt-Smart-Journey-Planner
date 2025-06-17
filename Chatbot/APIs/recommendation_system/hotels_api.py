@@ -44,7 +44,7 @@ async def get_facilities_ids(conn, user_facilities: List[str]) -> Dict[str, int]
             facilities_dic = {}
             for user_facility in user_facilities:
                 for f_id, name in facilities:
-                    if fuzz.ratio(user_facility.lower(), name.lower()) >= 80:
+                    if fuzz.ratio(user_facility.lower(), name.lower()) >= 60:
                         facilities_dic[user_facility] = f_id
                         break
 
