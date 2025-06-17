@@ -113,7 +113,7 @@ async def find_best_plan_options(
     landmarks: List[Dict[str, Any]],
     budget: float,
     duration: int
-) -> List[Dict[str, Any]]:
+) -> Dict[str, Any]:
     """Find best plan options based on budget and duration."""
     try:
         activity_landmark_options = activities + landmarks
@@ -150,17 +150,21 @@ async def find_best_plan_options(
                 "total_plan_cost": total_cost
             }
             
-            if len(best_options) < 3:
+            if len(best_options) < 1:
                 heapq.heappush(best_options, (total_score, plan_combination))
             elif total_score > best_options[0][0]:
                 heapq.heappushpop(best_options, (total_score, plan_combination))
-
-        return [item[1] for item in sorted(best_options, key=lambda x: x[0], reverse=True)]
+        
+        # Sort best options by total score
+        sorted_best_options = sorted(best_options, key=lambda x: x[0], reverse=True)
+        if not sorted_best_options:
+            return None
+        return sorted_best_options[0]  # Return the best plan combination
     except Exception as e:
         logger.error(f"Error in find_best_plan_options: {str(e)}")
         raise
 
-@router.post("/recommend", response_model=Dict[str, List[PlanResponse]])
+@router.post("/recommend", response_model=Dict[str, PlanResponse])
 async def create_plan(request: PlanRequest):
     """Create travel plan based on user preferences."""
     try:
@@ -171,7 +175,7 @@ async def create_plan(request: PlanRequest):
             raise HTTPException(status_code=400, detail="No activities or landmarks provided")
         
         # Get plan combinations
-        plan_combinations = await find_best_plan_options(
+        best_plan_tuple = await find_best_plan_options(
             request.suggested_hotels,
             request.suggested_activities,
             request.suggested_landmarks,
@@ -179,24 +183,27 @@ async def create_plan(request: PlanRequest):
             request.duration
         )
         
-        if not plan_combinations:
+        if not best_plan_tuple:
             raise HTTPException(
                 status_code=404,
                 detail="No valid plan combinations found for the given budget and duration"
             )
         
-        # Format response
-        displayed_plan_combinations = []
-        for plan_combination in plan_combinations:
-            temp = {
-                'hotel': plan_combination['hotel'],
-                'activities': plan_combination['activities'],
-                'landmarks': plan_combination['landmarks'],
-                'total_plan_cost': plan_combination['total_plan_cost']
-            }
-            displayed_plan_combinations.append(temp)
-            
-        return {"plan_combinations": displayed_plan_combinations}
+        # Unpack the tuple (score, plan_combination)
+        _, plan_combination = best_plan_tuple
+        
+        # Log the plan combination for debugging
+        logger.info(f"Plan combination: {plan_combination}")
+        
+        # Convert the plan combination to the expected format
+        plan_response = PlanResponse(
+            hotel=plan_combination["hotel"],
+            activities=plan_combination["activities"],
+            landmarks=plan_combination["landmarks"],
+            total_plan_cost=plan_combination["total_plan_cost"]
+        )
+
+        return {"plan": plan_response}
         
     except HTTPException:
         raise

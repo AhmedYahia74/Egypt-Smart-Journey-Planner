@@ -1,14 +1,12 @@
 import asyncio
 import aiohttp
-from config_helper import get_db_params, get_api_urls
+from config_helper import get_api_urls
 from fastapi import APIRouter, HTTPException, Request
-from contextlib import asynccontextmanager
-import psycopg2
-from psycopg2 import pool
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any
 import time
 import logging
+from .db_manager import db_manager
 
 # Configure logging
 logging.basicConfig(
@@ -20,7 +18,6 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
-DB_Prams = get_db_params()
 
 LANDMARK_QUERY = """
     SELECT *, 1 - (L.embedding <=> %s::vector) AS similarity
@@ -28,13 +25,6 @@ LANDMARK_QUERY = """
     WHERE lower(S.name) LIKE %s
     ORDER BY similarity desc
    """
-
-# Create a connection pool with optimized settings
-connection_pool = pool.ThreadedConnectionPool(
-    minconn=5,  # Increased minimum connections
-    maxconn=20,  # Increased maximum connections
-    **DB_Prams
-)
 
 class LandmarksRequestByText(BaseModel):
     city_name: str = Field(..., min_length=1, description="Name of the city")
@@ -51,30 +41,6 @@ class LandmarkResponse(BaseModel):
     latitude: float
     img: str or None = None
 
-@asynccontextmanager
-async def get_db_connection():
-    """Get a database connection from the pool with retry logic."""
-    conn = None
-    max_retries = 3
-    retry_delay = 1
-    for attempt in range(max_retries):
-        try:
-            conn = connection_pool.getconn()
-            yield conn
-            break
-        except psycopg2.OperationalError as e:
-            logger.error(f"Database connection attempt {attempt + 1} failed: {str(e)}")
-            if attempt == max_retries - 1:
-                raise HTTPException(status_code=500, detail="Database connection failed after multiple attempts")
-            await asyncio.sleep(retry_delay)
-            retry_delay *= 2
-        finally:
-            if conn:
-                try:
-                    connection_pool.putconn(conn)
-                except Exception as e:
-                    logger.error(f"Error returning connection to pool: {str(e)}")
-
 def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
     """Convert database row to dictionary format."""
     try:
@@ -86,7 +52,6 @@ def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
             "price": row[7],
             "longitude": row[3],
             "latitude": row[4],
-
         }
     except Exception as e:
         logger.error(f"Error converting row to dict: {str(e)}")
@@ -167,7 +132,7 @@ async def get_landmarks(request: Request, landmarks_request: LandmarksRequestByT
     logger.info(f"Received landmarks request for city: {landmarks_request.city_name}")
     
     try:
-        async with get_db_connection() as conn:
+        async with db_manager.get_connection() as conn:
             # Search for Landmarks by user message
             msg_start_time = time.time()
             landmarks_by_message = await get_landmark_by_text(conn, landmarks_request.city_name, landmarks_request.user_message)

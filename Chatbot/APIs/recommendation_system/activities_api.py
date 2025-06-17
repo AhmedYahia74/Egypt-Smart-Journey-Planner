@@ -1,20 +1,15 @@
 import aiohttp
-from config_helper import get_db_params, get_api_urls
+from config_helper import get_api_urls
 from fastapi import APIRouter, HTTPException
-from contextlib import asynccontextmanager
-import psycopg2
-from psycopg2 import pool
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
-import asyncio
 import logging
-import ssl
+from .db_manager import db_manager
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 EMBEDDING_API_URL = get_api_urls().get('embedding')
-DB_Prams = get_db_params()
 
 ACTIVITY_QUERY = """
     SELECT activity_id, A.name, A.description, 1 - (A.embedding <=> %s::vector) AS similarity, 
@@ -24,13 +19,6 @@ ACTIVITY_QUERY = """
     WHERE lower(S.name) LIKE %s 
     ORDER BY similarity desc limit 50
 """
-
-# Create a connection pool with more connections
-connection_pool = pool.ThreadedConnectionPool(
-    minconn=5,  # Increased minimum connections
-    maxconn=20,  # Increased maximum connections
-    **DB_Prams
-)
 
 class ActivityRequestByText(BaseModel):
     city_name: str
@@ -47,20 +35,6 @@ class ActivityResponse(BaseModel):
     state: str
     img: str = None
     category: str
-
-@asynccontextmanager
-async def get_db_connection():
-    """Get a database connection from the pool."""
-    conn = None
-    try:
-        conn = connection_pool.getconn()
-        yield conn
-    except Exception as e:
-        logger.error(f"Database connection error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Database connection error")
-    finally:
-        if conn:
-            connection_pool.putconn(conn)
 
 def convert_row_to_dict(row: tuple) -> Dict[str, Any]:
     """Convert database row to dictionary format."""
@@ -136,7 +110,7 @@ async def get_activities_by_user_activities(conn, city_name: str, user_activitie
 async def get_activities(request: ActivityRequestByText):
     """Search for activities based on a user message and preferred activities."""
     try:
-        async with get_db_connection() as conn:
+        async with db_manager.get_connection() as conn:
             # Get activities by message
             activities_by_message = await get_activities_by_text(conn, request.city_name, request.user_message)
 
