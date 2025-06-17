@@ -188,6 +188,8 @@ nlu:
     - yes, that's exactly what I was dreaming of
     - yes, that's exactly what I was wishing for
     - yes, that's exactly what I was desiring
+    - yes, i want to go to [cairo]{"entity": "state", "value": "Cairo"}
+    - yes, [Cairo](state)
 - intent: deny
   examples: |
     - no
@@ -307,18 +309,6 @@ nlu:
     - are you a real person or an artificial assistant?
     - are you a real person or an artificial travel planner?
     - are you a real person or an artificial travel assistant?
-    - are you a real person or an artificial travel agent?
-    - are you a real person or an artificial travel bot?
-    - are you a real person or an artificial travel program?
-    - are you a real person or an artificial travel script?
-    - are you a real person or an artificial travel software?
-    - are you a real person or an artificial travel system?
-    - are you a real person or an artificial travel entity?
-    - are you a real person or an artificial travel being?
-    - are you a real person or an artificial travel intelligence?
-    - are you a real person or an artificial travel algorithm?
-    - are you a real person or an artificial travel assistant?
-    - are you a real person or an artificial travel planner?
     - are you a real person or an artificial travel agent?
     - are you a real person or an artificial travel bot?
     - are you a real person or an artificial travel program?
@@ -468,7 +458,6 @@ nlu:
     - I already told you that
     - I don't want to tell you that
     - none of your business
-    - that's not right
     - stop asking
     - never mind
     - I want to do something else
@@ -679,6 +668,7 @@ nlu:
     - I want to go on a memorable festival in Egypt
     - I want to go on an unforgettable festival in Egypt
     - I want to go on a once-in-a-lifetime festival in Egypt
+    - i want to plan a trip
 - intent: share_state
   examples: |
     - [Luxor](state)
@@ -707,7 +697,6 @@ nlu:
     - [siwa oasis] {"entity": "state", "value": "Siwa Oasis"}
     - [alex] {"entity": "state", "value": "Alexandria"}
     - [Alex] {"entity": "state", "value": "Alexandria"}
-    - [luxor] {"entity": "state", "value": "Luxor"}
     - I want to visit [Luxor](state)
     - Take me to [Cairo](state)
     - My destination is [Alexandria](state)
@@ -748,7 +737,7 @@ nlu:
     - My retreat is in [Marsa Alam](state)
     - My break is in [El Gouna](state)
     - My excursion is in [Siwa Oasis](state)
-
+    - [cairo]{"entity": "state", "value": "Cairo"}
 - intent: share_budget
   examples: |
     - my budget is about [1500$](budget)
@@ -872,6 +861,7 @@ nlu:
     - I want to travel resourcefully, budget is [2200](budget)
     - I want to travel smartly, budget is [2300](budget)
     - I want to travel efficiently, budget is [2400](budget)
+    - [500](budget)$
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)
@@ -1009,7 +999,6 @@ nlu:
     - I want a hotel with [lap pool](hotel_features)
     - I want a hotel with [wave pool](hotel_features)
     - I want a hotel with [lazy river](hotel_features)
-    - I want a hotel with [pool bar](hotel_features)
     - I want a hotel with [poolside cabana](hotel_features)
     - I want a hotel with [poolside lounge](hotel_features)
     - I want a hotel with [poolside restaurant](hotel_features)
@@ -1023,6 +1012,9 @@ nlu:
     - I want a hotel with [poolside entertainment](hotel_features)
     - I want a hotel with [poolside games](hotel_features)
     - I want a hotel with [poolside activities](hotel_features)
+    - i want [wifi](hotel_features) and [pool](hotel_features)
+    - i want a [pool](hotel_features) and [wifi](hotel_features)
+    - i want [wifi](hotel_features) and [pool](hotel_features)
 - intent: share_landmarks_activities
   examples: |
     - I want to visit [Wadi El Hitan](landmarks_activities)
@@ -1133,6 +1125,7 @@ nlu:
     - Show me [Temple of Kom Ombo](landmarks_activities)
     - I want to see [Temple of Edfu](landmarks_activities)
     - [local culture] (landmarks_activities) and [cuisine](landmarks_activities)
+    - i want to visit [ancient sites](landmarks_activities)
 - intent: share_duration
   examples: |
     - I'm planning a [7-day](duration) trip
@@ -1249,27 +1242,7 @@ nlu:
     - For [a few break trips](duration)
     - For [a few vacation trips](duration)
     - For [a few season trips](duration)
-    - For [a few day trips](duration)
-    - For [a few getaways](duration)
-    - For [a few extended stays](duration)
-    - For [a few short trips](duration)
-    - For [a few long vacations](duration)
-    - For [a few quick getaways](duration)
-    - For [a few extended vacations](duration)
-    - For [a few long stays](duration)
-    - For [a few short stays](duration)
-    - For [a few overnight trips](duration)
-    - For [a few weekend trips](duration)
-    - For [a few week-long trips](duration)
-    - For [a few month-long trips](duration)
-    - For [a few year-long trips](duration)
-    - For [a few semester-long trips](duration)
-    - For [a few quarter-long trips](duration)
-    - For [a few season-long trips](duration)
-    - For [a few holiday trips](duration)
-    - For [a few break trips](duration)
-    - For [a few vacation trips](duration)
-    - For [a few season trips](duration)
+    - [3 days](duration)
 - intent: share_arrival_date
   examples: |
     - i plan to have a trip in the [next week] (arrival_date)
@@ -1445,9 +1418,19 @@ nlu:
     - I want to go [in the next available authorization](arrival_date)
     - I want to travel [in the next available approval](arrival_date)
     - I want to visit [in the next available permission](arrival_date)
+    - [next week](arrival_date)
 - intent: describe_city
   examples: |
-    - I want a historical city
+    - I want a [historic](city_features) city
+    - I'm looking for a [beach](city_features) destination
+    - I prefer [cultural](city_features) cities
+    - I want to visit a [modern](city_features) city
+    - I'm interested in [ancient](city_features) sites
+    - I'd like a [coastal](city_features) city
+    - I want to explore [religious](city_features) sites
+    - I'm looking for a [desert](city_features) experience
+    - I want to see [archaeological](city_features) sites
+    - I prefer [traditional](city_features) cities
     - I want a city with ancient temples
     - I want a city with pyramids
     - I want a city with museums
@@ -1500,8 +1483,6 @@ nlu:
     - Imagine a place with stunning beaches, crystal-clear waters, and a vibrant nightlife. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
     - Picture a city with ancient pyramids, bustling bazaars, and a rich cultural heritage. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
     - Imagine a coastal paradise with white sandy beaches, crystal-clear waters, and vibrant coral reefs. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
-    - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It's less touristy than Hurghada but has a charming Italian-Egyptian vibe.
-    - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It's less crowded than Sharm but just as beautiful.
     - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It's less touristy than Hurghada but has a charming Italian-Egyptian vibe.
     - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It's less crowded than Sharm but just as beautiful.
     - A vibrant city with a mix of ancient history and modern culture. The Nile River flows through it, and there are beautiful parks and gardens. The weather is warm, and the locals are known for their hospitality.
@@ -1648,7 +1629,6 @@ nlu:
     - I want a city that's [in the heart of everything and perfect for families](city_feature)
     - I want a city that's [great for couples and ideal for solo travelers](city_feature)
     - I want a city that's [good for groups and safe](city_feature)
-    - I want a city that's [affordable and luxurious](city_feature)
     - I want a city that's [budget-friendly and expensive](city_feature)
     - I want a city that's [exclusive and popular](city_feature)
     - I want a city that's [trendy and classic](city_feature)
@@ -1676,118 +1656,267 @@ nlu:
     - I want a city that's [safe and affordable](city_feature)
     - I want a city that's [luxurious and budget-friendly](city_feature)
     - I want a city that's [romantic and family-friendly](city_feature)
-    - I want a city that's [adventurous and relaxing](city_feature)
-    - I want a city that's [artistic and spiritual](city_feature)
-    - I want a city that's [festive and peaceful](city_feature)
-    - I want a city that's [colorful and unique](city_feature)
-    - I want a city that's [famous and unknown](city_feature)
-    - I want a city that's [off the beaten path and full of surprises](city_feature)
-    - I want a city that's [hard to find and easy to get to](city_feature)
-    - I want a city that's [close to the airport and far from the city center](city_feature)
-    - I want a city that's [on the coast and in the mountains](city_feature)
-    - I want a city that's [in the desert and by a river](city_feature)
-    - I want a city that's [on an island and in the forest](city_feature)
-    - I want a city that's [in the countryside and in the middle of nowhere](city_feature)
-    - I want a city that's [in the heart of everything and perfect for families](city_feature)
-    - I want a city that's [great for couples and ideal for solo travelers](city_feature)
-    - I want a city that's [good for groups and safe](city_feature)
     - no, i want a city with [beaches and quiet places](city_feature)
-- intent: edit_preference
+- intent: modify_preference
   examples: |
     - I want to change my [budget](modify_field)
+    - I want to change my [budget](modify_field) to be [400$](budget)
+    - I want to change my [budget](modify_field) to be [$500](budget)
+    - I want to change my [budget](modify_field) to be [600 USD](budget)
+    - "I'd like to adjust my [spending plan](modify_field)."
+    - "I want to revise my [financial plan](modify_field)."
+    - "I need to update my [cost plan](modify_field)."
+    - "I'm thinking of modifying my [allocation of funds](modify_field)."
+    - "I'd prefer to tweak my [expense plan](modify_field)."
+    - "I plan to make changes to my [funds allocation](modify_field)."
+    - "I want to alter my [financial strategy](modify_field)."
+    - "I'd like to make an adjustment to my [cost structure](modify_field)."
+    - "I need to review and change my [expenditure plan](modify_field)."
+    - "I'm considering restructuring my [spending limits](modify_field)."
     - I want to modify my [hotel features](modify_field)
+    - "I want to change my [accommodation details](modify_field), to be [5-star](hotel_preference) and with a [pool](hotel_preference)."
+    - "I want to modify my [hotel amenities](modify_field)."
+    - "I'd like to change my [accommodation features](modify_field)."
+    - "I need to update my [lodging facilities](modify_field)."
+    - "I'm thinking of adjusting my [hotel characteristics](modify_field)."
+    - "I want to revise my [hotel services](modify_field)."
+    - "I'd prefer to tweak my [room features](modify_field)."
+    - "I plan to alter my [hotel attributes](modify_field)."
+    - "I want to make changes to my [accommodation options](modify_field)."
+    - "I need to review and modify my [hotel details](modify_field)."
+    - "I'm considering restructuring my [hotel offerings](modify_field)."
     - I want to update my [landmarks and activities](modify_field)
-    - I want to change my [weather preference](modify_field)
-    - Let's change [hotel features](modify_field)
+    - "I want to change my [points of interest and events](modify_field). it should include [museums](landmarks_activities) and [parks](landmarks_activities)."
+    - "I want to update my [points of interest and events](modify_field)."
+    - "I'd like to revise my [attractions and activities](modify_field)."
+    - "I need to modify my [sights and experiences](modify_field)."
+    - "I'm thinking of adjusting my [tourist spots and events](modify_field)."
+    - "I want to change my [notable places and activities](modify_field)."
+    - "I'd prefer to tweak my [landmarks and things to do](modify_field)."
+    - "I plan to alter my [historic sites and activities](modify_field)."
+    - "I want to make changes to my [points of interest and things to do](modify_field)."
+    - "I need to review and update my [famous places and activities](modify_field)."
+    - "I'm considering restructuring my [landmarks and events](modify_field)."
     - I want to modify my [duration](modify_field)
+    - "I want to change my [trip duration](modify_field) to be [2 weeks](duration)."
+    - "I want to change my [trip duration](modify_field)."
+    - "I'd like to adjust my [travel time](modify_field)."
+    - "I need to update my [length of stay](modify_field)."
+    - "I'm thinking about modifying my [time for the trip](modify_field)."
+    - "I want to revise my [travel duration](modify_field)."
+    - "I'd prefer to tweak my [time frame for the trip](modify_field)."
+    - "I plan to alter my [duration of the trip](modify_field)."
+    - "I want to make changes to my [trip length](modify_field)."
+    - "I need to review and change my [stay duration](modify_field)."
+    - "I'm considering shortening or extending my [trip time](modify_field)."
     - Edit [landmarks and activities](modify_field)
+    - I want to update my [arrival date](modify_field)
+    - "I want to change my [arrival date](modify_field) to be [next Monday](arrival_date)."
+    - "I wanna update my [arrival date](modify_field)."
+    - "I'd like to change my [check-in date](modify_field)."
+    - "I need to tweak my [landing date](modify_field)."
+    - "I'm thinking about switching my [coming date](modify_field)."
+    - "I want to adjust my [arrival day](modify_field)."
+    - "I'm planning to update my [date of arrival](modify_field)."
+    - "I wanna revise my [day I get there](modify_field)."
+    - "I'm looking to change my [touchdown date](modify_field)."
+    - "I need to fix my [arrival time](modify_field)."
+    - "I want to make a change to my [check-in day](modify_field)."
+    - I want to change my [departure date](modify_field)
+    - I want to modify my [city description](modify_field)
+    - "I wanna modify my [city description](modify_field)."
+    - "I want to change my [city description](modify_field) to be [a vibrant coastal city with rich history](city_features)."
+    - "I'd like to change my [description of the city](modify_field)."
+    - "I need to tweak my [city details](modify_field)."
+    - "I'm thinking about updating my [city info](modify_field)."
+    - "I want to adjust my [city overview](modify_field)."
+    - "I'm planning to revise my [details about the city](modify_field)."
+    - "I wanna update my [city profile](modify_field)."
+    - "I'm looking to change my [city summary](modify_field)."
+    - "I need to fix my [description for the city](modify_field)."
+    - "I want to make a change to my [city write-up](modify_field)."
+    - i want to update the [activities](modify_field)
+    - i want to update the [landmarks](modify_field)
+    - I want to change the [city](modify_field).
+    - I want to change the [city](modify_field), I want to visit [Cairo](state).
+    - I want to change the [city](modify_field) to be [Luxor](state)
+    - I want to change the [state](modify_field) to [Cairo](state)
+    - change my [destination](modify_field) to [Alexandria](state)
+    - I'd like to modify the [city](modify_field) to [Aswan](state)
+    - update the [state](modify_field) to [Hurghada](state)
+    - set the [city](modify_field) as [Sharm El Sheikh](state)
+    - I want to go to [Dahab](state) instead
+    - change my [trip location](modify_field) to [Marsa Alam](state)
+    - can you set my [city](modify_field) to [El Gouna](state)
+    - I want to travel to [Siwa Oasis](state) now
+    - modify [state](modify_field) to [Luxor](state)
+    - I want to change the city
+    - change my city
+    - modify my destination
+    - update my location
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [luxor]{"entity": "state", "value": "Luxor"}
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [Luxor](state)
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [luxor]{"entity": "state", "value": "Luxor"}
+- intent: ask_suggest_trip
+  examples: |
+    - OK I want to suggest a trip
+    - OK suggest a trip for me
+    - OK can you suggest a trip?
+    - Cool, suggest a trip for me
+    - that's great, I want to plan a trip
+    - I want to suggest a trip
+    - Suggest a trip for me
+    - Can you suggest a trip?
+    - I need a trip suggestion
+    - Help me plan a trip
+    - Suggest a travel itinerary
+    - I need help with my travel plans
+    - Can you help me plan my trip?
+    - I want to create a travel plan
+    - Help me with my travel itinerary
+    - I need suggestions for my trip
+    - Can you suggest a travel plan?
+    - I want to organize a trip
+    - Help me organize my travel plans
+- intent: add
+  examples: |
+    - add
+    - add them
+    - add these
+    - add to existing
+    - add to current
+    - add to my preferences
+    - add to my list
+    - add these values
+    - add these items
+    - add these preferences
+    - add these features
+    - add these activities
+    - add these to my list
+    - add these to my preferences
+    - add these to my current list
+    - add these to my current preferences
+    - add these to my existing list
+    - add these to my existing preferences
+    - add these to what I have
+    - add these to what I already have
+    - add these to my current choices
+    - add these to my existing choices
+    - add these to my current selection
+    - add these to my existing selection
+    - add these to my current options
+    - add these to my existing options
+    - add these to my current features
+    - add these to my existing features
+    - add these to my current activities
+    - add these to my existing activities
+    - I want to add them
+    - I'd like to add them
+    - I prefer to add them
+    - I choose to add them
+    - I'll add them
+    - let's add them
+    - add them please
+    - add them to my list
+    - add them to my preferences
+    - add them to what I have
+    - add them to my current list
+    - add them to my existing list
+    - add them to my current preferences
+    - add them to my existing preferences
+- intent: replace
+  examples: |
+    - replace
+    - replace them
+    - replace these
+    - replace existing
+    - replace current
+    - replace my preferences
+    - replace my list
+    - replace these values
+    - replace these items
+    - replace these preferences
+    - replace these features
+    - replace these activities
+    - replace my current list
+    - replace my current preferences
+    - replace my existing list
+    - replace my existing preferences
+    - replace what I have
+    - replace what I already have
+    - replace my current choices
+    - replace my existing choices
+    - replace my current selection
+    - replace my existing selection
+    - replace my current options
+    - replace my existing options
+    - replace my current features
+    - replace my existing features
+    - replace my current activities
+    - replace my existing activities
+    - I want to replace them
+    - I'd like to replace them
+    - I prefer to replace them
+    - I choose to replace them
+    - I'll replace them
+    - let's replace them
+    - replace them please
+- intent: nlu_fallback
+  examples: |
+    - i want to visit [ancient sites](landmarks_activities)
+    - I don't understand
+    - what do you mean?
+    - can you explain?
+    - I'm confused
+    - that doesn't make sense
+    - I'm not sure what you're saying
+    - could you clarify?
+    - I need more information
+    - I don't get it
+    - can you rephrase that?
+    - i want to visit [ancient sites](landmarks_activities)
+- intent: clear_chat
+  examples: |
+    - clear chat
+    - clear conversation
+    - start over
+    - reset chat
+    - new conversation
+    - clear history
+    - start fresh
+    - begin again
+    - clear everything
+    - reset everything
 - intent: request_activity_suggestions
   examples: |
-    - What activities can I do?
-    - I don't know what to do, suggest something
-    - Recommend some activities
-    - What are my options?
-    - Give me ideas for things to do
-    - I'm not sure, help me choose
-    - What can I do there?
-    - Suggest some activities for me
-    - What are some fun things to do?
-    - I need suggestions for activities
-    - What activities do you recommend?
-    - I need help with activity ideas
-    - What can I do during my trip?
-    - I want to know about activities
-    - What are some activities I can do?
-    - I need help with activity suggestions
-    - What activities should I consider?
-    - I want to know what to do
-    - I need ideas for activities
-- intent: add_hotel_features
+    - what activities can I do?
+    - suggest some activities
+    - what can I do there?
+    - what are the popular activities?
+    - what should I do?
+    - what are the must-do activities?
+    - what activities do you recommend?
+    - what are the best things to do?
+    - what activities are available?
+    - what can I experience?
+- synonym: Cairo
   examples: |
-    - I want to add [pool](hotel_features) for my hotel
-    - I want to add [spa](hotel_features) for my hotel
-    - I want to add [gym](hotel_features) for my hotel
-    - Add [restaurant](hotel_features) for my hotel
-    - Add [bar](hotel_features) and [spa](hotel_features) for my hotel
-    - Add a [beach_view](hotel_features) for my hotel
-    - Add a [city_center](hotel_features) to my hotel
-    - I want to add [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - I want to add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - also add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - include [spa](hotel_features) and [beach_view](hotel_features) in my hotel
-    - include [gym](hotel_features) in the hotel
-    - I want [pool](hotel_features), [spa](hotel_features), and [gym](hotel_features) in my hotel
-    - I want [restaurant](hotel_features), and [bar](hotel_features) in my hotel
-    - add [restaurant](hotel_features) and [bar](hotel_features)
-    - add [gym](hotel_features) and [spa](hotel_features)
-    - include [spa](hotel_features) and [beach_view](hotel_features)
-    - also add [city_center](hotel_features) and [beach_view](hotel_features)
-    - also add [beach_view](hotel_features) and [city_center](hotel_features)
-    - I want [city_center](hotel_features) and [beach_view](hotel_features) too
-    - I want [beach_view](hotel_features) and [city_center](hotel_features) too
-- intent: add_landmarks_activities
+    - cairo
+- synonym: state
   examples: |
-    - I want to add [historical landmarks](landmarks_activities) to my trip
-    - I want to add [desert safaris](landmarks_activities) to my trip
-    - I want to add [museums](landmarks_activities) to my trip
-    - I want to add [beaches](landmarks_activities) too
-    - I want to add [temples](landmarks_activities) too
-    - add [cruise](landmarks_activities) and [desert safaris](landmarks_activities)
-    - add [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - add [historical landmarks](landmarks_activities) and [desert safaris](landmarks_activities)
-    - include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also add [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also include [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - include [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - include [cruise](landmarks_activities)
-    - add [desert safaris](landmarks_activities)
-
-- intent:   ask_suggest_trip
+    - city
+    - state
+    - location
+    - destination
+    - place
+    - area
+    - region
+    - spot
+    - site
+    - town
+- synonym: Luxor
   examples: |
-      - OK I want to suggest a trip
-      - OK suggest a trip for me
-      - OK can you suggest a trip?
-      - Cool, suggest a trip for me
-      - that's great, I want to plan a trip
-      - I want to suggest a trip
-      - Suggest a trip for me
-      - Can you suggest a trip?
-      - I need a trip suggestion
-      - Help me plan a trip
-      - I want to plan a trip
-      - Suggest a travel itinerary
-      - I need help with my travel plans
-      - Can you help me plan my trip?
-      - I want to create a travel plan
-      - Help me with my travel itinerary
-      - I need suggestions for my trip
-      - Can you suggest a travel plan?
-      - I want to organize a trip
-      - Help me organize my travel plans
-
-
+    - luxor
 - synonym: Alexandria
   examples: |
     - alexandria
@@ -1796,10 +1925,6 @@ nlu:
 - synonym: Aswan
   examples: |
     - aswan
-- synonym: Cairo
-  examples: |
-    - cairo  
-
 - synonym: Dahab
   examples: |
     - dahab
@@ -1821,9 +1946,6 @@ nlu:
 - synonym: Hurghada
   examples: |
     - hurghada
-- synonym: Luxor
-  examples: |
-    - luxor
 - synonym: Marsa Alam
   examples: |
     - marsaalam
@@ -1836,20 +1958,86 @@ nlu:
     - marsamatrouh
     - matrouh
     - Marsa Matrouh
-
 - synonym: Sharm El Sheikh
   examples: |
     - sharm el sheikh
     - sharmelsheikh
     - sharm
     - Sharm
-- synonym: Siwa Oasis
+- synonym: landmarks_activities
   examples: |
-    - siwa oasis
-    - siwa
-    - Siwa
-
-
+    - landmarks and activities
+    - landmarks_activities
+    - landmarksActivities
+    - attractions
+    - activities
+    - sities
+    - points of interest
+    - events
+    - famous places
+    - things to do
+- synonym: hotel_features
+  examples: |
+    - hotel features
+    - hotel_features
+    - hotelFeatures
+    - hotel amenities
+    - accommodation features
+    - lodging facilities
+    - room features
+    - hotel services
+    - hotel attributes
+    - hotel offerings
+- synonym: city_feature
+  examples: |
+    - city feature
+    - city_feature
+    - cityFeature
+    - city features
+    - city characteristics
+    - city attributes
+    - city details
+    - city info
+    - city overview
+    - city description
+- synonym: duration
+  examples: |
+    - duration
+    - trip duration
+    - travel time
+    - length of stay
+    - time for the trip
+    - travel duration
+    - time frame for the trip
+    - duration of the trip
+    - trip length
+    - stay duration
+    - trip time
+- synonym: arrival_date
+  examples: |
+    - arrival date
+    - check-in date
+    - landing date
+    - coming date
+    - arrival day
+    - date of arrival
+    - day I get there
+    - touchdown date
+    - arrival time
+    - check-in day
+- synonym: budget
+  examples: |
+    - budget
+    - spending plan
+    - financial plan
+    - cost plan
+    - allocation of funds
+    - expense plan
+    - funds allocation
+    - financial strategy
+    - cost structure
+    - expenditure plan
+    - spending limits
 - lookup: state
   examples: |
     - Alexandria

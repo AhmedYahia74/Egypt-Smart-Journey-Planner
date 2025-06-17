@@ -679,7 +679,18 @@ class ValidateTripForm(FormValidationAction):
             dispatcher.utter_message("I'm having trouble processing your request. Please try again.")
             return {}
 
+    async def submit(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        # Your post-form action, e.g. trigger a plan suggestion
 
+        return [
+            SlotSet("requested_slot", None),
+            ActiveLoop(None),
+        ]
 
 
 
