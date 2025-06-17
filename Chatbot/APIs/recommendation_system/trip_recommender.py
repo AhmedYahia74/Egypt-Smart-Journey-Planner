@@ -169,18 +169,35 @@ class TripRecommender:
                         date_score = 0.0
                         return date_score
 
-                    # Parse user date
+                    # Parse user date(s)
                     try:
-                        user_date = datetime.strptime(user_preferences['arrival_date'], '%Y-%m-%d')
-                        # Exact date match gets highest score
-                        if user_date == trip_date:
-                            date_score = 1.0
+                        if len(user_preferences['arrival_date']) > 1:
+                            # Handle date range
+                            start_date = datetime.strptime(user_preferences['arrival_date'][0], '%Y-%m-%d')
+                            end_date = datetime.strptime(user_preferences['arrival_date'][1], '%Y-%m-%d')
+                            
+                            # Check if trip date falls within the range
+                            if start_date <= trip_date <= end_date:
+                                date_score = 1.0
+                            else:
+                                # Calculate days difference from the closest date in range
+                                days_to_start = abs((trip_date - start_date).days)
+                                days_to_end = abs((trip_date - end_date).days)
+                                min_days_diff = min(days_to_start, days_to_end)
+                                # Score decreases as date difference increases
+                                # 0 days = 1.0, 1 day = 0.8, 2 days = 0.6, 3 days = 0.4, 4+ days = 0.2
+                                date_score = max(0.2, 1.0 - (min_days_diff * 0.2))
                         else:
-                            # Calculate days difference
-                            date_diff = abs((user_date - trip_date).days)
-                            # Score decreases as date difference increases
-                            # 0 days = 1.0, 1 day = 0.8, 2 days = 0.6, 3 days = 0.4, 4+ days = 0.2
-                            date_score = max(0.2, 1.0 - (date_diff * 0.2))
+                            # Handle single date
+                            user_date = datetime.strptime(user_preferences['arrival_date'][0], '%Y-%m-%d')
+                            # Exact date match gets highest score
+                            if user_date == trip_date:
+                                date_score = 1.0
+                            else:
+                                # Calculate days difference
+                                date_diff = abs((user_date - trip_date).days)
+                                # Score decreases as date difference increases
+                                date_score = max(0.2, 1.0 - (date_diff * 0.2))
                     except ValueError:
                         logger.error(f"Invalid user date format: {user_preferences['arrival_date']}")
                         date_score = 0.0
