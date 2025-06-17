@@ -69,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
             return AuthenticationResponseDto.builder()
                     .accessToken(jwtToken)
                     .userId(user.getUserId())
+                    .Name(user.getName())
                     .build();
         }
     }

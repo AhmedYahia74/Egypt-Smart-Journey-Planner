@@ -20,6 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/chatbot")
@@ -31,7 +32,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/queue", "/topic");
+        // Enable a simple memory-based message broker to send messages to clients
+        registry.enableSimpleBroker("/queue", "/topic", "/user");
+        // Set prefix for messages that are bound for @MessageMapping methods
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/user");
     }

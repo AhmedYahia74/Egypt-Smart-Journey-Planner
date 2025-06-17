@@ -11,4 +11,6 @@ public class AuthenticationResponseDto {
     private String accessToken;
     @NotNull
     private int userId;
+    @NotNull
+    private String Name;
 }
