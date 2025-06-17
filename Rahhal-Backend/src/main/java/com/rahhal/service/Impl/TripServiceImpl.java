@@ -16,6 +16,7 @@ import com.rahhal.repository.UserRepository;
 import com.rahhal.service.TripService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import com.rahhal.service.EmailService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,12 +35,14 @@ public class TripServiceImpl implements TripService {
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final TripMapper tripMapper;
+    private final EmailService emailService;
 
-    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper) {
+    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper, EmailService emailService) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.tripMapper = tripMapper;
+        this.emailService = emailService;
     }
     public UserDetails getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -170,7 +173,7 @@ public class TripServiceImpl implements TripService {
     @Override
     public void activeTrip(int tripId) {
 
-        Trip trip=tripRepository.findById(tripId)
+        Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
 
         if(trip.getActive())
@@ -181,7 +184,22 @@ public class TripServiceImpl implements TripService {
         trip.setActive(true);
         tripRepository.save(trip);
 
+        String subject = "Trip Successfully Approved and Active on Rahhal";
+        String body = String.format("""
+            <div style="font-family: Arial, sans-serif; font-size: 18px; line-height: 1.5; color: #000000;">
+                <p>Dear <strong>%s</strong>,</p>
+                
+                <p>Your trip [ <strong>%s</strong> ] has been successfully activated by the admin.</p>
+                <p>The trip is now visible to tourists and available for booking.</p>
+                
+                <p>Best regards,<br>
+                <strong>Rahhal Team</strong></p>
+            </div>
+            """,
+            trip.getCompany().getName(),
+            trip.getTitle());
 
+        emailService.sendEmail(trip.getCompany().getEmail(), subject, body);
     }
 
     @Override
