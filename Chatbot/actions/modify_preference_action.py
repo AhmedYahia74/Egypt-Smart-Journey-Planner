@@ -2,6 +2,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, FollowupAction
+from Validation_Classes import Date_Parser, Duration_Parser, Budget_Parser
 
 class ActionModifyPreference(Action):
     def name(self) -> Text:
@@ -25,12 +26,56 @@ class ActionModifyPreference(Action):
                     modify_field = entity_value
                     continue
 
-                if entity_name in ["budget", "duration", "state", "arrival_date"]:
+                if entity_name == 'state':
                     if entity_value:
                         modified_slots[entity_name] = entity_value
                         # Update the slot in the tracker
                         events.append(SlotSet(entity_name, entity_value))
-
+                elif entity_name == 'budget':
+                    if entity_value:
+                        try:
+                            budget_parser = Budget_Parser()
+                            budget = budget_parser.parse_flexible_budget(entity_value)
+                            modified_slots[entity_name] = budget
+                            # Update the slot in the tracker
+                            events.append(SlotSet(entity_name, budget))
+                        except ValueError as e:
+                            dispatcher.utter_message(text=str(e))
+                            return []
+                elif entity_name == 'duration':
+                    if entity_value:
+                        try:
+                            duration_parser = Duration_Parser()
+                            duration = duration_parser.parse_flexible_duration(entity_value)
+                            modified_slots[entity_name] = duration
+                            # Update the slot in the tracker
+                            events.append(SlotSet(entity_name, duration))
+                        except ValueError as e:
+                            dispatcher.utter_message(text=str(e))
+                            return []
+                elif entity_name == 'arrival_date':
+                    if entity_value:
+                        try:
+                            date_parser = Date_Parser()
+                            arrival_date = date_parser.parse_flexible_date(entity_value)
+                            
+                            if arrival_date:
+                                # Handle both single date and date range
+                                if isinstance(arrival_date, tuple):
+                                    # Date range - use the start date
+                                    start_date, end_date = arrival_date
+                                    modified_slots[entity_name] = [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]
+                                    events.append(SlotSet(entity_name, [start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')]))
+                                else:
+                                    # Single date
+                                    modified_slots[entity_name] = [arrival_date.strftime('%Y-%m-%d')]
+                                    events.append(SlotSet(entity_name, [arrival_date.strftime('%Y-%m-%d')]))
+                            else:
+                                dispatcher.utter_message(text="I couldn't understand the date format. Please try again with a valid date (e.g., 'next week', '15th October', 'summer').")
+                                return []
+                        except ValueError as e:
+                            dispatcher.utter_message(text=str(e))
+                            return []
                 elif entity_name in ["landmarks_activities", "hotel_features"]:
                     if entity_name not in list_slots:
                         list_slots[entity_name] = []
@@ -52,12 +97,24 @@ class ActionModifyPreference(Action):
                     confirmation_message = "I've updated your preferences:\n\n"
                     for slot_name, value in modified_slots.items():
                         formatted_name = slot_name.replace('_', ' ').title()
-                        confirmation_message += f"• {formatted_name}: {value}\n"
+                        if slot_name == 'arrival_date':
+                            if isinstance(value, list) and len(value) == 2:
+                                confirmation_message += f"• {formatted_name}: {value[0]} to {value[1]}\n"
+                            else:
+                                confirmation_message += f"• {formatted_name}: {value[0] if isinstance(value, list) else value}\n"
+                        else:
+                            confirmation_message += f"• {formatted_name}: {value}\n"
                     dispatcher.utter_message(text=confirmation_message)
                 elif len(modified_slots) == 1:
                     slot_name, value = next(iter(modified_slots.items()))
                     formatted_name = slot_name.replace('_', ' ').title()
-                    dispatcher.utter_message(text=f"I've updated your {formatted_name} to {value}")
+                    if slot_name == 'arrival_date':
+                        if isinstance(value, list) and len(value) == 2:
+                            dispatcher.utter_message(text=f"I've updated your {formatted_name} to {value[0]} to {value[1]}")
+                        else:
+                            dispatcher.utter_message(text=f"I've updated your {formatted_name} to {value[0] if isinstance(value, list) else value}")
+                    else:
+                        dispatcher.utter_message(text=f"I've updated your {formatted_name} to {value}")
                     events.append(FollowupAction("utter_ask_suggest_after_modify"))
 
             # Handle list slot updates
