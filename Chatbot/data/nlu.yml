@@ -740,6 +740,9 @@ nlu:
     - [cairo]{"entity": "state", "value": "Cairo"}
 - intent: share_budget
   examples: |
+    - about [$1500](budget)
+    - My budget is [$1000](budget)
+    - I have [$5000](budget) for the trip
     - my budget is about [1500$](budget)
     - My budget is [$1000](budget)
     - I have [$5000](budget) for the trip
@@ -1245,6 +1248,10 @@ nlu:
     - [3 days](duration)
 - intent: share_arrival_date
   examples: |
+    - I plan to arrive [next month](arrival_date)
+    - [tomorrow](arrival_date)
+    - [yesterday](arrival_date)
+    - [today](arrival_date)
     - i plan to have a trip in the [next week] (arrival_date)
     - I'll arrive on [15th October](arrival_date)
     - My trip starts [next month](arrival_date)

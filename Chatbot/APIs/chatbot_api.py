@@ -96,7 +96,7 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
 # don't forget to change the user_id to int and replace id with conversation_id
 # Reset chat
 
-@app.post("/reset_chat/{conversation_id}")
+@app.delete("/reset_chat/{conversation_id}")
 async def reset_chat(conversation_id: str):
     try:
         reset_payload = {"event": "restart", "timestamp": None}
