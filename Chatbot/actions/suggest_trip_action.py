@@ -4,6 +4,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from config_helper import get_api_urls
 import requests
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -90,23 +91,16 @@ class ActionSuggestTrips(Action):
                 
                 if response.status_code == 200:
                     recommendations = response.json()
-                    
-                    if recommendations:
-                        # Format and send recommendations
-                        message = "Based on your preferences and our conversation, here are some trip suggestions:\n\n"
-                        
-                        for i, trip in enumerate(recommendations, 1):
-                            message += f"{i}. {trip['title']}:\n"
-                            message += f"   • Location: {trip['state']}\n"
-                            message += f"   • Duration: {trip['duration']}\n"
-                            message += f"   • Price: ${trip['price']:.2f}\n"  
-                            message += f"   • Available Seats: {trip['available_seats']}\n"
-                            message += f"   • Date: {trip['date']}\n"
-                            message += f"   • Description: {trip['description']}\n"
-                        
-                        dispatcher.utter_message(text=message)
-                    else:
+                    if not recommendations:
                         dispatcher.utter_message(text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
+                    else:
+                        # Format recommendations as custom data
+                        for trip in recommendations:
+                            custom_data = {
+                                'type': 'trip',
+                                'data': trip
+                            }
+                            dispatcher.utter_message(json_message=custom_data)
                 elif response.status_code == 404:
                     dispatcher.utter_message(text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
                 else:

@@ -227,8 +227,9 @@ class ValidateTripForm(FormValidationAction):
                         if features_msg:
                             city_msg += f"\n   Matches your interests in: {features_msg}"
                         suggested_cities_msg.append(city_msg)
-                    
-                    dispatcher.utter_message(text=f"Here are some suggested cities that may suit you:\n" + "\n\n".join(suggested_cities_msg))
+                    message = "Here are some suggested cities that may suit you: " + "\n".join(suggested_cities_msg)
+                    print(f"Suggested cities: {message}")
+                    dispatcher.utter_message(text=message)
                     dispatcher.utter_message(text="Please choose one of these cities for your trip.")
                     
                     # Store just the city names in the suggested_cities slot
