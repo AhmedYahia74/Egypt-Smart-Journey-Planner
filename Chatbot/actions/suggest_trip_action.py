@@ -94,7 +94,7 @@ class ActionSuggestTrips(Action):
                     recommendations = response.json()
                     if not recommendations:
                         dispatcher.utter_message(
-                            text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
+                            text="I couldn't find any trips matching your preferences")
                     else:
                         # Format recommendations as custom data
                         for trip in recommendations:
@@ -105,7 +105,7 @@ class ActionSuggestTrips(Action):
                             dispatcher.utter_message(json_message=custom_data)
                 elif response.status_code == 404:
                     dispatcher.utter_message(
-                        text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
+                        text="I couldn't find any trips matching your preferences")
                 else:
                     dispatcher.utter_message(
                         text=f"I'm having trouble finding trip recommendations right now. Error: {response.status_code}")
@@ -124,4 +124,6 @@ class ActionSuggestTrips(Action):
         except Exception as e:
             logger.error(f"Error in ActionSuggestTrips: {str(e)}")
             dispatcher.utter_message(text="I'm having trouble processing your request. Please try again.")
-        return [] 
+        
+        # Return action_listen to make the bot listen for user input after dispatching messages
+        return [{"action": "action_listen"}] 
