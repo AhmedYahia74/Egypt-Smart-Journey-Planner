@@ -1,6 +1,5 @@
 package com.rahhal.entity;
 
-import com.rahhal.dto.ReviewDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

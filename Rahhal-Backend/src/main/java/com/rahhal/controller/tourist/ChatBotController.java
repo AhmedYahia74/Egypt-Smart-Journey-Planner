@@ -1,5 +1,10 @@
 package com.rahhal.controller.tourist;
 
+import com.rahhal.entity.Conversation;
+import com.rahhal.entity.Tourist;
+import com.rahhal.repository.ConversationRepository;
+import com.rahhal.repository.MessageRepository;
+import com.rahhal.repository.UserRepository;
 import com.rahhal.service.Impl.FastAPIWebSocketClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +14,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -20,31 +28,24 @@ public class ChatBotController {
     // Map to store connections: key = "userId:conversationId"
     private final Map<String, FastAPIWebSocketClient> clientMap = new ConcurrentHashMap<>();
     private final Map<String, Boolean> connectionStatus = new ConcurrentHashMap<>();
-
+    private final ConversationRepository conversationRepository;
+    private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
     @MessageMapping("/chatbot/send/{userId}/{conversationId}")
     public void handleMessage(@DestinationVariable String userId,
                             @DestinationVariable String conversationId,
                             String message) {
+
+
         String connectionKey = userId + ":" + conversationId;
         
         try {
             log.info("Received message from user: {} in conversation: {}: {}", userId, conversationId, message);
-            
-            // 1. Echo user message to frontend
-            String destination = "/queue/conversation/" + conversationId;
-            log.info("Sending message to destination: {}", destination);
-            messagingTemplate.convertAndSendToUser(
-                    userId,
-                    destination,
-                    message
-            );
-            log.info("Echoed message back to user: {} in conversation: {}", userId, conversationId);
 
-            // 2. Get or create connection for this user/conversation
             FastAPIWebSocketClient client = clientMap.computeIfAbsent(connectionKey, key -> {
                 try {
                     URI fastApiUri = new URI("ws://localhost:8000/ws/" + conversationId);
-                    FastAPIWebSocketClient newClient = new FastAPIWebSocketClient(fastApiUri, userId, conversationId, messagingTemplate);
+                    FastAPIWebSocketClient newClient = new FastAPIWebSocketClient(fastApiUri, userId, conversationId, messagingTemplate, conversationRepository, messageRepository);
                     boolean connected = newClient.connectBlocking();
                     connectionStatus.put(key, connected);
                     if (!connected) {
