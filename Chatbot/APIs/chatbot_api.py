@@ -1,7 +1,10 @@
+import json
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi.responses import HTMLResponse
 import requests
+import json
 from fastapi.middleware.cors import CORSMiddleware
-from config_helper import  get_api_urls
+from config_helper import get_api_urls
 
 app = FastAPI()
 
@@ -12,8 +15,6 @@ RASA_RESET_URL = get_api_urls().get('rasa_reset')
 SUGGEST_PLAN_URL = get_api_urls().get('suggest_plan')
 SUGGEST_HOTELS_URL = get_api_urls().get('suggest_hotels')
 SUGGEST_LANDMARKS_ACTIVITIES_URL = get_api_urls().get('suggest_landmarks_activities')
-
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,11 +27,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 connections = {}
 
+SUGGEST_MSG = "suggest your trip"
 
-SUGGEST_MSG="suggest your trip"
 
 # after finishing testing, set the conversation_id to int and replace every id with conversation_id
 @app.websocket("/ws/{conversation_id}")
@@ -42,8 +42,11 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
         while True:
             data = await websocket.receive_text()
             if data.strip():
-                await websocket.send_text(f"You: {data}")
-                print(f"User {conversation_id} sent: {data}")
+                await websocket.send_json({
+                    "type": "user_message",
+                    "content": json.dumps({"sender": conversation_id, "message": data})
+                })
+
 
                 response = requests.post(RASA_SERVER_URL, json={"sender": conversation_id, "message": data})
 
@@ -51,16 +54,44 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
                     messages = response.json()
 
                     for msg in messages:
-                        text = msg.get("text", "")
-                        await websocket.send_text(f'Rahhal: {text}')
+                        print(f"Bot response to {conversation_id}: {msg}")
+                        if "text" in msg:
+                            text_msg = msg["text"]
+                            await websocket.send_json({
+                                "type": "text",
+                                "content": text_msg
+                            })
+                        if "custom" in msg:
+                            custom_data = msg["custom"]
+                            if custom_data.get("type") == "trip":
+                                await websocket.send_json({
+                                    "type": "suggest_trip",
+                                    "content": custom_data["data"]
+                                })
+                                print(f"Bot response to {conversation_id}: {custom_data['data']}")
+                            elif custom_data.get("type") == "plan":
+                                await websocket.send_json({
+                                    "type": "suggest_plan",
+                                    "content": custom_data["data"]
+                                })
+                                print(f"Bot response to {conversation_id}: {custom_data['data']}")
+
+
                 else:
-                    await websocket.send_text("Rahhal: Error connecting to the server.")
+                    await websocket.send_json({
+                        "type": "error",
+                        "content": "Error connecting to the server."
+                    })
     except WebSocketDisconnect:
         print(f"User {conversation_id} disconnected.")
         connections.pop(conversation_id, None)
     except Exception as e:
-        await websocket.send_text(f"Rahhal: An error occurred - {str(e)}")
+        await websocket.send_json({
+            "type": "error",
+            "content": f"An error occurred - {str(e)}"
+        })
         await websocket.close()
+
 
 # don't forget to change the user_id to int and replace id with conversation_id
 # Reset chat
@@ -78,6 +109,8 @@ async def reset_chat(conversation_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 if __name__ == "__main__":
-    import  uvicorn
+    import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
