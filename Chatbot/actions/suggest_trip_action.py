@@ -4,8 +4,10 @@ from rasa_sdk.executor import CollectingDispatcher
 from config_helper import get_api_urls
 import requests
 import logging
+import json
 
 logger = logging.getLogger(__name__)
+
 
 class ActionSuggestTrips(Action):
     def name(self) -> Text:
@@ -15,21 +17,21 @@ class ActionSuggestTrips(Action):
         try:
             # Extract relevant context from the conversation history.
             context = {}
-            
+
             # Get all events from the conversation
             events = tracker.events
-            
+
             # Extract user messages and their intents
             for event in events:
                 if event.get('event') == 'user':
                     # Get the intent
                     intent = event.get('parse_data', {}).get('intent', {}).get('name')
-                    
+
                     # Get the text
                     text = event.get('text', '')
 
                     # Store based on intent
-                    if intent =='request_trip':
+                    if intent == 'request_trip':
                         context['request_trip'] = text
                     elif intent == 'share_state':
                         context['state'] = text
@@ -58,7 +60,7 @@ class ActionSuggestTrips(Action):
             "state": tracker.get_slot("state"),
             "arrival_date": tracker.get_slot("arrival_date")
         }
-        
+
         # Remove Null values
         return {k: v for k, v in preferences.items() if v is not None}
 
@@ -73,10 +75,10 @@ class ActionSuggestTrips(Action):
                 "state": tracker.get_slot("state"),
                 "arrival_date": tracker.get_slot("arrival_date")
             }
-            
+
             # Get user messages from conversation context
             user_messages = self._extract_conversation_context(tracker)
-            
+
             try:
                 url = f"{get_api_urls()['base_url']}/trips/recommend"
                 response = requests.post(
@@ -87,39 +89,38 @@ class ActionSuggestTrips(Action):
                     },
                     timeout=30  # Add a 30-second timeout
                 )
-                
+
                 if response.status_code == 200:
                     recommendations = response.json()
-                    
-                    if recommendations:
-                        # Format and send recommendations
-                        message = "Based on your preferences and our conversation, here are some trip suggestions:\n\n"
-                        
-                        for i, trip in enumerate(recommendations, 1):
-                            message += f"{i}. {trip['title']}:\n"
-                            message += f"   • Location: {trip['state']}\n"
-                            message += f"   • Duration: {trip['duration']}\n"
-                            message += f"   • Price: ${trip['price']:.2f}\n"  
-                            message += f"   • Available Seats: {trip['available_seats']}\n"
-                            message += f"   • Date: {trip['date']}\n"
-                            message += f"   • Description: {trip['description']}\n"
-                        
-                        dispatcher.utter_message(text=message)
+                    if not recommendations:
+                        dispatcher.utter_message(
+                            text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
                     else:
-                        dispatcher.utter_message(text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
+                        # Format recommendations as custom data
+                        for trip in recommendations:
+                            custom_data = {
+                                'type': 'trip',
+                                'data': trip
+                            }
+                            dispatcher.utter_message(json_message=custom_data)
                 elif response.status_code == 404:
-                    dispatcher.utter_message(text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
+                    dispatcher.utter_message(
+                        text="I couldn't find any trips matching your preferences. Would you like to try different preferences?")
                 else:
-                    dispatcher.utter_message(text=f"I'm having trouble finding trip recommendations right now. Error: {response.status_code}")
+                    dispatcher.utter_message(
+                        text=f"I'm having trouble finding trip recommendations right now. Error: {response.status_code}")
             except requests.Timeout:
                 logger.error("Request timed out while getting trip recommendations")
-                dispatcher.utter_message(text="I'm taking longer than expected to find trip recommendations. Please try again in a moment.")
+                dispatcher.utter_message(
+                    text="I'm taking longer than expected to find trip recommendations. Please try again in a moment.")
             except requests.RequestException as e:
                 logger.error(f"Request error while getting trip recommendations: {str(e)}")
-                dispatcher.utter_message(text="I'm having trouble connecting to our trip database. Please try again in a moment.")
+                dispatcher.utter_message(
+                    text="I'm having trouble connecting to our trip database. Please try again in a moment.")
             except Exception as e:
                 logger.error(f"Unexpected error while getting trip recommendations: {str(e)}")
-                dispatcher.utter_message(text="Something went wrong while getting trip recommendations. Please try again.")
+                dispatcher.utter_message(
+                    text="Something went wrong while getting trip recommendations. Please try again.")
         except Exception as e:
             logger.error(f"Error in ActionSuggestTrips: {str(e)}")
             dispatcher.utter_message(text="I'm having trouble processing your request. Please try again.")

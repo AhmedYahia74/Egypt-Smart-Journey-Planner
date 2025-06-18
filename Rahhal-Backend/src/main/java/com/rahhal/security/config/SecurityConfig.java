@@ -35,17 +35,6 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    private static final String[] AUTH_WHITELIST = {
-            "api/auth/**"
-    };
-    private static final String[] AUTH_ADMIN = {
-    };
-    private static final String[] AUTH_TOURIST = {
-
-    };
-    private static final String[] AUTH_COMPANY = {
-    };
-
     @Bean
     JwtAuthenticationFilter authenticationJwtTokenFilter() {
         return new JwtAuthenticationFilter(jwtService, userDetailsService);
@@ -54,14 +43,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(AUTH_ADMIN).hasRole("ADMIN")  // Only admins can access admin routes
-                        .requestMatchers(AUTH_TOURIST).hasRole("TOURIST")  // Only tourists can access tourist routes
-                        .requestMatchers(AUTH_COMPANY).hasRole("COMPANY")  // Only companies can access company routes
-                        .anyRequest().authenticated()
-                );
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
