@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 DB_Prams = get_db_params()
 
+
 @contextmanager
 def get_db_connection():
     conn = None
@@ -33,6 +34,7 @@ def get_db_connection():
         if conn:
             conn.close()
 
+
 def fetch_cities_from_database():
     # Fetch cities from a database
     try:
@@ -43,6 +45,7 @@ def fetch_cities_from_database():
     except Exception as e:
         logger.error(f"Error fetching cities: {str(e)}")
         return []
+
 
 CITIES_NAMES = fetch_cities_from_database()
 
@@ -80,8 +83,8 @@ class ValidateTripForm(FormValidationAction):
 
                 # If we have city description but no selected city, and we're awaiting city selection
                 if (tracker.get_slot("city_description") and
-                    not tracker.get_slot("selected_city") and
-                    tracker.get_slot("awaiting_city_selection")):
+                        not tracker.get_slot("selected_city") and
+                        tracker.get_slot("awaiting_city_selection")):
                     required_slots.append("selected_city")
                     return required_slots
                 if (tracker.get_slot("city_description") and
@@ -98,7 +101,8 @@ class ValidateTripForm(FormValidationAction):
                     required_slots.append("arrival_date")
                 if not tracker.get_slot("hotel_features") or tracker.get_slot("requested_slot") == "hotel_features":
                     required_slots.append("hotel_features")
-                if not tracker.get_slot("landmarks_activities") or tracker.get_slot("requested_slot") == "landmarks_activities":
+                if not tracker.get_slot("landmarks_activities") or tracker.get_slot(
+                        "requested_slot") == "landmarks_activities":
                     required_slots.append("landmarks_activities")
 
             return required_slots
@@ -126,7 +130,7 @@ class ValidateTripForm(FormValidationAction):
                         "state": state_value,
                         "requested_slot": "budget"
                     }
-        
+
         # Handle other intents
         if intent == "affirm":
             # Check if there's a city mentioned in the text
@@ -147,7 +151,7 @@ class ValidateTripForm(FormValidationAction):
                 "specify_place": False,
                 "requested_slot": "city_description"
             }
-        
+
         # If we get here, check if there's a city in the text
         for city in CITIES_NAMES:
             if city.lower() in text:
@@ -207,33 +211,34 @@ class ValidateTripForm(FormValidationAction):
                 for feature, alternative in non_egyptian_features.items():
                     if feature.lower() in slot_value.lower():
                         dispatcher.utter_message(f"Note: {alternative}")
-            
+
             cities_url = f"{api_url['base_url']}/cities/recommend"
             response = requests.post(
                 cities_url,
                 json={"city_description": slot_value}
             )
-            
+
             if response.status_code == 200:
                 data = response.json()
                 suggested_cities = data.get("top_cities", [])
-                
+
                 if suggested_cities:
                     # Format the cities for display with their matched features
                     suggested_cities_msg = []
                     for i, city in enumerate(suggested_cities):
                         features_msg = ", ".join([f"{f['name']}" for f in city.get('matched_features', [])])
-                        city_msg = f"{i+1}. {city['name']} - {city['description']}"
+                        city_msg = f"{i + 1}. {city['name']} - {city['description']}"
                         if features_msg:
                             city_msg += f"\n   Matches your interests in: {features_msg}"
                         suggested_cities_msg.append(city_msg)
-                    
-                    dispatcher.utter_message(text=f"Here are some suggested cities that may suit you:\n" + "\n\n".join(suggested_cities_msg))
+                    message = "Here are some suggested cities that may suit you: " + "\n".join(suggested_cities_msg)
+                    print(f"Suggested cities: {message}")
+                    dispatcher.utter_message(text=message)
                     dispatcher.utter_message(text="Please choose one of these cities for your trip.")
-                    
+
                     # Store just the city names in the suggested_cities slot
                     city_names = [city['name'] for city in suggested_cities]
-                    
+
                     # Store the city description and set awaiting_city_selection to true
                     return {
                         "city_description": slot_value,
@@ -242,29 +247,31 @@ class ValidateTripForm(FormValidationAction):
                         "requested_slot": "selected_city"
                     }
                 else:
-                    dispatcher.utter_message("I couldn't find any cities matching your description. Please try describing what you're looking for in terms of historical sites, beaches, desert experiences, or cultural attractions.")
+                    dispatcher.utter_message(
+                        "I couldn't find any cities matching your description. Please try describing what you're looking for in terms of historical sites, beaches, desert experiences, or cultural attractions.")
                     return {"city_description": None}
             else:
-                dispatcher.utter_message("Sorry, I couldn't process your city description. Please try again with a different description.")
+                dispatcher.utter_message(
+                    "Sorry, I couldn't process your city description. Please try again with a different description.")
                 return {"city_description": None}
-            
+
         except Exception as e:
             logger.error(f"Error in validate_city_description: {str(e)}")
             dispatcher.utter_message("I'm having trouble processing your city description. Could you please try again?")
             return {"city_description": None}
 
     def validate_selected_city(self,
-                       slot_value: Any,
-                       dispatcher: CollectingDispatcher,
-                       tracker: Tracker,
-                       domain: Dict[Text, Any]) -> Dict[Text, Any]:
-        
+                               slot_value: Any,
+                               dispatcher: CollectingDispatcher,
+                               tracker: Tracker,
+                               domain: Dict[Text, Any]) -> Dict[Text, Any]:
+
         # Get the city from either the slot value or the latest message
         city = slot_value or tracker.latest_message.get('text', '').strip()
-        
+
         # Get suggested cities
         suggested_cities = tracker.get_slot("suggested_cities") or []
-        
+
         # Check if the user's input matches any of the suggested cities
         for suggested_city in suggested_cities:
             if city.lower() == suggested_city.lower():
@@ -277,7 +284,7 @@ class ValidateTripForm(FormValidationAction):
                     "awaiting_city_selection": False,
                     "requested_slot": "budget"
                 }
-        
+
         # If no match found, ask the user to choose from the suggested cities
         dispatcher.utter_message("Please choose one of the suggested cities.")
         return {"selected_city": None}
@@ -289,11 +296,11 @@ class ValidateTripForm(FormValidationAction):
                        domain: Dict[Text, Any]) -> Dict[Text, Any]:
         # Get the city from either the slot value or the latest message
         city = slot_value or tracker.latest_message.get('text', '').strip()
-        
+
         # Check if we're awaiting city selection
         if tracker.get_slot("awaiting_city_selection"):
             suggested_cities = tracker.get_slot("suggested_cities") or []
-            
+
             # Check if the user's input matches any of the suggested cities
             for suggested_city in suggested_cities:
                 if city.lower() == suggested_city.lower():
@@ -305,11 +312,11 @@ class ValidateTripForm(FormValidationAction):
                         "awaiting_city_selection": False,
                         "requested_slot": "budget"
                     }
-            
+
             # If no match found, ask the user to choose from the suggested cities
             dispatcher.utter_message("Please choose one of the suggested cities.")
             return {"state": None}
-        
+
         # If not awaiting selection, check if the city is in our list of valid cities
         if city.lower() in [city.lower() for city in CITIES_NAMES]:
             user_messages = tracker.get_slot("user_message") or {}
@@ -434,7 +441,7 @@ class ValidateTripForm(FormValidationAction):
             if duration_days <= 0:
                 dispatcher.utter_message("Please enter a valid duration greater than zero.")
                 return {"duration": None}
-            
+
             if duration_days > 365:  # Add a reasonable upper limit
                 dispatcher.utter_message("Please enter a duration of one year or less.")
                 return {"duration": None}
@@ -442,7 +449,7 @@ class ValidateTripForm(FormValidationAction):
             # Store the user message
             user_message = tracker.get_slot("user_message") or {}
             user_message["duration"] = tracker.latest_message.get('text', '')
-            
+
             return {
                 "duration": duration_days,
                 "user_message": user_message
@@ -691,7 +698,6 @@ class ValidateTripForm(FormValidationAction):
             SlotSet("requested_slot", None),
             ActiveLoop(None),
         ]
-
 
 
 
