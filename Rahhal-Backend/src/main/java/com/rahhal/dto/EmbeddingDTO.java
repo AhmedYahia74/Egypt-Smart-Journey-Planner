@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 public class EmbeddingDTO {
-    private String embeddingData;
+    private String text;
 }

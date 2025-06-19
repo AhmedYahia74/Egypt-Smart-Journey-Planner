@@ -69,7 +69,7 @@ public class TripServiceImpl implements TripService {
                 .build();
 
         EmbeddingDTO embeddingDTO = EmbeddingDTO.builder()
-                .embeddingData(tripDto.getDescription())
+                .text(tripDto.getDescription())
                 .build();
 
         var response=webClient.post()
