@@ -75,8 +75,8 @@ public class StripeServiceImpl implements StripeService {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("https://Rahhal/success?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl("https://Rahhal/cancel")
+                .setSuccessUrl("http://localhost:8088/api/webhooks/stripe/success-alt?session_id={CHECKOUT_SESSION_ID}&trip_id=" + bookingRequest.getTrip().getTripId() + "&tourist_id=" + bookingRequest.getTourist().getUserId() + "&tickets=" + quantity)
+                .setCancelUrl("http://localhost:8088/api/webhooks/stripe/cancel")
                 .setCustomerEmail(bookingRequest.getTourist().getEmail())
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()

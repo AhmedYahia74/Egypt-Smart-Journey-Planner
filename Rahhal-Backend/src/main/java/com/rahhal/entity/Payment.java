@@ -29,12 +29,15 @@ public class Payment {
 
     private int amount;
 
-    private LocalDateTime paymentDate;
+    @Column(name = "session_id", unique = true)
+    private String sessionId;
+
+    private LocalDateTime date;
 
     @PrePersist
     private void prePersist() {
-        if (paymentDate == null) {
-            paymentDate = LocalDateTime.now();
+        if (date == null) {
+            date = LocalDateTime.now();
         }
     }
 

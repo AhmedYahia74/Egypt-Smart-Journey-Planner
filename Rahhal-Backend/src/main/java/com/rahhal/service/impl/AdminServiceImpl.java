@@ -14,87 +14,89 @@ import com.rahhal.repository.CompanyProfileRepository;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
-import com.rahhal.service.StripeService;
-import com.stripe.exception.StripeException;
 import com.stripe.model.AccountLink;
-import com.stripe.param.AccountLinkCreateParams;
-import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-   private final CompanyRepository companyRepository;
-   private final CompanyMapper companyMapper;
-   private final UserRepository userRepository;
-   private final UserMapper userMapper;
-   private final CompanyProfileRepository companyProfileRepository;
-   private final CompanyProfileMapper companyProfileMapper;
-   private final StripeService stripeService;
-   private final PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
+    private final CompanyMapper companyMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final CompanyProfileRepository companyProfileRepository;
+    private final CompanyProfileMapper companyProfileMapper;
+    private final PasswordEncoder passwordEncoder;
+
+
+    public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper, CompanyProfileRepository companyProfileRepository, CompanyProfileMapper companyProfileMapper, PasswordEncoder passwordEncoder) {
+        this.companyRepository = companyRepository;
+        this.companyMapper = companyMapper;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.companyProfileRepository = companyProfileRepository;
+        this.companyProfileMapper = companyProfileMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
-    public AccountLink addNewCompany(CompanyDto companyDto) throws StripeException {
+    public AccountLink addNewCompany(CompanyDto companyDto) {
 
 
         Company company = companyMapper.mapToEntity(companyDto);
 
-        userRepository.findByEmail(company.getEmail())
+        companyRepository.findByEmail(company.getEmail())
                 .ifPresent(user ->
                 {
                     throw new EntityAlreadyExistsException("User with email " + user.getEmail() + " already exists");
                 });
 
-        if (companyRepository.existsByName(company.getName()))
-            throw new EntityAlreadyExistsException("Company with name " + company.getName() + " already exists");
+        if(companyRepository.existsByName(company.getName()))
+            throw new EntityAlreadyExistsException("User with name " + company.getName() + " already exists");
+
 
         company.setPassword(passwordEncoder.encode(company.getPassword()));
         companyRepository.save(company);
 
-        // Create Stripe account for the company
-        AccountLinkCreateParams accountLinkCreateParams = stripeService.createCompanyAccount(company.getEmail());
+        CompanyProfile companyProfile = companyProfileMapper.mapToEntity(companyDto,company);
 
-        // Save the Stripe account ID in the CompanyDto
-        companyDto.setStripeAccountId(accountLinkCreateParams.getAccount());
-        CompanyProfile companyProfile = companyProfileMapper.mapToEntity(companyDto, company);
         companyProfileRepository.save(companyProfile);
 
-        return AccountLink.create(accountLinkCreateParams);
-
+        return null;
     }
 
     @Override
-    public void deleteAccount(int id) throws StripeException {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
-
-        if (user instanceof Company) {
-            CompanyProfile companyProfile = companyProfileRepository.findByCompany((Company) user);
-
-            stripeService.deleteAccount(companyProfile.getStripeAccountId());
-
-            companyProfileRepository.delete(companyProfile);
-
-        }
+    public void deleteAccount(int id) {
+        User user= userRepository.findById(id)
+                .orElseThrow(() ->  new  EntityNotFoundException("Account not found"));
 
         userRepository.delete(user);
     }
 
     @Override
     public List<UserDto> viewAllAccounts() {
-        List<User> users = userRepository.findAll();
-        return userMapper.mapToEntity(users);
+        List<User> users=userRepository.findAll();
+        List<UserDto> userDtos= userMapper.mapToEntity(users);
+        return userDtos;
     }
 
     @Override
     public void reactivateCompanyAccount(int companyId) {
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-        company.setSuspended(false);
+        User user=userRepository.findById(companyId)
+                .orElseThrow(()-> new EntityNotFoundException("user not found"));
+
+        if(user instanceof Company)
+        {
+            user.setSuspended(false);
+            ((Company) user).setSubscriptionExpireDate(LocalDateTime.now().plusYears(1));
+            userRepository.save(user);
+        }
+        else
+            throw new EntityNotFoundException("This account not for company");
     }
 
     @Override
