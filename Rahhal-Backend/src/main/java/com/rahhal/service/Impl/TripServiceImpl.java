@@ -4,11 +4,7 @@ import com.rahhal.dto.EmbeddingDTO;
 import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
-import com.rahhal.entity.User;
-import com.rahhal.exception.CompanyHasNoInactiveTripsExeption;
-import com.rahhal.exception.EntityNotFoundException;
-import com.rahhal.exception.TripAlreadyActivatedException;
-import com.rahhal.exception.TripModificationNotAllowedException;
+import com.rahhal.exception.*;
 import com.rahhal.mapper.TripMapper;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.TripRepository;
@@ -23,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.reactive.function.client.WebClient;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,6 +57,10 @@ public class TripServiceImpl implements TripService {
 
         Company company = companyRepository
                 .findById(userId).orElseThrow(() -> new EntityNotFoundException("Company not found"));
+
+        if (tripDto.getDate().isBefore(LocalDateTime.now())) {
+            throw new InvalidTripDateException("Trip date can't be in the past.");
+        }
 
         Trip trip = tripMapper.mapToEntity(tripDto, company);
 

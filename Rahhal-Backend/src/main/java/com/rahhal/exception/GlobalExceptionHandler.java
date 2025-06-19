@@ -241,4 +241,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, ErrorCode.INTERNAL_SERVER_ERROR.getStatus());
     }
 
+
+    @ExceptionHandler(InvalidTripDateException.class)
+    public ResponseEntity<ErrorResponseDTO> InvalidTripDateException(
+            InvalidTripDateException ex,HttpServletRequest request)
+    {
+        log.error("Invalid Trip Date: {}",ex.getMessage(),ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.Invalid_TripDate_Exception.getStatus().value())
+                .error(ErrorCode.Invalid_TripDate_Exception.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.Invalid_TripDate_Exception.getStatus()).body(error);
+
+    }
 }
