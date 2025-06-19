@@ -1,26 +1,28 @@
 package com.rahhal.service.Impl;
 
+import com.rahhal.dto.EmbeddingDTO;
 import com.rahhal.dto.TripDto;
 import com.rahhal.entity.Company;
 import com.rahhal.entity.Trip;
-import com.rahhal.entity.User;
-import com.rahhal.exception.CompanyHasNoInactiveTripsExeption;
-import com.rahhal.exception.EntityNotFoundException;
-import com.rahhal.exception.TripAlreadyActivatedException;
-import com.rahhal.exception.TripModificationNotAllowedException;
+import com.rahhal.exception.*;
 import com.rahhal.mapper.TripMapper;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.TripService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import com.rahhal.service.EmailService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.security.access.AccessDeniedException;
-
+import org.springframework.web.reactive.function.client.WebClient;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -56,7 +58,35 @@ public class TripServiceImpl implements TripService {
         Company company = companyRepository
                 .findById(userId).orElseThrow(() -> new EntityNotFoundException("Company not found"));
 
+        if (tripDto.getDate().isBefore(LocalDateTime.now())) {
+            throw new InvalidTripDateException("Trip date can't be in the past.");
+        }
+
         Trip trip = tripMapper.mapToEntity(tripDto, company);
+
+        WebClient webClient = WebClient.builder()
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        EmbeddingDTO embeddingDTO = EmbeddingDTO.builder()
+                .text(tripDto.getDescription())
+                .build();
+
+        var response=webClient.post()
+                .uri("http://localhost:8001/api/embeddings/text")
+                .bodyValue(embeddingDTO)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .block();
+
+        List<Double> embeddingRaw = (List<Double>) response.get("embedding");
+
+        List<Float> embedding = embeddingRaw.stream()
+                .map(Double::floatValue)
+                .collect(Collectors.toList());
+
+        trip.setEmbedding(embedding);
+
 
         tripRepository.save(trip);
     }
