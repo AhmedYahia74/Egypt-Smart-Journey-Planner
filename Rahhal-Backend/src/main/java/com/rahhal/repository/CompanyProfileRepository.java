@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, Integer> {
     CompanyProfile findByCompany(Company user);
@@ -14,4 +16,5 @@ public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, 
     @Query("SELECT c.stripeAccountId FROM CompanyProfile c WHERE c.company = :company")
     String findStripeAccountIdByCompany(@Param("company") Company company);
 
+    Optional<CompanyProfile> findByName(String name);
 }

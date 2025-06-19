@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users")
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
@@ -37,13 +37,11 @@ public abstract class User implements UserDetails {
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;
 
-
     @Column(name = "suspended")
     private boolean suspended;
 
     @Column(name = "suspended_time")
     private LocalDateTime suspendedAt;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,8 +54,22 @@ public abstract class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return !suspended;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !suspended;
+    }
 }

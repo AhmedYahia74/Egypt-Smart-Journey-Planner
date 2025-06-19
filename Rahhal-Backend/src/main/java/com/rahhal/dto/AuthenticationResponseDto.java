@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class AuthenticationResponseDto {
     @NotNull
-    private String accessToken;
+    private String authToken;
     @NotNull
     private int userId;
 }

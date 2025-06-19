@@ -224,6 +224,22 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(EmailSendingException.class)
+    public ResponseEntity<ErrorResponseDTO> handleEmailSendingException(
+            EmailSendingException ex, HttpServletRequest request) {
+        log.error("Email Sending Error: {}", ex.getMessage(), ex);
+
+        ErrorResponseDTO error = ErrorResponseDTO.builder()
+                .timestamp(LocalDateTime.now())
+                .status(ErrorCode.EMAIL_SENDING_ERROR.getStatus().value())
+                .error(ErrorCode.EMAIL_SENDING_ERROR.getStatus().getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(error, ErrorCode.EMAIL_SENDING_ERROR.getStatus());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGlobalException(
             Exception ex, HttpServletRequest request) {

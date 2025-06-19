@@ -1,111 +1,107 @@
 version: "3.1"
 
 rules:
-- rule: Clear chat session
+- rule: Handle clear chat
   steps:
   - intent: clear_chat
   - action: action_clear_chat
+  - action: action_listen
 
-- rule: Greet the user anytime the user says hello
+- rule: Handle greet
   steps:
   - intent: greet
   - action: utter_greet
+  - action: action_listen
 
-- rule: Say goodbye anytime the user says goodbye
+- rule: Handle goodbye
   steps:
   - intent: goodbye
   - action: utter_goodbye
+  - action: action_listen
 
-- rule: When the user is out of scope
+- rule: Handle out of scope
   steps:
   - intent: out_of_scope
   - action: utter_out_of_scope
+  - action: action_listen
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: Handle bot challenge
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+  - action: action_listen
 
-- rule: When the user say thankyou
+- rule: Handle thank you
   steps:
   - intent: thankyou
   - action: utter_thankyou
+  - action: action_listen
 
-#rule for describing the trip form
 - rule: Activate trip_form
   steps:
   - intent: request_trip
-  - action: action_store_user_messages
   - action: trip_form
   - active_loop: trip_form
 
-- rule: Fetch Suggestions
+- rule: Handle form interruption
   condition:
   - active_loop: trip_form
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  - action: trip_form
+  - active_loop: trip_form
+
+- rule: Handle ask for trip suggestions after form
+  condition:
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - slot_was_set:
+    - update_list_slots: null
+  - slot_was_set:
+    - modify_field: null
+  steps:
+  - intent: ask_suggest_trip
+  - action: action_suggest_trips
+  - action: action_listen
+
+- rule: Handle modify preference
+  condition:
+  - active_loop: null
+  steps:
+  - intent: modify_preference
+  - action: action_modify_preference
+  - action: utter_ask_suggest_after_modify
+  - action: action_listen
+
+- rule: Suggest plan if user says yes after modify
+  steps:
+  - action: utter_ask_suggest_after_modify
+  - intent: affirm
+  - action: action_suggest_plan
+
+- rule: Ask if user wants anything else if user says no after modify
+  steps:
+  - action: utter_ask_suggest_after_modify
+  - intent: deny
+  - action: utter_anything_else
+
+- rule: Handle form completion and suggest plan
+  condition:
+  - active_loop: trip_form
+  - slot_was_set:
+    - requested_slot: null
   steps:
   - action: trip_form
   - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - action: utter_edit_preference_or_suggest_trip
 
-- rule: Interruption in trip form
+- rule: Reset plan_suggested slot
   condition:
-    - active_loop: trip_form
-  steps:
-    - intent: bot_challenge
-    - action: utter_iamabot
-    - action: trip_form
-    - active_loop: trip_form
-
-- rule: User wants to restart the conversation
-  steps:
-  - intent: restart
-  - action: action_restart
-
-- rule: Handle city selection from buttons
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: inform
-    entities:
-    - state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle selected city from suggestions
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: inform
-    entities:
-    - state
   - slot_was_set:
-    - selected_city: state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle affirm with state
-  condition:
-    - active_loop: trip_form
+    - plan_suggested
   steps:
-  - intent: affirm
-    entities:
-    - state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
-
-- rule: Handle inform with state
-  condition:
-    - active_loop: trip_form
-  steps:
-  - intent: inform
-    entities:
-    - state
-  - action: validate_trip_form
-  - action: trip_form
-  - active_loop: trip_form
+  - action: action_clear_plan_suggested_slot

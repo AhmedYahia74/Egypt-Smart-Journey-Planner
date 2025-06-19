@@ -19,6 +19,40 @@ nlu:
     - what's up
     - hey!
     - hiya
+    - yo
+    - hi bot
+    - hi assistant
+    - hello, can you help me?
+    - hi, I need some help
+    - hey, are you there?
+    - good day
+    - hi, travel planner
+    - hello, I want to plan a trip
+    - hi, can you assist me?
+    - hey, I need to book a trip
+    - hi, I want to go somewhere
+    - hello, I have a question
+    - hi, can you recommend something?
+    - hey, I need travel advice
+    - hi, can you suggest a destination?
+    - hello, I want to start planning
+    - hi, I want to explore Egypt
+    - hey, let's plan a vacation
+    - hi, can you help me with my journey?
+    - hello, I want to organize a trip
+    - hi, I need a travel suggestion
+    - hey, can you help me plan?
+    - hello, I want to visit Egypt
+    - hi, I want to discover new places
+    - hey, I want to travel
+    - hi, can you help me with my itinerary?
+    - hello, I want to go on an adventure
+    - hi, can you help me find a hotel?
+    - hey, I want to see some landmarks
+    - hi, can you help me with activities?
+    - hello, I want to know about Egypt
+    - hi, can you help me with my vacation?
+    - hey, I want to know more about Egypt
 - intent: goodbye
   examples: |
     - cu
@@ -46,6 +80,31 @@ nlu:
     - bye for now
     - see you
     - later alligator
+    - thanks, that's all I need
+    - I'm done, thank you
+    - that's it for now
+    - talk to you later
+    - I'll be back
+    - I'll come back if I need more help
+    - thanks for your help, bye
+    - I appreciate your help, goodbye
+    - that's all, see you
+    - thanks, see you next time
+    - I'll plan more later, bye
+    - I'll check back later
+    - thanks, I'm leaving now
+    - I have to go, bye
+    - that's enough for today
+    - I'll continue planning later
+    - see you, travel planner
+    - goodbye, assistant
+    - thanks for the suggestions, bye
+    - I'll book later, bye
+    - I'll finish this later, goodbye
+    - see you, have a great day
+    - thanks, have a nice day
+    - I'm signing off
+    - I'm logging out
 - intent: affirm
   examples: |
     - yes
@@ -84,6 +143,53 @@ nlu:
     - yes, I want to go to [Marsa Alam](state)
     - yes, I would like to visit [El Gouna](state)
     - yes, I want to go to [Siwa Oasis](state)
+    - that's perfect
+    - that's exactly what I want
+    - that's what I meant
+    - that's what I was looking for
+    - that's what I need
+    - that's what I had in mind
+    - that's what I was thinking
+    - that's what I was hoping for
+    - that's what I was planning
+    - that's what I was considering
+    - that's what I was imagining
+    - that's what I was dreaming of
+    - that's what I was wishing for
+    - that's what I was desiring
+    - yes, that's correct
+    - yes, that's right
+    - yes, that's true
+    - yes, please continue
+    - yes, go ahead
+    - yes, proceed
+    - yes, that's fine
+    - yes, that's okay
+    - yes, that's good
+    - yes, that's great
+    - yes, that's awesome
+    - yes, that's amazing
+    - yes, that's wonderful
+    - yes, that's fantastic
+    - yes, that's excellent
+    - yes, that's perfect
+    - yes, that's exactly it
+    - yes, that's exactly right
+    - yes, that's exactly correct
+    - yes, that's exactly true
+    - yes, that's exactly what I want
+    - yes, that's exactly what I need
+    - yes, that's exactly what I was looking for
+    - yes, that's exactly what I was thinking
+    - yes, that's exactly what I was hoping for
+    - yes, that's exactly what I was planning
+    - yes, that's exactly what I was considering
+    - yes, that's exactly what I was imagining
+    - yes, that's exactly what I was dreaming of
+    - yes, that's exactly what I was wishing for
+    - yes, that's exactly what I was desiring
+    - yes, i want to go to [cairo]{"entity": "state", "value": "Cairo"}
+    - yes, [Cairo](state)
 - intent: deny
   examples: |
     - no
@@ -109,6 +215,53 @@ nlu:
     - I decline
     - I don't know
     - I'm not sure
+    - that's not what I want
+    - that's not correct
+    - that's not right
+    - that's not true
+    - that's not what I meant
+    - that's not what I was looking for
+    - that's not what I need
+    - that's not what I had in mind
+    - that's not what I was thinking
+    - that's not what I was hoping for
+    - that's not what I was planning
+    - that's not what I was considering
+    - that's not what I was imagining
+    - that's not what I was dreaming of
+    - that's not what I was wishing for
+    - that's not what I was desiring
+    - no, that's not correct
+    - no, that's not right
+    - no, that's not true
+    - no, that's not what I want
+    - no, that's not what I need
+    - no, that's not what I was looking for
+    - no, that's not what I was thinking
+    - no, that's not what I was hoping for
+    - no, that's not what I was planning
+    - no, that's not what I was considering
+    - no, that's not what I was imagining
+    - no, that's not what I was dreaming of
+    - no, that's not what I was wishing for
+    - no, that's not what I was desiring
+    - no, please try again
+    - no, that's not it
+    - no, that's not right at all
+    - no, that's not even close
+    - no, that's not what I meant at all
+    - no, that's not what I was talking about
+    - no, that's not what I was referring to
+    - no, that's not what I was asking for
+    - no, that's not what I was expecting
+    - no, that's not what I was hoping to hear
+    - no, that's not what I was looking to get
+    - no, that's not what I was planning to do
+    - no, that's not what I was considering doing
+    - no, that's not what I was imagining doing
+    - no, that's not what I was dreaming of doing
+    - no, that's not what I was wishing for doing
+    - no, that's not what I was desiring to do
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -132,6 +285,40 @@ nlu:
     - are you a software?
     - are you a script?
     - are you a real person?
+    - are you a travel bot?
+    - are you a travel assistant?
+    - are you a real travel agent?
+    - are you a real travel planner?
+    - are you a real assistant?
+    - are you a real human or a bot?
+    - are you a real person or a machine?
+    - are you a real person or a program?
+    - are you a real person or a robot?
+    - are you a real person or an algorithm?
+    - are you a real person or a virtual assistant?
+    - are you a real person or a digital assistant?
+    - are you a real person or a software?
+    - are you a real person or a script?
+    - are you a real person or an AI?
+    - are you a real person or a chatbot?
+    - are you a real person or an automated system?
+    - are you a real person or an artificial intelligence?
+    - are you a real person or an artificial being?
+    - are you a real person or an artificial entity?
+    - are you a real person or an artificial agent?
+    - are you a real person or an artificial assistant?
+    - are you a real person or an artificial travel planner?
+    - are you a real person or an artificial travel assistant?
+    - are you a real person or an artificial travel agent?
+    - are you a real person or an artificial travel bot?
+    - are you a real person or an artificial travel program?
+    - are you a real person or an artificial travel script?
+    - are you a real person or an artificial travel software?
+    - are you a real person or an artificial travel system?
+    - are you a real person or an artificial travel entity?
+    - are you a real person or an artificial travel being?
+    - are you a real person or an artificial travel intelligence?
+    - are you a real person or an artificial travel algorithm?
 - intent: thankyou
   examples: |
     - thanks
@@ -145,7 +332,7 @@ nlu:
     - thanks a ton
     - thanks so much
     - I appreciate it
-    - I’m grateful
+    - I'm grateful
     - many thanks
     - thank you kindly
     - I can't thank you enough
@@ -153,6 +340,110 @@ nlu:
     - you're the best
     - thanks for your help
     - thanks for your time
+    - thanks for the information
+    - thanks for the advice
+    - thanks for the suggestions
+    - thanks for the recommendations
+    - thanks for the tips
+    - thanks for the help
+    - thanks for the support
+    - thanks for the guidance
+    - thanks for the assistance
+    - thanks for the travel advice
+    - thanks for helping me plan
+    - thanks for helping with my trip
+    - thanks for helping with my vacation
+    - thanks for helping with my journey
+    - thanks for helping with my itinerary
+    - thanks for helping with my travel plans
+    - thanks for helping with my travel arrangements
+    - thanks for helping with my travel booking
+    - thanks for helping with my travel reservation
+    - thanks for helping with my travel schedule
+    - thanks for helping with my travel organization
+    - thanks for helping with my travel preparation
+    - thanks for helping with my travel planning
+    - thanks for helping with my travel setup
+    - thanks for helping with my travel coordination
+    - thanks for helping with my travel management
+    - thanks for helping with my travel logistics
+    - thanks for helping with my travel details
+    - thanks for helping with my travel needs
+    - thanks for helping with my travel requirements
+    - thanks for helping with my travel preferences
+    - thanks for helping with my travel options
+    - thanks for helping with my travel choices
+    - thanks for helping with my travel decisions
+    - thanks for helping with my travel questions
+    - thanks for helping with my travel concerns
+    - thanks for helping with my travel issues
+    - thanks for helping with my travel problems
+    - thanks for helping with my travel challenges
+    - thanks for helping with my travel difficulties
+    - thanks for helping with my travel obstacles
+    - thanks for helping with my travel complications
+    - thanks for helping with my travel troubles
+    - thanks for helping with my travel worries
+    - thanks for helping with my travel anxieties
+    - thanks for helping with my travel fears
+    - thanks for helping with my travel doubts
+    - thanks for helping with my travel uncertainties
+    - thanks for helping with my travel hesitations
+    - thanks for helping with my travel reservations
+    - thanks for helping with my travel apprehensions
+    - thanks for helping with my travel misgivings
+    - thanks for helping with my travel qualms
+    - thanks for helping with my travel uneasiness
+    - thanks for helping with my travel discomfort
+    - thanks for helping with my travel awkwardness
+    - thanks for helping with my travel embarrassment
+    - thanks for helping with my travel confusion
+    - thanks for helping with my travel bewilderment
+    - thanks for helping with my travel puzzlement
+    - thanks for helping with my travel perplexity
+    - thanks for helping with my travel uncertainty
+    - thanks for helping with my travel doubt
+    - thanks for helping with my travel indecision
+    - thanks for helping with my travel vacillation
+    - thanks for helping with my travel wavering
+    - thanks for helping with my travel irresolution
+    - thanks for helping with my travel indecisiveness
+    - thanks for helping with my travel tentativeness
+    - thanks for helping with my travel timidity
+    - thanks for helping with my travel shyness
+    - thanks for helping with my travel bashfulness
+    - thanks for helping with my travel reticence
+    - thanks for helping with my travel reserve
+    - thanks for helping with my travel restraint
+    - thanks for helping with my travel self-consciousness
+    - thanks for helping with my travel diffidence
+    - thanks for helping with my travel modesty
+    - thanks for helping with my travel humility
+    - thanks for helping with my travel humbleness
+    - thanks for helping with my travel meekness
+    - thanks for helping with my travel submissiveness
+    - thanks for helping with my travel docility
+    - thanks for helping with my travel compliance
+    - thanks for helping with my travel obedience
+    - thanks for helping with my travel subservience
+    - thanks for helping with my travel servility
+    - thanks for helping with my travel slavishness
+    - thanks for helping with my travel obsequiousness
+    - thanks for helping with my travel sycophancy
+    - thanks for helping with my travel toadyism
+    - thanks for helping with my travel fawning
+    - thanks for helping with my travel bootlicking
+    - thanks for helping with my travel brown-nosing
+    - thanks for helping with my travel apple-polishing
+    - thanks for helping with my travel ass-kissing
+    - thanks for helping with my travel suck-up
+    - thanks for helping with my travel flatterer
+    - thanks for helping with my travel sycophant
+    - thanks for helping with my travel toady
+    - thanks for helping with my travel bootlicker
+    - thanks for helping with my travel brown-noser
+    - thanks for helping with my travel apple-polisher
+    - thanks for helping with my travel ass-kisser
 - intent: out_of_scope
   examples: |
     - That's not what I asked
@@ -167,7 +458,6 @@ nlu:
     - I already told you that
     - I don't want to tell you that
     - none of your business
-    - that's not right
     - stop asking
     - never mind
     - I want to do something else
@@ -187,64 +477,197 @@ nlu:
     - this is not what I was dreaming of
     - this is not what I was wishing for
     - this is not what I was desiring
+    - can you tell me a joke?
+    - what's your favorite color?
+    - who is the president?
+    - what's the capital of France?
+    - can you sing a song?
+    - do you like pizza?
+    - what's 2+2?
+    - can you dance?
+    - tell me a story
+    - what's your name?
+    - do you have feelings?
+    - are you married?
+    - do you have a family?
+    - what's your favorite movie?
+    - can you play music?
+    - what's your favorite food?
+    - do you sleep?
+    - can you drive a car?
+    - what's your favorite place?
+    - do you have a pet?
+    - can you cook?
+    - what's your favorite book?
+    - do you watch TV?
+    - can you swim?
+    - what's your favorite animal?
+    - do you play sports?
+    - can you paint?
+    - what's your favorite hobby?
+    - do you have friends?
+    - can you fly?
+    - what's your favorite song?
+    - do you have a job?
+    - can you run?
+    - what's your favorite season?
+    - do you like to travel?
+    - can you write poetry?
+    - what's your favorite holiday?
+    - do you like art?
+    - can you solve math problems?
+    - what's your favorite subject?
+    - do you like science?
+    - can you speak other languages?
+    - what's your favorite language?
+    - do you like history?
+    - can you tell me a secret?
+    - what's your favorite sport?
+    - do you like music?
+    - can you tell me a riddle?
+    - what's your favorite game?
+    - do you like games?
+    - can you tell me a fun fact?
+    - what's your favorite TV show?
+    - do you like movies?
+    - can you tell me a joke about cats?
+    - what's your favorite drink?
+    - do you like coffee?
+    - can you tell me a joke about dogs?
+    - what's your favorite dessert?
+    - do you like chocolate?
+    - can you tell me a joke about travel?
+    - what's your favorite city?
+    - do you like cities?
+    - can you tell me a joke about Egypt?
+    - what's your favorite Egyptian food?
+    - do you like Egyptian food?
+    - can you tell me a joke about pyramids?
+    - what's your favorite pyramid?
+    - do you like pyramids?
+    - can you tell me a joke about camels?
+    - what's your favorite animal in Egypt?
+    - do you like camels?
+    - can you tell me a joke about the Nile?
+    - what's your favorite river?
+    - do you like rivers?
+    - can you tell me a joke about the desert?
+    - what's your favorite desert?
+    - do you like deserts?
+    - can you tell me a joke about the Red Sea?
+    - what's your favorite sea?
+    - do you like the sea?
+    - can you tell me a joke about the Mediterranean?
+    - what's your favorite beach?
+    - do you like beaches?
+    - can you tell me a joke about sand?
+    - what's your favorite sand color?
+    - do you like sand?
 - intent: request_trip
   examples: |
     - I want to plan a trip
     - I need help planning a trip
     - I want to go on a trip
-    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
-    - I want a [10-day](duration) trip to Egypt with a budget of [$5000](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [5 days](duration) arriving on [20th December](arrival_date). I like [warm](weather_preference) weather and have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m planning a [2-week](duration) trip to Egypt arriving on [1st November](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [warm](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [10 days](duration) arriving on [5th January](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [3-week](duration) trip to Egypt arriving on [10th February](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I want a [1-week](duration) trip to Egypt with a budget of [$1000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m planning a [4-day](duration) trip to Egypt arriving on [25th March](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I want a [2-week](duration) trip to Egypt with a budget of [$3000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [7 days](duration) arriving on [10th April](arrival_date). I like [hot](weather_preference) weather and have a budget of [$2500](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [10-day](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3500](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I want a [3-week](duration) trip to Egypt with a budget of [$4000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m planning a [5-day](duration) trip to Egypt arriving on [20th June](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I want a [1-week](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cool](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [10 days](duration) arriving on [5th July](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [2-week](duration) trip to Egypt arriving on [10th August](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I’m planning a trip to Egypt arriving on [20th October](arrival_date) for [7 days](duration). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
-    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [2 weeks](duration) arriving on [5th November](arrival_date). I like [warm](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m planning a [5-day](duration) trip to Egypt arriving on [10th December](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$2500](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I’m planning a [7-day](duration) trip to [Cairo](state) arriving on [15th October](arrival_date). I have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
-    - I want a [10-day](duration) trip to [Luxor](state) with a budget of [$5000](budget). I want to stay in a [beachfront](hotel_features) hotel. I’d like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to [Alexandria](state) for [5 days](duration) arriving on [20th December](arrival_date). I have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m planning a [2-week](duration) trip to [Aswan](state) arriving on [1st November](arrival_date). I have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I want a [5-day](duration) trip to [Hurghada](state) with a budget of [$2000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to [Sharm El Sheikh](state) for [10 days](duration) arriving on [5th January](arrival_date). I have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [3-week](duration) trip to [Dahab](state) arriving on [10th February](arrival_date). I have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I want a [1-week](duration) trip to [Marsa Alam](state) with a budget of [$1000](budget). I want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m planning a [4-day](duration) trip to [El Gouna](state) arriving on [25th March](arrival_date). I have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I want a [2-week](duration) trip to [Siwa Oasis](state) with a budget of [$3000](budget). I want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m planning a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I want a [10-day](duration) trip to Egypt arriving on [15th January](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m coming to Egypt for [5 days](duration) arriving on [20th February](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th March](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I’m coming to Egypt for [4 days](duration) arriving on [10th April](arrival_date). I prefer [hot](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th May](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m coming to Egypt for [10 days](duration) arriving on [20th June](arrival_date). I like [hot](weather_preference) weather and have a budget of [$3000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [2-week](duration) trip to Egypt arriving on [25th July](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I’d like to take a [camel ride](landmarks_activities). I’m traveling with my [kids](family_status).
-    - I want a [1-week](duration) trip to Egypt with a budget of [$1500](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I’d like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [5 days](duration) arriving on [10th August](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I’d like to take a [desert safari](landmarks_activities). I’m traveling with my [friends](family_status).
-    - I’m planning a [3-week](duration) trip to Egypt arriving on [15th September](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$5000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [family](family_status).
-    - I want a [7-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [sunny](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I’d like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I’m a [solo traveler](family_status).
-    - I’m coming to Egypt for [10 days](duration) arriving on [20th October](arrival_date). I like [cool](weather_preference) weather and have a budget of [$3000](budget). I need a [family-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I’m traveling with my [family](family_status).
-    - I’m planning a [5-day](duration) trip to Egypt arriving on [25th November](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1500](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [spouse](family_status).
-    - I’m planning a [2-week](duration) trip to Egypt arriving on [30th December](arrival_date). I like [mild](weather_preference) weather and have a budget of [$4000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I’m traveling with my [kids](family_status).
-    - i wanna go in trip
-    - I’m planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget) budget. I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I’d like to take a [Nile cruise](landmarks_activities). I’m traveling with my [family](family_status).
-    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration) i want a hotel with [pool](hotel_features) and [spa](hotel_features) and i want to visit [museum](landmarks_activities) and [beach](landmarks_activities) i’m [solo traveler](family_status)
-    - i want to visit [luxor](state) [next month](arrival_date) i have a budget [2000](budget) and i will spend [2 weeks](duration)
+    - I'm planning a [7-day](duration) trip to Egypt arriving on [15th October](arrival_date). I prefer [sunny](weather_preference) weather and have a budget of [$2000](budget). I want a hotel with a [pool](hotel_features) and [spa](hotel_features), and I'd like to take a [Nile cruise](landmarks_activities). I'm traveling with my [family](family_status).
+    - I want a [10-day](duration) trip to Egypt with a budget of [$5000](budget). I prefer [cool](weather_preference) weather and want to stay in a [beachfront](hotel_features) hotel. I'd like to explore [historical landmarks](landmarks_activities) and relax by the [Nile](landmarks_activities). I'm a [solo traveler](family_status).
+    - I'm coming to Egypt for [5 days](duration) arriving on [20th December](arrival_date). I like [warm](weather_preference) weather and have a budget of [$1500](budget). I need a [family-friendly](hotel_features) hotel and want to visit [museums](landmarks_activities). I'm traveling with my [family](family_status).
+    - I'm planning a [2-week](duration) trip to Egypt arriving on [1st November](arrival_date). I prefer [cool](weather_preference) weather and have a budget of [$3000](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I'd like to take a [desert safari](landmarks_activities). I'm traveling with my [friends](family_status).
+    - I want a [5-day](duration) trip to Egypt with a budget of [$2000](budget). I prefer [warm](weather_preference) weather and want to stay in a [luxury](hotel_features) hotel. I'd like to explore [museums](landmarks_activities) and relax by the [Red Sea](landmarks_activities). I'm a [solo traveler](family_status).
+    - I'm coming to Egypt for [10 days](duration) arriving on [5th January](arrival_date). I like [hot](weather_preference) weather and have a budget of [$5000](budget). I need a [pet-friendly](hotel_features) hotel and want to visit [temples](landmarks_activities). I'm traveling with my [spouse](family_status).
+    - I'm planning a [3-week](duration) trip to Egypt arriving on [10th February](arrival_date). I prefer [mild](weather_preference) weather and have a budget of [$4000](budget). I want a hotel with a [bar](hotel_features) and [wifi](hotel_features), and I'd like to take a [camel ride](landmarks_activities). I'm traveling with my [kids](family_status).
+    - I want a [1-week](duration) trip to Egypt with a budget of [$1000](budget). I prefer [cold](weather_preference) weather and want to stay in a [budget](hotel_features) hotel. I'd like to explore [markets](landmarks_activities) and relax by the [Mediterranean Sea](landmarks_activities). I'm a [solo traveler](family_status).
+    - I'm planning a [4-day](duration) trip to Egypt arriving on [25th March](arrival_date). I prefer [warm](weather_preference) weather and have a budget of [$1200](budget). I want a hotel with a [gym](hotel_features) and [restaurant](hotel_features), and I'd like to take a [desert safari](landmarks_activities). I'm traveling with my [friends](family_status).
     - I want to make a trip
+    - I want to plan a vacation
+    - Can you help me organize a trip?
+    - Help me book a trip to Egypt
+    - I want to arrange a holiday
+    - I need a travel plan for Egypt
+    - Can you suggest a travel itinerary?
+    - I want to visit Egypt for a week
+    - Help me set up a travel schedule
+    - I want to experience Egypt as a tourist
+    - I want to explore Egypt for [10 days](duration)
+    - I want to travel to Egypt with my [family](family_status)
+    - I want to go on a solo adventure in Egypt
+    - I want to book a trip for [next month](arrival_date)
+    - I want to see the main attractions in Egypt
+    - I want to visit historical sites in Egypt
+    - I want to relax by the [Red Sea](landmarks_activities)
+    - I want to go on a Nile cruise
+    - I want to visit pyramids and temples
+    - I want to go on a desert safari
+    - I want to visit museums in Egypt
+    - I want to go sightseeing in Egypt
+    - I want to go on a family trip to Egypt
+    - I want to go on a honeymoon in Egypt
+    - I want to go on a group tour in Egypt
+    - I want to go on a luxury trip to Egypt
+    - I want to go on a budget trip to Egypt
+    - I want to go on an adventure trip to Egypt
+    - I want to go on a cultural trip to Egypt
+    - I want to go on a historical trip to Egypt
+    - I want to go on a relaxing trip to Egypt
+    - I want to go on a sightseeing trip to Egypt
+    - I want to go on a nature trip to Egypt
+    - I want to go on a beach trip to Egypt
+    - I want to go on a city tour in Egypt
+    - I want to go on a food tour in Egypt
+    - I want to go on a shopping trip to Egypt
+    - I want to go on a festival trip to Egypt
+    - I want to go on a spiritual trip to Egypt
+    - I want to go on a wellness trip to Egypt
+    - I want to go on a sports trip to Egypt
+    - I want to go on a photography trip to Egypt
+    - I want to go on a wildlife trip to Egypt
+    - I want to go on a cruise in Egypt
+    - I want to go on a hiking trip in Egypt
+    - I want to go on a biking trip in Egypt
+    - I want to go on a diving trip in Egypt
+    - I want to go on a snorkeling trip in Egypt
+    - I want to go on a windsurfing trip in Egypt
+    - I want to go on a kitesurfing trip in Egypt
+    - I want to go on a sailing trip in Egypt
+    - I want to go on a fishing trip in Egypt
+    - I want to go on a golf trip in Egypt
+    - I want to go on a spa trip in Egypt
+    - I want to go on a yoga trip in Egypt
+    - I want to go on a meditation trip in Egypt
+    - I want to go on a wellness retreat in Egypt
+    - I want to go on a desert adventure in Egypt
+    - I want to go on a mountain trip in Egypt
+    - I want to go on a river trip in Egypt
+    - I want to go on a lake trip in Egypt
+    - I want to go on an island trip in Egypt
+    - I want to go on a cultural festival in Egypt
+    - I want to go on a music festival in Egypt
+    - I want to go on a film festival in Egypt
+    - I want to go on an art festival in Egypt
+    - I want to go on a food festival in Egypt
+    - I want to go on a shopping festival in Egypt
+    - I want to go on a sports festival in Egypt
+    - I want to go on a religious festival in Egypt
+    - I want to go on a traditional festival in Egypt
+    - I want to go on a modern festival in Egypt
+    - I want to go on a local festival in Egypt
+    - I want to go on a national festival in Egypt
+    - I want to go on an international festival in Egypt
+    - I want to go on a unique festival in Egypt
+    - I want to go on a special festival in Egypt
+    - I want to go on a famous festival in Egypt
+    - I want to go on a popular festival in Egypt
+    - I want to go on a big festival in Egypt
+    - I want to go on a small festival in Egypt
+    - I want to go on a quiet festival in Egypt
+    - I want to go on a lively festival in Egypt
+    - I want to go on a peaceful festival in Egypt
+    - I want to go on an exciting festival in Egypt
+    - I want to go on a relaxing festival in Egypt
+    - I want to go on a fun festival in Egypt
+    - I want to go on an interesting festival in Egypt
+    - I want to go on a memorable festival in Egypt
+    - I want to go on an unforgettable festival in Egypt
+    - I want to go on a once-in-a-lifetime festival in Egypt
     - i want to plan a trip
 - intent: share_state
   examples: |
@@ -262,47 +685,59 @@ nlu:
     - I'm going to [Marsa Alam](state)
     - I'm visiting [El Gouna](state)
     - I'm planning a trip to [Siwa Oasis](state)
-    - [luxor]{"entity": "state", "value": "Luxor"}
+    - [luxor] {"entity": "state", "value": "Luxor"}
+    - [cairo] {"entity": "state", "value": "Cairo"}
+    - [alexandria] {"entity": "state", "value": "Alexandria"}
+    - [aswan] {"entity": "state", "value": "Aswan"}
+    - [hurghada] {"entity": "state", "value": "Hurghada"}
+    - [sharm el sheikh] {"entity": "state", "value": "Sharm El Sheikh"}
+    - [dahab] {"entity": "state", "value": "Dahab"}
+    - [marsaalam] {"entity": "state", "value": "Marsa Alam"}
+    - [el gouna] {"entity": "state", "value": "El Gouna"}
+    - [siwa oasis] {"entity": "state", "value": "Siwa Oasis"}
+    - [alex] {"entity": "state", "value": "Alexandria"}
+    - [Alex] {"entity": "state", "value": "Alexandria"}
+    - I want to visit [Luxor](state)
+    - Take me to [Cairo](state)
+    - My destination is [Alexandria](state)
+    - I want to explore [Aswan](state)
+    - Let's go to [Hurghada](state)
+    - Show me [Sharm El Sheikh](state)
+    - I want to see [Dahab](state)
+    - Book me a trip to [Marsa Alam](state)
+    - I want to stay in [El Gouna](state)
+    - Plan my trip to [Siwa Oasis](state)
+    - [Cairo](state) is my choice
+    - [Luxor](state) is my destination
+    - [Alexandria](state) is where I want to go
+    - [Aswan](state) is my preferred city
+    - [Hurghada](state) is my travel spot
+    - [Sharm El Sheikh](state) is my vacation place
+    - [Dahab](state) is my pick
+    - [Marsa Alam](state) is my favorite
+    - [El Gouna](state) is my selection
+    - [Siwa Oasis](state) is my option
+    - I want to travel to [Cairo](state)
+    - I want to go to [Luxor](state)
+    - I want to visit [Alexandria](state)
+    - I want to see [Aswan](state)
+    - I want to explore [Hurghada](state)
+    - I want to discover [Sharm El Sheikh](state)
+    - I want to check out [Dahab](state)
+    - I want to experience [Marsa Alam](state)
+    - I want to enjoy [El Gouna](state)
+    - I want to relax in [Siwa Oasis](state)
+    - My trip is to [Cairo](state)
+    - My journey is to [Luxor](state)
+    - My vacation is in [Alexandria](state)
+    - My holiday is in [Aswan](state)
+    - My adventure is in [Hurghada](state)
+    - My getaway is in [Sharm El Sheikh](state)
+    - My escape is in [Dahab](state)
+    - My retreat is in [Marsa Alam](state)
+    - My break is in [El Gouna](state)
+    - My excursion is in [Siwa Oasis](state)
     - [cairo]{"entity": "state", "value": "Cairo"}
-    - [alexandria]{"entity": "state", "value": "Alexandria"}
-    - [aswan]{"entity": "state", "value": "Aswan"}
-    - [hurghada]{"entity": "state", "value": "Hurghada"}
-    - [sharm el sheikh]{"entity": "state", "value": "Sharm El Sheikh"}
-    - [dahab]{"entity": "state", "value": "Dahab"}
-    - [marsaalam]{"entity": "state", "value": "Marsa Alam"}
-    - [el gouna]{"entity": "state", "value": "El Gouna"}
-    - [siwa oasis]{"entity": "state", "value": "Siwa Oasis"}
-    - [alex]{"entity": "state", "value": "Alexandria"}
-    - [Alex]{"entity": "state", "value": "Alexandria"}
-    - [luxor]{"entity": "state", "value": "Luxor"}
-- intent: share_weather_preference
-  examples: |
-    - [cold](weather_preference)
-    - [hot](weather_preference)
-    - [mild](weather_preference)
-    - [warm](weather_preference)
-    - [sunny](weather_preference)
-    - I prefer [sunny](weather_preference) weather
-    - I like [cool](weather_preference) climates
-    - I want [warm](weather_preference) weather
-    - I don’t like [hot](weather_preference) weather
-    - I prefer [mild](weather_preference) weather
-    - I like [cold](weather_preference) climates
-    - I want [hot](weather_preference) weather
-    - I don’t like [rainy](weather_preference) weather
-    - I enjoy [snowy](weather_preference) weather
-    - I prefer [dry](weather_preference) weather
-    - I like [humid](weather_preference) climates
-    - I want [windy](weather_preference) weather
-    - I don’t like [stormy](weather_preference) weather
-    - I enjoy [foggy](weather_preference) weather
-    - I prefer [clear](weather_preference) weather
-    - I like [cloudy](weather_preference) climates
-    - I want [chilly](weather_preference) weather
-    - I don’t like [muggy](weather_preference) weather
-    - I enjoy [breezy](weather_preference) weather
-    - I prefer [temperate](weather_preference) weather
-    - I like [tropical](weather_preference) climates
 - intent: share_budget
   examples: |
     - my budget is about [1500$](budget)
@@ -314,16 +749,16 @@ nlu:
     - I have [$1000](budget) for the trip
     - I can spend up to [$5000](budget)
     - My budget is around [$4000](budget)
-    - I’m willing to spend [$3000](budget)
+    - I'm willing to spend [$3000](budget)
     - I have a budget of [$1500](budget)
     - My budget is [$2500](budget)
     - I can afford up to [$3500](budget)
-    - I’m planning to spend [$4500](budget)
+    - I'm planning to spend [$4500](budget)
     - My budget is [$6000](budget)
     - I have a budget of [$7000](budget)
     - I can spend up to [$8000](budget)
     - My budget is around [$9000](budget)
-    - I’m willing to spend [$1000](budget)
+    - I'm willing to spend [$1000](budget)
     - My budget is [1000$](budget)
     - I have [5000$](budget) for the trip
     - I can spend up to [2000$](budget)
@@ -332,29 +767,29 @@ nlu:
     - I have [1000$](budget) for the trip
     - I can spend up to [5000$](budget)
     - My budget is around [4000$](budget)
-    - I’m willing to spend [3000$](budget)
+    - I'm willing to spend [3000$](budget)
     - I have a budget of [1500$](budget)
     - My budget is [2500$](budget)
     - I can afford up to [43500$](budget)
-    - I’m planning to spend [4500$](budget)
+    - I'm planning to spend [4500$](budget)
     - My budget is [6000$](budget)
     - I have a budget of [7000$](budget)
     - I can spend up to [8000$](budget)
     - My budget is around [9000$](budget)
-    - I’m willing to spend [10000$](budget)
+    - I'm willing to spend [10000$](budget)
     - My budget is [1100](budget)
     - I have a budget of [1200](budget)
     - I can spend up to [1300](budget)
-    - I’m willing to spend [3000](budget)
+    - I'm willing to spend [3000](budget)
     - I have a budget of [1500](budget)
     - My budget is [2500](budget)
     - I can afford up to [3500](budget)
-    - I’m planning to spend [4500](budget)
+    - I'm planning to spend [4500](budget)
     - My budget is [600](budget)
     - I have a budget of [700](budget)
     - I can spend up to [800](budget)
     - My budget is around [900](budget)
-    - I’m willing to spend [1000](budget)
+    - I'm willing to spend [1000](budget)
     - [150$](budget)
     - [$250](budget)
     - [200$](budget)
@@ -385,32 +820,74 @@ nlu:
     - Roughly [fifty thousand USD](budget)
     - [five hundred dollars](budget)
     - [500](budget)$
+    - My maximum budget is [3000](budget)
+    - I don't want to spend more than [2000](budget)
+    - My spending limit is [1500](budget)
+    - I want to keep my expenses under [2500](budget)
+    - I have a tight budget of [1000](budget)
+    - My budget is flexible, but around [4000](budget)
+    - I can go up to [3500](budget) if needed
+    - My budget range is [2000](budget) to [3000](budget)
+    - I want the cheapest options, under [1000](budget)
+    - I want a luxury experience, budget is [10000](budget)
+    - I want to splurge, budget is [15000](budget)
+    - I want to save money, budget is [800](budget)
+    - My budget is not fixed, but around [2500](budget)
+    - I want to spend as little as possible, under [500](budget)
+    - I want to go all out, budget is [20000](budget)
+    - My budget is whatever it takes for the best experience
+    - I want to travel on a shoestring, budget is [600](budget)
+    - I want to travel first class, budget is [12000](budget)
+    - I want to travel in style, budget is [9000](budget)
+    - I want to travel comfortably, budget is [4000](budget)
+    - I want to travel affordably, budget is [1500](budget)
+    - I want to travel luxuriously, budget is [20000](budget)
+    - I want to travel economically, budget is [1000](budget)
+    - I want to travel extravagantly, budget is [25000](budget)
+    - I want to travel modestly, budget is [1200](budget)
+    - I want to travel lavishly, budget is [18000](budget)
+    - I want to travel frugally, budget is [700](budget)
+    - I want to travel generously, budget is [5000](budget)
+    - I want to travel prudently, budget is [1300](budget)
+    - I want to travel sensibly, budget is [1400](budget)
+    - I want to travel wisely, budget is [1600](budget)
+    - I want to travel cautiously, budget is [1100](budget)
+    - I want to travel carefully, budget is [1200](budget)
+    - I want to travel thoughtfully, budget is [1700](budget)
+    - I want to travel judiciously, budget is [1800](budget)
+    - I want to travel shrewdly, budget is [1900](budget)
+    - I want to travel astutely, budget is [2000](budget)
+    - I want to travel cleverly, budget is [2100](budget)
+    - I want to travel resourcefully, budget is [2200](budget)
+    - I want to travel smartly, budget is [2300](budget)
+    - I want to travel efficiently, budget is [2400](budget)
+    - [500](budget)$
 - intent: share_hotel_features
   examples: |
     - I want a hotel with a [pool](hotel_features)
-    - I’d like a [spa](hotel_features) in the hotel
+    - I'd like a [spa](hotel_features) in the hotel
     - I prefer a [beachfront](hotel_features) hotel
     - I need a [family-friendly](hotel_features) hotel
     - I want a hotel with a [gym](hotel_features)
-    - I’d like a [restaurant](hotel_features) in the hotel
+    - I'd like a [restaurant](hotel_features) in the hotel
     - I prefer a [luxury](hotel_features) hotel
     - I need a [pet-friendly](hotel_features) hotel
     - I want a hotel with [wifi](hotel_features)
-    - I’d like a [bar](hotel_features) in the hotel
+    - I'd like a [bar](hotel_features) in the hotel
     - I prefer a [budget](hotel_features) hotel
     - I need a [boutique](hotel_features) hotel
     - I want a hotel with a [garden](hotel_features)
-    - I’d like a [rooftop](hotel_features) in the hotel
+    - I'd like a [rooftop](hotel_features) in the hotel
     - I prefer a [business](hotel_features) hotel
     - I need a [resort](hotel_features) hotel
     - I want a hotel with a [sea view](hotel_features)
-    - I’d like a [suite](hotel_features) in the hotel
+    - I'd like a [suite](hotel_features) in the hotel
     - I prefer a [historic](hotel_features) hotel
     - I need a [modern](hotel_features) hotel
     - I want a hotel with a [balcony](hotel_features)
-    - I’d like a [beach_view](hotel_features) hotel
+    - I'd like a [beach_view](hotel_features) hotel
     - I prefer a [city_center](hotel_features) hotel
-    - I’d like a [beach view](hotel_features) hotel
+    - I'd like a [beach view](hotel_features) hotel
     - I prefer a [city center](hotel_features) hotel
     - I need a [beach_view](hotel_features) hotel
     - I want a hotel with a [city_center](hotel_features)
@@ -418,51 +895,258 @@ nlu:
     - i want a [sea_view](hotel_features) hotel
     - i want the hotel to have a [sea view](hotel_features)
     - i want the hotel to be in the [city center](hotel_features)
+    - I want a hotel with a [private beach](hotel_features)
+    - I want a hotel with [free breakfast](hotel_features)
+    - I want a hotel with [parking](hotel_features)
+    - I want a hotel with [airport shuttle](hotel_features)
+    - I want a hotel with [room service](hotel_features)
+    - I want a hotel with [conference rooms](hotel_features)
+    - I want a hotel with [kids club](hotel_features)
+    - I want a hotel with [pet services](hotel_features)
+    - I want a hotel with [laundry service](hotel_features)
+    - I want a hotel with [spa treatments](hotel_features)
+    - I want a hotel with [fitness center](hotel_features)
+    - I want a hotel with [jacuzzi](hotel_features)
+    - I want a hotel with [tennis courts](hotel_features)
+    - I want a hotel with [golf course](hotel_features)
+    - I want a hotel with [casino](hotel_features)
+    - I want a hotel with [nightclub](hotel_features)
+    - I want a hotel with [live entertainment](hotel_features)
+    - I want a hotel with [all-inclusive](hotel_features)
+    - I want a hotel with [adults only](hotel_features)
+    - I want a hotel with [family rooms](hotel_features)
+    - I want a hotel with [connecting rooms](hotel_features)
+    - I want a hotel with [kitchenette](hotel_features)
+    - I want a hotel with [minibar](hotel_features)
+    - I want a hotel with [coffee maker](hotel_features)
+    - I want a hotel with [air conditioning](hotel_features)
+    - I want a hotel with [heating](hotel_features)
+    - I want a hotel with [soundproof rooms](hotel_features)
+    - I want a hotel with [non-smoking rooms](hotel_features)
+    - I want a hotel with [smoking rooms](hotel_features)
+    - I want a hotel with [accessible rooms](hotel_features)
+    - I want a hotel with [elevator](hotel_features)
+    - I want a hotel with [pet accommodation](hotel_features)
+    - I want a hotel with [childcare](hotel_features)
+    - I want a hotel with [babysitting](hotel_features)
+    - I want a hotel with [playground](hotel_features)
+    - I want a hotel with [bicycle rental](hotel_features)
+    - I want a hotel with [car rental](hotel_features)
+    - I want a hotel with [tour desk](hotel_features)
+    - I want a hotel with [concierge](hotel_features)
+    - I want a hotel with [luggage storage](hotel_features)
+    - I want a hotel with [safe](hotel_features)
+    - I want a hotel with [ATM](hotel_features)
+    - I want a hotel with [currency exchange](hotel_features)
+    - I want a hotel with [gift shop](hotel_features)
+    - I want a hotel with [beauty salon](hotel_features)
+    - I want a hotel with [barber shop](hotel_features)
+    - I want a hotel with [library](hotel_features)
+    - I want a hotel with [fireplace](hotel_features)
+    - I want a hotel with [terrace](hotel_features)
+    - I want a hotel with [garden view](hotel_features)
+    - I want a hotel with [mountain view](hotel_features)
+    - I want a hotel with [city view](hotel_features)
+    - I want a hotel with [river view](hotel_features)
+    - I want a hotel with [lake view](hotel_features)
+    - I want a hotel with [pool view](hotel_features)
+    - I want a hotel with [ocean view](hotel_features)
+    - I want a hotel with [valet parking](hotel_features)
+    - I want a hotel with [shuttle service](hotel_features)
+    - I want a hotel with [wedding services](hotel_features)
+    - I want a hotel with [banquet facilities](hotel_features)
+    - I want a hotel with [meeting rooms](hotel_features)
+    - I want a hotel with [business center](hotel_features)
+    - I want a hotel with [express check-in](hotel_features)
+    - I want a hotel with [express check-out](hotel_features)
+    - I want a hotel with [wake-up service](hotel_features)
+    - I want a hotel with [newspaper](hotel_features)
+    - I want a hotel with [daily housekeeping](hotel_features)
+    - I want a hotel with [ironing service](hotel_features)
+    - I want a hotel with [dry cleaning](hotel_features)
+    - I want a hotel with [shoe shine](hotel_features)
+    - I want a hotel with [bridal suite](hotel_features)
+    - I want a hotel with [VIP room facilities](hotel_features)
+    - I want a hotel with [shared lounge](hotel_features)
+    - I want a hotel with [TV area](hotel_features)
+    - I want a hotel with [private check-in](hotel_features)
+    - I want a hotel with [private check-out](hotel_features)
+    - I want a hotel with [personal trainer](hotel_features)
+    - I want a hotel with [massage](hotel_features)
+    - I want a hotel with [sauna](hotel_features)
+    - I want a hotel with [steam room](hotel_features)
+    - I want a hotel with [hot tub](hotel_features)
+    - I want a hotel with [solarium](hotel_features)
+    - I want a hotel with [sun terrace](hotel_features)
+    - I want a hotel with [pool bar](hotel_features)
+    - I want a hotel with [snack bar](hotel_features)
+    - I want a hotel with [BBQ facilities](hotel_features)
+    - I want a hotel with [picnic area](hotel_features)
+    - I want a hotel with [outdoor pool](hotel_features)
+    - I want a hotel with [indoor pool](hotel_features)
+    - I want a hotel with [children's pool](hotel_features)
+    - I want a hotel with [water park](hotel_features)
+    - I want a hotel with [waterslide](hotel_features)
+    - I want a hotel with [pool toys](hotel_features)
+    - I want a hotel with [pool towels](hotel_features)
+    - I want a hotel with [poolside bar](hotel_features)
+    - I want a hotel with [swim-up bar](hotel_features)
+    - I want a hotel with [heated pool](hotel_features)
+    - I want a hotel with [saltwater pool](hotel_features)
+    - I want a hotel with [infinity pool](hotel_features)
+    - I want a hotel with [plunge pool](hotel_features)
+    - I want a hotel with [rooftop pool](hotel_features)
+    - I want a hotel with [lap pool](hotel_features)
+    - I want a hotel with [wave pool](hotel_features)
+    - I want a hotel with [lazy river](hotel_features)
+    - I want a hotel with [poolside cabana](hotel_features)
+    - I want a hotel with [poolside lounge](hotel_features)
+    - I want a hotel with [poolside restaurant](hotel_features)
+    - I want a hotel with [poolside grill](hotel_features)
+    - I want a hotel with [poolside snack bar](hotel_features)
+    - I want a hotel with [poolside service](hotel_features)
+    - I want a hotel with [poolside waiter](hotel_features)
+    - I want a hotel with [poolside bartender](hotel_features)
+    - I want a hotel with [poolside DJ](hotel_features)
+    - I want a hotel with [poolside music](hotel_features)
+    - I want a hotel with [poolside entertainment](hotel_features)
+    - I want a hotel with [poolside games](hotel_features)
+    - I want a hotel with [poolside activities](hotel_features)
+    - i want [wifi](hotel_features) and [pool](hotel_features)
+    - i want a [pool](hotel_features) and [wifi](hotel_features)
+    - i want [wifi](hotel_features) and [pool](hotel_features)
 - intent: share_landmarks_activities
   examples: |
+    - I want to visit [Wadi El Hitan](landmarks_activities)
+    - Show me [Saint Simon Monastery](landmarks_activities)
     - I want to explore [historical landmarks](landmarks_activities)
-    - I’m interested in [Alexandria library](landmarks_activities)
-    - I’d like to take a [cruise](landmarks_activities)
-    - I’m interested in [desert safaris](landmarks_activities)
-    - I’d like to visit [museums](landmarks_activities)
+    - I want to see [Eiffel Tower](landmarks_activities)
+    - I'm interested in [Alexandria library](landmarks_activities)
+    - I'd like to take a [cruise](landmarks_activities)
+    - I'm interested in [desert safaris](landmarks_activities)
+    - I'd like to visit [museums](landmarks_activities)
     - I want to explore [markets](landmarks_activities)
-    - I’m interested in [beaches](landmarks_activities)
-    - I’d like to see [temples](landmarks_activities)
+    - I'm interested in [beaches](landmarks_activities)
+    - I'd like to see [historical sites](landmarks_activities)
+    - I'd like [diving](landmarks_activities)
+    - I'd like to see [temples](landmarks_activities)
     - I want to visit [gardens](landmarks_activities)
-    - I’m interested in [parks](landmarks_activities)
-    - I’d like to take a [hiking trip](landmarks_activities)
+    - I'm interested in [parks](landmarks_activities)
+    - I'd like to take a [hiking trip](landmarks_activities)
     - I want to explore [cultural sites](landmarks_activities)
-    - I’m interested in [wildlife reserves](landmarks_activities)
-    - I’d like to see [waterfalls](landmarks_activities)
+    - I'm interested in [wildlife reserves](landmarks_activities)
+    - I'd like to see [waterfalls](landmarks_activities)
     - I want to visit [mountains](landmarks_activities)
-    - I’m interested in [lakes](landmarks_activities)
-    - I’d like to take a [boat ride](landmarks_activities)
+    - I'm interested in [lakes](landmarks_activities)
+    - I'd like to take a [boat ride](landmarks_activities)
     - I want to explore [forests](landmarks_activities)
-    - I’m interested in [rivers](landmarks_activities)
-    - I’d like to see [caves](landmarks_activities)
+    - I'm interested in [rivers](landmarks_activities)
+    - I'd like to see [caves](landmarks_activities)
     - I want to visit [islands](landmarks_activities)
-    - i am like to see [musuems](landmarks_activities) and [tempels](landmarks_activities)
+    - i am like to see [museums](landmarks_activities) and [temples](landmarks_activities)
+    - I want to visit [opera houses](landmarks_activities)
+    - I'm interested in [ski resorts](landmarks_activities)
+    - I'd like to see [volcanoes](landmarks_activities)
+    - I want to visit [rainforests](landmarks_activities)
+    - I'm interested in [theme parks](landmarks_activities)
+    - I'd like to see [castles](landmarks_activities)
+    - I want to visit [glaciers](landmarks_activities)
+    - I'm interested in [coral reefs](landmarks_activities)
+    - I'd like to see [hot springs](landmarks_activities)
+    - I want to visit [vineyards](landmarks_activities)
+    - I'm interested in [amusement parks](landmarks_activities)
+    - I'd like to see [ice hotels](landmarks_activities)
+    - I want to visit [tulip fields](landmarks_activities)
+    - I'm interested in [northern lights](landmarks_activities)
+    - I'd like to see [fjords](landmarks_activities)
+    - I want to visit [rainbow mountains](landmarks_activities)
+    - I'm interested in [cherry blossom festivals](landmarks_activities)
+    - I'd like to see [kangaroos](landmarks_activities)
+    - I want to visit [koala sanctuaries](landmarks_activities)
+    - I'm interested in [ice caves](landmarks_activities)
+    - I'd like to see [penguin colonies](landmarks_activities)
+    - I want to visit [tropical islands](landmarks_activities)
+    - I'm interested in [geysers](landmarks_activities)
+    - I'd like to see [rainbow lakes](landmarks_activities)
+    - I want to visit [giant sequoia trees](landmarks_activities)
+    - I'm interested in [bamboo forests](landmarks_activities)
+    - I'd like to see [coral atolls](landmarks_activities)
+    - I want to visit [icebergs](landmarks_activities)
+    - I'm interested in [polar bear watching](landmarks_activities)
+    - I'd like to see [aurora borealis](landmarks_activities)
+    - I want to see the [Pyramids of Giza](landmarks_activities)
+    - I'd like to visit the [Sphinx](landmarks_activities)
+    - I want to explore the [Egyptian Museum](landmarks_activities)
+    - Take me to [Karnak Temple](landmarks_activities)
+    - I want to visit the [Valley of the Kings](landmarks_activities)
+    - Show me [Abu Simbel](landmarks_activities)
+    - I want to go snorkeling in the [Red Sea](landmarks_activities)
+    - I want to ride a [felucca on the Nile](landmarks_activities)
+    - Take me sandboarding in the [White Desert](landmarks_activities)
+    - I want to go [camel riding](landmarks_activities)
+    - Let's try [quad biking in the desert](landmarks_activities)
+    - I want to visit [Philae Temple](landmarks_activities)
+    - Show me [Siwa Oasis](landmarks_activities)
+    - I want to see [Ras Mohammed National Park](landmarks_activities)
+    - Take me to [St. Catherine's Monastery](landmarks_activities)
+    - I want to go [bird watching in Lake Qarun](landmarks_activities)
+    - I'd like to visit [Al-Azhar Mosque](landmarks_activities)
+    - I want to see the [Citadel of Saladin](landmarks_activities)
+    - Take me to [Islamic Cairo](landmarks_activities)
+    - I want to visit [Luxor Temple](landmarks_activities)
+    - Show me [Kom Ombo Temple](landmarks_activities)
+    - I want to see [Edfu Temple](landmarks_activities)
+    - Take me to [Dendera Temple](landmarks_activities)
+    - I want to visit [Abydos Temple](landmarks_activities)
+    - Show me [Montaza Palace](landmarks_activities)
+    - I want to see [Qaitbay Citadel](landmarks_activities)
+    - Take me to [El Alamein War Museum](landmarks_activities)
+    - I want to visit [Wadi El Rayan waterfalls](landmarks_activities)
+    - Show me [Fayoum's Magic Lake](landmarks_activities)
+    - I want to see [Colored Canyon in Sinai](landmarks_activities)
+    - Take me to [Blue Hole in Dahab](landmarks_activities)
+    - I want to visit [Taba Heights](landmarks_activities)
+    - Show me [Ain Sokhna beaches](landmarks_activities)
+    - I want to see [Al-Muizz Street](landmarks_activities)
+    - Take me to [Khan El Khalili bazaar](landmarks_activities)
+    - I want to visit [Wadi El Hitan (Valley of the Whales)](landmarks_activities)
+    - Show me [Baron Empain Palace](landmarks_activities)
+    - I want to see [Manial Palace](landmarks_activities)
+    - Take me to [Gayer-Anderson Museum](landmarks_activities)
+    - I want to visit [Coptic Cairo](landmarks_activities)
+    - Show me [Saint Simon Monastery (Cave Church)](landmarks_activities)
+    - I want to see [El Gouna Marina](landmarks_activities)
+    - Take me to [Aswan Botanical Garden](landmarks_activities)
+    - I want to visit [Nubian Village in Aswan](landmarks_activities)
+    - Show me [Temple of Hatshepsut](landmarks_activities)
+    - I want to see [Temple of Medinet Habu](landmarks_activities)
+    - Take me to [Temple of Esna](landmarks_activities)
+    - I want to visit [Temple of Kalabsha](landmarks_activities)
+    - Show me [Temple of Kom Ombo](landmarks_activities)
+    - I want to see [Temple of Edfu](landmarks_activities)
+    - [local culture] (landmarks_activities) and [cuisine](landmarks_activities)
+    - i want to visit [ancient sites](landmarks_activities)
 - intent: share_duration
   examples: |
-    - I’m planning a [7-day](duration) trip
+    - I'm planning a [7-day](duration) trip
     - My trip will be [2 weeks](duration) long
-    - I’ll stay for [10 days](duration)
-    - It’s a [5-day](duration) trip
-    - I’m planning a [2-week](duration) trip
+    - I'll stay for [10 days](duration)
+    - It's a [5-day](duration) trip
+    - I'm planning a [2-week](duration) trip
     - My trip will be [3 weeks](duration) long
-    - I’ll stay for [1 month](duration)
-    - It’s a [10-day](duration) trip
-    - I’m planning a [4-day](duration) trip
+    - I'll stay for [1 month](duration)
+    - It's a [10-day](duration) trip
+    - I'm planning a [4-day](duration) trip
     - My trip will be [1 week](duration) long
-    - I’ll stay for [2 months](duration)
-    - It’s a [6-day](duration) trip
-    - I’m planning a [5-week](duration) trip
+    - I'll stay for [2 months](duration)
+    - It's a [6-day](duration) trip
+    - I'm planning a [5-week](duration) trip
     - My trip will be [2 days](duration) long
-    - I’ll stay for [3 months](duration)
-    - It’s a [7-day](duration) trip
-    - I’m planning a [8-day](duration) trip
+    - I'll stay for [3 months](duration)
+    - It's a [7-day](duration) trip
+    - I'm planning a [8-day](duration) trip
     - My trip will be [9 days](duration) long
-    - I’ll stay for [10 weeks](duration)
+    - I'll stay for [10 weeks](duration)
     - i will spend [1 week](duration)
     - i plan to stay for [2 weeks](duration)
     - i plan to spend [3 days](duration)
@@ -482,38 +1166,303 @@ nlu:
     - A [three-day](duration) trip
     - I'll be there for [two months](duration)
     - Planning to stay [one month](duration)
-    - I’ll stay for [three months](duration)
+    - I'll stay for [three months](duration)
     - A [four-week](duration) vacation
     - [seven days](duration)
     - [two months](duration)
+    - [three hours](duration)
+    - [one hour](duration)
+    - [1 hour](duration)
+    - [2 hours](duration)
+    - [3 hours](duration)
+    - [3 days](duration)
+    - Just a [weekend](duration)
+    - Only [one night](duration)
+    - For [a few days](duration)
+    - For [the whole summer](duration)
+    - For [the winter break](duration)
+    - For [a couple of weeks](duration)
+    - For [half a year](duration)
+    - For [a semester](duration)
+    - For [a year](duration)
+    - For [a short trip](duration)
+    - For [a long vacation](duration)
+    - For [a quick getaway](duration)
+    - For [an extended stay](duration)
+    - For [a day trip](duration)
+    - For [a few hours](duration)
+    - For [the whole month](duration)
+    - For [the entire week](duration)
+    - For [the next two weeks](duration)
+    - For [the next three days](duration)
+    - For [the next weekend](duration)
+    - For [the next holiday](duration)
+    - For [the next break](duration)
+    - For [the next vacation](duration)
+    - For [the next season](duration)
+    - For [the next year](duration)
+    - For [the next quarter](duration)
+    - For [the next semester](duration)
+    - For [the next month](duration)
+    - For [the next day](duration)
+    - For [the next hour](duration)
+    - For [a fortnight](duration)
+    - For [a couple of days](duration)
+    - For [several weeks](duration)
+    - For [several months](duration)
+    - For [a few weekends](duration)
+    - For [a few nights](duration)
+    - For [a few months](duration)
+    - For [a few weeks](duration)
+    - For [a few semesters](duration)
+    - For [a few years](duration)
+    - For [a few quarters](duration)
+    - For [a few holidays](duration)
+    - For [a few breaks](duration)
+    - For [a few vacations](duration)
+    - For [a few seasons](duration)
+    - For [a few day trips](duration)
+    - For [a few getaways](duration)
+    - For [a few extended stays](duration)
+    - For [a few short trips](duration)
+    - For [a few long vacations](duration)
+    - For [a few quick getaways](duration)
+    - For [a few extended vacations](duration)
+    - For [a few long stays](duration)
+    - For [a few short stays](duration)
+    - For [a few overnight trips](duration)
+    - For [a few weekend trips](duration)
+    - For [a few week-long trips](duration)
+    - For [a few month-long trips](duration)
+    - For [a few year-long trips](duration)
+    - For [a few semester-long trips](duration)
+    - For [a few quarter-long trips](duration)
+    - For [a few season-long trips](duration)
+    - For [a few holiday trips](duration)
+    - For [a few break trips](duration)
+    - For [a few vacation trips](duration)
+    - For [a few season trips](duration)
     - [3 days](duration)
 - intent: share_arrival_date
   examples: |
     - i plan to have a trip in the [next week] (arrival_date)
-    - I’ll arrive on [15th October](arrival_date)
+    - I'll arrive on [15th October](arrival_date)
     - My trip starts [next month](arrival_date)
-    - I’m coming in [December](arrival_date)
-    - I’ll be there in [summer](arrival_date)
-    - I’ll arrive on [1st January](arrival_date)
+    - I'm coming in [December](arrival_date)
+    - I'll be there in [summer](arrival_date)
+    - I'll arrive on [1st January](arrival_date)
     - My trip starts [next week](arrival_date)
-    - I’m coming in [March](arrival_date)
-    - I’ll be there in [spring](arrival_date)
-    - I’ll arrive on [20th February](arrival_date)
+    - I'm coming in [March](arrival_date)
+    - I'll be there in [spring](arrival_date)
+    - I'll arrive on [20th February](arrival_date)
     - My trip starts [next year](arrival_date)
-    - I’m coming in [April](arrival_date)
-    - I’ll be there in [autumn](arrival_date)
-    - I’ll arrive on [5th May](arrival_date)
+    - I'm coming in [April](arrival_date)
+    - I'll be there in [autumn](arrival_date)
+    - I'll arrive on [5th May](arrival_date)
     - My trip starts [next season](arrival_date)
-    - I’m coming in [June](arrival_date)
-    - I’ll be there in [winter](arrival_date)
-    - I’ll arrive on [10th July](arrival_date)
+    - I'm coming in [June](arrival_date)
+    - I'll be there in [winter](arrival_date)
+    - I'll arrive on [10th July](arrival_date)
     - My trip starts [next quarter](arrival_date)
-    - I’m coming in [August](arrival_date)
+    - I'm coming in [August](arrival_date)
     - [next month](arrival_date)
+    - [next week](arrival_date)
+    - I'll arrive [as soon as possible](arrival_date)
+    - I want to travel [after Ramadan](arrival_date)
+    - I plan to visit [when school is out](arrival_date)
+    - I want to go [in a couple of months](arrival_date)
+    - Let's plan for [next Eid](arrival_date)
+    - I want to travel [after the exams](arrival_date)
+    - I want to visit [during the holidays](arrival_date)
+    - I want to go [in the fall](arrival_date)
+    - I want to travel [in the spring break](arrival_date)
+    - I want to visit [in a few weeks](arrival_date)
+    - I want to go [in a few days](arrival_date)
+    - I want to travel [in the next available slot](arrival_date)
+    - I want to visit [when flights are cheapest](arrival_date)
+    - I want to go [when the weather is nice](arrival_date)
+    - I want to travel [after my birthday](arrival_date)
+    - I want to visit [before the end of the year](arrival_date)
+    - I want to go [at the start of the year](arrival_date)
+    - I want to travel [in the new year](arrival_date)
+    - I want to visit [in the next school break](arrival_date)
+    - I want to go [in the next public holiday](arrival_date)
+    - I want to travel [in the next festival season](arrival_date)
+    - I want to visit [in the next long weekend](arrival_date)
+    - I want to go [in the next vacation period](arrival_date)
+    - I want to travel [in the next available holiday](arrival_date)
+    - I want to visit [in the next available break](arrival_date)
+    - I want to go [in the next available vacation](arrival_date)
+    - I want to travel [in the next available season](arrival_date)
+    - I want to visit [in the next available year](arrival_date)
+    - I want to go [in the next available quarter](arrival_date)
+    - I want to travel [in the next available semester](arrival_date)
+    - I want to visit [in the next available month](arrival_date)
+    - I want to go [in the next available day](arrival_date)
+    - I want to travel [in the next available hour](arrival_date)
+    - I want to visit [in the next available minute](arrival_date)
+    - I want to go [in the next available second](arrival_date)
+    - I want to travel [in the next available moment](arrival_date)
+    - I want to visit [in the next available instant](arrival_date)
+    - I want to go [in the next available opportunity](arrival_date)
+    - I want to travel [in the next available chance](arrival_date)
+    - I want to visit [in the next available possibility](arrival_date)
+    - I want to go [in the next available option](arrival_date)
+    - I want to travel [in the next available choice](arrival_date)
+    - I want to visit [in the next available selection](arrival_date)
+    - I want to go [in the next available pick](arrival_date)
+    - I want to travel [in the next available alternative](arrival_date)
+    - I want to visit [in the next available substitute](arrival_date)
+    - I want to go [in the next available replacement](arrival_date)
+    - I want to travel [in the next available stand-in](arrival_date)
+    - I want to visit [in the next available fill-in](arrival_date)
+    - I want to go [in the next available backup](arrival_date)
+    - I want to travel [in the next available reserve](arrival_date)
+    - I want to visit [in the next available spare](arrival_date)
+    - I want to go [in the next available extra](arrival_date)
+    - I want to travel [in the next available addition](arrival_date)
+    - I want to visit [in the next available supplement](arrival_date)
+    - I want to go [in the next available complement](arrival_date)
+    - I want to travel [in the next available enhancement](arrival_date)
+    - I want to visit [in the next available improvement](arrival_date)
+    - I want to go [in the next available upgrade](arrival_date)
+    - I want to travel [in the next available update](arrival_date)
+    - I want to visit [in the next available revision](arrival_date)
+    - I want to go [in the next available modification](arrival_date)
+    - I want to travel [in the next available adjustment](arrival_date)
+    - I want to visit [in the next available change](arrival_date)
+    - I want to go [in the next available alteration](arrival_date)
+    - I want to travel [in the next available transformation](arrival_date)
+    - I want to visit [in the next available conversion](arrival_date)
+    - I want to go [in the next available transition](arrival_date)
+    - I want to travel [in the next available shift](arrival_date)
+    - I want to visit [in the next available switch](arrival_date)
+    - I want to go [in the next available swap](arrival_date)
+    - I want to travel [in the next available exchange](arrival_date)
+    - I want to visit [in the next available trade](arrival_date)
+    - I want to go [in the next available transaction](arrival_date)
+    - I want to travel [in the next available deal](arrival_date)
+    - I want to visit [in the next available arrangement](arrival_date)
+    - I want to go [in the next available agreement](arrival_date)
+    - I want to travel [in the next available contract](arrival_date)
+    - I want to visit [in the next available settlement](arrival_date)
+    - I want to go [in the next available resolution](arrival_date)
+    - I want to travel [in the next available conclusion](arrival_date)
+    - I want to visit [in the next available outcome](arrival_date)
+    - I want to go [in the next available result](arrival_date)
+    - I want to travel [in the next available consequence](arrival_date)
+    - I want to visit [in the next available effect](arrival_date)
+    - I want to go [in the next available impact](arrival_date)
+    - I want to travel [in the next available influence](arrival_date)
+    - I want to visit [in the next available inspiration](arrival_date)
+    - I want to go [in the next available motivation](arrival_date)
+    - I want to travel [in the next available encouragement](arrival_date)
+    - I want to visit [in the next available support](arrival_date)
+    - I want to go [in the next available help](arrival_date)
+    - I want to travel [in the next available assistance](arrival_date)
+    - I want to visit [in the next available guidance](arrival_date)
+    - I want to go [in the next available advice](arrival_date)
+    - I want to travel [in the next available recommendation](arrival_date)
+    - I want to visit [in the next available suggestion](arrival_date)
+    - I want to go [in the next available tip](arrival_date)
+    - I want to travel [in the next available hint](arrival_date)
+    - I want to visit [in the next available clue](arrival_date)
+    - I want to go [in the next available indication](arrival_date)
+    - I want to travel [in the next available sign](arrival_date)
+    - I want to visit [in the next available signal](arrival_date)
+    - I want to go [in the next available symptom](arrival_date)
+    - I want to travel [in the next available evidence](arrival_date)
+    - I want to visit [in the next available proof](arrival_date)
+    - I want to go [in the next available confirmation](arrival_date)
+    - I want to travel [in the next available verification](arrival_date)
+    - I want to visit [in the next available validation](arrival_date)
+    - I want to go [in the next available authentication](arrival_date)
+    - I want to travel [in the next available authorization](arrival_date)
+    - I want to visit [in the next available approval](arrival_date)
+    - I want to go [in the next available permission](arrival_date)
+    - I want to travel [in the next available consent](arrival_date)
+    - I want to visit [in the next available agreement](arrival_date)
+    - I want to go [in the next available contract](arrival_date)
+    - I want to travel [in the next available settlement](arrival_date)
+    - I want to visit [in the next available resolution](arrival_date)
+    - I want to go [in the next available conclusion](arrival_date)
+    - I want to travel [in the next available outcome](arrival_date)
+    - I want to visit [in the next available result](arrival_date)
+    - I want to go [in the next available consequence](arrival_date)
+    - I want to travel [in the next available effect](arrival_date)
+    - I want to visit [in the next available impact](arrival_date)
+    - I want to go [in the next available influence](arrival_date)
+    - I want to travel [in the next available inspiration](arrival_date)
+    - I want to visit [in the next available motivation](arrival_date)
+    - I want to go [in the next available encouragement](arrival_date)
+    - I want to travel [in the next available support](arrival_date)
+    - I want to visit [in the next available help](arrival_date)
+    - I want to go [in the next available assistance](arrival_date)
+    - I want to travel [in the next available guidance](arrival_date)
+    - I want to visit [in the next available advice](arrival_date)
+    - I want to go [in the next available recommendation](arrival_date)
+    - I want to travel [in the next available suggestion](arrival_date)
+    - I want to visit [in the next available tip](arrival_date)
+    - I want to go [in the next available hint](arrival_date)
+    - I want to travel [in the next available clue](arrival_date)
+    - I want to visit [in the next available indication](arrival_date)
+    - I want to go [in the next available sign](arrival_date)
+    - I want to travel [in the next available signal](arrival_date)
+    - I want to visit [in the next available symptom](arrival_date)
+    - I want to go [in the next available evidence](arrival_date)
+    - I want to travel [in the next available proof](arrival_date)
+    - I want to visit [in the next available confirmation](arrival_date)
+    - I want to go [in the next available verification](arrival_date)
+    - I want to travel [in the next available validation](arrival_date)
+    - I want to visit [in the next available authentication](arrival_date)
+    - I want to go [in the next available authorization](arrival_date)
+    - I want to travel [in the next available approval](arrival_date)
+    - I want to visit [in the next available permission](arrival_date)
     - [next week](arrival_date)
 - intent: describe_city
   examples: |
+    - I want a [historic](city_features) city
+    - I'm looking for a [beach](city_features) destination
+    - I prefer [cultural](city_features) cities
+    - I want to visit a [modern](city_features) city
+    - I'm interested in [ancient](city_features) sites
+    - I'd like a [coastal](city_features) city
+    - I want to explore [religious](city_features) sites
+    - I'm looking for a [desert](city_features) experience
+    - I want to see [archaeological](city_features) sites
+    - I prefer [traditional](city_features) cities
+    - I want a city with ancient temples
+    - I want a city with pyramids
+    - I want a city with museums
+    - I want a city with beaches
+    - I want a city with sea
+    - I want a city with desert
+    - I want a city with mountains
+    - I want a city with nightlife
+    - I want a city with shopping
+    - I want a city with culture
+    - I want a city with history
+    - I want a city with nature
+    - I want a city with adventure
+    - I want a city with relaxation
+    - I want a city with entertainment
+    - I want a city with food
+    - I want a city with art
+    - I want a city with architecture
+    - I want a city with festivals
     - I'm looking for a city with beaches and warm weather
+    - I'm looking for a city with a rich cultural heritage
+    - I'm looking for a city with a vibrant nightlife
+    - I'm looking for a city with historical landmarks
+    - I'm looking for historical sites and ancient ruins
+    - I'm looking for exciting outdoor places
+    - I'm looking for a city with beautiful parks and gardens
+    - I'm looking for a city with a mix of modern and traditional architecture
+    - I'm looking for a city with a lively arts scene
+    - I'm looking for a city with delicious local cuisine
+    - I'm looking for a city with a rich history and ancient temples
+    - I'm looking for a city with stunning natural landscapes
+    - I'm looking for peaceful places to relax and unwind
     - I want a historical city with old buildings
     - A modern city with good shopping malls and nightlife
     - Somewhere calm and surrounded by nature
@@ -521,106 +1470,453 @@ nlu:
     - I prefer cities with a lot of museums and culture
     - A coastal city with seafood restaurants
     - A city that's famous for its traditional markets
-    - I’m into adventure, so somewhere with outdoor activities
+    - I'm into adventure, so somewhere with outdoor activities
     - I want a peaceful city with beautiful landscapes
     - A city known for its religious or spiritual places
     - Somewhere family-friendly and safe
     - A romantic city for couples
     - I want a city that's lively and has festivals
     - A desert city with unique scenery
-    - I’m thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it’s famous for water sports like snorkeling and windsurfing
+    - I'm thinking of a place with turquoise waters, coral reefs perfect for diving, and golden sandy beaches. It has luxury resorts by the coast, desert mountains in the background, and a vibrant nightlife with beach parties. The weather is sunny almost year-round, and it's famous for water sports like snorkeling and windsurfing
     - Imagine a coastal retreat where the sea meets the desert. There are olive groves, salt lakes, and ancient ruins nearby. The sunsets are pink and orange, and the locals are known for their hospitality.
     - Picture a city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the culture is vibrant with music and dance.
     - Imagine a place with stunning beaches, crystal-clear waters, and a vibrant nightlife. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
     - Picture a city with ancient pyramids, bustling bazaars, and a rich cultural heritage. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
     - Imagine a coastal paradise with white sandy beaches, crystal-clear waters, and vibrant coral reefs. There are luxury resorts, beach clubs, and water sports activities. The weather is sunny and warm, perfect for relaxation and adventure.
-    - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It’s less touristy than Hurghada but has a charming Italian-Egyptian vibe.
-    - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It’s less crowded than Sharm but just as beautiful.
+    - A Mediterranean gem with white sandy beaches, turquoise bays, and historic WWII caves. The water is calm and perfect for swimming, and the seafood is fresh. It's less touristy than Hurghada but has a charming Italian-Egyptian vibe.
+    - A mix of adventure and relaxation—think desert canyons, starry skies, and beachfront yoga sessions. The locals serve fresh seafood, and the shops sell handmade crafts. It's less crowded than Sharm but just as beautiful.
     - A vibrant city with a mix of ancient history and modern culture. The Nile River flows through it, and there are beautiful parks and gardens. The weather is warm, and the locals are known for their hospitality.
     - A bohemian beach town with a laid-back vibe, where you can dive in the Blue Hole or hike to Mount Sinai at sunrise. The streets are lined with palm trees, cozy cafés, and Bedouin-style lounges. The sea is crystal clear, and the mountains are rugged and dramatic.
     - A city with a rich history, ancient temples, and bustling markets. The Nile River flows through it, and there are beautiful gardens and parks. The weather is warm, and the locals are known for their hospitality.
-    - I want to visit a historic city full of ancient temples, giant statues, and tombs carved into the mountains. It’s on the Nile River, with hot, dry weather, and is known for its open-air museums, hieroglyphics, and sunset felucca rides. The locals sell handmade souvenirs near the ruins.
+    - I want to visit a historic city full of ancient temples, giant statues, and tombs carved into the mountains. It's on the Nile River, with hot, dry weather, and is known for its open-air museums, hieroglyphics, and sunset felucca rides. The locals sell handmade souvenirs near the ruins.
     - A coastal city with beautiful beaches, luxury resorts, and a vibrant nightlife. The weather is warm and sunny, perfect for relaxation and water sports. The locals are friendly, and the seafood is fresh and delicious.
-- intent: edit_preference
+    - I want a city with [ski slopes](city_feature)
+    - I want a city with [volcanoes](city_feature)
+    - I want a city with [rainforests](city_feature)
+    - I want a city with [polar bears](city_feature)
+    - I want a city with [northern lights](city_feature)
+    - I want a city with [ice hotels](city_feature)
+    - I want a city with [fjords](city_feature)
+    - I want a city with [hot springs](city_feature)
+    - I want a city with [tulip fields](city_feature)
+    - I want a city with [cherry blossoms](city_feature)
+    - I want a city with [kangaroos](city_feature)
+    - I want a city with [koalas](city_feature)
+    - I want a city with [penguins](city_feature)
+    - I want a city with [glaciers](city_feature)
+    - I want a city with [rainbow mountains](city_feature)
+    - I want a city with [bamboo forests](city_feature)
+    - I want a city with [giant sequoia trees](city_feature)
+    - I want a city with [coral atolls](city_feature)
+    - I want a city with [icebergs](city_feature)
+    - I want a city with [polar nights](city_feature)
+    - I want a city with [midnight sun](city_feature)
+    - I want a city with [tropical islands](city_feature)
+    - I want a city with [geysers](city_feature)
+    - I want a city with [rainbow lakes](city_feature)
+    - I want a city with [aurora borealis](city_feature)
+    - I want a city that's [very quiet](city_feature)
+    - I want a city that's [always busy](city_feature)
+    - I want a city that's [never crowded](city_feature)
+    - I want a city that's [extremely modern](city_feature)
+    - I want a city that's [completely traditional](city_feature)
+    - I want a city that's [eco-friendly](city_feature)
+    - I want a city that's [pet-friendly](city_feature)
+    - I want a city that's [child-free](city_feature)
+    - I want a city that's [car-free](city_feature)
+    - I want a city that's [bike-friendly](city_feature)
+    - I want a city that's [tech-savvy](city_feature)
+    - I want a city that's [futuristic](city_feature)
+    - I want a city that's [ancient](city_feature)
+    - I want a city that's [mysterious](city_feature)
+    - I want a city that's [romantic](city_feature)
+    - I want a city that's [adventurous](city_feature)
+    - I want a city that's [relaxing](city_feature)
+    - I want a city that's [inspiring](city_feature)
+    - I want a city that's [artistic](city_feature)
+    - I want a city that's [spiritual](city_feature)
+    - I want a city that's [festive](city_feature)
+    - I want a city that's [colorful](city_feature)
+    - I want a city that's [unique](city_feature)
+    - I want a city that's [unusual](city_feature)
+    - I want a city that's [famous](city_feature)
+    - I want a city that's [unknown](city_feature)
+    - I want a city that's [off the beaten path](city_feature)
+    - I want a city that's [full of surprises](city_feature)
+    - I want a city that's [hard to find](city_feature)
+    - I want a city that's [easy to get to](city_feature)
+    - I want a city that's [close to the airport](city_feature)
+    - I want a city that's [far from the city center](city_feature)
+    - I want a city that's [on the coast](city_feature)
+    - I want a city that's [in the mountains](city_feature)
+    - I want a city that's [in the desert](city_feature)
+    - I want a city that's [by a river](city_feature)
+    - I want a city that's [on an island](city_feature)
+    - I want a city that's [in the forest](city_feature)
+    - I want a city that's [in the countryside](city_feature)
+    - I want a city that's [in the middle of nowhere](city_feature)
+    - I want a city that's [in the heart of everything](city_feature)
+    - I want a city that's [perfect for families](city_feature)
+    - I want a city that's [great for couples](city_feature)
+    - I want a city that's [ideal for solo travelers](city_feature)
+    - I want a city that's [good for groups](city_feature)
+    - I want a city that's [safe](city_feature)
+    - I want a city that's [affordable](city_feature)
+    - I want a city that's [luxurious](city_feature)
+    - I want a city that's [budget-friendly](city_feature)
+    - I want a city that's [expensive](city_feature)
+    - I want a city that's [exclusive](city_feature)
+    - I want a city that's [popular](city_feature)
+    - I want a city that's [trendy](city_feature)
+    - I want a city that's [classic](city_feature)
+    - I want a city that's [timeless](city_feature)
+    - I want a city that's [historic](city_feature)
+    - I want a city that's [modern](city_feature)
+    - I want a city that's [ancient and modern at the same time](city_feature)
+    - I want a city that's [full of life](city_feature)
+    - I want a city that's [peaceful](city_feature)
+    - I want a city that's [bustling](city_feature)
+    - I want a city that's [quiet](city_feature)
+    - I want a city that's [noisy](city_feature)
+    - I want a city that's [clean](city_feature)
+    - I want a city that's [green](city_feature)
+    - I want a city that's [sunny](city_feature)
+    - I want a city that's [rainy](city_feature)
+    - I want a city that's [windy](city_feature)
+    - I want a city that's [foggy](city_feature)
+    - I want a city that's [cloudy](city_feature)
+    - I want a city that's [chilly](city_feature)
+    - I want a city that's [hot](city_feature)
+    - I want a city that's [cold](city_feature)
+    - I want a city that's [humid](city_feature)
+    - I want a city that's [dry](city_feature)
+    - I want a city that's [temperate](city_feature)
+    - I want a city that's [tropical](city_feature)
+    - I want a city that's [arid](city_feature)
+    - I want a city that's [deserted](city_feature)
+    - I want a city that's [crowded](city_feature)
+    - I want a city that's [remote](city_feature)
+    - I want a city that's [central](city_feature)
+    - I want a city that's [suburban](city_feature)
+    - I want a city that's [urban](city_feature)
+    - I want a city that's [rural](city_feature)
+    - I want a city that's [metropolitan](city_feature)
+    - I want a city that's [cosmopolitan](city_feature)
+    - I want a city that's [provincial](city_feature)
+    - I want a city that's [international](city_feature)
+    - I want a city that's [local](city_feature)
+    - I like warm weather, so I want a city with [sunny beaches](city_feature)
+    - I like [warm places](city_feature)
+    - I want a city that's [multicultural](city_feature)
+    - I want a city that's [traditional and modern](city_feature)
+    - I want a city that's [historic and trendy](city_feature)
+    - I want a city that's [quiet and lively](city_feature)
+    - I want a city that's [safe and exciting](city_feature)
+    - I want a city that's [affordable and luxurious](city_feature)
+    - I want a city that's [family-friendly and romantic](city_feature)
+    - I want a city that's [adventurous and relaxing](city_feature)
+    - I want a city that's [artistic and spiritual](city_feature)
+    - I want a city that's [festive and peaceful](city_feature)
+    - I want a city that's [colorful and unique](city_feature)
+    - I want a city that's [famous and unknown](city_feature)
+    - I want a city that's [off the beaten path and full of surprises](city_feature)
+    - I want a city that's [hard to find and easy to get to](city_feature)
+    - I want a city that's [close to the airport and far from the city center](city_feature)
+    - I want a city that's [on the coast and in the mountains](city_feature)
+    - I want a city that's [in the desert and by a river](city_feature)
+    - I want a city that's [on an island and in the forest](city_feature)
+    - I want a city that's [in the countryside and in the middle of nowhere](city_feature)
+    - I want a city that's [in the heart of everything and perfect for families](city_feature)
+    - I want a city that's [great for couples and ideal for solo travelers](city_feature)
+    - I want a city that's [good for groups and safe](city_feature)
+    - I want a city that's [budget-friendly and expensive](city_feature)
+    - I want a city that's [exclusive and popular](city_feature)
+    - I want a city that's [trendy and classic](city_feature)
+    - I want a city that's [timeless and historic](city_feature)
+    - I want a city that's [modern and ancient at the same time](city_feature)
+    - I want a city that's [full of life and peaceful](city_feature)
+    - I want a city that's [bustling and quiet](city_feature)
+    - I want a city that's [noisy and clean](city_feature)
+    - I want a city that's [green and sunny](city_feature)
+    - I want a city that's [rainy and windy](city_feature)
+    - I want a city that's [foggy and cloudy](city_feature)
+    - I want a city that's [chilly and hot](city_feature)
+    - I want a city that's [cold and humid](city_feature)
+    - I want a city that's [dry and temperate](city_feature)
+    - I want a city that's [tropical and arid](city_feature)
+    - I want a city that's [deserted and crowded](city_feature)
+    - I want a city that's [remote and central](city_feature)
+    - I want a city that's [suburban and urban](city_feature)
+    - I want a city that's [rural and metropolitan](city_feature)
+    - I want a city that's [cosmopolitan and provincial](city_feature)
+    - I want a city that's [international and local](city_feature)
+    - I want a city that's [multicultural and traditional](city_feature)
+    - I want a city that's [modern and historic](city_feature)
+    - I want a city that's [trendy and quiet](city_feature)
+    - I want a city that's [safe and affordable](city_feature)
+    - I want a city that's [luxurious and budget-friendly](city_feature)
+    - I want a city that's [romantic and family-friendly](city_feature)
+    - no, i want a city with [beaches and quiet places](city_feature)
+- intent: modify_preference
   examples: |
     - I want to change my [budget](modify_field)
+    - I want to change my [budget](modify_field) to be [400$](budget)
+    - I want to change my [budget](modify_field) to be [$500](budget)
+    - I want to change my [budget](modify_field) to be [600 USD](budget)
+    - "I'd like to adjust my [spending plan](modify_field)."
+    - "I want to revise my [financial plan](modify_field)."
+    - "I need to update my [cost plan](modify_field)."
+    - "I'm thinking of modifying my [allocation of funds](modify_field)."
+    - "I'd prefer to tweak my [expense plan](modify_field)."
+    - "I plan to make changes to my [funds allocation](modify_field)."
+    - "I want to alter my [financial strategy](modify_field)."
+    - "I'd like to make an adjustment to my [cost structure](modify_field)."
+    - "I need to review and change my [expenditure plan](modify_field)."
+    - "I'm considering restructuring my [spending limits](modify_field)."
     - I want to modify my [hotel features](modify_field)
+    - "I want to change my [accommodation details](modify_field), to be [5-star](hotel_preference) and with a [pool](hotel_preference)."
+    - "I want to modify my [hotel amenities](modify_field)."
+    - "I'd like to change my [accommodation features](modify_field)."
+    - "I need to update my [lodging facilities](modify_field)."
+    - "I'm thinking of adjusting my [hotel characteristics](modify_field)."
+    - "I want to revise my [hotel services](modify_field)."
+    - "I'd prefer to tweak my [room features](modify_field)."
+    - "I plan to alter my [hotel attributes](modify_field)."
+    - "I want to make changes to my [accommodation options](modify_field)."
+    - "I need to review and modify my [hotel details](modify_field)."
+    - "I'm considering restructuring my [hotel offerings](modify_field)."
     - I want to update my [landmarks and activities](modify_field)
-    - I want to change my [weather preference](modify_field)
-    - Let’s change [hotel features](modify_field)
+    - "I want to change my [points of interest and events](modify_field). it should include [museums](landmarks_activities) and [parks](landmarks_activities)."
+    - "I want to update my [points of interest and events](modify_field)."
+    - "I'd like to revise my [attractions and activities](modify_field)."
+    - "I need to modify my [sights and experiences](modify_field)."
+    - "I'm thinking of adjusting my [tourist spots and events](modify_field)."
+    - "I want to change my [notable places and activities](modify_field)."
+    - "I'd prefer to tweak my [landmarks and things to do](modify_field)."
+    - "I plan to alter my [historic sites and activities](modify_field)."
+    - "I want to make changes to my [points of interest and things to do](modify_field)."
+    - "I need to review and update my [famous places and activities](modify_field)."
+    - "I'm considering restructuring my [landmarks and events](modify_field)."
     - I want to modify my [duration](modify_field)
+    - "I want to change my [trip duration](modify_field) to be [2 weeks](duration)."
+    - "I want to change my [trip duration](modify_field)."
+    - "I'd like to adjust my [travel time](modify_field)."
+    - "I need to update my [length of stay](modify_field)."
+    - "I'm thinking about modifying my [time for the trip](modify_field)."
+    - "I want to revise my [travel duration](modify_field)."
+    - "I'd prefer to tweak my [time frame for the trip](modify_field)."
+    - "I plan to alter my [duration of the trip](modify_field)."
+    - "I want to make changes to my [trip length](modify_field)."
+    - "I need to review and change my [stay duration](modify_field)."
+    - "I'm considering shortening or extending my [trip time](modify_field)."
     - Edit [landmarks and activities](modify_field)
-- intent: request_activity_suggestions
+    - I want to update my [arrival date](modify_field)
+    - "I want to change my [arrival date](modify_field) to be [next Monday](arrival_date)."
+    - "I wanna update my [arrival date](modify_field)."
+    - "I'd like to change my [check-in date](modify_field)."
+    - "I need to tweak my [landing date](modify_field)."
+    - "I'm thinking about switching my [coming date](modify_field)."
+    - "I want to adjust my [arrival day](modify_field)."
+    - "I'm planning to update my [date of arrival](modify_field)."
+    - "I wanna revise my [day I get there](modify_field)."
+    - "I'm looking to change my [touchdown date](modify_field)."
+    - "I need to fix my [arrival time](modify_field)."
+    - "I want to make a change to my [check-in day](modify_field)."
+    - I want to change my [departure date](modify_field)
+    - I want to modify my [city description](modify_field)
+    - "I wanna modify my [city description](modify_field)."
+    - "I want to change my [city description](modify_field) to be [a vibrant coastal city with rich history](city_features)."
+    - "I'd like to change my [description of the city](modify_field)."
+    - "I need to tweak my [city details](modify_field)."
+    - "I'm thinking about updating my [city info](modify_field)."
+    - "I want to adjust my [city overview](modify_field)."
+    - "I'm planning to revise my [details about the city](modify_field)."
+    - "I wanna update my [city profile](modify_field)."
+    - "I'm looking to change my [city summary](modify_field)."
+    - "I need to fix my [description for the city](modify_field)."
+    - "I want to make a change to my [city write-up](modify_field)."
+    - i want to update the [activities](modify_field)
+    - i want to update the [landmarks](modify_field)
+    - I want to change the [city](modify_field).
+    - I want to change the [city](modify_field), I want to visit [Cairo](state).
+    - I want to change the [city](modify_field) to be [Luxor](state)
+    - I want to change the [state](modify_field) to [Cairo](state)
+    - change my [destination](modify_field) to [Alexandria](state)
+    - I'd like to modify the [city](modify_field) to [Aswan](state)
+    - update the [state](modify_field) to [Hurghada](state)
+    - set the [city](modify_field) as [Sharm El Sheikh](state)
+    - I want to go to [Dahab](state) instead
+    - change my [trip location](modify_field) to [Marsa Alam](state)
+    - can you set my [city](modify_field) to [El Gouna](state)
+    - I want to travel to [Siwa Oasis](state) now
+    - modify [state](modify_field) to [Luxor](state)
+    - I want to change the city
+    - change my city
+    - modify my destination
+    - update my location
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [luxor]{"entity": "state", "value": "Luxor"}
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [Luxor](state)
+    - i want to change the [city]{"entity": "modify_field", "value": "state"} to be [luxor]{"entity": "state", "value": "Luxor"}
+- intent: ask_suggest_trip
   examples: |
-    - What activities can I do?
-    - I don't know what to do, suggest something
-    - Recommend some activities
-    - What are my options?
-    - Give me ideas for things to do
-    - I'm not sure, help me choose
-    - What can I do there?
-    - Suggest some activities for me
-    - What are some fun things to do?
-    - I need suggestions for activities
-    - What activities do you recommend?
-    - I need help with activity ideas
-    - What can I do during my trip?
-    - I want to know about activities
-    - What are some activities I can do?
-    - I need help with activity suggestions
-    - What activities should I consider?
-    - I want to know what to do
-    - I need ideas for activities
-- intent: add_hotel_features
+    - OK I want to suggest a trip
+    - OK suggest a trip for me
+    - OK can you suggest a trip?
+    - Cool, suggest a trip for me
+    - that's great, I want to plan a trip
+    - I want to suggest a trip
+    - Suggest a trip for me
+    - Can you suggest a trip?
+    - I need a trip suggestion
+    - Help me plan a trip
+    - Suggest a travel itinerary
+    - I need help with my travel plans
+    - Can you help me plan my trip?
+    - I want to create a travel plan
+    - Help me with my travel itinerary
+    - I need suggestions for my trip
+    - Can you suggest a travel plan?
+    - I want to organize a trip
+    - Help me organize my travel plans
+- intent: add
   examples: |
-    - I want to add [pool](hotel_features) for my hotel
-    - I want to add [spa](hotel_features) for my hotel
-    - I want to add [gym](hotel_features) for my hotel
-    - Add [restaurant](hotel_features) for my hotel
-    - Add [bar](hotel_features) and [spa](hotel_features) for my hotel
-    - Add a [beach_view](hotel_features) for my hotel
-    - Add a [city_center](hotel_features) to my hotel
-    - I want to add [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - I want to add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - also add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - add a [beach_view](hotel_features) and [city_center](hotel_features) to my hotel
-    - include [spa](hotel_features) and [beach_view](hotel_features) in my hotel
-    - include [gym](hotel_features) in the hotel
-    - I want [pool](hotel_features), [spa](hotel_features), and [gym](hotel_features) in my hotel
-    - I want [restaurant](hotel_features), and [bar](hotel_features) in my hotel
-    - add [restaurant](hotel_features) and [bar](hotel_features)
-    - add [gym](hotel_features) and [spa](hotel_features)
-    - include [spa](hotel_features) and [beach_view](hotel_features)
-    - also add [city_center](hotel_features) and [beach_view](hotel_features)
-    - also add [beach_view](hotel_features) and [city_center](hotel_features)
-    - I want [city_center](hotel_features) and [beach_view](hotel_features) too
-    - I want [beach_view](hotel_features) and [city_center](hotel_features) too
-- intent: add_landmarks_activities
+    - add
+    - add them
+    - add these
+    - add to existing
+    - add to current
+    - add to my preferences
+    - add to my list
+    - add these values
+    - add these items
+    - add these preferences
+    - add these features
+    - add these activities
+    - add these to my list
+    - add these to my preferences
+    - add these to my current list
+    - add these to my current preferences
+    - add these to my existing list
+    - add these to my existing preferences
+    - add these to what I have
+    - add these to what I already have
+    - add these to my current choices
+    - add these to my existing choices
+    - add these to my current selection
+    - add these to my existing selection
+    - add these to my current options
+    - add these to my existing options
+    - add these to my current features
+    - add these to my existing features
+    - add these to my current activities
+    - add these to my existing activities
+    - I want to add them
+    - I'd like to add them
+    - I prefer to add them
+    - I choose to add them
+    - I'll add them
+    - let's add them
+    - add them please
+    - add them to my list
+    - add them to my preferences
+    - add them to what I have
+    - add them to my current list
+    - add them to my existing list
+    - add them to my current preferences
+    - add them to my existing preferences
+- intent: replace
   examples: |
-    - I want to add [historical landmarks](landmarks_activities) to my trip
-    - I want to add [desert safaris](landmarks_activities) to my trip
-    - I want to add [museums](landmarks_activities) to my trip
-    - I want to add [beaches](landmarks_activities) too
-    - I want to add [temples](landmarks_activities) too
-    - add [cruise](landmarks_activities) and [desert safaris](landmarks_activities)
-    - add [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - add [historical landmarks](landmarks_activities) and [desert safaris](landmarks_activities)
-    - include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also add [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also include [cruise](landmarks_activities), [desert safaris](landmarks_activities), and [historical landmarks](landmarks_activities)
-    - also include [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - include [museums](landmarks_activities) and [beaches](landmarks_activities)
-    - include [cruise](landmarks_activities)
-    - add [desert safaris](landmarks_activities)
+    - replace
+    - replace them
+    - replace these
+    - replace existing
+    - replace current
+    - replace my preferences
+    - replace my list
+    - replace these values
+    - replace these items
+    - replace these preferences
+    - replace these features
+    - replace these activities
+    - replace my current list
+    - replace my current preferences
+    - replace my existing list
+    - replace my existing preferences
+    - replace what I have
+    - replace what I already have
+    - replace my current choices
+    - replace my existing choices
+    - replace my current selection
+    - replace my existing selection
+    - replace my current options
+    - replace my existing options
+    - replace my current features
+    - replace my existing features
+    - replace my current activities
+    - replace my existing activities
+    - I want to replace them
+    - I'd like to replace them
+    - I prefer to replace them
+    - I choose to replace them
+    - I'll replace them
+    - let's replace them
+    - replace them please
 - intent: nlu_fallback
   examples: |
-    - i am interseted in [pools](hotel_features) and [wifi](hotel_features)
-- synonym: Luxor
+    - i want to visit [ancient sites](landmarks_activities)
+    - I don't understand
+    - what do you mean?
+    - can you explain?
+    - I'm confused
+    - that doesn't make sense
+    - I'm not sure what you're saying
+    - could you clarify?
+    - I need more information
+    - I don't get it
+    - can you rephrase that?
+    - i want to visit [ancient sites](landmarks_activities)
+- intent: clear_chat
   examples: |
-    - luxor
+    - clear chat
+    - clear conversation
+    - start over
+    - reset chat
+    - new conversation
+    - clear history
+    - start fresh
+    - begin again
+    - clear everything
+    - reset everything
+- intent: request_activity_suggestions
+  examples: |
+    - what activities can I do?
+    - suggest some activities
+    - what can I do there?
+    - what are the popular activities?
+    - what should I do?
+    - what are the must-do activities?
+    - what activities do you recommend?
+    - what are the best things to do?
+    - what activities are available?
+    - what can I experience?
 - synonym: Cairo
   examples: |
     - cairo
+- synonym: state
+  examples: |
+    - city
+    - state
+    - location
+    - destination
+    - place
+    - area
+    - region
+    - spot
+    - site
+    - town
+- synonym: Luxor
+  examples: |
+    - luxor
 - synonym: Alexandria
   examples: |
     - alexandria
@@ -629,55 +1925,130 @@ nlu:
 - synonym: Aswan
   examples: |
     - aswan
-- synonym: Hurghada
-  examples: |
-    - hurghada
-- synonym: Sharm El Sheikh
-  examples: |
-    - sharm el sheikh
 - synonym: Dahab
   examples: |
     - dahab
-- synonym: Marsa Alam
-  examples: |
-    - marsaalam
 - synonym: El Gouna
   examples: |
     - el gouna
-- synonym: Siwa Oasis
+    - gouna
+    - al gouna
+    - elgouna
+    - Gouna
+    - algouna
+- synonym: Giza
   examples: |
-    - siwa oasis
-- lookup: weather_preference
+    - giza
+    - Giza
+    - el giza
+    - El Giza
+    - El giza
+- synonym: Hurghada
   examples: |
-    - sunny
-    - cool
-    - warm
-    - hot
-    - mild
-    - cold
-    - rainy
-    - snowy
-    - dry
-    - humid
-    - windy
-    - stormy
-    - foggy
-    - clear
-    - cloudy
-    - chilly
-    - muggy
-    - breezy
-    - temperate
-    - tropical
+    - hurghada
+- synonym: Marsa Alam
+  examples: |
+    - marsaalam
+    - marsa alam
+    - marsa
+    - Marsa Alam
+- synonym: Marsa Matrouh
+  examples: |
+    - marsa matrouh
+    - marsamatrouh
+    - matrouh
+    - Marsa Matrouh
+- synonym: Sharm El Sheikh
+  examples: |
+    - sharm el sheikh
+    - sharmelsheikh
+    - sharm
+    - Sharm
+- synonym: landmarks_activities
+  examples: |
+    - landmarks and activities
+    - landmarks_activities
+    - landmarksActivities
+    - attractions
+    - activities
+    - sities
+    - points of interest
+    - events
+    - famous places
+    - things to do
+- synonym: hotel_features
+  examples: |
+    - hotel features
+    - hotel_features
+    - hotelFeatures
+    - hotel amenities
+    - accommodation features
+    - lodging facilities
+    - room features
+    - hotel services
+    - hotel attributes
+    - hotel offerings
+- synonym: city_feature
+  examples: |
+    - city feature
+    - city_feature
+    - cityFeature
+    - city features
+    - city characteristics
+    - city attributes
+    - city details
+    - city info
+    - city overview
+    - city description
+- synonym: duration
+  examples: |
+    - duration
+    - trip duration
+    - travel time
+    - length of stay
+    - time for the trip
+    - travel duration
+    - time frame for the trip
+    - duration of the trip
+    - trip length
+    - stay duration
+    - trip time
+- synonym: arrival_date
+  examples: |
+    - arrival date
+    - check-in date
+    - landing date
+    - coming date
+    - arrival day
+    - date of arrival
+    - day I get there
+    - touchdown date
+    - arrival time
+    - check-in day
+- synonym: budget
+  examples: |
+    - budget
+    - spending plan
+    - financial plan
+    - cost plan
+    - allocation of funds
+    - expense plan
+    - funds allocation
+    - financial strategy
+    - cost structure
+    - expenditure plan
+    - spending limits
 - lookup: state
   examples: |
-    - luxor
-    - cairo
-    - alexandria
-    - aswan
-    - hurghada
-    - sharm el sheikh
-    - dahab
-    - marsa Alam
-    - el gouna
-    - siwa oasis
+    - Alexandria
+    - Aswan
+    - Cairo
+    - Dahab
+    - El Gouna
+    - Giza
+    - Hurghada
+    - Luxor
+    - Marsa Alam
+    - Marsa Matruh
+    - Sharm El Sheikh
+    - Siwa Oasis

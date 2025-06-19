@@ -15,6 +15,7 @@ import com.rahhal.repository.TripRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.StripeService;
 import com.rahhal.service.TripService;
+import com.rahhal.service.EmailService;
 import com.stripe.exception.StripeException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,14 +33,16 @@ public class TripServiceImpl implements TripService {
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final TripMapper tripMapper;
+    private final EmailService emailService;
     private final TouristRepository touristRepository;
     private final StripeService stripeService;
 
-    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper, TouristRepository touristRepository, StripeService stripeService) {
+    TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, CompanyRepository companyRepository, TripMapper tripMapper, EmailService emailService, TouristRepository touristRepository, StripeService stripeService) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.tripMapper = tripMapper;
+        this.emailService = emailService;
         this.touristRepository = touristRepository;
         this.stripeService = stripeService;
     }
@@ -175,6 +178,23 @@ public class TripServiceImpl implements TripService {
         }
         trip.setActive(true);
         tripRepository.save(trip);
+
+        String subject = "Trip Successfully Approved and Active on Rahhal";
+        String body = String.format("""
+            <div style="font-family: Arial, sans-serif; font-size: 18px; line-height: 1.5; color: #000000;">
+                <p>Dear <strong>%s</strong>,</p>
+                
+                <p>Your trip [ <strong>%s</strong> ] has been successfully activated by the admin.</p>
+                <p>The trip is now visible to tourists and available for booking.</p>
+                
+                <p>Best regards,<br>
+                <strong>Rahhal Team</strong></p>
+            </div>
+            """,
+            trip.getCompany().getName(),
+            trip.getTitle());
+
+        emailService.sendEmail(trip.getCompany().getEmail(), subject, body);
     }
 
     @Override
