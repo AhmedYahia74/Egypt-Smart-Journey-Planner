@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/trips")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-public class AdminTripController {
+public class TripAdminController {
     private final TripService tripService;
 
-    public AdminTripController(TripService tripService) {
+    public TripAdminController(TripService tripService) {
         this.tripService = tripService;
     }
 

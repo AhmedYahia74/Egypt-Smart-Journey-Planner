@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.ChatsDTO;
 import com.rahhal.repository.ConversationRepository;
