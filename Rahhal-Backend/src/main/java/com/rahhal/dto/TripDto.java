@@ -1,6 +1,7 @@
 package com.rahhal.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class TripDto {
 
     int tripId;
@@ -28,10 +30,7 @@ public class TripDto {
     @NotBlank
     private String duration;
 
-    @NotNull
     private LocalDateTime date;
 
-    @NotNull
-    @Positive
     private int availableSeats;
 }

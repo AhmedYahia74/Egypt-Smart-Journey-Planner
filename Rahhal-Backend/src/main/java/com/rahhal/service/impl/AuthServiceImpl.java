@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.AuthenticationResponseDto;
 import com.rahhal.dto.LogInRequestDto;
@@ -69,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
             return AuthenticationResponseDto.builder()
                     .authToken(jwtToken)
                     .userId(user.getUserId())
+                    .name(user.getName())
                     .build();
         }
     }

@@ -1,9 +1,7 @@
 package com.rahhal.dto;
 
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +12,11 @@ import java.time.LocalDateTime;
 @Builder
 public class CompanyDto {
 
-//    int companyId;
-
-
     @Email
     @NotBlank
     private String email;
 
+    // TODO: That's not a good idea to store passwords in dto and use it directly.
     @NotBlank
     @Size(min = 2, message = "password must be at least 2 characters long")
     private String password;
@@ -32,4 +28,5 @@ public class CompanyDto {
 
     private String description;
 
+    private  String stripeAccountId;
 }

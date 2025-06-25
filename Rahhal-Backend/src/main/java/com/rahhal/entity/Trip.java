@@ -18,7 +18,7 @@ public class Trip {
     private int tripId;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "userId", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "userId")
     private Company company;
 
     @NotBlank
@@ -40,10 +40,10 @@ public class Trip {
     @NotBlank
     private String duration;
 
-    @Column(nullable = false)
+
     private LocalDateTime date;
 
-    @Column(name = "available_seats", nullable = false)
+    @Column(name = "available_seats")
     private int availableSeats;
 
     @Column(name = "is_active", nullable = false)

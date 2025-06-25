@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rahhal.entity.Message;

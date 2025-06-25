@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class CompanyProfile {
-
+public class CompanyProfile{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int companyId;
@@ -23,11 +22,13 @@ public class CompanyProfile {
 
     private String description;
 
-    @Column(name = "user_id")
-      private int userId;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private Company company;
+
+    private String stripeAccountId;
 
     @OneToMany(mappedBy = "company")
     List<Review> reviews;
-
 
 }

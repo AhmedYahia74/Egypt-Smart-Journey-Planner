@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.CompanyDto;
 import com.rahhal.dto.UserDto;
@@ -14,6 +14,7 @@ import com.rahhal.repository.CompanyProfileRepository;
 import com.rahhal.repository.CompanyRepository;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.service.AdminService;
+import com.stripe.model.AccountLink;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,13 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-   private final CompanyRepository companyRepository;
-   private final CompanyMapper companyMapper;
-   private final UserRepository userRepository;
-   private final UserMapper userMapper;
-   private final CompanyProfileRepository companyProfileRepository;
-   private final CompanyProfileMapper companyProfileMapper;
-   private final PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
+    private final CompanyMapper companyMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final CompanyProfileRepository companyProfileRepository;
+    private final CompanyProfileMapper companyProfileMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     public AdminServiceImpl(CompanyRepository companyRepository, CompanyMapper companyMapper, UserRepository userRepository, UserMapper userMapper, CompanyProfileRepository companyProfileRepository, CompanyProfileMapper companyProfileMapper, PasswordEncoder passwordEncoder) {
@@ -43,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addNewCompany(CompanyDto companyDto) {
+    public AccountLink addNewCompany(CompanyDto companyDto) {
 
 
         Company company = companyMapper.mapToEntity(companyDto);
@@ -55,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
                 });
 
         if(companyRepository.existsByName(company.getName()))
-                    throw new EntityAlreadyExistsException("User with name " + company.getName() + " already exists");
+            throw new EntityAlreadyExistsException("User with name " + company.getName() + " already exists");
 
 
         company.setPassword(passwordEncoder.encode(company.getPassword()));
@@ -65,6 +66,7 @@ public class AdminServiceImpl implements AdminService {
 
         companyProfileRepository.save(companyProfile);
 
+        return null;
     }
 
     @Override

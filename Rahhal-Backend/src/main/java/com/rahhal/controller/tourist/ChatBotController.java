@@ -4,8 +4,7 @@ import com.rahhal.entity.Conversation;
 import com.rahhal.entity.Tourist;
 import com.rahhal.repository.ConversationRepository;
 import com.rahhal.repository.MessageRepository;
-import com.rahhal.repository.UserRepository;
-import com.rahhal.service.Impl.FastAPIWebSocketClient;
+import com.rahhal.service.impl.FastAPIWebSocketClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -29,7 +28,6 @@ public class ChatBotController {
     private final Map<String, FastAPIWebSocketClient> clientMap = new ConcurrentHashMap<>();
     private final Map<String, Boolean> connectionStatus = new ConcurrentHashMap<>();
     private final ConversationRepository conversationRepository;
-    private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     @MessageMapping("/chatbot/send/{userId}/{conversationId}")
     public void handleMessage(@DestinationVariable String userId,

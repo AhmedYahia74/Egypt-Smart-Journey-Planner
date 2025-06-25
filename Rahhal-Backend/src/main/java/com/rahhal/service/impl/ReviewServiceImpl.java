@@ -1,4 +1,4 @@
-package com.rahhal.service.Impl;
+package com.rahhal.service.impl;
 
 import com.rahhal.dto.ReviewDTO;
 import com.rahhal.entity.CompanyProfile;

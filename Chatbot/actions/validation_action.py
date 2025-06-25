@@ -1,15 +1,20 @@
 import requests
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
-from typing import Any, Text, Dict, List, Tuple, Optional, Union
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
+from typing import Any, Text, Dict, List
+from datetime import datetime
 import logging
 from contextlib import contextmanager
-from word2number import w2n
 from config_helper import get_db_params, get_api_urls
 import psycopg2
-import re
+import sys
+import os
+
+# Add the parent directory to the path to import from Validation_Classes
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from Validation_Classes.Budget_Parser import Budget_Parser
+from Validation_Classes.Duration_Parser import Duration_Parser
+from Validation_Classes.Date_Parser import Date_Parser
 
 # Configure logging
 logging.basicConfig(
@@ -335,116 +340,27 @@ class ValidateTripForm(FormValidationAction):
         print("=== validate_budget called ===")
         print(f"Slot value: {slot_value}")
         try:
-            # Convert slot_value to string if it's not already
-            if not isinstance(slot_value, str):
-                slot_value = str(slot_value)
-
-            match = re.match(r'(\$?\d+|[\w\s-]+\$?)\s*(dollar|dollars|usd)?', slot_value, re.IGNORECASE)
-            if not match:
-                dispatcher.utter_message("Please enter a valid budget (e.g., '500 dollars', 'one hundred USD').")
-                return {"budget": None}
-
-            number_part, currency = match.groups()
-
-            if number_part.startswith('$'):
-                number_part = number_part[1:]
-            elif number_part.endswith('$'):
-                number_part = number_part[:-1]
-
-            try:
-                # First try to convert directly to int
-                budget = int(number_part)
-            except ValueError:
-                try:
-                    # If direct conversion fails, try word to number conversion
-                    budget = w2n.word_to_num(number_part)
-                except ValueError:
-                    dispatcher.utter_message("Please enter a valid number for the budget.")
-                    return {"budget": None}
-
-            if budget <= 0:
-                dispatcher.utter_message("Please enter a valid positive budget.")
-                return {"budget": None}
-
-            # Add reasonable budget limits
-            if budget > 1000000:  # Example upper limit
-                dispatcher.utter_message("Please enter a more reasonable budget amount.")
-                return {"budget": None}
-
-            if not self.is_trip_available_within_budget(budget):
-                dispatcher.utter_message(
-                    "Sorry, we don't have any trips available within your budget. Please try a higher budget.")
-                return {"budget": None}
+            parser = Budget_Parser()
+            budget = parser.parse_flexible_budget(slot_value)
 
             # Store the user message
             user_message = tracker.get_slot("user_message") or {}
             user_message["budget"] = tracker.latest_message.get('text', '')
             return {"budget": budget, "user_message": user_message}
 
+        except ValueError as e:
+            dispatcher.utter_message(str(e))
+            return {"budget": None}
         except Exception as e:
             logger.error(f"Error validating budget: {str(e)}")
             dispatcher.utter_message("Something went wrong while processing your budget. Please try again.")
             return {"budget": None}
 
-    def is_trip_available_within_budget(self, budget: float) -> bool:
-
-        # Replace this with actual logic to check if there are trips within the budget
-
-        return budget >= 100
-
     def validate_duration(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                           domain: Dict[Text, Any]) -> Dict[Text, Any]:
         try:
-            # Convert slot_value to string if it's not already
-            if not isinstance(slot_value, str):
-                slot_value = str(slot_value)
-
-            # More flexible regex pattern that handles various formats
-            match = re.match(r'(\d+|[\w\s-]+)\s*(day|week|month|days|weeks|months)?', slot_value.lower())
-            if not match:
-                dispatcher.utter_message("Please enter a valid duration (e.g., '7 days', 'two weeks', '1 month', '3').")
-                return {"duration": None}
-
-            number_part, unit = match.groups()
-            number_part = number_part.strip()
-
-            # Try to convert the number part
-            try:
-                # First try direct integer conversion
-                number = int(number_part)
-            except ValueError:
-                try:
-                    # If that fails, try word to number conversion
-                    number = w2n.word_to_num(number_part)
-                except ValueError:
-                    dispatcher.utter_message("Please enter a valid number for the duration.")
-                    return {"duration": None}
-
-            # If no unit is specified, assume days
-            if not unit:
-                unit = "days"
-            else:
-                unit = unit.lower()
-
-            # Convert to days based on unit
-            if unit in ["day", "days"]:
-                duration_days = number
-            elif unit in ["week", "weeks"]:
-                duration_days = number * 7
-            elif unit in ["month", "months"]:
-                duration_days = number * 30
-            else:
-                dispatcher.utter_message("Please specify a valid unit (days, weeks, or months).")
-                return {"duration": None}
-
-            # Validate the duration
-            if duration_days <= 0:
-                dispatcher.utter_message("Please enter a valid duration greater than zero.")
-                return {"duration": None}
-
-            if duration_days > 365:  # Add a reasonable upper limit
-                dispatcher.utter_message("Please enter a duration of one year or less.")
-                return {"duration": None}
+            parser = Duration_Parser()
+            duration_days = parser.parse_flexible_duration(slot_value)
 
             # Store the user message
             user_message = tracker.get_slot("user_message") or {}
@@ -455,6 +371,9 @@ class ValidateTripForm(FormValidationAction):
                 "user_message": user_message
             }
 
+        except ValueError as e:
+            dispatcher.utter_message(str(e))
+            return {"duration": None}
         except Exception as e:
             logger.error(f"Error validating duration: {str(e)}")
             dispatcher.utter_message("Something went wrong while processing the duration. Please try again.")
@@ -468,10 +387,10 @@ class ValidateTripForm(FormValidationAction):
             # If slot_value is already a list, it means it's already been processed
             if isinstance(slot_value, list):
                 return {"arrival_date": slot_value}
-
+            parser = Date_Parser()
             # If slot_value is a string, process it
             if isinstance(slot_value, str):
-                date_or_range = self.parse_flexible_date(slot_value)
+                date_or_range = parser.parse_flexible_date(slot_value)
 
                 if not date_or_range:
                     dispatcher.utter_message(
@@ -506,145 +425,6 @@ class ValidateTripForm(FormValidationAction):
             dispatcher.utter_message("Something went wrong while processing the date. Please try again.")
             return {"arrival_date": None}
 
-    def parse_flexible_date(self, date_input: str) -> Optional[Union[datetime, Tuple[datetime, datetime]]]:
-        """
-        Parses flexible date inputs like "next week", "15th October", "summer", etc.
-        Returns a datetime object (for absolute dates) or a tuple of datetime objects (for date ranges).
-        """
-        date_input = date_input.lower()
-        today = datetime.now()
-        # Handle relative dates
-        if "next week" in date_input:
-            start_date = today + timedelta(weeks=1)
-            end_date = start_date + timedelta(days=6)
-            return (start_date, end_date)
-        elif "next month" in date_input:
-            start_date = today + relativedelta(months=1, day=1)
-            end_date = start_date + relativedelta(day=31)
-            return (start_date, end_date)
-        elif "next year" in date_input:
-            start_date = today + relativedelta(years=1, month=1, day=1)
-            end_date = start_date + relativedelta(month=12, day=31)
-            return (start_date, end_date)
-        elif "next season" in date_input:
-            return self.get_next_season_range(today)
-        elif "next quarter" in date_input:
-            return self.get_next_quarter_range(today)
-
-        # Handle seasons
-        if "summer" in date_input:
-            return self.get_season_range(today.year, "summer")
-        elif "autumn" in date_input or "fall" in date_input:
-            return self.get_season_range(today.year, "autumn")
-        elif "winter" in date_input:
-            return self.get_season_range(today.year, "winter")
-        elif "spring" in date_input:
-            return self.get_season_range(today.year, "spring")
-
-        # Handle absolute dates
-        absolute_date = self.parse_absolute_date(date_input)
-        if absolute_date:
-            return absolute_date
-
-        # Handle months
-        month_range = self.parse_month_range(date_input)
-        if month_range:
-            return month_range
-
-        return None
-
-    def parse_absolute_date(self, date_input: str) -> Optional[datetime]:
-        """
-        Parses absolute dates like "15th October", "1st January", etc.
-        Returns a datetime object or None if parsing fails.
-        """
-        try:
-            date_input = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date_input)
-
-            # Try parsing with common date formats
-            date_formats = [
-                "%d %B %Y",  # 15 October 2023
-                "%d %b %Y",  # 15 Oct 2023
-                "%d %B",  # 15 October (assumes current year)
-                "%d %b",  # 15 Oct (assumes current year)
-            ]
-
-            for fmt in date_formats:
-                try:
-                    return datetime.strptime(date_input, fmt)
-                except ValueError:
-                    continue
-            return None
-        except Exception:
-            return None
-
-    def parse_month_range(self, date_input: str) -> Optional[Tuple[datetime, datetime]]:
-        """
-        Parse month names like "March", "June", etc.
-        Returns a tuple of datetime objects representing the start and end of the month.
-        """
-        try:
-            month_names = {
-                "january": 1, "february": 2, "march": 3, "april": 4,
-                "may": 5, "june": 6, "july": 7, "august": 8,
-                "september": 9, "october": 10, "november": 11, "december": 12,
-            }
-
-            for month_name, month_num in month_names.items():
-                if month_name in date_input:
-                    year = datetime.now().year
-                    start_date = datetime(year, month_num, 1)
-                    end_date = start_date + relativedelta(day=31)
-                    return (start_date, end_date)
-            return None
-        except Exception:
-            return None
-
-    def get_season_range(self, year: int, season: str) -> Tuple[datetime, datetime]:
-        """
-        Returns the start and end dates of a season for a given year.
-        """
-        if season == "spring":
-            return (datetime(year, 3, 1), datetime(year, 5, 31))
-        elif season == "summer":
-            return (datetime(year, 6, 1), datetime(year, 8, 31))
-        elif season == "autumn":
-            return (datetime(year, 9, 1), datetime(year, 11, 30))
-        elif season == "winter":
-            return (datetime(year, 12, 1), datetime(year + 1, 2, 28))
-        else:
-            # Default to spring if season is invalid
-            return (datetime(year, 3, 1), datetime(year, 5, 31))
-
-    def get_next_season_range(self, today: datetime) -> Tuple[datetime, datetime]:
-        """
-        Returns the start and end dates of the next season.
-        """
-        current_month = today.month
-        if current_month < 3:
-            return (datetime(today.year, 3, 1), datetime(today.year, 5, 31))  # Spring
-        elif current_month < 6:
-            return (datetime(today.year, 6, 1), datetime(today.year, 8, 31))  # Summer
-        elif current_month < 9:
-            return (datetime(today.year, 9, 1), datetime(today.year, 11, 30))  # Autumn
-        elif current_month < 12:
-            return (datetime(today.year, 12, 1), datetime(today.year + 1, 2, 28))  # Winter
-        else:
-            return (datetime(today.year + 1, 3, 1), datetime(today.year + 1, 5, 31))  # Next spring
-
-    def get_next_quarter_range(self, today: datetime) -> Tuple[datetime, datetime]:
-        """
-        Returns the start and end dates of the next quarter.
-        """
-        current_month = today.month
-        if current_month < 4:
-            return (datetime(today.year, 4, 1), datetime(today.year, 6, 30))
-        elif current_month < 7:
-            return (datetime(today.year, 7, 1), datetime(today.year, 9, 30))
-        elif current_month < 10:
-            return (datetime(today.year, 10, 1), datetime(today.year, 12, 31))
-        else:
-            return (datetime(today.year + 1, 1, 1), datetime(today.year + 1, 3, 31))
 
     def validate_hotel_features(self, slot_value: Any, dispatcher: CollectingDispatcher, tracker: Tracker,
                                 domain: Dict[Text, Any]) -> Dict[Text, Any]:
