@@ -581,6 +581,7 @@ nlu:
     - I want to plan a vacation
     - Can you help me organize a trip?
     - Help me book a trip to Egypt
+    - Help me plan a trip
     - I want to arrange a holiday
     - I need a travel plan for Egypt
     - Can you suggest a travel itinerary?
@@ -1196,19 +1197,6 @@ nlu:
     - For [a few hours](duration)
     - For [the whole month](duration)
     - For [the entire week](duration)
-    - For [the next two weeks](duration)
-    - For [the next three days](duration)
-    - For [the next weekend](duration)
-    - For [the next holiday](duration)
-    - For [the next break](duration)
-    - For [the next vacation](duration)
-    - For [the next season](duration)
-    - For [the next year](duration)
-    - For [the next quarter](duration)
-    - For [the next semester](duration)
-    - For [the next month](duration)
-    - For [the next day](duration)
-    - For [the next hour](duration)
     - For [a fortnight](duration)
     - For [a couple of days](duration)
     - For [several weeks](duration)
@@ -1273,7 +1261,6 @@ nlu:
     - My trip starts [next quarter](arrival_date)
     - I'm coming in [August](arrival_date)
     - [next month](arrival_date)
-    - [next week](arrival_date)
     - I'll arrive [as soon as possible](arrival_date)
     - I want to travel [after Ramadan](arrival_date)
     - I plan to visit [when school is out](arrival_date)
@@ -1770,21 +1757,27 @@ nlu:
     - OK suggest a trip for me
     - OK can you suggest a trip?
     - Cool, suggest a trip for me
-    - that's great, I want to plan a trip
     - I want to suggest a trip
     - Suggest a trip for me
     - Can you suggest a trip?
     - I need a trip suggestion
-    - Help me plan a trip
     - Suggest a travel itinerary
-    - I need help with my travel plans
-    - Can you help me plan my trip?
-    - I want to create a travel plan
     - Help me with my travel itinerary
     - I need suggestions for my trip
-    - Can you suggest a travel plan?
-    - I want to organize a trip
-    - Help me organize my travel plans
+    - Can you recommend a good trip?
+    - I'm not sure where to go, any suggestions?
+    - Give me ideas for a trip
+    - What destinations do you suggest?
+    - Suggest somewhere I can travel to
+    - Recommend a nice place to visit
+    - Do you have trip suggestions?
+    - Can you help me pick a destination?
+    - Where do you think I should go?
+    - Recommend a destination for my vacation
+    - I'm looking for travel inspiration
+    - Inspire me with a trip idea
+    - Throw me a travel suggestion
+    - Help me choose a destination
 - intent: add
   examples: |
     - add
