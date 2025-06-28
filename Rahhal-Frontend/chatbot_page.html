@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: var(--color-black);
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Header (copied from company-dashboard) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--color-black);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 1000;
+        }
+        .header-brand {
+            text-decoration: none;
+            background-image: url('images/logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 40px;
+            height: 40px;
+            display: block;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .header-icon {
+            color: var(--color-white);
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-icon:hover {
+            color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .logout-btn {
+            background: transparent;
+            border: 2px solid var(--color-white);
+            color: var(--color-white);
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn:hover {
+            background: var(--color-white);
+            color: var(--color-black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+        /* Remove old navbar styles */
+        .navbar, .nav-container, .nav-actions, .logo { display: none !important; }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            padding-top: 73px;
+            background: var(--color-black);
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--color-black);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            position: fixed;
+            top: 73px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+            scrollbar-gutter: stable;
+        }
+
+        .sidebar-header {
+            color: var(--color-white);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-container {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--color-black);
+            max-width: calc(100% - 280px);
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 1.5rem;
+            padding-bottom: 90px;
+            overflow-y: auto !important;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 0 auto;
+            width: 100%;
+            scrollbar-gutter: stable;
+            position: relative;
+            min-height: 0;
+        }
+
+        .centered-content {
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 100%;
+            animation: fadeIn 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message-avatar.user {
+            background: var(--color-primary);
+            color: var(--color-black);
+        }
+
+        .message-avatar.bot {
+            background: #38af82;
+            color: var(--color-white);
+        }
+
+        .message-avatar.bot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .message-content {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            max-width: 70%;
+            word-wrap: break-word;
+            color: var(--color-white);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: var(--color-primary);
+            color: var(--color-black);
+        }
+
+        .input-container {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--color-black);
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.9375rem;
+            height: 50px;
+            min-height: 50px;
+            max-height: 120px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--color-white);
+            transition: all 0.3s ease;
+            line-height: 1.5;
+            width: 100%;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(56, 175, 130, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .send-btn {
+            background: var(--color-primary);
+            color: var(--color-black);
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            height: 50px;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .send-btn:hover {
+            background: #2d8c6a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 175, 130, 0.2);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .send-btn:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .send-btn i {
+            font-size: 1rem;
+        }
+
+        .chat-history-item {
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .chat-history-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-history-item.active {
+            background: rgba(56, 175, 130, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .chat-title {
+            color: var(--color-white);
+            font-weight: 500;
+            font-size: 0.9375rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .chat-preview {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8125rem;
+            line-height: 1.4;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-left-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .chat-container {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .input-container {
+                padding: 1.25rem;
+            }
+
+            .input-group {
+                padding: 0;
+            }
+
+            .nav-container {
+                padding: 0 1.25rem;
+            }
+
+            .nav-actions {
+                gap: 1rem;
+            }
+
+            .header-icon {
+                padding: 0.5rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .send-btn {
+                min-width: 80px;
+                padding: 0 1.25rem;
+            }
+
+            .logo {
+                width: 100px;
+            }
+        }
+
+        .magical-welcome-wrapper {
+            width: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .magical-welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            min-height: 180px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+        }
+        .magical-welcome-text {
+            font-size: 6.6rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #38af82 0%, #6ee7b7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInWelcome 1.2s forwards;
+            filter: drop-shadow(0 0 8px #38af8288);
+            letter-spacing: 1px;
+        }
+        .magical-welcome-name {
+            font-size: 6.6rem;
+            font-weight: 500;
+            color: #fff;
+            opacity: 0;
+            margin-left: 0;
+            animation: fadeInName 1.2s forwards;
+            animation-delay: 1s;
+            filter: drop-shadow(0 0 10px #38af8288);
+        }
+        @keyframes fadeInWelcome {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes fadeInName {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .magical-welcome.fade-out {
+            animation: fadeOutWelcome 0.8s forwards;
+        }
+        @keyframes fadeOutWelcome {
+            to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+        }
+        /* Magical sparkles */
+        .magical-sparkle { display: none !important; }
+
+        /* Updated plan card CSS */
+        .plan-card {
+            border-radius: 1rem;
+            margin: 1rem 0;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1rem 1.25rem;
+            max-width: 70%;
+            color: var(--color-white);
+            box-shadow: 0 1px 3px #000a;
+            backdrop-filter: blur(10px);
+        }
+        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .plan-header h3 { color: #fff; font-size: 1.2rem; font-weight: 700; margin: 0; }
+        .plan-cost { font-size: 1.25rem; font-weight: 600; color: var(--color-primary); }
+        .section { margin-bottom: 1.5rem; }
+        .section-title { font-weight: 600; color: var(--color-white); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .hotel-info, .activity-item, .landmark-item { background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border-left: 3px solid var(--color-primary); }
+        .item-name { font-weight: 500; color: var(--color-white); margin-bottom: 0.25rem; }
+        .item-price { color: var(--color-primary); font-weight: 500; }
+        .item-description { color: rgba(255,255,255,0.7); font-size: 0.875rem; margin-top: 0.25rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+        .facilities { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+        .facility-tag { background: rgba(56,175,130,0.15); color: var(--color-primary); padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; }
+        .map-container { height: 350px; border-radius: 0.75rem; overflow: hidden; margin-top: 1rem; border: 1px solid rgba(255,255,255,0.08); }
+
+        #loadingOverlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        /* Add renderTripMessage function for trip card with right arrow button */
+        .trip-card { position: relative; }
+        .trip-img { width: 100%; height: 180px; object-fit: cover; border-radius: 0.75rem 0.75rem 0 0; box-shadow: 0 2px 8px #0006; margin-bottom: 1.2rem; }
+        .trip-btn-row { display: flex; align-items: center; justify-content: flex-end; margin-top: 1.2rem; }
+        .trip-arrow-btn { background: var(--color-primary); color: #fff; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px #0004; cursor: pointer; transition: background 0.2s, transform 0.2s; margin-left: 1rem; }
+        .trip-arrow-btn:hover { background: #2d8c6a; transform: translateX(4px) scale(1.08); }
+
+        /* Add or update styles for message alignment */
+        .message.bot {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+        .message-avatar.bot {
+            margin-right: 0.75rem;
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading your magical travel assistant...</div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="nav-title">✨ Trip Genie</div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-btn new-chat" onclick="createNewChat()" title="New Chat">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+            <button class="nav-btn" onclick="logout()" title="Logout">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16,17 21,12 16,7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </button>
+            <div class="profile-pic">U</div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">Chat History</div>
+            <!-- Chat history items will be dynamically generated here -->
+        </div>
+
+        <div class="chat-container">
+            <div class="messages-container centered-content" id="messages">
+                <div id="loadingOverlay"><div class="loading-spinner"></div></div>
+                <!-- Magical Welcome Message -->
+                <div class="magical-welcome-wrapper" id="magicalWelcomeWrapper">
+                    <div class="magical-welcome" id="magicalWelcome">
+                        <span class="magical-welcome-text">Welcome,</span>
+                        <span class="magical-welcome-name">Traveler</span>
+                    </div>
+                </div>
+                <!-- Messages will be dynamically generated here -->
+            </div>
+
+            <div class="input-container">
+                <div class="input-group">
+                    <textarea class="message-input" placeholder="Ask about travel plans, destinations, or activities..."
+                        rows="1" onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentConversationId = 0;
+        let currentUserId = null;
+        let authToken = null;
+        let chatHistory = [];
+        let stompClient = null;
+        let isWebSocketConnected = false;
+
+        // On DOMContentLoaded, only show welcome and profile pic, delay chat init
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Set profile picture with user initials (immediate)
+            setProfilePicture();
+            // Set welcome name from localStorage
+            const userName = localStorage.getItem('userName') || 'Traveler';
+            const nameText = document.querySelector('.magical-welcome-name');
+            if (nameText) nameText.textContent = userName;
+            // Show loading overlay (optional, can be hidden after welcome)
+            // Delay chat initialization until after welcome message fades out
+            const welcome = document.getElementById('magicalWelcome');
+            const welcomeWrapper = document.getElementById('magicalWelcomeWrapper');
+            const messagesContainer = document.getElementById('messages');
+            // Ensure centered-content is present
+            messagesContainer.classList.add('centered-content');
+            // Wait for welcome animation (5s), then fade out and init chat
+            setTimeout(() => {
+                welcome.classList.add('fade-out');
+                setTimeout(async () => {
+                    if (welcomeWrapper.parentNode) welcomeWrapper.parentNode.removeChild(welcomeWrapper);
+                    messagesContainer.classList.remove('centered-content');
+                    // Now initialize the chat UI
+                    await initializePage();
+                }, 800); // match fade-out duration
+            }, 5000); // changed from 2500 to 5000 ms for 5 seconds
+        });
+
+        // Initialize page with authentication and chat history
+        async function initializePage() {
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                // Get auth token and userId from localStorage
+                authToken = localStorage.getItem('authToken');
+                currentUserId = localStorage.getItem('userId');
+
+                if (!authToken || !currentUserId) {
+                    console.log('No auth token or user ID found - redirecting to login');
+                    // Redirect to login if not authenticated
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Fetch chat history
+                await fetchChatHistory();
+
+                // Create new chat
+                createNewChat();
+
+                // Connect to WebSocket
+                connectWebSocket();
+
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                // Show error message or redirect to login
+                window.location.href = 'login.html';
+            } finally {
+                // Hide loading overlay
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Set profile picture with user initials
+        function setProfilePicture() {
+            const userData = localStorage.getItem('userData');
+            const profilePic = document.querySelector('.profile-pic');
+
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    if (user.name) {
+                        const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                        profilePic.textContent = initials;
+                    } else if (user.email) {
+                        const initials = user.email.charAt(0).toUpperCase();
+                        profilePic.textContent = initials;
+                    }
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    profilePic.textContent = 'U';
+                }
+            } else {
+                profilePic.textContent = 'U';
+            }
+        }
+
+        // Connect to WebSocket
+        function connectWebSocket() {
+            if (!authToken || !currentUserId) {
+                console.error('Cannot connect to WebSocket: missing auth token or user ID');
+                return;
+            }
+
+            try {
+                // Connect to WebSocket with token as query parameter
+                const socket = new SockJS(`http://localhost:8088/ws/chatbot?token=${authToken}`);
+                stompClient = Stomp.over(socket);
+
+                // Enable debug logging temporarily
+                stompClient.debug = function (str) {
+                    console.log("STOMP: " + str);
+                };
+
+                stompClient.connect(
+                    {}, // Empty headers since we're passing token in URL
+                    function (frame) {
+                        console.log("Connected to WebSocket: " + frame);
+                        isWebSocketConnected = true;
+
+                        // Subscribe to user-specific queue for the current conversation
+                        subscribeToConversation(currentConversationId);
+                    },
+                    function (error) {
+                        console.error("WebSocket connection error:", error);
+                        isWebSocketConnected = false;
+                        // Try to reconnect after 5 seconds
+                        setTimeout(connectWebSocket, 5000);
+                    }
+                );
+            } catch (error) {
+                console.error("Error connecting to WebSocket:", error);
+                isWebSocketConnected = false;
+            }
+        }
+
+        // Subscribe to a specific conversation
+        function subscribeToConversation(conversationId) {
+            if (!stompClient || !stompClient.connected) {
+                console.error("WebSocket not connected");
+                return;
+            }
+
+            // Unsubscribe from previous conversation if any
+            if (stompClient.subscriptions) {
+                Object.keys(stompClient.subscriptions).forEach(key => {
+                    stompClient.unsubscribe(key);
+                });
+            }
+
+            // Subscribe to user-specific queue for this conversation
+            const subscription = stompClient.subscribe(`/user/${currentUserId}/queue/conversation/${conversationId}`, function (message) {
+                console.log("Raw message received:", message);
+                console.log("Message body:", message.body);
+                console.log("Message headers:", message.headers);
+
+                try {
+                    // Try to parse as JSON first
+                    const jsonMessage = JSON.parse(message.body);
+                    console.log("Parsed JSON message:", jsonMessage);
+
+                    // Check the message type
+                    if (jsonMessage.type === "user_message") {
+                        // Ignore user messages from server
+                        console.log("Ignoring user_message from server");
+                        return;
+                    } else if (jsonMessage.type === "text") {
+                        // Display the content for text messages
+                        const displayMessage = jsonMessage.content;
+                        console.log("Displaying text message:", displayMessage);
+
+                        // Add bot message to the chat
+                        const messagesContainer = document.getElementById('messages');
+                        const botMessage = createMessageElement('bot', '🧞‍♂️ ' + displayMessage);
+                        messagesContainer.appendChild(botMessage);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    } else if (jsonMessage.type === "suggest_plan") {
+                        renderPlanMessage(jsonMessage);
+                    } else if (jsonMessage.type === "suggest_trip") {
+                        renderTripMessage(jsonMessage);
+                    } else {
+                        // For other types, display the content if available, otherwise the whole message
+                        const displayMessage = jsonMessage.content || JSON.stringify(jsonMessage);
+                        console.log("Displaying other type message:", displayMessage);
+
+                        // Add bot message to the chat
+                        const messagesContainer = document.getElementById('messages');
+                        const botMessage = createMessageElement('bot', '🧞‍♂️ ' + displayMessage);
+                        messagesContainer.appendChild(botMessage);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                } catch (e) {
+                    // Try to parse again in case it's a stringified JSON
+                    try {
+                        const parsed = JSON.parse(message.body);
+                        if (parsed.type === "suggest_plan") {
+                            renderPlanMessage(parsed);
+                            return;
+                        } else if (parsed.type === "suggest_trip") {
+                            renderTripMessage(parsed);
+                            return;
+                        }
+                    } catch (err) {
+                        // Not JSON, treat as plain text
+                    }
+                    console.log("Message is not JSON, treating as plain text:", message.body);
+                    const displayMessage = message.body;
+                    // Add bot message to the chat
+                    const messagesContainer = document.getElementById('messages');
+                    const botMessage = createMessageElement('bot', '🧞‍♂️ ' + displayMessage);
+                    messagesContainer.appendChild(botMessage);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            });
+
+            console.log("Subscribed to:", `/user/${currentUserId}/queue/conversation/${conversationId}`);
+        }
+
+        // Send message via WebSocket
+        function sendMessageViaWebSocket(message) {
+            if (!stompClient || !stompClient.connected) {
+                console.error("WebSocket not connected");
+                return false;
+            }
+
+            // Don't send if conversationId is invalid
+            if (!currentConversationId || currentConversationId === 0) {
+                console.error("Cannot send message: invalid conversation ID");
+                return false;
+            }
+
+            try {
+                console.log("Sending message to:", `/app/chatbot/send/${currentUserId}/${currentConversationId}`);
+                console.log("Message content (string):", message);
+                console.log("Message type:", typeof message);
+
+                // Ensure we're sending just the string, not a JSON object
+                const messageToSend = typeof message === 'string' ? message : String(message);
+
+                stompClient.send(`/app/chatbot/send/${currentUserId}/${currentConversationId}`, {}, messageToSend);
+                return true;
+            } catch (error) {
+                console.error("Error sending message via WebSocket:", error);
+                return false;
+            }
+        }
+
+        // Fetch chat history from API
+        async function fetchChatHistory() {
+            try {
+                const response = await fetch(`http://localhost:8088/api/tourist/chats/${currentUserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    chatHistory = data;
+                    displayChatHistory();
+                } else if (response.status === 401) {
+                    // Unauthorized - redirect to login
+                    console.error('Unauthorized access - redirecting to login');
+                    window.location.href = 'login.html';
+                } else if (response.status === 404) {
+                    // No chats found - initialize with empty array
+                    console.log('No chat history found - starting fresh');
+                    chatHistory = [];
+                    displayChatHistory();
+                } else {
+                    console.error('Failed to fetch chat history:', response.status, response.statusText);
+                    // Initialize with empty chat history
+                    chatHistory = [];
+                    displayChatHistory();
+                }
+            } catch (error) {
+                console.error('Error fetching chat history:', error);
+                // Initialize with empty chat history
+                chatHistory = [];
+                displayChatHistory();
+            }
+        }
+
+        // Display chat history in sidebar
+        function displayChatHistory() {
+            const sidebar = document.getElementById('sidebar');
+
+            // Clear existing chat history items
+            const existingItems = sidebar.querySelectorAll('.chat-history-item');
+            existingItems.forEach(item => item.remove());
+
+            // Add existing chats
+            chatHistory.forEach(chat => {
+                const chatItem = createChatHistoryItem(
+                    chat.conversationId,
+                    chat.title,
+                    `Conversation ${chat.conversationId}`,
+                    false
+                );
+                sidebar.appendChild(chatItem);
+            });
+        }
+
+        // Create a chat history item element
+        function createChatHistoryItem(conversationId, title, preview, isActive = false) {
+            const item = document.createElement('div');
+            const isNewChat = conversationId === 0;
+            item.className = `chat-history-item ${isActive ? 'active' : ''} ${isNewChat ? 'new-chat' : ''}`;
+            item.dataset.conversationId = conversationId;
+
+            item.innerHTML = `
+                <div class="chat-title">${title}</div>
+                <div class="chat-preview">${preview}</div>
+            `;
+
+            item.addEventListener('click', () => switchToChat(conversationId));
+
+            return item;
+        }
+
+        // Switch to a specific chat
+        function switchToChat(conversationId) {
+            currentConversationId = conversationId;
+
+            // Update active state in sidebar
+            const chatItems = document.querySelectorAll('.chat-history-item');
+            chatItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.conversationId) === conversationId) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Clear messages container
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+
+            // If it's a new chat (conversationId = 0), show welcome message
+            if (conversationId === 0) {
+                const welcomeMessage = createMessageElement('bot', '🧞‍♂️ Welcome! I\'m your magical travel genie. Ask me about travel plans, destinations, or activities and I\'ll create enchanting experiences for you!');
+                welcomeMessage.classList.add('magical-entrance');
+                messagesContainer.appendChild(welcomeMessage);
+            } else {
+                // Load chat messages for existing conversation
+                loadChatMessages(conversationId);
+            }
+
+            // Subscribe to the new conversation
+            if (isWebSocketConnected) {
+                subscribeToConversation(conversationId);
+            }
+        }
+
+        // Load messages for a specific chat
+        async function loadChatMessages(conversationId) {
+            // Don't load messages for new chat (conversationId = 0) or undefined
+            if (!conversationId || conversationId === 0) {
+                console.log('Skipping message load for new chat or invalid conversation ID');
+                return;
+            }
+
+            try {
+                const messagesContainer = document.getElementById('messages');
+                const loadingMessage = createMessageElement('bot', '🧞‍♂️ Loading conversation...');
+                messagesContainer.appendChild(loadingMessage);
+                const response = await fetch(`http://localhost:8088/api/tourist/chats/${conversationId}/${currentUserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json(); // data is a list of strings
+                    // Remove loading message
+                    if (loadingMessage.parentNode) messagesContainer.removeChild(loadingMessage);
+                    data.forEach(msgStr => {
+                        let type = 'bot';
+                        let content = msgStr;
+                        try {
+                            const parsed = JSON.parse(msgStr);
+                            if (parsed.type === 'user_message') {
+                                type = 'user';
+                                // Handle nested JSON in content field
+                                try {
+                                    const contentData = JSON.parse(parsed.content);
+                                    content = contentData.message || parsed.content;
+                                } catch (e) {
+                                    // If content is not JSON, use it directly
+                                    content = parsed.content || msgStr;
+                                }
+                            } else if (parsed.type === 'text') {
+                                type = 'bot';
+                                content = parsed.content || msgStr;
+                            } else if (parsed.type === 'suggest_plan') {
+                                renderPlanMessage(parsed);
+                                return;
+                            } else if (parsed.type === 'suggest_trip') {
+                                renderTripMessage(parsed);
+                                return;
+                            } else {
+                                // fallback for other types
+                                type = 'bot';
+                                content = parsed.content || msgStr;
+                            }
+                        } catch (e) {
+                            // Not JSON, treat as bot message
+                        }
+                        const msgElem = createMessageElement(type, content);
+                        messagesContainer.appendChild(msgElem);
+                    });
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                } else {
+                    if (loadingMessage.parentNode) messagesContainer.removeChild(loadingMessage);
+                    const errorMsg = createMessageElement('bot', '🧞‍♂️ Failed to load conversation.');
+                    messagesContainer.appendChild(errorMsg);
+                }
+            } catch (error) {
+                console.error('Error loading chat messages:', error);
+            }
+        }
+
+        // Create a new chat
+        function createNewChat() {
+            currentConversationId = 0;
+
+            // Clear messages container
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+
+            // Show welcome message
+            const welcomeMessage = createMessageElement('bot', '🧞‍♂️ Welcome! I\'m your magical travel genie. Ask me about travel plans, destinations, or activities and I\'ll create enchanting experiences for you!');
+            welcomeMessage.classList.add('magical-entrance');
+            messagesContainer.appendChild(welcomeMessage);
+
+            // Update active state in sidebar
+            const chatItems = document.querySelectorAll('.chat-history-item');
+            chatItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.conversationId) === 0) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Unsubscribe from current conversation if connected
+            if (isWebSocketConnected && stompClient && stompClient.connected) {
+                if (stompClient.subscriptions) {
+                    Object.keys(stompClient.subscriptions).forEach(key => {
+                        stompClient.unsubscribe(key);
+                    });
+                }
+            }
+        }
+
+        // Logout function
+        function logout() {
+            // Clear localStorage
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userData');
+
+            // Disconnect WebSocket
+            if (stompClient && stompClient.connected) {
+                stompClient.disconnect();
+            }
+
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.querySelector('.message-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Add user message
+            const messagesContainer = document.getElementById('messages');
+            const userMessage = createMessageElement('user', message);
+            messagesContainer.appendChild(userMessage);
+
+            // Clear input
+            input.value = '';
+            input.style.height = 'auto';
+
+            // Show loading message
+            const loadingMessage = createMessageElement('bot', '🧞‍♂️ Thinking...');
+            messagesContainer.appendChild(loadingMessage);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // If this is a new chat (conversationId = 0), get a new conversation ID first
+            if (currentConversationId === 0) {
+                createNewConversationAndSendMessage(message, loadingMessage);
+            } else {
+                // Send message via WebSocket for existing conversation
+                sendMessageToExistingConversation(message, loadingMessage);
+            }
+        }
+
+        // Create new conversation and send first message
+        async function createNewConversationAndSendMessage(message, loadingMessage) {
+            try {
+                const response = await fetch(`http://localhost:8088/api/tourist/new-chats/${currentUserId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const newConversationId = await response.json();
+
+                    if (!newConversationId) {
+                        console.error('Failed to get a valid conversation ID from server');
+                        showFallbackResponse(loadingMessage);
+                        return;
+                    }
+                    console.log('New conversation created with ID:', newConversationId);
+
+                    // Update current conversation ID
+                    currentConversationId = newConversationId;
+
+                    // Add the new conversation to the sidebar
+                    addNewConversationToSidebar(newConversationId, message);
+
+                    // Subscribe to the new conversation (only now, after we have a valid ID)
+                    if (isWebSocketConnected) {
+                        subscribeToConversation(newConversationId);
+                    }
+
+                    // Send the message via WebSocket with the new conversation ID
+                    const sentViaWebSocket = sendMessageViaWebSocket(message);
+
+                    if (sentViaWebSocket) {
+                        // Remove loading message when WebSocket sends the response
+                        setTimeout(() => {
+                            if (loadingMessage.parentNode) {
+                                loadingMessage.parentNode.removeChild(loadingMessage);
+                            }
+                        }, 1000);
+                    } else {
+                        // Fallback if WebSocket send fails
+                        showFallbackResponse(loadingMessage);
+                    }
+
+                } else {
+                    console.error('Failed to create new conversation:', response.status);
+                    // Fallback to simulated response
+                    showFallbackResponse(loadingMessage);
+                }
+            } catch (error) {
+                console.error('Error creating new conversation:', error);
+                // Fallback to simulated response
+                showFallbackResponse(loadingMessage);
+            }
+        }
+
+        // Add new conversation to sidebar
+        function addNewConversationToSidebar(conversationId, firstMessage) {
+            const sidebar = document.getElementById('sidebar');
+
+            // Use "NewChat" as the title
+            const title = "NewChat";
+
+            // Create the new chat item
+            const newChatItem = createChatHistoryItem(conversationId, title, firstMessage, true);
+
+            // Remove active state from all items
+            const newChatItems = sidebar.querySelectorAll('.chat-history-item');
+            newChatItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add the new conversation to the sidebar
+            sidebar.appendChild(newChatItem);
+        }
+
+        // Send message to existing conversation
+        function sendMessageToExistingConversation(message, loadingMessage) {
+            // Check if we have a valid conversation ID
+            if (!currentConversationId || currentConversationId === 0) {
+                console.log("No valid conversation ID, showing fallback response");
+                showFallbackResponse(loadingMessage);
+                return;
+            }
+
+            // Try to send via WebSocket first
+            const sentViaWebSocket = sendMessageViaWebSocket(message);
+
+            if (!sentViaWebSocket) {
+                // Fallback to simulated response if WebSocket is not available
+                showFallbackResponse(loadingMessage);
+            } else {
+                // Remove loading message when WebSocket sends the response
+                setTimeout(() => {
+                    if (loadingMessage.parentNode) {
+                        loadingMessage.parentNode.removeChild(loadingMessage);
+                    }
+                }, 1000);
+            }
+        }
+
+        // Show fallback response when WebSocket is not available
+        function showFallbackResponse(loadingMessage) {
+            const messagesContainer = document.getElementById('messages');
+            setTimeout(() => {
+                if (loadingMessage.parentNode) {
+                    messagesContainer.removeChild(loadingMessage);
+                }
+                const botResponse = createMessageElement('bot', '🧞‍♂️ I understand you\'re asking about travel plans. This is where the actual AI response would appear.');
+                messagesContainer.appendChild(botResponse);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 2000);
+        }
+
+        // Update active chat in sidebar
+        function updateActiveChatInSidebar(conversationId) {
+            const chatItems = document.querySelectorAll('.chat-history-item');
+            chatItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.conversationId) === conversationId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function createMessageElement(type, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = `message-avatar ${type}`;
+            avatar.innerHTML = type === 'user' ? '👤' : "<img src='images/chat-profile.png' alt='Bot' style='width:100%;height:100%;object-fit:cover;border-radius:50%'>";
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+
+            return messageDiv;
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+
+            if (window.innerWidth <= 768 &&
+                sidebar.classList.contains('open') &&
+                !sidebar.contains(e.target) &&
+                !menuToggle.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Restyled renderPlanMessage function
+        function renderPlanMessage(plan) {
+            const messagesContainer = document.getElementById('messages');
+            // Remove any previous plan message
+            const oldPlan = document.getElementById('plan-message');
+            if (oldPlan) oldPlan.remove();
+            // Create plan container
+            const planDiv = document.createElement('div');
+            planDiv.className = 'message bot';
+            planDiv.id = 'plan-message';
+            planDiv.style.width = '100%';
+            planDiv.style.margin = '2rem 0';
+            planDiv.innerHTML = `
+              <div class="message-avatar bot"><img src='images/chat-profile.png' alt='Bot' style='width:100%;height:100%;object-fit:cover;border-radius:50%'></div>
+              <div class="plan-card">
+                <div class="plan-header">
+                    <h3>✨ Magical Plan</h3>
+                    <div class="plan-cost">🪙 $${plan.content.total_plan_cost.toFixed(2)}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">🏰 Enchanted Accommodation</div>
+                    <div class="hotel-info">
+                        <div class="item-name">${plan.content.hotel.hotel_name}</div>
+                        <div class="item-price">💰 $${plan.content.hotel.price_per_night}/night</div>
+                        <div class="facilities">
+                            ${plan.content.hotel.facilities.map(f => `<span class="facility-tag">✨ ${f}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">🎭 Magical Adventures</div>
+                    ${plan.content.activities.map(activity => `
+                        <div class="activity-item">
+                            <div class="item-name">🌟 ${activity.name}</div>
+                            <div class="item-price">💫 $${activity.price} • ⏰ ${activity.duration}h</div>
+                            <div class="item-description">${activity.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="section">
+                    <div class="section-title">🏛️ Ancient Wonders</div>
+                    ${plan.content.landmarks.map(landmark => `
+                        <div class="landmark-item">
+                            <div class="item-name">⭐ ${landmark.name}</div>
+                            <div class="item-price">🎫 $${landmark.price}</div>
+                            <div class="item-description">${landmark.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="map-container" id="planMap" style="height: 350px; border-radius: 16px; margin: 2rem 0;"></div>
+                <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+                    <button onclick="generatePlanPDF(${JSON.stringify(plan.content).replace(/"/g, '&quot;')})" 
+                            class="pdf-download-btn">
+                        📄 Download PDF Plan
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+                </div>
+              </div>
+            `;
+            messagesContainer.appendChild(planDiv);
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            // Render the map
+            setTimeout(() => renderPlanMap(plan), 100);
+        }
+
+        // Function to generate PDF from plan data
+        function generatePlanPDF(planData) {
+            // Prepare the data in the format expected by pdf.js
+            const cityName = planData.hotel.city || 'Travel Destination';
+
+            const pdfData = {
+                city: cityName,
+                hotel: {
+                    hotel_name: planData.hotel.hotel_name,
+                    price_per_night: planData.hotel.price_per_night,
+                    img: planData.hotel.img || 'https://via.placeholder.com/400x140?text=Hotel',
+                    facilities: planData.hotel.facilities
+                },
+                activities: planData.activities.map(activity => ({
+                    name: activity.name,
+                    price: activity.price,
+                    duration: activity.duration,
+                    description: activity.description,
+                    img: activity.img || 'https://via.placeholder.com/400x140?text=Activity'
+                })),
+                landmarks: planData.landmarks.map(landmark => ({
+                    name: landmark.name,
+                    price: landmark.price,
+                    description: landmark.description,
+                    img: landmark.img || 'https://via.placeholder.com/400x140?text=Landmark'
+                })),
+                total_plan_cost: planData.total_plan_cost
+            };
+
+            // Encode the data and pass it as URL parameter
+            const encodedData = encodeURIComponent(JSON.stringify(pdfData));
+            const pdfUrl = `pdf.html?planData=${encodedData}`;
+
+            // Open the PDF page in a new window
+            window.open(pdfUrl, '_blank');
+        }
+
+        // Restyled renderPlanMap function (keep dark theme tile layer)
+        function renderPlanMap(plan) {
+            if (window.planMapInstance) {
+                window.planMapInstance.remove();
+            }
+            const map = L.map('planMap', {
+                zoomControl: false,
+                attributionControl: false,
+            }).setView([plan.content.hotel.latitude, plan.content.hotel.longitude], 12);
+            window.planMapInstance = map;
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+            // Hotel marker
+            L.marker([plan.content.hotel.latitude, plan.content.hotel.longitude], {
+                icon: L.divIcon({
+                    className: 'custom-marker hotel-marker',
+                    html: `<div style="background: #6366f1; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px #0006; border: 2px solid #fff;">🏨</div>`,
+                    iconSize: [36, 36],
+                    iconAnchor: [18, 18]
+                })
+            }).addTo(map).bindPopup(`<b>Hotel:</b> ${plan.content.hotel.hotel_name}`);
+            // Landmarks markers
+            plan.content.landmarks.forEach(lm => {
+                if (lm.latitude && lm.longitude) {
+                    L.marker([lm.latitude, lm.longitude], {
+                        icon: L.divIcon({
+                            className: 'custom-marker landmark-marker',
+                            html: `<div style="background: #222; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #38af82; font-weight: bold; font-size: 14px; box-shadow: 0 3px 10px #0006; border: 2px solid #fff;">🏛️</div>`,
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 16]
+                        })
+                    }).addTo(map).bindPopup(`<b>Landmark:</b> ${lm.name}`);
+                }
+            });
+        }
+
+        // Restyled renderTripMessage function
+        function renderTripMessage(trip) {
+            const messagesContainer = document.getElementById('messages');
+            // Create trip message container
+            const tripDiv = document.createElement('div');
+            tripDiv.className = 'message bot';
+            tripDiv.style.width = '100%';
+            tripDiv.style.margin = '2rem 0';
+            tripDiv.innerHTML = `
+              <div class="message-avatar bot"><img src='images/chat-profile.png' alt='Bot' style='width:100%;height:100%;object-fit:cover;border-radius:50%'></div>
+              <div class="plan-card trip-card">
+                <img src="${trip.content.img}" alt="Trip" class="trip-img" />
+                <div class="plan-header">
+                    <h3>${trip.content.title}</h3>
+                    <div class="plan-cost">$${trip.content.price.toFixed(2)}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">🗺️ Destinations</div>
+                    <div class="item-name">${trip.content.state}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">📝 Description</div>
+                    <div class="item-description">${trip.content.description}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">📅 Date & Duration</div>
+                    <div class="item-name">${trip.content.date} &bull; ${trip.content.duration}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">🪑 Available Seats</div>
+                    <div class="item-name">${trip.content.available_seats}</div>
+                </div>
+                <div class="trip-btn-row">
+                  <button class="trip-arrow-btn" title="View Details">&rarr;</button>
+                </div>
+              </div>
+            `;
+            messagesContainer.appendChild(tripDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Magical Welcome Message Logic
+        (function() {
+            const welcome = document.getElementById('magicalWelcome');
+            const welcomeWrapper = document.getElementById('magicalWelcomeWrapper');
+            const messagesContainer = document.getElementById('messages');
+            const welcomeText = welcome.querySelector('.magical-welcome-text');
+            const nameText = welcome.querySelector('.magical-welcome-name');
+            // Hide name initially (handled by CSS)
+            // Show welcome text with fade in
+            welcomeText.style.opacity = 1;
+            // Remove welcome ONLY on first user message
+            const origSendMessage = window.sendMessage;
+            let welcomeRemoved = false;
+            window.sendMessage = function() {
+                if (!welcomeRemoved && welcomeWrapper && !welcome.classList.contains('fade-out')) {
+                    welcome.classList.add('fade-out');
+                    setTimeout(() => {
+                        if (welcomeWrapper.parentNode) welcomeWrapper.parentNode.removeChild(welcomeWrapper);
+                        if (messagesContainer.classList.contains('centered-content')) {
+                            messagesContainer.classList.remove('centered-content');
+                        }
+                        welcomeRemoved = true;
+                    }, 800);
+                }
+                origSendMessage.apply(this, arguments);
+            };
+        })();
+    </script>
+</body>
+
+</html>

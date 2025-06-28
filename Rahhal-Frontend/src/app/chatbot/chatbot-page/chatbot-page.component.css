@@ -1,0 +1,121 @@
+/* Main Chatbot Page Styles */
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  background: var(--color-black);
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  z-index: 1000;
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: var(--color-black);
+}
+
+.sidebar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--color-black);
+  z-index: 100;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  overflow-y: auto;
+}
+
+.chat-container {
+  margin-left: 280px;
+  margin-top: 70px;
+  height: calc(100vh - 70px);
+  width: calc(100vw - 280px);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-black);
+  position: relative;
+}
+
+.messages-container {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.input-container {
+  width: 100%;
+  background: var(--color-black);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  width: 100%;
+}
+
+.message-input {
+  flex: 1;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  resize: none;
+  font-family: inherit;
+  font-size: 1rem;
+  height: 48px;
+  min-height: 48px;
+  max-height: 120px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-white);
+  transition: all 0.3s ease;
+  line-height: 1.5;
+}
+
+.send-btn {
+  background: var(--color-primary);
+  color: var(--color-black);
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  height: 48px;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.magical-welcome-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  background: transparent;
+} 

@@ -1,0 +1,54 @@
+<div class="signup-bg"></div>
+<div class="grain"></div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo"></a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <a href="login.html" class="login-btn">Login</a>
+    </div>
+</nav>
+
+<form class="signup-form" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h2 class="form-title">Create Account</h2>
+    <div class="form-group">
+        <label class="form-label" for="fullName">Full Name</label>
+        <input type="text" id="fullName" class="form-input" formControlName="fullName" placeholder="Enter your full name" required>
+        <div class="error-message" *ngIf="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched">
+            {{ getErrorMessage('fullName') }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" id="email" class="form-input" formControlName="email" placeholder="Enter your email" required>
+        <div class="error-message" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" class="form-input" formControlName="password" placeholder="Enter your password" required>
+        <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+            {{ getErrorMessage('password') }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" class="form-input" formControlName="confirmPassword" placeholder="Confirm your password" required>
+        <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.touched">
+            {{ getErrorMessage('confirmPassword') }}
+        </div>
+    </div>
+    <button type="submit" class="signup-button" [disabled]="signupForm.invalid || loading">Sign Up</button>
+    <div class="form-footer">
+        Already have an account? <a routerLink="/login">Login</a>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <div class="loading-spinner"></div>
+    </div>
+</form>

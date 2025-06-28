@@ -1,0 +1,15 @@
+<!-- Chat Sidebar Template --> 
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">Chat History</div>
+  <!-- Chat history items will be dynamically generated here -->
+  <div class="chat-history-list">
+    <div
+      class="chat-history-item"
+      *ngFor="let chat of chatHistory"
+      [class.active]="false"  
+    >
+      <div class="chat-title">{{ chat.title || 'NewChat' }}</div>
+      <div class="chat-preview">Conversation {{ chat.conversationId }}</div>
+    </div>
+  </div>
+</aside> 

@@ -1,0 +1,40 @@
+<div class="signup-bg"></div>
+<div class="grain"></div>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="logo"></a>
+    <ul class="nav-links">
+      <li><a href="/index.html#about">About</a></li>
+      <li><a href="/index.html#features">Features</a></li>
+      <li><a href="/index.html#contact">Contact</a></li>
+    </ul>
+    <a routerLink="/login" class="login-btn">Login</a>
+  </div>
+</nav>
+
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h2 class="form-title">Welcome Back</h2>
+  <div class="form-group">
+    <label class="form-label" for="email">Email</label>
+    <input type="email" id="email" class="form-input" formControlName="email" placeholder="Enter your email" required>
+    <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" style="display: block;">
+      {{ getErrorMessage('email') }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="password">Password</label>
+    <input type="password" id="password" class="form-input" formControlName="password" placeholder="Enter your password" required>
+    <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" style="display: block;">
+      {{ getErrorMessage('password') }}
+    </div>
+  </div>
+  <button type="submit" class="login-button" [disabled]="loginForm.invalid || loading">Login</button>
+  <div class="form-footer">
+    Don't have an account? <a routerLink="/signup">Sign up</a>
+  </div>
+  <div class="loading" *ngIf="loading" style="display: block;">
+    <div class="loading-spinner"></div>
+  </div>
+</form> 
