@@ -21,28 +21,46 @@ class Budget_Parser:
                 budget_input = str(budget_input)
 
             # More flexible regex pattern that handles various formats
-            match = re.match(r'(\$?\d+|[\w\s-]+\$?)\s*(dollar|dollars|usd)?', budget_input, re.IGNORECASE)
-            if not match:
-                raise ValueError("Please enter a valid budget (e.g., '500 dollars', 'one hundred USD').")
+            # This pattern will match:
+            # - $500, $1000, etc.
+            # - 500$, 1000$, etc.
+            # - 500 dollars, 1000 USD, etc.
+            # - five hundred dollars, one thousand USD, etc.
+            # - Just numbers like 500, 1000, etc.
+            patterns = [
+                r'(\$?\d+)\s*(dollar|dollars|usd)?',  # $500, 500$, 500 dollars
+                r'([\w\s-]+)\s*(dollar|dollars|usd)',  # five hundred dollars
+                r'(\d+)',  # Just numbers
+                r'(\$?\d+\$?)',  # $500, 500$, 500
+            ]
+            
+            budget = None
+            for pattern in patterns:
+                match = re.match(pattern, budget_input, re.IGNORECASE)
+                if match:
+                    number_part = match.group(1)
+                    
+                    # Clean up the number part
+                    if number_part.startswith('$'):
+                        number_part = number_part[1:]
+                    if number_part.endswith('$'):
+                        number_part = number_part[:-1]
 
-            number_part, currency = match.groups()
+                    # Try to convert the number part
+                    try:
+                        # First try direct integer conversion
+                        budget = float(number_part)
+                        break
+                    except ValueError:
+                        try:
+                            # If direct conversion fails, try word to number conversion
+                            budget = w2n.word_to_num(number_part)
+                            break
+                        except ValueError:
+                            continue
 
-            # Clean up the number part
-            if number_part.startswith('$'):
-                number_part = number_part[1:]
-            elif number_part.endswith('$'):
-                number_part = number_part[:-1]
-
-            # Try to convert the number part
-            try:
-                # First try direct integer conversion
-                budget = int(number_part)
-            except ValueError:
-                try:
-                    # If direct conversion fails, try word to number conversion
-                    budget = w2n.word_to_num(number_part)
-                except ValueError:
-                    raise ValueError("Please enter a valid number for the budget.")
+            if budget is None:
+                raise ValueError("Please enter a valid budget (e.g., '500 dollars', 'one hundred USD', '500$', '$500').")
 
             # Validate budget constraints
             self._validate_budget_amount(budget)

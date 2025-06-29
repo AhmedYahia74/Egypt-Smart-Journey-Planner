@@ -1,8 +1,10 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet, FollowupAction
-from Validation_Classes import Date_Parser, Duration_Parser, Budget_Parser
+from rasa_sdk.events import SlotSet, FollowupAction, ActionExecuted
+from Validation_Classes.Date_Parser import Date_Parser
+from Validation_Classes.Duration_Parser import Duration_Parser
+from Validation_Classes.Budget_Parser import Budget_Parser
 
 class ActionModifyPreference(Action):
     def name(self) -> Text:
@@ -89,7 +91,9 @@ class ActionModifyPreference(Action):
             if modify_field and not modified_slots and not list_slots:
                 field_name = modify_field.replace('_', ' ').title()
                 dispatcher.utter_message(text=f"What would you like to change your {field_name} to?")
-                return []
+                events.extend([SlotSet("modify_field", modify_field),  ActionExecuted("action_listen")])
+
+                return events
 
             # Handle regular slot updates
             if modified_slots:
@@ -126,9 +130,8 @@ class ActionModifyPreference(Action):
                     values_str = ", ".join(unique_values)
                     list_message += f"• {formatted_name}:\n  - {values_str}\n"
                 dispatcher.utter_message(text=list_message)
-                events.append(SlotSet("update_list_slots", list_slots))
-                dispatcher.utter_message(text="Would you like to add these values to your existing preferences or replace them?")
 
+                events.extend([SlotSet("update_list_slots", list_slots),FollowupAction("action_ask_add_or_replace")])
             return events
 
         except Exception as e:

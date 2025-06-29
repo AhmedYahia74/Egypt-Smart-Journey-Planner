@@ -55,37 +55,45 @@ rules:
 - rule: Handle ask for trip suggestions after form
   condition:
   - slot_was_set:
-    - requested_slot: null
-  - active_loop: null
-  - slot_was_set:
-    - update_list_slots: null
-  - slot_was_set:
-    - modify_field: null
+    - plan_suggested: true
   steps:
   - intent: ask_suggest_trip
   - action: action_suggest_trips
+  - action: utter_anything_else
   - action: action_listen
 
-- rule: Handle modify preference
-  condition:
-  - active_loop: null
+- rule: Handle add intent for list slots
   steps:
-  - intent: modify_preference
-  - action: action_modify_preference
+  - intent: add
+  - action: action_confirm_update_list_slot
+  - action: utter_ask_suggest_after_modify
+  - action: action_listen
+
+- rule: Handle replace intent for list slots
+  steps:
+  - intent: replace
+  - action: action_confirm_update_list_slot
   - action: utter_ask_suggest_after_modify
   - action: action_listen
 
 - rule: Suggest plan if user says yes after modify
+  condition:
+  - active_loop: null
   steps:
   - action: utter_ask_suggest_after_modify
   - intent: affirm
   - action: action_suggest_plan
+  - slot_was_set:
+    - plan_suggested: true
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
 - rule: Ask if user wants anything else if user says no after modify
   steps:
   - action: utter_ask_suggest_after_modify
   - intent: deny
   - action: utter_anything_else
+  - action: action_listen
 
 - rule: Handle form completion and suggest plan
   condition:
@@ -97,11 +105,38 @@ rules:
   - active_loop: null
   - action: utter_start_suggestions
   - action: action_suggest_plan
+  - slot_was_set:
+    - plan_suggested: true
   - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
 
-- rule: Reset plan_suggested slot
+- rule: Handle modify preference (general)
+  condition:
+  - active_loop: null
+  steps:
+  - intent: modify_preference
+  - action: action_modify_preference
+  - action: utter_ask_suggest_after_modify
+  - action: action_listen
+
+- rule: Handle user wants to modify preferences after plan
   condition:
   - slot_was_set:
-    - plan_suggested
+    - plan_suggested: true
   steps:
+  - action: utter_edit_preference_or_suggest_trip
+  - intent: affirm
   - action: action_clear_plan_suggested_slot
+  - action: action_modify_preference
+  - action: utter_ask_suggest_after_modify
+  - action: action_listen
+
+- rule: Handle user doesn't want to modify preferences after plan
+  condition:
+  - slot_was_set:
+    - plan_suggested: true
+  steps:
+  - action: utter_edit_preference_or_suggest_trip
+  - intent: deny
+  - action: utter_anything_else
+  - action: action_listen
