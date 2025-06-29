@@ -18,6 +18,14 @@ action_endpoint:
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa/tracker-stores
 
+tracker_store:
+  type: SQL
+  url: "postgresql://neondb_owner:npg_sKBXgl5CxTd6@ep-long-band-a8dyarph-pooler.eastus2.azure.neon.tech/rahhal?sslmode=require&channel_binding=require"
+  
+# Tracker store which is used to store the conversations.
+# By default the conversations are stored in memory.
+# https://rasa.com/docs/rasa/tracker-stores
+
 #tracker_store:
 #  type: SQL
 #  dialect: postgresql  # or "mysql"

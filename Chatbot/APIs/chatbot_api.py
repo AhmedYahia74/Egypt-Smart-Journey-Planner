@@ -75,6 +75,12 @@ async def manage_chat_session(websocket: WebSocket, conversation_id: str):
                                     "content": custom_data["data"]
                                 })
                                 print(f"Bot response to {conversation_id}: {custom_data['data']}")
+                            elif custom_data.get("type") == "suggest_city":
+                                await websocket.send_json({
+                                    "type": "suggest_city",
+                                    "content": custom_data["cities"]
+                                })
+                                print(f"Bot response to {conversation_id}: {custom_data['cities']}")
 
 
                 else:
