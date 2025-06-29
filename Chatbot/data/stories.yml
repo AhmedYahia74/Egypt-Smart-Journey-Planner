@@ -713,6 +713,7 @@ stories:
   - slot_was_set:
     - plan_suggested: true
   - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen
   - intent: modify_preference
     entities:
     - modify_field: state
@@ -725,9 +726,12 @@ stories:
   - slot_was_set:
     - state: Luxor
   - action: utter_ask_suggest_after_modify
+  - action: action_listen
   - intent: affirm
   - slot_was_set:
     - specify_place: true
   - action: action_suggest_plan
   - slot_was_set:
     - plan_suggested: true
+  - action: utter_edit_preference_or_suggest_trip
+  - action: action_listen

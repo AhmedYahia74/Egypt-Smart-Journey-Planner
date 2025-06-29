@@ -9,30 +9,23 @@ from config_helper import get_api_urls
 import logging
 from pydantic import BaseModel
 from dataclasses import dataclass
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, FollowupAction, ActionExecuted
 
+# Configure logging
 logger = logging.getLogger(__name__)
 
-
+# Custom exception classes
 class APIError(Exception):
-    # Base exception for API related errors
+    """Base exception for API-related errors"""
     pass
-
-
-class APIResponseError(APIError):
-    # Exception for invalid API responses
-    pass
-
 
 class APITimeoutError(APIError):
-    # Exception for API timeout errors
+    """Exception raised when API request times out"""
     pass
-
 
 class APIConnectionError(APIError):
-    # Exception for API connection errors
+    """Exception raised when API connection fails"""
     pass
-
 
 class Hotel(BaseModel):
     hotel_id: Optional[int] = None
@@ -188,8 +181,9 @@ class SuggestPlan(Action):
             events = []
             if plan and plan.plan:
                 self._format_and_send_plans(dispatcher, plan.plan)
-                # Set slot to indicate a plan has been suggested
-                events.append(SlotSet("plan_suggested", True))
+                events.extend([
+                    SlotSet("plan_suggested", True)
+                ])
             else:
                 dispatcher.utter_message(
                     "I'm having trouble creating a plan that matches your preferences. This could be because:\n"
@@ -302,13 +296,9 @@ class SuggestPlan(Action):
                 "suggested_landmarks": [landmark.dict() for landmark in landmarks]
             }
 
-            # Log the request payload
-            logger.info(f"Request payload: {json.dumps(request_payload, indent=2)}")
-
             response = client._make_request("POST", "/plans/recommend", json=request_payload)
 
-            # Log the response
-            logger.info(f"Plans API response: {json.dumps(response, indent=2)}")
+
 
             if not response or "plan" not in response:
                 logger.error("Invalid response from plans API")
