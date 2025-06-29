@@ -1,6 +1,7 @@
 import requests
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet, ActiveLoop
 from typing import Any, Text, Dict, List
 from datetime import datetime
 import logging
@@ -9,6 +10,7 @@ from config_helper import get_db_params, get_api_urls
 import psycopg2
 import sys
 import os
+import re
 
 # Add the parent directory to the path to import from Validation_Classes
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -228,17 +230,10 @@ class ValidateTripForm(FormValidationAction):
                 suggested_cities = data.get("top_cities", [])
 
                 if suggested_cities:
-                    # Format the cities for display with their matched features
-                    suggested_cities_msg = []
-                    for i, city in enumerate(suggested_cities):
-                        features_msg = ", ".join([f"{f['name']}" for f in city.get('matched_features', [])])
-                        city_msg = f"{i + 1}. {city['name']} - {city['description']}"
-                        if features_msg:
-                            city_msg += f"\n   Matches your interests in: {features_msg}"
-                        suggested_cities_msg.append(city_msg)
-                    message = "Here are some suggested cities that may suit you: " + "\n".join(suggested_cities_msg)
-                    print(f"Suggested cities: {message}")
-                    dispatcher.utter_message(text=message)
+                    dispatcher.utter_message(json_message={
+                        "type": "suggest_city",
+                        "cities": suggested_cities
+                    })
                     dispatcher.utter_message(text="Please choose one of these cities for your trip.")
 
                     # Store just the city names in the suggested_cities slot
