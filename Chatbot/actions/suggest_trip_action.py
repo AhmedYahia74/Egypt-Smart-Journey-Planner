@@ -1,6 +1,7 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import FollowupAction, ActionExecuted
 from config_helper import get_api_urls
 import requests
 import logging
@@ -125,5 +126,7 @@ class ActionSuggestTrips(Action):
             logger.error(f"Error in ActionSuggestTrips: {str(e)}")
             dispatcher.utter_message(text="I'm having trouble processing your request. Please try again.")
         
-        # Return action_listen to make the bot listen for user input after dispatching messages
-        return [{"action": "action_listen"}] 
+        return [
+            FollowupAction("utter_anything_else"),
+
+        ]
