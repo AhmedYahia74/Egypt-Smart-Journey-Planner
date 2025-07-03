@@ -15,7 +15,7 @@ public class UserMapper {
 
         List<UserDto> userDtos= users.stream()
                 .map(user -> UserDto.builder()
-                        .userId(user.getUserId())
+                        .id(user.getUserId())
                         .name(user.getName())
                         .email(user.getEmail())
                         .role(user.getClass().getAnnotation(DiscriminatorValue.class).value())
@@ -25,5 +25,16 @@ public class UserMapper {
 
         return userDtos;
     }
+
+    public UserDto mapToEntity(User user) {
+        return UserDto.builder()
+                .id(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getClass().getAnnotation(DiscriminatorValue.class).value())
+                .suspended(user.isSuspended())
+                .build();
+    }
+
 
 }

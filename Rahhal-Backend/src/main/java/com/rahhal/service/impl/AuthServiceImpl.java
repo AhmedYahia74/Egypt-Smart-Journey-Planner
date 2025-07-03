@@ -8,6 +8,7 @@ import com.rahhal.entity.User;
 import com.rahhal.exception.EntityAlreadyExistsException;
 import com.rahhal.exception.EntityNotFoundException;
 import com.rahhal.mapper.TouristMapper;
+import com.rahhal.mapper.UserMapper;
 import com.rahhal.repository.UserRepository;
 import com.rahhal.security.JwtService;
 import com.rahhal.service.AuthService;
@@ -24,12 +25,14 @@ public class AuthServiceImpl implements AuthService {
     private final TouristMapper touristMapper;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
 
-    public AuthServiceImpl(UserRepository userRepository, TouristMapper touristMapper, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthServiceImpl(UserRepository userRepository, TouristMapper touristMapper, AuthenticationManager authenticationManager, JwtService jwtService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.touristMapper = touristMapper;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -64,12 +67,9 @@ public class AuthServiceImpl implements AuthService {
 
         if (user.isSuspended()) throw new AccessDeniedException("Account is suspended");
 
-
         String jwtToken = jwtService.generateToken(user);
-            return AuthenticationResponseDto.builder()
-                    .authToken(jwtToken)
-                    .userId(user.getUserId())
-                    .name(user.getName())
-                    .build();
-        }
+        return AuthenticationResponseDto.builder()
+                .authToken(jwtToken)
+                .user(userMapper.mapToEntity(user)).build();
     }
+}
