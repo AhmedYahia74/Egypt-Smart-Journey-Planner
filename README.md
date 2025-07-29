@@ -43,9 +43,13 @@ A modern web application built with Angular 19, featuring:
 
 ### Intelligent Recommendations
 
-* Hotels – Suggested based on location, budget, and amenities
-* Landmarks and Activities – Personalized sightseeing and experiences
-* Itineraries – Optimized plans within budget and time constraints
+* Cities recommendation based on the user's imaginary journey
+* Personalized plan suggestions based on user interests, budget, and travel duration.
+* Content-based recommendation using text similarity with SBERT embeddings.
+* Multi-level suggestions: cities, Hotels, landmarks, activities, and full trip plans.
+* Natural language understanding from user input via chatbot.
+* Embedding-based matching between user input and trip/place descriptions.
+* Pre-planned trip matching from tourism company posts.
 
 ### Conversational Interface
 
@@ -68,7 +72,7 @@ Users can chat naturally with the AI assistant to:
 
 | Layer      | Technologies Used                                     |
 | ---------- | ----------------------------------------------------- |
-| AI/ML      | Rasa (NLP, NLU)                                       |
+| AI/ML      | 	Rasa (NLP, NLU), SBERT (for text embeddings)و FastAPI (recommendation API)                                   |
 | Backend    | Spring Boot 3.4.3, Java 21, PostgreSQL, JPA/Hibernate |
 | Frontend   | Angular 19, TypeScript, WebSocket                     |
 | Payments   | Stripe Integration                                    |
@@ -135,6 +139,7 @@ npm start
 ## UI Preview
 
 Here are some snapshots of the platform:
+
 
 ---
 
