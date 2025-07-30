@@ -143,12 +143,13 @@ npm start
 Here are some snapshots of the platform:
 <details>
   <summary>📸 Click to expand UI Screenshots</summary>
+ 
   ![Signup](./util/images/signup.png)
   ![Login](./util/images/login.png)
   ![Homepage](./util/images/home.png)
   ![About](./util/images/about.png)
   ![Chatbot](./util/images/chatbot_welcome.png)
-  ![City Suggestion](./util/images/City_suggestion.png)
+  ![City Suggestion](./util/images/city_suggestion.png)
   ![Interactive Map](./util/images/interactive_map.png)
   ![PDF Plan](./util/images/pdf.png)
   ![Trip Plan](./util/images/plan.png)
