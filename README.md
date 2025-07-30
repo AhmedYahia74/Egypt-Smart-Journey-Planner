@@ -1,6 +1,6 @@
 # Egypt Smart Journey Planner (RAHHAL)
 
-[![Watch the demo](./images/demo_thumbnail.png)](https://drive.google.com/file/d/1PizlfqtiZsulj_30s7eemOu4VArBO1wt/view?usp=sharing)
+[![Watch the demo](./util/images/demo_thumbnail.png)](https://drive.google.com/file/d/1PizlfqtiZsulj_30s7eemOu4VArBO1wt/view?usp=sharing)
 
 ## Overview
 
