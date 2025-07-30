@@ -1,5 +1,7 @@
 # Egypt Smart Journey Planner (RAHHAL)
 
+[![Watch the demo](./images/demo_thumbnail.png)](https://drive.google.com/file/d/1PizlfqtiZsulj_30s7eemOu4VArBO1wt/view?usp=sharing)
+
 ## Overview
 
 Egypt Smart Journey Planner is an intelligent travel planning platform designed to help tourists plan trips to Egypt through an AI-powered conversational chatbot.
@@ -139,6 +141,21 @@ npm start
 ## UI Preview
 
 Here are some snapshots of the platform:
+<details>
+  <summary>📸 Click to expand UI Screenshots</summary>
+  ![Signup](./util/images/signup.png)
+  ![Login](./util/images/login.png)
+  ![Homepage](./util/images/home.png)
+  ![About](./util/images/about.png)
+  ![Chatbot](./util/images/chatbot_welcome.png)
+  ![City Suggestion](./util/images/City_suggestion.png)
+  ![Interactive Map](./util/images/interactive_map.png)
+  ![PDF Plan](./util/images/pdf.png)
+  ![Trip Plan](./util/images/plan.png)
+  ![Trip](./util/images/trip.png)
+  ![Company Dashboard](./util/images/company_dashboard.png)
+
+</details>
 
 
 ---
